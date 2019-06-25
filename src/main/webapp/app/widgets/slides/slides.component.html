@@ -1,0 +1,8 @@
+<ngb-carousel *ngIf="slides && slides.length > 0">
+    <ng-template ngbSlide *ngFor="let slide of slides ;trackBy: trackId">
+        <img [src]="slide.url" alt="slide.title">
+        <div class="carousel-caption" *ngIf="slide.title">
+            <h4>{{slide.title}}</h4>
+        </div>
+    </ng-template>
+</ngb-carousel>

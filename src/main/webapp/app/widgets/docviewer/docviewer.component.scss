@@ -1,0 +1,20 @@
+@media (min-width: 992px) {
+    .modal-lg {
+        min-width: 80%;
+    }
+}
+
+.modal.show .modal-dialog {
+    min-width: 80%;
+}
+
+.modal-dialog {
+    background: transparent !important;
+    min-width: 80%;
+}
+
+.modal-content {
+    background: transparent !important;
+    min-width: 1200px;
+    left: -200px;
+}

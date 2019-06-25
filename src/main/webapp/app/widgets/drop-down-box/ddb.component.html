@@ -1,0 +1,8 @@
+<div class="form-group card">
+    <form action="#">
+        <label jhiTranslate='global.field.drop-down-box'>Filters</label>
+        <select class="form-control" single name="category" [(ngModel)]="selectedItem" (change)="setItemSelected(selectedItem)">
+                <option class="option" ng-selected="selectedItem===item"  *ngFor="let item of listItems " [value]="item.value">{{item.name}}</option>
+            </select>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+<div class="card border-0 info-theme text-center" *ngIf="info">
+    <div class="card-body">
+        <div class="card-title" *ngIf="info.title">
+            <h3>{{info.title}}</h3>
+        </div>
+        <div [innerHTML]="info.content" *ngIf="info.content"></div>
+        <div class="card-link border-0 text-right" *ngIf="info.link">
+                <a [href]="info.link" class="btn btn-primary btn-md">{{info.linkText || '...'}}</a>
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,330 @@
+package io.jojoaddison.web.rest;
+
+import io.jojoaddison.JojoaddisonApp;
+
+import io.jojoaddison.domain.Imprint;
+import io.jojoaddison.repository.ImprintRepository;
+import io.jojoaddison.repository.search.ImprintSearchRepository;
+import io.jojoaddison.web.rest.errors.ExceptionTranslator;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.Validator;
+
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
+import java.util.Collections;
+import java.util.List;
+
+
+import static io.jojoaddison.web.rest.TestUtil.sameInstant;
+import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * Test class for the ImprintResource REST controller.
+ *
+ * @see ImprintResource
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = JojoaddisonApp.class)
+public class ImprintResourceIntTest {
+
+    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
+    private static final String UPDATED_TITLE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
+    private static final String UPDATED_CONTENT = "BBBBBBBBBB";
+
+    private static final String DEFAULT_SLIDES = "AAAAAAAAAA";
+    private static final String UPDATED_SLIDES = "BBBBBBBBBB";
+
+    private static final ZonedDateTime DEFAULT_CREATED_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+    private static final ZonedDateTime DEFAULT_MODIFIED_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_MODIFIED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    @Autowired
+    private ImprintRepository imprintRepository;
+
+    /**
+     * This repository is mocked in the io.jojoaddison.repository.search test package.
+     *
+     * @see io.jojoaddison.repository.search.ImprintSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private ImprintSearchRepository mockImprintSearchRepository;
+
+    @Autowired
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
+    @Autowired
+    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+
+    @Autowired
+    private ExceptionTranslator exceptionTranslator;
+
+    @Autowired
+    private Validator validator;
+
+    private MockMvc restImprintMockMvc;
+
+    private Imprint imprint;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        final ImprintResource imprintResource = new ImprintResource(imprintRepository, mockImprintSearchRepository);
+        this.restImprintMockMvc = MockMvcBuilders.standaloneSetup(imprintResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
+    }
+
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Imprint createEntity() {
+        Imprint imprint = new Imprint()
+            .title(DEFAULT_TITLE)
+            .content(DEFAULT_CONTENT)
+            .slides(DEFAULT_SLIDES)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .modifiedDate(DEFAULT_MODIFIED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY);
+        return imprint;
+    }
+
+    @Before
+    public void initTest() {
+        imprintRepository.deleteAll();
+        imprint = createEntity();
+    }
+
+    @Test
+    public void createImprint() throws Exception {
+        int databaseSizeBeforeCreate = imprintRepository.findAll().size();
+
+        // Create the Imprint
+        restImprintMockMvc.perform(post("/api/imprints")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(imprint)))
+            .andExpect(status().isCreated());
+
+        // Validate the Imprint in the database
+        List<Imprint> imprintList = imprintRepository.findAll();
+        assertThat(imprintList).hasSize(databaseSizeBeforeCreate + 1);
+        Imprint testImprint = imprintList.get(imprintList.size() - 1);
+        assertThat(testImprint.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testImprint.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testImprint.getSlides()).isEqualTo(DEFAULT_SLIDES);
+        assertThat(testImprint.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testImprint.getModifiedDate()).isEqualTo(DEFAULT_MODIFIED_DATE);
+        assertThat(testImprint.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+
+        // Validate the Imprint in Elasticsearch
+        verify(mockImprintSearchRepository, times(1)).save(testImprint);
+    }
+
+    @Test
+    public void createImprintWithExistingId() throws Exception {
+        int databaseSizeBeforeCreate = imprintRepository.findAll().size();
+
+        // Create the Imprint with an existing ID
+        imprint.setId("existing_id");
+
+        // An entity with an existing ID cannot be created, so this API call must fail
+        restImprintMockMvc.perform(post("/api/imprints")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(imprint)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Imprint in the database
+        List<Imprint> imprintList = imprintRepository.findAll();
+        assertThat(imprintList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the Imprint in Elasticsearch
+        verify(mockImprintSearchRepository, times(0)).save(imprint);
+    }
+
+    @Test
+    public void getAllImprints() throws Exception {
+        // Initialize the database
+        imprintRepository.save(imprint);
+
+        // Get all the imprintList
+        restImprintMockMvc.perform(get("/api/imprints?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(imprint.getId())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].slides").value(hasItem(DEFAULT_SLIDES.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())));
+    }
+    
+    @Test
+    public void getImprint() throws Exception {
+        // Initialize the database
+        imprintRepository.save(imprint);
+
+        // Get the imprint
+        restImprintMockMvc.perform(get("/api/imprints/{id}", imprint.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(imprint.getId()))
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
+            .andExpect(jsonPath("$.slides").value(DEFAULT_SLIDES.toString()))
+            .andExpect(jsonPath("$.createdDate").value(sameInstant(DEFAULT_CREATED_DATE)))
+            .andExpect(jsonPath("$.modifiedDate").value(sameInstant(DEFAULT_MODIFIED_DATE)))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY.toString()));
+    }
+
+    @Test
+    public void getNonExistingImprint() throws Exception {
+        // Get the imprint
+        restImprintMockMvc.perform(get("/api/imprints/{id}", Long.MAX_VALUE))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updateImprint() throws Exception {
+        // Initialize the database
+        imprintRepository.save(imprint);
+
+        int databaseSizeBeforeUpdate = imprintRepository.findAll().size();
+
+        // Update the imprint
+        Imprint updatedImprint = imprintRepository.findById(imprint.getId()).get();
+        updatedImprint
+            .title(UPDATED_TITLE)
+            .content(UPDATED_CONTENT)
+            .slides(UPDATED_SLIDES)
+            .createdDate(UPDATED_CREATED_DATE)
+            .modifiedDate(UPDATED_MODIFIED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
+
+        restImprintMockMvc.perform(put("/api/imprints")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedImprint)))
+            .andExpect(status().isOk());
+
+        // Validate the Imprint in the database
+        List<Imprint> imprintList = imprintRepository.findAll();
+        assertThat(imprintList).hasSize(databaseSizeBeforeUpdate);
+        Imprint testImprint = imprintList.get(imprintList.size() - 1);
+        assertThat(testImprint.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testImprint.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testImprint.getSlides()).isEqualTo(UPDATED_SLIDES);
+        assertThat(testImprint.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testImprint.getModifiedDate()).isEqualTo(UPDATED_MODIFIED_DATE);
+        assertThat(testImprint.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+
+        // Validate the Imprint in Elasticsearch
+        verify(mockImprintSearchRepository, times(1)).save(testImprint);
+    }
+
+    @Test
+    public void updateNonExistingImprint() throws Exception {
+        int databaseSizeBeforeUpdate = imprintRepository.findAll().size();
+
+        // Create the Imprint
+
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        restImprintMockMvc.perform(put("/api/imprints")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(imprint)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Imprint in the database
+        List<Imprint> imprintList = imprintRepository.findAll();
+        assertThat(imprintList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the Imprint in Elasticsearch
+        verify(mockImprintSearchRepository, times(0)).save(imprint);
+    }
+
+    @Test
+    public void deleteImprint() throws Exception {
+        // Initialize the database
+        imprintRepository.save(imprint);
+
+        int databaseSizeBeforeDelete = imprintRepository.findAll().size();
+
+        // Delete the imprint
+        restImprintMockMvc.perform(delete("/api/imprints/{id}", imprint.getId())
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
+
+        // Validate the database is empty
+        List<Imprint> imprintList = imprintRepository.findAll();
+        assertThat(imprintList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the Imprint in Elasticsearch
+        verify(mockImprintSearchRepository, times(1)).deleteById(imprint.getId());
+    }
+
+    @Test
+    public void searchImprint() throws Exception {
+        // Initialize the database
+        imprintRepository.save(imprint);
+        when(mockImprintSearchRepository.search(queryStringQuery("id:" + imprint.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(imprint), PageRequest.of(0, 1), 1));
+        // Search the imprint
+        restImprintMockMvc.perform(get("/api/_search/imprints?query=id:" + imprint.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(imprint.getId())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
+            .andExpect(jsonPath("$.[*].slides").value(hasItem(DEFAULT_SLIDES)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
+    }
+
+    @Test
+    public void equalsVerifier() throws Exception {
+        TestUtil.equalsVerifier(Imprint.class);
+        Imprint imprint1 = new Imprint();
+        imprint1.setId("id1");
+        Imprint imprint2 = new Imprint();
+        imprint2.setId(imprint1.getId());
+        assertThat(imprint1).isEqualTo(imprint2);
+        imprint2.setId("id2");
+        assertThat(imprint1).isNotEqualTo(imprint2);
+        imprint1.setId(null);
+        assertThat(imprint1).isNotEqualTo(imprint2);
+    }
+}

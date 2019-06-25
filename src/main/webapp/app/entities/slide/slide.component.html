@@ -1,0 +1,120 @@
+<div class="container-fluid mb-2">
+    <div class="row justify-content-center" *ngIf="slides && slides.length > 0">
+        <div class="col-md-12">
+            <div class="container">
+                <jhi-slide-list [slides]="slides" (slideSelected)="onSlideSelected($event)"></jhi-slide-list>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="container mt-1 mb-2">
+                <div class="card border-0 px-3 py-3">
+                    <h2 id="page-heading">
+                        <span>Slides</span>
+                        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-slide" (click)="create()">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="hidden-sm-down">
+                                Create new Slide
+                            </span>
+                        </button>
+                    </h2>
+                    <jhi-alert></jhi-alert>
+                    <!--
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <form name="searchForm" class="form-inline">
+                                        <div class="input-group w-100 mt-3">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                [(ngModel)]="currentSearch"
+                                                id="currentSearch"
+                                                name="currentSearch"
+                                                placeholder="Query"
+                                            />
+                                            <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                                                <fa-icon [icon]="'search'"></fa-icon>
+                                            </button>
+                                            <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                                                <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            -->
+                    <br />
+                    <div class="table-responsive data-view" *ngIf="slides">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                                    <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                    <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                    <th jhiSortBy="photo"><span>Photo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let slide of slides; trackBy: trackId">
+                                    <td>{{ slide.title }}</td>
+                                    <td>{{ slide.description }}</td>
+                                    <td><img [src]="slide.url" alt="" width="100px" height="auto" /></td>
+                                    <td class="text-right">
+                                        <div class="btn-group flex-btn-group-container">
+                                            <button type="submit" (click)="view(slide)" class="btn btn-info btn-sm">
+                                                <fa-icon [icon]="'eye'"></fa-icon>
+                                                <span class="d-none d-md-inline">View</span>
+                                            </button>
+                                            <button type="submit" (click)="edit(slide)" class="btn btn-primary btn-sm">
+                                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                                <span class="d-none d-md-inline">Edit</span>
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                [routerLink]="['/', 'slide', { outlets: { popup: slide.id + '/delete' } }]"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm"
+                                            >
+                                                <fa-icon [icon]="'times'"></fa-icon>
+                                                <span class="d-none d-md-inline">Delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--
+                            <div *ngIf="slides && slides.length">
+                                <div class="row justify-content-center">
+                                    <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <ngb-pagination
+                                        [collectionSize]="totalItems"
+                                        [(page)]="page"
+                                        [pageSize]="itemsPerPage"
+                                        [maxSize]="5"
+                                        [rotate]="true"
+                                        [boundaryLinks]="true"
+                                        (pageChange)="loadPage(page)"
+                                    ></ngb-pagination>
+                                </div>
+                            </div>
+                            -->
+                </div>
+            </div>
+        </div>
+        <div class="col-6" *ngIf="slide && isView">
+            <jhi-slide-detail [slide]="slide" (onClose)="close($event)"></jhi-slide-detail>
+        </div>
+        <div class="col-6" *ngIf="slide && isEdit">
+            <jhi-slide-update [slide]="slide" (onClose)="reload()"></jhi-slide-update>
+        </div>
+        <div class="col-6" *ngIf="slide && isNew">
+            <jhi-slide-update [slide]="slide" (onClose)="reload()"></jhi-slide-update>
+        </div>
+    </div>
+</div>

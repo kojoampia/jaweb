@@ -1,0 +1,10 @@
+<owl-carousel [options]="slideOptions" [items]="images" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+    <div class="item" *ngFor="let slide of slides; let i = index">
+        <div>
+            <img [src]="slide.url" [alt]="slide.title" class="img-fluid mx-auto d-none d-md-block d-lg-block" />
+            <div class="slide-text">
+                <h4>{{ slide.title }}</h4>
+            </div>
+        </div>
+    </div>
+</owl-carousel>

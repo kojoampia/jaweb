@@ -1,0 +1,17 @@
+<div class="card jhi-card" *ngIf="document" id="docviewer" style="min-width: 80%">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">
+                <h3 *ngIf="document.title" class="card-title">{{document.title}}</h3>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn--white float-right" (click)="close()">
+                    <i class="fa fa-close" aria-hidden="false"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" *ngIf="documentSource">
+        <iframe [src]="documentSource" frameborder="0" style="width: 100%" width="auto" height="920px" scroll="auto" id="viewport"></iframe>
+    </div>
+</div>

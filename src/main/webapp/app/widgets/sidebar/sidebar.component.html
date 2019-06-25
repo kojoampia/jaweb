@@ -1,0 +1,33 @@
+<div class="sidebar" >
+    <button type="button" class="close round-btn float-left" aria-label="close" [hidden]="!isHideSidebar"
+        (click)="toggleHideSidebar()">
+        <span aria-hidden="true"><i class="arrow right"></i></span>
+    </button>
+    <div class="card bg-transparent border-0" *ngIf="!isHideSidebar">
+        <div class="card-header" [ngClass]="{'header-up': !isSidebarCollapsed, 'header-down': isSidebarCollapsed}">
+            <div class="row-fluid" id="headerTitlePanel">
+                <button type="button" class="close float-left" aria-label="close" [hidden]="isHideSidebar"
+                    (click)="toggleHideSidebar()">
+                    <span aria-hidden="true"><i class="arrow left"></i></span>
+                </button>
+                <button type="button" class="close float-right" aria-label="Close" [hidden]="isSidebarCollapsed"
+                    (click)="toggleSidebarCollapse()">
+                    <span aria-hidden="true"><i class="arrow up"></i></span>
+                </button>
+                <button type="button" class="close float-right" aria-label="Close" [hidden]="!isSidebarCollapsed"
+                    (click)="toggleSidebarCollapse()">
+                    <span aria-hidden="true"><i class="arrow down"></i></span>
+                </button>
+                <h2 jhiTranslate="sidebar.title">Vertriebskanale</h2>
+            </div>
+        </div>
+        <div class="card-body bg-dark" [hidden]="isSidebarCollapsed">
+            <ul *ngIf="sidebarItems && sidebarItems.length > 0">
+                <li class="sidebar-item btn btn-primary" *ngFor="let item of sidebarItems" 
+                (click)="onClick(item)" [ngClass]="{'highlight': highlightSelected(item)}">
+                    <span>{{item.label}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

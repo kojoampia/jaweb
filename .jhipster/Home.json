@@ -1,0 +1,75 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "slides",
+            "otherEntityName": "slide",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "home",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "portfolios",
+            "otherEntityName": "portfolio",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "home",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "services",
+            "otherEntityName": "service",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "home",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "blogs",
+            "otherEntityName": "blog",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "home",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "header",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "modifiedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "current",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "version",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "information",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "searchEngine": "elasticsearch",
+    "service": "serviceClass",
+    "entityTableName": "home",
+    "databaseType": "mongodb",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

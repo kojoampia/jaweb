@@ -1,0 +1,73 @@
+<div class="card jhi-card" *ngIf="document" id="printviewer" style="min-width: 90%">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11 card-title">
+                <h3 *ngIf="document.title" class="page-header">{{document.title}}</h3>
+            </div>
+            <div class="col-md-1 text-right">
+                <button class="btn btn--white" (click)="close()">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" *ngIf="isUrl === true">
+        <iframe [src]="documentSource" frameborder="0" style="width: 100%" width="auto" height="920px" scroll="auto" id="viewport"></iframe>
+    </div>
+    <div class="card-body" *ngIf="!isUrl && isFeedback(document.title)">
+        <table class="table table-striped">
+            <tr>
+                <td>{{documentSource.question}}</td>
+                <td>
+                    <h4><span jhiTranslate="translateChoice(documentSource.choice)">{{ documentSource.choice }}</span></h4>
+                </td>
+            </tr>
+            <tr *ngIf="documentSource.choice ==='NO'">
+                <td>
+                    1. <span jhiTranslate="cisaSituationRoomApp.feedback.reasonForNo">Reason For No</span>?
+                </td>
+                <td>
+                    {{documentSource.reasonForNo}}
+                </td>
+            </tr>
+            <tr *ngIf="documentSource.choice ==='YES'">
+                <td>
+                    1. <span jhiTranslate="cisaSituationRoomApp.feedback.situationDescription">Situation Description</span>
+                </td>
+                <td>
+                    {{documentSource.situationDescription}}
+                </td>
+            </tr>
+            <tr *ngIf="documentSource.choice ==='YES'">
+                <td>
+                    2. <span jhiTranslate="cisaSituationRoomApp.feedback.knownImpact">Known Impact</span>
+                </td>
+                <td>
+                    {{documentSource.knownImpact}}
+                </td>
+            </tr>
+
+            <tr *ngIf="documentSource.choice ==='YES'">
+                <td>
+                    3. <span jhiTranslate="cisaSituationRoomApp.feedback.riskGroups">Risk Groups</span>:
+                </td>
+                <td>
+                    {{documentSource.riskGroups}}
+                </td>
+            </tr>
+
+            <tr *ngIf="documentSource.choice ==='YES'">
+                <td>
+                    4. <span jhiTranslate="cisaSituationRoomApp.feedback.recommendation">Recommendation</span>:
+                </td>
+                <td>
+                    {{documentSource.recommendation}}
+                </td>
+            </tr>
+            <tr *ngFor="let report of documentSource.report; trackBy: trackId; let idx=index">
+                <td>{{ idx + 1 }}. {{ report.content }}</td>
+                <td>{{ report.answer }}</td>
+            </tr>
+        </table>
+    </div>
+</div>

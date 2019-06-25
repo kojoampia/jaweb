@@ -1,0 +1,37 @@
+.dashboard {
+    padding: 50px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: 10px;
+    left: 0;
+}
+
+.data-view {
+    max-height: 800px;
+    overflow: auto;
+}
+
+.badge {
+    color: black;
+}
+
+.btn {
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.page {
+    min-height: 600px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background-color: black;
+}
+form {
+    z-index: 100;
+    position: relative;
+    left: 0;
+}
