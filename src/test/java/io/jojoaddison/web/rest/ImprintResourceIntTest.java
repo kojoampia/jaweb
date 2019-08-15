@@ -4,7 +4,6 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Imprint;
 import io.jojoaddison.repository.ImprintRepository;
-import io.jojoaddison.repository.search.ImprintSearchRepository;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -34,7 +33,6 @@ import java.util.List;
 import static io.jojoaddison.web.rest.TestUtil.sameInstant;
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -70,14 +68,6 @@ public class ImprintResourceIntTest {
     @Autowired
     private ImprintRepository imprintRepository;
 
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.ImprintSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private ImprintSearchRepository mockImprintSearchRepository;
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -97,7 +87,7 @@ public class ImprintResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ImprintResource imprintResource = new ImprintResource(imprintRepository, mockImprintSearchRepository);
+        final ImprintResource imprintResource = new ImprintResource(imprintRepository);
         this.restImprintMockMvc = MockMvcBuilders.standaloneSetup(imprintResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -150,8 +140,6 @@ public class ImprintResourceIntTest {
         assertThat(testImprint.getModifiedDate()).isEqualTo(DEFAULT_MODIFIED_DATE);
         assertThat(testImprint.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
 
-        // Validate the Imprint in Elasticsearch
-        verify(mockImprintSearchRepository, times(1)).save(testImprint);
     }
 
     @Test
@@ -171,8 +159,6 @@ public class ImprintResourceIntTest {
         List<Imprint> imprintList = imprintRepository.findAll();
         assertThat(imprintList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Imprint in Elasticsearch
-        verify(mockImprintSearchRepository, times(0)).save(imprint);
     }
 
     @Test
@@ -251,8 +237,6 @@ public class ImprintResourceIntTest {
         assertThat(testImprint.getModifiedDate()).isEqualTo(UPDATED_MODIFIED_DATE);
         assertThat(testImprint.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
 
-        // Validate the Imprint in Elasticsearch
-        verify(mockImprintSearchRepository, times(1)).save(testImprint);
     }
 
     @Test
@@ -271,8 +255,6 @@ public class ImprintResourceIntTest {
         List<Imprint> imprintList = imprintRepository.findAll();
         assertThat(imprintList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Imprint in Elasticsearch
-        verify(mockImprintSearchRepository, times(0)).save(imprint);
     }
 
     @Test
@@ -291,27 +273,6 @@ public class ImprintResourceIntTest {
         List<Imprint> imprintList = imprintRepository.findAll();
         assertThat(imprintList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the Imprint in Elasticsearch
-        verify(mockImprintSearchRepository, times(1)).deleteById(imprint.getId());
-    }
-
-    @Test
-    public void searchImprint() throws Exception {
-        // Initialize the database
-        imprintRepository.save(imprint);
-        when(mockImprintSearchRepository.search(queryStringQuery("id:" + imprint.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(imprint), PageRequest.of(0, 1), 1));
-        // Search the imprint
-        restImprintMockMvc.perform(get("/api/_search/imprints?query=id:" + imprint.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(imprint.getId())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
-            .andExpect(jsonPath("$.[*].slides").value(hasItem(DEFAULT_SLIDES)))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
-            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
     @Test

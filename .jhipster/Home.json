@@ -29,6 +29,15 @@
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "home",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "information",
+            "otherEntityName": "information",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "information",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "home",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [
@@ -59,10 +68,6 @@
         {
             "fieldName": "version",
             "fieldType": "Integer"
-        },
-        {
-            "fieldName": "information",
-            "fieldType": "String"
         }
     ],
     "dto": "no",

@@ -5,6 +5,10 @@ import { JhiEventManager } from 'ng-jhipster';
 import { LoginModalService, AccountService, Account } from 'app/core';
 import { HomeService } from 'app/entities/home';
 import { Home } from 'app/shared/model/home.model';
+import { ISlide } from 'app/shared/model/slide.model';
+import { LocalStorage } from 'ngx-webstorage';
+import { IPortfolio } from 'app/shared/model/portfolio.model';
+import { IService } from 'app/shared/model/service.model';
 
 @Component({
     selector: 'jhi-home',
@@ -14,10 +18,15 @@ import { Home } from 'app/shared/model/home.model';
 export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
-    currentHome: Home;
+    @LocalStorage() currentHome: Home;
+    @LocalStorage() slides: ISlide[];
+    @LocalStorage() partners: any[];
+    @LocalStorage() portfolios: IPortfolio[];
+    @LocalStorage() services: IService[];
+
     info: any = {
-        title: 'A new dawn in software powered economy...',
-        content: '...excellence meets creativity.',
+        title: 'Specialists, Implementors, Innovators...',
+        content: '...we are specialized in implementing perculiar solutions.',
         link: '#learn',
         linkText: 'Learn more...'
     };
@@ -34,6 +43,7 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+        this.loadHome();
     }
 
     registerAuthenticationSuccess() {
@@ -50,8 +60,21 @@ export class HomeComponent implements OnInit {
 
     loadHome() {
         this.homeService.getCurrent().subscribe(res => {
-            this.currentHome = res.body;
-            console.log(this.currentHome);
+            this.currentHome = null;
+            this.slides = null;
+            this.services = null;
+            this.portfolios = null;
+            this.partners = null;
+
+            setTimeout(() => {
+                this.currentHome = res.body;
+                console.log(this.currentHome);
+                if (this.currentHome) {
+                    this.slides = this.currentHome.slides;
+                    this.services = this.currentHome.services;
+                    this.portfolios = this.currentHome.portfolios;
+                }
+            }, 2000);
         });
     }
 

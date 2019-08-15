@@ -1,0 +1,5 @@
+<div class="card-deck">
+    <div class="card bg-light" *ngFor="let slide of slides; let i = index; trackBy: trackId">
+        <img class="card-img" [src]="slide.url" [alt]="slide.title" (click)="onClick(slide);">
+    </div>
+</div>

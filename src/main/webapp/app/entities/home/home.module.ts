@@ -11,12 +11,11 @@ import {
     homeRoute,
     homePopupRoute
 } from './';
-import { JojoaddisonSlideModule } from '../slide/slide.module';
 
 const ENTITY_STATES = [...homeRoute, ...homePopupRoute];
 
 @NgModule({
-    imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES), JojoaddisonSlideModule],
+    imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [HomeComponent, HomeDetailComponent, HomeUpdateComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
     entryComponents: [HomeComponent, HomeUpdateComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

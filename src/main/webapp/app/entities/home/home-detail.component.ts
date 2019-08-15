@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IHome } from 'app/shared/model/home.model';
@@ -8,15 +8,17 @@ import { IHome } from 'app/shared/model/home.model';
     templateUrl: './home-detail.component.html'
 })
 export class HomeDetailComponent implements OnInit {
-    @Input() home: IHome;
+    home: IHome;
 
-    constructor() {}
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
-        console.log(this.home);
+        this.activatedRoute.data.subscribe(({ home }) => {
+            this.home = home;
+        });
     }
 
-    close() {
-        this.home = null;
+    previousState() {
+        window.history.back();
     }
 }

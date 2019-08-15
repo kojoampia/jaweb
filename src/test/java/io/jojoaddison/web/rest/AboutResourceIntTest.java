@@ -1,11 +1,26 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.JojoaddisonApp;
+import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
+import static io.jojoaddison.web.rest.TestUtil.sameInstant;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.jojoaddison.domain.About;
-import io.jojoaddison.repository.AboutRepository;
-import io.jojoaddison.repository.search.AboutSearchRepository;
-import io.jojoaddison.web.rest.errors.ExceptionTranslator;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,22 +38,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
 
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
-import java.time.ZoneId;
-import java.util.Collections;
-import java.util.List;
-
-
-import static io.jojoaddison.web.rest.TestUtil.sameInstant;
-import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.domain.About;
+import io.jojoaddison.repository.AboutRepository;
+import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the AboutResource REST controller.
@@ -70,14 +73,6 @@ public class AboutResourceIntTest {
     @Autowired
     private AboutRepository aboutRepository;
 
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.AboutSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private AboutSearchRepository mockAboutSearchRepository;
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -97,7 +92,7 @@ public class AboutResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AboutResource aboutResource = new AboutResource(aboutRepository, mockAboutSearchRepository);
+        final AboutResource aboutResource = new AboutResource(aboutRepository);
         this.restAboutMockMvc = MockMvcBuilders.standaloneSetup(aboutResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -149,9 +144,6 @@ public class AboutResourceIntTest {
         assertThat(testAbout.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testAbout.getModifiedDate()).isEqualTo(DEFAULT_MODIFIED_DATE);
         assertThat(testAbout.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
-
-        // Validate the About in Elasticsearch
-        verify(mockAboutSearchRepository, times(1)).save(testAbout);
     }
 
     @Test
@@ -170,9 +162,6 @@ public class AboutResourceIntTest {
         // Validate the About in the database
         List<About> aboutList = aboutRepository.findAll();
         assertThat(aboutList).hasSize(databaseSizeBeforeCreate);
-
-        // Validate the About in Elasticsearch
-        verify(mockAboutSearchRepository, times(0)).save(about);
     }
 
     @Test
@@ -250,9 +239,6 @@ public class AboutResourceIntTest {
         assertThat(testAbout.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testAbout.getModifiedDate()).isEqualTo(UPDATED_MODIFIED_DATE);
         assertThat(testAbout.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
-
-        // Validate the About in Elasticsearch
-        verify(mockAboutSearchRepository, times(1)).save(testAbout);
     }
 
     @Test
@@ -270,9 +256,6 @@ public class AboutResourceIntTest {
         // Validate the About in the database
         List<About> aboutList = aboutRepository.findAll();
         assertThat(aboutList).hasSize(databaseSizeBeforeUpdate);
-
-        // Validate the About in Elasticsearch
-        verify(mockAboutSearchRepository, times(0)).save(about);
     }
 
     @Test
@@ -291,28 +274,8 @@ public class AboutResourceIntTest {
         List<About> aboutList = aboutRepository.findAll();
         assertThat(aboutList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the About in Elasticsearch
-        verify(mockAboutSearchRepository, times(1)).deleteById(about.getId());
     }
 
-    @Test
-    public void searchAbout() throws Exception {
-        // Initialize the database
-        aboutRepository.save(about);
-        when(mockAboutSearchRepository.search(queryStringQuery("id:" + about.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(about), PageRequest.of(0, 1), 1));
-        // Search the about
-        restAboutMockMvc.perform(get("/api/_search/abouts?query=id:" + about.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(about.getId())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
-            .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE)))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
-            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
-    }
 
     @Test
     public void equalsVerifier() throws Exception {

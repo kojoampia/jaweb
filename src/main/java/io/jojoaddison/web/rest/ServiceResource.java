@@ -1,7 +1,6 @@
 package io.jojoaddison.web.rest;
 import io.jojoaddison.domain.Service;
 import io.jojoaddison.repository.ServiceRepository;
-import io.jojoaddison.repository.search.ServiceSearchRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
@@ -23,7 +22,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Service.
@@ -38,11 +36,8 @@ public class ServiceResource {
 
     private final ServiceRepository serviceRepository;
 
-    private final ServiceSearchRepository serviceSearchRepository;
-
-    public ServiceResource(ServiceRepository serviceRepository, ServiceSearchRepository serviceSearchRepository) {
+    public ServiceResource(ServiceRepository serviceRepository) {
         this.serviceRepository = serviceRepository;
-        this.serviceSearchRepository = serviceSearchRepository;
     }
 
     /**
@@ -59,7 +54,6 @@ public class ServiceResource {
             throw new BadRequestAlertException("A new service cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Service result = serviceRepository.save(service);
-        serviceSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/services/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,7 +75,6 @@ public class ServiceResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Service result = serviceRepository.save(service);
-        serviceSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, service.getId().toString()))
             .body(result);
@@ -124,24 +117,7 @@ public class ServiceResource {
     public ResponseEntity<Void> deleteService(@PathVariable String id) {
         log.debug("REST request to delete Service : {}", id);
         serviceRepository.deleteById(id);
-        serviceSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
-    }
-
-    /**
-     * SEARCH  /_search/services?query=:query : search for the service corresponding
-     * to the query.
-     *
-     * @param query the query of the service search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/services")
-    public ResponseEntity<List<Service>> searchServices(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Services for query {}", query);
-        Page<Service> page = serviceSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/services");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }

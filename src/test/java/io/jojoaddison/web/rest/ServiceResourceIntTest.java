@@ -4,7 +4,6 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Service;
 import io.jojoaddison.repository.ServiceRepository;
-import io.jojoaddison.repository.search.ServiceSearchRepository;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -35,7 +34,6 @@ import java.util.List;
 import static io.jojoaddison.web.rest.TestUtil.sameInstant;
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -78,15 +76,7 @@ public class ServiceResourceIntTest {
 
     @Autowired
     private ServiceRepository serviceRepository;
-
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.ServiceSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private ServiceSearchRepository mockServiceSearchRepository;
-
+    
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -106,7 +96,7 @@ public class ServiceResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ServiceResource serviceResource = new ServiceResource(serviceRepository, mockServiceSearchRepository);
+        final ServiceResource serviceResource = new ServiceResource(serviceRepository);
         this.restServiceMockMvc = MockMvcBuilders.standaloneSetup(serviceResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -165,8 +155,6 @@ public class ServiceResourceIntTest {
         assertThat(testService.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testService.getContact()).isEqualTo(DEFAULT_CONTACT);
 
-        // Validate the Service in Elasticsearch
-        verify(mockServiceSearchRepository, times(1)).save(testService);
     }
 
     @Test
@@ -186,8 +174,6 @@ public class ServiceResourceIntTest {
         List<Service> serviceList = serviceRepository.findAll();
         assertThat(serviceList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Service in Elasticsearch
-        verify(mockServiceSearchRepository, times(0)).save(service);
     }
 
     @Test
@@ -278,8 +264,6 @@ public class ServiceResourceIntTest {
         assertThat(testService.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testService.getContact()).isEqualTo(UPDATED_CONTACT);
 
-        // Validate the Service in Elasticsearch
-        verify(mockServiceSearchRepository, times(1)).save(testService);
     }
 
     @Test
@@ -298,8 +282,6 @@ public class ServiceResourceIntTest {
         List<Service> serviceList = serviceRepository.findAll();
         assertThat(serviceList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Service in Elasticsearch
-        verify(mockServiceSearchRepository, times(0)).save(service);
     }
 
     @Test
@@ -317,31 +299,6 @@ public class ServiceResourceIntTest {
         // Validate the database is empty
         List<Service> serviceList = serviceRepository.findAll();
         assertThat(serviceList).hasSize(databaseSizeBeforeDelete - 1);
-
-        // Validate the Service in Elasticsearch
-        verify(mockServiceSearchRepository, times(1)).deleteById(service.getId());
-    }
-
-    @Test
-    public void searchService() throws Exception {
-        // Initialize the database
-        serviceRepository.save(service);
-        when(mockServiceSearchRepository.search(queryStringQuery("id:" + service.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(service), PageRequest.of(0, 1), 1));
-        // Search the service
-        restServiceMockMvc.perform(get("/api/_search/services?query=id:" + service.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(service.getId())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)));
     }
 
     @Test

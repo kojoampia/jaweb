@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { VERSION } from 'app/app.constants';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
+import { ScrollSpyService } from 'ngx-scrollspy';
 
 @Component({
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['navbar.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
     inProduction: boolean;
     isNavbarCollapsed: boolean;
     languages: any[];
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
-
+    showHeader = false;
     constructor(
+        private scrollSpyService: ScrollSpyService,
         private loginService: LoginService,
         private accountService: AccountService,
         private loginModalService: LoginModalService,
@@ -34,6 +36,13 @@ export class NavbarComponent implements OnInit {
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+    }
+
+    ngAfterViewInit() {
+        this.scrollSpyService.getObservable('headerInfo').subscribe((e: any) => {
+            console.log('scroll-spying...');
+            console.log('ScrollSpy::window: ', e);
         });
     }
 
@@ -61,5 +70,11 @@ export class NavbarComponent implements OnInit {
 
     getImageUrl() {
         return this.isAuthenticated() ? this.accountService.getImageUrl() : null;
+    }
+
+    @HostListener('window:scroll', ['$event'])
+    fixNavbar() {
+        // this.showHeader = true;
+        // console.log('scrolling...');
     }
 }

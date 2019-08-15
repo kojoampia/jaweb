@@ -1,21 +1,16 @@
 package io.jojoaddison.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import io.jojoaddison.domain.Home;
 import io.jojoaddison.domain.Version;
 import io.jojoaddison.repository.HomeRepository;
-import io.jojoaddison.repository.search.HomeSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Home.
@@ -26,12 +21,10 @@ public class HomeService {
     private final Logger log = LoggerFactory.getLogger(HomeService.class);
 
     private final HomeRepository homeRepository;
-    private final HomeSearchRepository homeSearchRepository;
     private final VersionService versionService;
 
-    public HomeService(HomeRepository homeRepository, HomeSearchRepository homeSearchRepository, VersionService versionService) {
+    public HomeService(HomeRepository homeRepository, VersionService versionService) {
         this.homeRepository = homeRepository;
-        this.homeSearchRepository = homeSearchRepository;
         this.versionService = versionService;
     }
 
@@ -42,7 +35,13 @@ public class HomeService {
      * @return the persisted entity
      */
     public Home save(Home home) {
-        log.debug("Request to save Home : {}", home);
+        log.debug("Request to save Home : {}", home);        
+        Home result = homeRepository.save(saveVersion(home));
+        saveVersion(result);
+        return result;
+    }
+
+    private Home saveVersion(Home home){
         Version version = null;
         Optional<Version> opVersion = this.versionService.findByType("Home");
         if(opVersion.isPresent()){
@@ -57,9 +56,7 @@ public class HomeService {
         version.add(key, home);
         this.versionService.save(version);
         home.setCurrent(true);
-        Home result = homeRepository.save(home);
-        homeSearchRepository.save(result);
-        return result;
+        return home;
     }
 
     /**
@@ -90,21 +87,8 @@ public class HomeService {
      * @param id the id of the entity
      */
     public void delete(String id) {
-        log.debug("Request to delete Home : {}", id);        homeRepository.deleteById(id);
-        homeSearchRepository.deleteById(id);
-    }
-
-    /**
-     * Search for the home corresponding to the query.
-     *
-     * @param query the query of the search
-     * @return the list of entities
-     */
-    public List<Home> search(String query) {
-        log.debug("Request to search Homes for query {}", query);
-        return StreamSupport
-            .stream(homeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        log.debug("Request to delete Home : {}", id);        
+        homeRepository.deleteById(id);
     }
 
 	public Home findCurrent() {

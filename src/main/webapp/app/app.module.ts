@@ -6,7 +6,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { NgJhipsterModule } from 'ng-jhipster';
-
+import { ScrollSpyModule } from 'ngx-scrollspy';
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
@@ -30,6 +30,7 @@ import { JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent 
             alertAsToast: false,
             alertTimeout: 5000
         }),
+        ScrollSpyModule.forRoot(),
         JojoaddisonSharedModule.forRoot(),
         JojoaddisonCoreModule,
         JojoaddisonHomeModule,

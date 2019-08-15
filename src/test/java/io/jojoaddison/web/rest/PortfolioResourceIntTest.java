@@ -4,7 +4,6 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Portfolio;
 import io.jojoaddison.repository.PortfolioRepository;
-import io.jojoaddison.repository.search.PortfolioSearchRepository;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -35,7 +34,6 @@ import java.util.List;
 import static io.jojoaddison.web.rest.TestUtil.sameInstant;
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -82,14 +80,6 @@ public class PortfolioResourceIntTest {
     @Autowired
     private PortfolioRepository portfolioRepository;
 
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.PortfolioSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private PortfolioSearchRepository mockPortfolioSearchRepository;
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -109,7 +99,7 @@ public class PortfolioResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PortfolioResource portfolioResource = new PortfolioResource(portfolioRepository, mockPortfolioSearchRepository);
+        final PortfolioResource portfolioResource = new PortfolioResource(portfolioRepository);
         this.restPortfolioMockMvc = MockMvcBuilders.standaloneSetup(portfolioResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -170,8 +160,6 @@ public class PortfolioResourceIntTest {
         assertThat(testPortfolio.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testPortfolio.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
 
-        // Validate the Portfolio in Elasticsearch
-        verify(mockPortfolioSearchRepository, times(1)).save(testPortfolio);
     }
 
     @Test
@@ -191,8 +179,6 @@ public class PortfolioResourceIntTest {
         List<Portfolio> portfolioList = portfolioRepository.findAll();
         assertThat(portfolioList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Portfolio in Elasticsearch
-        verify(mockPortfolioSearchRepository, times(0)).save(portfolio);
     }
 
     @Test
@@ -287,8 +273,6 @@ public class PortfolioResourceIntTest {
         assertThat(testPortfolio.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testPortfolio.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
 
-        // Validate the Portfolio in Elasticsearch
-        verify(mockPortfolioSearchRepository, times(1)).save(testPortfolio);
     }
 
     @Test
@@ -307,8 +291,6 @@ public class PortfolioResourceIntTest {
         List<Portfolio> portfolioList = portfolioRepository.findAll();
         assertThat(portfolioList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Portfolio in Elasticsearch
-        verify(mockPortfolioSearchRepository, times(0)).save(portfolio);
     }
 
     @Test
@@ -327,32 +309,8 @@ public class PortfolioResourceIntTest {
         List<Portfolio> portfolioList = portfolioRepository.findAll();
         assertThat(portfolioList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the Portfolio in Elasticsearch
-        verify(mockPortfolioSearchRepository, times(1)).deleteById(portfolio.getId());
     }
 
-    @Test
-    public void searchPortfolio() throws Exception {
-        // Initialize the database
-        portfolioRepository.save(portfolio);
-        when(mockPortfolioSearchRepository.search(queryStringQuery("id:" + portfolio.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(portfolio), PageRequest.of(0, 1), 1));
-        // Search the portfolio
-        restPortfolioMockMvc.perform(get("/api/_search/portfolios?query=id:" + portfolio.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(portfolio.getId())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
-            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)));
-    }
 
     @Test
     public void equalsVerifier() throws Exception {

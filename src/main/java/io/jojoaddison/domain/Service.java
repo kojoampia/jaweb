@@ -4,7 +4,6 @@ package io.jojoaddison.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -14,7 +13,6 @@ import java.util.Objects;
  * A Service.
  */
 @Document(collection = "service")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "service")
 public class Service implements Serializable {
 
     private static final long serialVersionUID = 1L;

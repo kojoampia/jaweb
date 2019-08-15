@@ -1,29 +1,31 @@
 package io.jojoaddison.web.rest;
-import io.jojoaddison.domain.About;
-import io.jojoaddison.repository.AboutRepository;
-import io.jojoaddison.repository.search.AboutSearchRepository;
-import io.jojoaddison.web.rest.errors.BadRequestAlertException;
-import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.jojoaddison.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.jojoaddison.domain.About;
+import io.jojoaddison.repository.AboutRepository;
+import io.jojoaddison.web.rest.errors.BadRequestAlertException;
+import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.jojoaddison.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing About.
@@ -38,11 +40,8 @@ public class AboutResource {
 
     private final AboutRepository aboutRepository;
 
-    private final AboutSearchRepository aboutSearchRepository;
-
-    public AboutResource(AboutRepository aboutRepository, AboutSearchRepository aboutSearchRepository) {
+    public AboutResource(AboutRepository aboutRepository) {
         this.aboutRepository = aboutRepository;
-        this.aboutSearchRepository = aboutSearchRepository;
     }
 
     /**
@@ -59,7 +58,6 @@ public class AboutResource {
             throw new BadRequestAlertException("A new about cannot already have an ID", ENTITY_NAME, "idexists");
         }
         About result = aboutRepository.save(about);
-        aboutSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/abouts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,7 +79,6 @@ public class AboutResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         About result = aboutRepository.save(about);
-        aboutSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, about.getId().toString()))
             .body(result);
@@ -124,24 +121,7 @@ public class AboutResource {
     public ResponseEntity<Void> deleteAbout(@PathVariable String id) {
         log.debug("REST request to delete About : {}", id);
         aboutRepository.deleteById(id);
-        aboutSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
-    }
-
-    /**
-     * SEARCH  /_search/abouts?query=:query : search for the about corresponding
-     * to the query.
-     *
-     * @param query the query of the about search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/abouts")
-    public ResponseEntity<List<About>> searchAbouts(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Abouts for query {}", query);
-        Page<About> page = aboutSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/abouts");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }

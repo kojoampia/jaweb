@@ -1,7 +1,6 @@
 package io.jojoaddison.web.rest;
 import io.jojoaddison.domain.Contact;
 import io.jojoaddison.repository.ContactRepository;
-import io.jojoaddison.repository.search.ContactSearchRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,7 +18,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Contact.
@@ -34,11 +32,8 @@ public class ContactResource {
 
     private final ContactRepository contactRepository;
 
-    private final ContactSearchRepository contactSearchRepository;
-
-    public ContactResource(ContactRepository contactRepository, ContactSearchRepository contactSearchRepository) {
+    public ContactResource(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
-        this.contactSearchRepository = contactSearchRepository;
     }
 
     /**
@@ -55,7 +50,6 @@ public class ContactResource {
             throw new BadRequestAlertException("A new contact cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Contact result = contactRepository.save(contact);
-        contactSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -77,7 +71,6 @@ public class ContactResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Contact result = contactRepository.save(contact);
-        contactSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contact.getId().toString()))
             .body(result);
@@ -117,23 +110,7 @@ public class ContactResource {
     public ResponseEntity<Void> deleteContact(@PathVariable String id) {
         log.debug("REST request to delete Contact : {}", id);
         contactRepository.deleteById(id);
-        contactSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
-    }
-
-    /**
-     * SEARCH  /_search/contacts?query=:query : search for the contact corresponding
-     * to the query.
-     *
-     * @param query the query of the contact search
-     * @return the result of the search
-     */
-    @GetMapping("/_search/contacts")
-    public List<Contact> searchContacts(@RequestParam String query) {
-        log.debug("REST request to search Contacts for query {}", query);
-        return StreamSupport
-            .stream(contactSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
     }
 
 }

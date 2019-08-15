@@ -4,7 +4,6 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Contact;
 import io.jojoaddison.repository.ContactRepository;
-import io.jojoaddison.repository.search.ContactSearchRepository;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -34,7 +33,6 @@ import java.util.List;
 import static io.jojoaddison.web.rest.TestUtil.sameInstant;
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -123,14 +121,6 @@ public class ContactResourceIntTest {
     @Autowired
     private ContactRepository contactRepository;
 
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.ContactSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private ContactSearchRepository mockContactSearchRepository;
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -150,7 +140,7 @@ public class ContactResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ContactResource contactResource = new ContactResource(contactRepository, mockContactSearchRepository);
+        final ContactResource contactResource = new ContactResource(contactRepository);
         this.restContactMockMvc = MockMvcBuilders.standaloneSetup(contactResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -239,8 +229,6 @@ public class ContactResourceIntTest {
         assertThat(testContact.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
         assertThat(testContact.getUrl()).isEqualTo(DEFAULT_URL);
 
-        // Validate the Contact in Elasticsearch
-        verify(mockContactSearchRepository, times(1)).save(testContact);
     }
 
     @Test
@@ -260,8 +248,6 @@ public class ContactResourceIntTest {
         List<Contact> contactList = contactRepository.findAll();
         assertThat(contactList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Contact in Elasticsearch
-        verify(mockContactSearchRepository, times(0)).save(contact);
     }
 
     @Test
@@ -429,8 +415,6 @@ public class ContactResourceIntTest {
         assertThat(testContact.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
         assertThat(testContact.getUrl()).isEqualTo(UPDATED_URL);
 
-        // Validate the Contact in Elasticsearch
-        verify(mockContactSearchRepository, times(1)).save(testContact);
     }
 
     @Test
@@ -449,8 +433,6 @@ public class ContactResourceIntTest {
         List<Contact> contactList = contactRepository.findAll();
         assertThat(contactList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Contact in Elasticsearch
-        verify(mockContactSearchRepository, times(0)).save(contact);
     }
 
     @Test
@@ -469,45 +451,6 @@ public class ContactResourceIntTest {
         List<Contact> contactList = contactRepository.findAll();
         assertThat(contactList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the Contact in Elasticsearch
-        verify(mockContactSearchRepository, times(1)).deleteById(contact.getId());
-    }
-
-    @Test
-    public void searchContact() throws Exception {
-        // Initialize the database
-        contactRepository.save(contact);
-        when(mockContactSearchRepository.search(queryStringQuery("id:" + contact.getId())))
-            .thenReturn(Collections.singletonList(contact));
-        // Search the contact
-        restContactMockMvc.perform(get("/api/_search/contacts?query=id:" + contact.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(contact.getId())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
-            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
-            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
-            .andExpect(jsonPath("$.[*].region").value(hasItem(DEFAULT_REGION)))
-            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
-            .andExpect(jsonPath("$.[*].telephone").value(hasItem(DEFAULT_TELEPHONE)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].whatsapp").value(hasItem(DEFAULT_WHATSAPP)))
-            .andExpect(jsonPath("$.[*].facebook").value(hasItem(DEFAULT_FACEBOOK)))
-            .andExpect(jsonPath("$.[*].twitter").value(hasItem(DEFAULT_TWITTER)))
-            .andExpect(jsonPath("$.[*].google").value(hasItem(DEFAULT_GOOGLE)))
-            .andExpect(jsonPath("$.[*].youtube").value(hasItem(DEFAULT_YOUTUBE)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(sameInstant(DEFAULT_LAST_MODIFIED))))
-            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE)))
-            .andExpect(jsonPath("$.[*].appointment").value(hasItem(DEFAULT_APPOINTMENT)))
-            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.intValue())))
-            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.intValue())))
-            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))))
-            .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)));
     }
 
     @Test

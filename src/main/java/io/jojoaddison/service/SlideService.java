@@ -2,13 +2,11 @@ package io.jojoaddison.service;
 
 import io.jojoaddison.domain.Slide;
 import io.jojoaddison.repository.SlideRepository;
-import io.jojoaddison.repository.search.SlideSearchRepository;
 import io.jojoaddison.service.util.Tools;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFSDBFile;
 
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +29,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
 /**
  * Service Implementation for managing Slide.
  */
@@ -43,18 +39,15 @@ public class SlideService {
 
     private final SlideRepository slideRepository;
 
-    private final SlideSearchRepository slideSearchRepository;
     private static final String ENTITY_NAME = "slide";
     private final String ROOT_DIR = "content-directory";
     private final Environment environment;
     private final GridFsTemplate gridFsTemplate;
 
     public SlideService(SlideRepository slideRepository,
-                        SlideSearchRepository slideSearchRepository,
                         Environment environment,
                         GridFsTemplate gridFsTemplate) {
         this.slideRepository = slideRepository;
-        this.slideSearchRepository = slideSearchRepository;
         this.environment = environment;
         this.gridFsTemplate = gridFsTemplate;
     }
@@ -112,21 +105,8 @@ public class SlideService {
     public void delete(String id) {
         log.debug("Request to delete Slide : {}", id);
         slideRepository.deleteById(id);
-        slideSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the slide corresponding to the query.
-     *
-     * @param query the query of the search
-     * @return the list of entities
-     */
-    public List<Slide> search(String query) {
-        log.debug("Request to search Slides for query {}", query);
-        return StreamSupport
-            .stream(slideSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
 
     /**
      * Save a slide.
@@ -228,17 +208,4 @@ public class SlideService {
         slideRepository.deleteAll();
 	}
 
-
-
-	public List<Slide> search(String query, PageRequest of) {
-		return StreamSupport
-            .stream(slideSearchRepository.search(queryStringQuery(query), of).spliterator(), false)
-            .collect(Collectors.toList());
-    }
-    
-	public List<Slide> search(QueryStringQueryBuilder queryStringQuery, PageRequest of) {
-		return StreamSupport
-            .stream(slideSearchRepository.search(queryStringQuery, of).spliterator(), false)
-            .collect(Collectors.toList());
-	}
 }

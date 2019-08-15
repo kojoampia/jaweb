@@ -1,32 +1,76 @@
-<div class="container mt-2">
-    <div class="card border-0 pad">
-        <div class="card-body  mt-3 mb-3">
-            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-                <h2 id="jhi-home-heading">Create or edit a Home</h2>
-                <div>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="row justify-content-center mt-2">
+        <div class="col-8 page-editor">
+            <div class="card border-0">
+                <div class="card-header bg-primary">
+                    <h2 id="jhi-home-heading">Create or edit a Home</h2>
+                    <div class="pull-right">
+
+                    </div>
                     <jhi-alert-error></jhi-alert-error>
-                    <div class="form-group" [hidden]="!home.id">
-                        <label for="id">ID</label>
-                        <input type="text" class="form-control" id="id" name="id" [(ngModel)]="home.id" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_header">Header</label>
-                        <input type="text" class="form-control" name="header" id="field_header" [(ngModel)]="home.header" />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_information">Information</label>
-                        <input type="text" class="form-control" name="information" id="field_information" [(ngModel)]="home.information" />
-                    </div>
                 </div>
-                <div>
-                    <button type="button" id="close-save" class="btn btn-secondary" (click)="close()">
-                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Close</span>
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="Information">
+                            <ng-template ngbTabContent *ngFor="let item of information; let i = index;">
+                                <div class="card bg-light border-0">
+                                    <div class="card-body">
+                                        <div [ngClass]="{'selected': item.selected === true}">
+                                            <span id="{{i}}" *ngIf="item.selected">
+                                                <fa-icon icon="check-circle"></fa-icon>
+                                            </span>
+                                            <jhi-infobox [info]="item.info" (click)="setInfo(item);"></jhi-infobox>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="Slides">
+                            <ng-template ngbTabContent>
+                                <!-- Sliderbox-->
+                                <div class="card border-0 bg-light">
+                                    <div class="row justify-content-center pt-5 pb-5 mt-4">
+                                        <jhi-slide-selector [slides]="slides">
+                                        </jhi-slide-selector>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="Portfolio">
+                            <ng-template ngbTabContent>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="Services">
+                            <ng-template ngbTabContent>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="Preview">
+                            <ng-template ngbTabContent>
+                                <div class="card bg-light border-0">
+                                    <div class="row justify-content-center mt-1 mb-1 head-info bg-transparent">
+                                        <div class="col-4" *ngIf="home.information">
+                                            <jhi-infobox [info]="home.information"></jhi-infobox>
+                                        </div>
+                                        <div class="col-6" *ngIf="home.slides && home.slides.length > 0">
+                                            <!-- Sliderbox-->
+                                            <jhi-slider [slides]="home.slides"></jhi-slider>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+                <div class="card-footer bg-secondary text-right">
+                    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                     </button>
-                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
                         <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</form>

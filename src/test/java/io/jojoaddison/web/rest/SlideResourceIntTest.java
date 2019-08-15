@@ -31,7 +31,6 @@ import java.util.List;
 
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -72,11 +71,6 @@ public class SlideResourceIntTest {
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.SlideServiceMockConfiguration
-     */
     @Autowired
     private SlideService mockSlideService;
 
@@ -158,8 +152,6 @@ public class SlideResourceIntTest {
         assertThat(testSlide.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSlide.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
 
-        // Validate the Slide in Elasticsearch
-        verify(mockSlideService, times(1)).save(testSlide);
     }
 
     @Test
@@ -179,8 +171,6 @@ public class SlideResourceIntTest {
         List<Slide> slideList = mockSlideService.findAll();
         assertThat(slideList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Slide in Elasticsearch
-        verify(mockSlideService, times(0)).save(slide);
     }
 
     @Test
@@ -271,8 +261,6 @@ public class SlideResourceIntTest {
         assertThat(testSlide.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSlide.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
 
-        // Validate the Slide in Elasticsearch
-        verify(mockSlideService, times(1)).save(testSlide);
     }
 
     @Test
@@ -291,8 +279,6 @@ public class SlideResourceIntTest {
         List<Slide> slideList = mockSlideService.findAll();
         assertThat(slideList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Slide in Elasticsearch
-        verify(mockSlideService, times(0)).save(slide);
     }
 
     @Test
@@ -311,30 +297,6 @@ public class SlideResourceIntTest {
         List<Slide> slideList = mockSlideService.findAll();
         assertThat(slideList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the Slide in Elasticsearch
-        verify(mockSlideService, times(1)).deleteById(slide.getId());
-    }
-
-    @Test
-    public void searchSlide() throws Exception {
-        // Initialize the database
-        mockSlideService.save(slide);
-        when(mockSlideService.search(queryStringQuery("id:" + slide.getId()), PageRequest.of(0, 20)))
-            .thenReturn(Collections.singletonList(slide));
-        // Search the slide
-        restSlideMockMvc.perform(get("/api/_search/slides?query=id:" + slide.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(slide.getId())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
-            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)));
     }
 
     @Test

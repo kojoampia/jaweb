@@ -1,35 +1,35 @@
 {
-    "generator-jhipster": {
-        "promptValues": {
-            "packageName": "io.jojoaddison"
-        },
-        "jhipsterVersion": "5.8.1",
-        "applicationType": "monolith",
-        "baseName": "jojoaddison",
-        "packageName": "io.jojoaddison",
-        "packageFolder": "io/jojoaddison",
-        "serverPort": "8080",
-        "authenticationType": "jwt",
-        "cacheProvider": "ehcache",
-        "enableHibernateCache": false,
-        "websocket": "spring-websocket",
-        "databaseType": "mongodb",
-        "devDatabaseType": "mongodb",
-        "prodDatabaseType": "mongodb",
-        "searchEngine": "elasticsearch",
-        "messageBroker": false,
-        "serviceDiscoveryType": false,
-        "buildTool": "maven",
-        "enableSwaggerCodegen": false,
-        "jwtSecretKey": "ODBhZjNiNjA1YTIwMGZkNjhkZGM0MGJjZTA5NDJjNjE5MmJkMzhmMWQyNTgxODUwOWE0ZDNkNmQwNGNkYzhlMjQ0Yzg2ZmM3NTdmOWM4NmFjM2Y1ZTk4NGM1OTE1NzQyNzc2NDA0NWVmMTliYTZlMDBlNDM3YzU0YmVlM2VmOTY=",
-        "clientFramework": "angularX",
-        "useSass": true,
-        "clientPackageManager": "npm",
-        "testFrameworks": [],
-        "jhiPrefix": "jhi",
-        "entitySuffix": "",
-        "dtoSuffix": "DTO",
-        "otherModules": [],
-        "enableTranslation": false
-    }
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "io.jojoaddison"
+    },
+    "jhipsterVersion": "5.8.1",
+    "applicationType": "monolith",
+    "baseName": "jojoaddison",
+    "packageName": "io.jojoaddison",
+    "packageFolder": "io/jojoaddison",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": "spring-websocket",
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ODBhZjNiNjA1YTIwMGZkNjhkZGM0MGJjZTA5NDJjNjE5MmJkMzhmMWQyNTgxODUwOWE0ZDNkNmQwNGNkYzhlMjQ0Yzg2ZmM3NTdmOWM4NmFjM2Y1ZTk4NGM1OTE1NzQyNzc2NDA0NWVmMTliYTZlMDBlNDM3YzU0YmVlM2VmOTY=",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false
+  }
 }

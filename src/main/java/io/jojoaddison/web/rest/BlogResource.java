@@ -1,7 +1,6 @@
 package io.jojoaddison.web.rest;
 import io.jojoaddison.domain.Blog;
 import io.jojoaddison.repository.BlogRepository;
-import io.jojoaddison.repository.search.BlogSearchRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
@@ -23,8 +22,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
 /**
  * REST controller for managing Blog.
  */
@@ -38,11 +35,8 @@ public class BlogResource {
 
     private final BlogRepository blogRepository;
 
-    private final BlogSearchRepository blogSearchRepository;
-
-    public BlogResource(BlogRepository blogRepository, BlogSearchRepository blogSearchRepository) {
+    public BlogResource(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
-        this.blogSearchRepository = blogSearchRepository;
     }
 
     /**
@@ -59,7 +53,6 @@ public class BlogResource {
             throw new BadRequestAlertException("A new blog cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Blog result = blogRepository.save(blog);
-        blogSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/blogs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,7 +74,6 @@ public class BlogResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Blog result = blogRepository.save(blog);
-        blogSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, blog.getId().toString()))
             .body(result);
@@ -124,24 +116,8 @@ public class BlogResource {
     public ResponseEntity<Void> deleteBlog(@PathVariable String id) {
         log.debug("REST request to delete Blog : {}", id);
         blogRepository.deleteById(id);
-        blogSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
     }
 
-    /**
-     * SEARCH  /_search/blogs?query=:query : search for the blog corresponding
-     * to the query.
-     *
-     * @param query the query of the blog search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/blogs")
-    public ResponseEntity<List<Blog>> searchBlogs(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Blogs for query {}", query);
-        Page<Blog> page = blogSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/blogs");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
 
 }

@@ -4,7 +4,6 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Home;
 import io.jojoaddison.repository.HomeRepository;
-import io.jojoaddison.repository.search.HomeSearchRepository;
 import io.jojoaddison.service.HomeService;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
@@ -30,7 +29,6 @@ import java.util.List;
 
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -66,22 +64,11 @@ public class HomeResourceIntTest {
     private static final Integer DEFAULT_VERSION = 1;
     private static final Integer UPDATED_VERSION = 2;
 
-    private static final String DEFAULT_INFORMATION = "AAAAAAAAAA";
-    private static final String UPDATED_INFORMATION = "BBBBBBBBBB";
-
     @Autowired
     private HomeRepository homeRepository;
 
     @Autowired
     private HomeService homeService;
-
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.HomeSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private HomeSearchRepository mockHomeSearchRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -125,8 +112,7 @@ public class HomeResourceIntTest {
             .createdBy(DEFAULT_CREATED_BY)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .current(DEFAULT_CURRENT)
-            .version(DEFAULT_VERSION)
-            .information(DEFAULT_INFORMATION);
+            .version(DEFAULT_VERSION);
         return home;
     }
 
@@ -157,10 +143,7 @@ public class HomeResourceIntTest {
         assertThat(testHome.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testHome.isCurrent()).isEqualTo(DEFAULT_CURRENT);
         assertThat(testHome.getVersion()).isEqualTo(DEFAULT_VERSION);
-        assertThat(testHome.getInformation()).isEqualTo(DEFAULT_INFORMATION);
 
-        // Validate the Home in Elasticsearch
-        verify(mockHomeSearchRepository, times(1)).save(testHome);
     }
 
     @Test
@@ -180,8 +163,6 @@ public class HomeResourceIntTest {
         List<Home> homeList = homeRepository.findAll();
         assertThat(homeList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Home in Elasticsearch
-        verify(mockHomeSearchRepository, times(0)).save(home);
     }
 
     @Test
@@ -200,8 +181,7 @@ public class HomeResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].current").value(hasItem(DEFAULT_CURRENT.booleanValue())))
-            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
-            .andExpect(jsonPath("$.[*].information").value(hasItem(DEFAULT_INFORMATION.toString())));
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)));
     }
     
     @Test
@@ -220,8 +200,7 @@ public class HomeResourceIntTest {
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.current").value(DEFAULT_CURRENT.booleanValue()))
-            .andExpect(jsonPath("$.version").value(DEFAULT_VERSION))
-            .andExpect(jsonPath("$.information").value(DEFAULT_INFORMATION.toString()));
+            .andExpect(jsonPath("$.version").value(DEFAULT_VERSION));
     }
 
     @Test
@@ -235,8 +214,6 @@ public class HomeResourceIntTest {
     public void updateHome() throws Exception {
         // Initialize the database
         homeService.save(home);
-        // As the test used the service layer, reset the Elasticsearch mock repository
-        reset(mockHomeSearchRepository);
 
         int databaseSizeBeforeUpdate = homeRepository.findAll().size();
 
@@ -249,8 +226,7 @@ public class HomeResourceIntTest {
             .createdBy(UPDATED_CREATED_BY)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .current(UPDATED_CURRENT)
-            .version(UPDATED_VERSION)
-            .information(UPDATED_INFORMATION);
+            .version(UPDATED_VERSION);
 
         restHomeMockMvc.perform(put("/api/homes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -268,10 +244,7 @@ public class HomeResourceIntTest {
         assertThat(testHome.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testHome.isCurrent()).isEqualTo(UPDATED_CURRENT);
         assertThat(testHome.getVersion()).isEqualTo(UPDATED_VERSION);
-        assertThat(testHome.getInformation()).isEqualTo(UPDATED_INFORMATION);
 
-        // Validate the Home in Elasticsearch
-        verify(mockHomeSearchRepository, times(1)).save(testHome);
     }
 
     @Test
@@ -290,8 +263,6 @@ public class HomeResourceIntTest {
         List<Home> homeList = homeRepository.findAll();
         assertThat(homeList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Home in Elasticsearch
-        verify(mockHomeSearchRepository, times(0)).save(home);
     }
 
     @Test
@@ -310,30 +281,8 @@ public class HomeResourceIntTest {
         List<Home> homeList = homeRepository.findAll();
         assertThat(homeList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the Home in Elasticsearch
-        verify(mockHomeSearchRepository, times(1)).deleteById(home.getId());
     }
 
-    @Test
-    public void searchHome() throws Exception {
-        // Initialize the database
-        homeService.save(home);
-        when(mockHomeSearchRepository.search(queryStringQuery("id:" + home.getId())))
-            .thenReturn(Collections.singletonList(home));
-        // Search the home
-        restHomeMockMvc.perform(get("/api/_search/homes?query=id:" + home.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(home.getId())))
-            .andExpect(jsonPath("$.[*].header").value(hasItem(DEFAULT_HEADER)))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].current").value(hasItem(DEFAULT_CURRENT.booleanValue())))
-            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
-            .andExpect(jsonPath("$.[*].information").value(hasItem(DEFAULT_INFORMATION)));
-    }
 
     @Test
     public void equalsVerifier() throws Exception {

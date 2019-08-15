@@ -35,7 +35,9 @@
                 </dd>
                 <dt><span>Information</span></dt>
                 <dd>
-                    <span>{{home.information}}</span>
+                    <div *ngIf="home.information">
+                        <a [routerLink]="['/information', home.information?.id, 'view']">{{home.information?.information}}</a>
+                    </div>
                 </dd>
             </dl>
 

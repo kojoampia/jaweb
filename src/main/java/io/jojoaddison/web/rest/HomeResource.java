@@ -1,22 +1,29 @@
 package io.jojoaddison.web.rest;
-import io.jojoaddison.domain.Home;
-import io.jojoaddison.service.HomeService;
-import io.jojoaddison.web.rest.errors.BadRequestAlertException;
-import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.github.jhipster.web.util.ResponseUtil;
+import io.jojoaddison.domain.Home;
+import io.jojoaddison.security.SecurityUtils;
+import io.jojoaddison.service.HomeService;
+import io.jojoaddison.web.rest.errors.BadRequestAlertException;
+import io.jojoaddison.web.rest.util.HeaderUtil;
 
 /**
  * REST controller for managing Home.
@@ -48,6 +55,10 @@ public class HomeResource {
         if (home.getId() != null) {
             throw new BadRequestAlertException("A new home cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        home.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        home.setCreatedDate(Instant.now());
+        home.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        home.setModifiedDate(Instant.now());
         Home result = homeService.save(home);
         return ResponseEntity.created(new URI("/api/homes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -69,6 +80,8 @@ public class HomeResource {
         if (home.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        home.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        home.setModifiedDate(Instant.now());
         Home result = homeService.save(home);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, home.getId().toString()))
@@ -84,33 +97,6 @@ public class HomeResource {
     public List<Home> getAllHomes() {
         log.debug("REST request to get all Homes");
         return homeService.findAll();
-    }
-    
-    /**
-     * GET  /homes/current : get current the home.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of homes in body
-     */
-    @GetMapping("/homes/current")
-    public Home getCurrentHome() {
-        log.debug("REST request to get all Homes");
-        return homeService.findCurrent();
-    }
-    
-    /**
-     * PUT  /homes/current : set the current home.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of homes in body
-     */
-    @PutMapping("/homes/current")
-    public Home setCurrentHome(@RequestBody Home home) {
-        log.debug("REST request to set the current home");
-        Home current = homeService.findCurrent();
-        current.setCurrent(false);
-        homeService.save(current);
-        home.setCurrent(true);
-        homeService.save(home);
-        return homeService.findCurrent();
     }
 
     /**
@@ -138,18 +124,26 @@ public class HomeResource {
         homeService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
     }
-
+ 
     /**
-     * SEARCH  /_search/homes?query=:query : search for the home corresponding
-     * to the query.
+     * PUT  /homes/current : set the current home.
      *
-     * @param query the query of the home search
-     * @return the result of the search
+     * @return the ResponseEntity with status 200 (OK) and the list of homes in body
      */
-    @GetMapping("/_search/homes")
-    public List<Home> searchHomes(@RequestParam String query) {
-        log.debug("REST request to search Homes for query {}", query);
-        return homeService.search(query);
+    @PutMapping("/homes/current")
+    public Home setCurrentHome(@RequestBody Home home) {
+        log.debug("REST request to set the current home");
+        Home current = homeService.findCurrent();
+        current.setCurrent(false);
+        homeService.save(current);
+        home.setCurrent(true);
+        homeService.save(home);
+        return homeService.findCurrent();
+    }
+
+    @GetMapping("/homes/current")
+    public Home getCurrentHome() {
+        return homeService.findCurrent();
     }
 
 }

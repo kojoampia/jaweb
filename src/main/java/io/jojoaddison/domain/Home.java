@@ -1,22 +1,20 @@
 package io.jojoaddison.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import java.util.Objects;
 
 /**
  * A Home.
  */
 @Document(collection = "home")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "home")
 public class Home implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,9 +43,6 @@ public class Home implements Serializable {
     @Field("version")
     private Integer version;
 
-    @Field("information")
-    private String information;
-
     @DBRef
     @Field("slides")
     private Set<Slide> slides = new HashSet<>();
@@ -60,6 +55,10 @@ public class Home implements Serializable {
     @DBRef
     @Field("blogs")
     private Set<Blog> blogs = new HashSet<>();
+    @DBRef
+    @Field("information")
+    private Information information;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -160,19 +159,6 @@ public class Home implements Serializable {
         this.version = version;
     }
 
-    public String getInformation() {
-        return information;
-    }
-
-    public Home information(String information) {
-        this.information = information;
-        return this;
-    }
-
-    public void setInformation(String information) {
-        this.information = information;
-    }
-
     public Set<Slide> getSlides() {
         return slides;
     }
@@ -264,6 +250,19 @@ public class Home implements Serializable {
     public void setBlogs(Set<Blog> blogs) {
         this.blogs = blogs;
     }
+
+    public Information getInformation() {
+        return information;
+    }
+
+    public Home information(Information information) {
+        this.information = information;
+        return this;
+    }
+
+    public void setInformation(Information information) {
+        this.information = information;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -297,7 +296,6 @@ public class Home implements Serializable {
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", current='" + isCurrent() + "'" +
             ", version=" + getVersion() +
-            ", information='" + getInformation() + "'" +
             "}";
     }
 }

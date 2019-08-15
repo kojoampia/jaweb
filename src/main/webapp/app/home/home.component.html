@@ -1,18 +1,39 @@
 <div class="home">
-    <div class="container-fluid mt-1 mb-1 head-info bg-transparent">
-        <div class="container">
+    <div class="row justify-content-center mt-1 mb-1 head-info bg-transparent">
+        <div class="col-4">
             <jhi-infobox [info]="info"></jhi-infobox>
         </div>
-    </div>
-    <div class="container-fluid mt-0 slidebox bg-white">
-        <div class="container">
+        <div class="col-6">
             <!-- Sliderbox-->
-            <jhi-slider slides="home.slides"></jhi-slider>
+            <jhi-slider [slides]="slides"></jhi-slider>
+        </div>
+    </div>
+    <div class="container-fluid mt-0 viewbox bg-dark">
+        <div class="container" *ngIf="portfolios">
+            <!-- Sliderbox-->
+            <jhi-portfolio-viewer [portfolios]="portfolios">
+                </jhi-portfolio-viewer>
         </div>
     </div>
 
-    <div class="container mt-3" id="home-table-container">
-        <div id="home-table-inner-container">
+    <div class="container-fluid mt-0 bg-secondary viewbox ">
+        <div class="container" *ngIf="services">
+            <!-- Sliderbox-->
+            <jhi-service-viewer [services]="services">
+                </jhi-service-viewer>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-0 bg-info viewbox">
+        <div class="container" *ngIf="partners">
+            <!-- Sliderbox-->
+            <jhi-partner-viewer [partners]="partners">
+                </jhi-partner-viewer>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <div id="home-table-inner-container" id="home-table-container">
             <jhi-footer></jhi-footer>
         </div>
     </div>

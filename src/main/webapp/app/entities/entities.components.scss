@@ -36,4 +36,43 @@ form {
     z-index: 100;
     position: relative;
     left: 0;
+    color: #fff;
+}
+form > input {
+    color: #003300;
+    background-color: #fff;
+}
+form > option {
+    color: #fff;
+    background-color: #003300;
+}
+.page-editor {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #003300;
+    color: #fff;
+    border-radius: 15px;
+    border-color: #fff;
+    border: 5px;
+    padding: 20px;
+}
+
+.custom-select-option {
+    color: #fff;
+    background-color: #003300;
+}
+.custom-input {
+    color: #003300;
+    background-color: #fff;
+}
+
+.selected {
+    border: 2px solid #043304;
+    color: #043304;
+}
+
+.selected span {
+    float: right;
 }

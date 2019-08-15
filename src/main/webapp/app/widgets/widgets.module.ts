@@ -9,7 +9,8 @@ import {
     BubbleMapComponent,
     SidebarComponent,
     PiechartComponent,
-    SlidesComponent
+    SlidesComponent,
+    SlideSelectorComponent,
 } from './index';
 import { DocviewerComponent } from './docviewer/docviewer.component';
 import { DropDownBoxComponent } from './drop-down-box/ddb.component';
@@ -39,7 +40,8 @@ import { NgxCarouselModule } from 'ngx-carousel';
         BubbleMapComponent,
         SidebarComponent,
         PiechartComponent,
-        SlidesComponent
+        SlidesComponent,
+        SlideSelectorComponent,
     ],
     exports: [
         TinyEditorComponent,
@@ -55,7 +57,9 @@ import { NgxCarouselModule } from 'ngx-carousel';
         TreeMapComponent,
         BubbleMapComponent,
         SidebarComponent,
-        PiechartComponent
+        PiechartComponent,
+        SlidesComponent,
+        SlideSelectorComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

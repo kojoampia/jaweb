@@ -3,7 +3,6 @@ package io.jojoaddison.service;
 import io.jojoaddison.JojoaddisonApp;
 import io.jojoaddison.config.Constants;
 import io.jojoaddison.domain.User;
-import io.jojoaddison.repository.search.UserSearchRepository;
 import io.jojoaddison.repository.UserRepository;
 import io.jojoaddison.service.dto.UserDTO;
 import io.jojoaddison.service.util.RandomUtil;
@@ -41,14 +40,6 @@ public class UserServiceIntTest {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.UserSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private UserSearchRepository mockUserSearchRepository;
 
     private User user;
 
@@ -148,8 +139,6 @@ public class UserServiceIntTest {
         users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minus(3, ChronoUnit.DAYS));
         assertThat(users).isEmpty();
 
-        // Verify Elasticsearch mock
-        verify(mockUserSearchRepository, times(1)).delete(user);
     }
 
     @Test
@@ -178,9 +167,6 @@ public class UserServiceIntTest {
         assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
         userService.removeNotActivatedUsers();
         assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
-
-        // Verify Elasticsearch mock
-        verify(mockUserSearchRepository, times(1)).delete(user);
     }
 
 }

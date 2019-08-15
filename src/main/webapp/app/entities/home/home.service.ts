@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IHome } from 'app/shared/model/home.model';
-import { url } from 'inspector';
 
 type EntityResponseType = HttpResponse<IHome>;
 type EntityArrayResponseType = HttpResponse<IHome[]>;

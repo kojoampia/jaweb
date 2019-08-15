@@ -14,3 +14,4 @@ export * from './printviewer/printviewer.component';
 export * from './treemap/treemap.component';
 export * from './sidebar/sidebar.component';
 export * from './slides/slides.component';
+export * from './slides/slide-selector.component';

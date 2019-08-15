@@ -78,11 +78,7 @@ export class SlideComponent implements OnInit, OnDestroy {
             return;
         }
         this.slideService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
+            .query()
             .subscribe(
                 (res: HttpResponse<ISlide[]>) => this.paginateSlides(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)

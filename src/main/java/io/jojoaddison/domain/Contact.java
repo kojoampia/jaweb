@@ -1,7 +1,6 @@
 package io.jojoaddison.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,7 +18,6 @@ import java.util.Objects;
  * A Contact.
  */
 @Document(collection = "contact")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "contact")
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;

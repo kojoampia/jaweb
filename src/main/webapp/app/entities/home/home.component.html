@@ -1,105 +1,28 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col">
-            <div class="container card jhi-card mt-2 pad">
-                <h2 id="page-heading">
-                    <span>Homes</span>
-                    <button
-                        id="jh-create-entity"
-                        class="btn btn-primary float-right jh-create-entity create-home"
-                        (click)="create()"
-                    >
-                        <fa-icon [icon]="'plus'"></fa-icon>
-                        <span class="hidden-sm-down">
-                            Create new Home
-                        </span>
-                    </button>
-                </h2>
-                <jhi-alert></jhi-alert>
-                <!--
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form name="searchForm" class="form-inline">
-                            <div class="input-group w-100 mt-3">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    [(ngModel)]="currentSearch"
-                                    id="currentSearch"
-                                    name="currentSearch"
-                                    placeholder="Query"
-                                />
-                                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                                    <fa-icon [icon]="'search'"></fa-icon>
-                                </button>
-                                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                                    <fa-icon [icon]="'trash-alt'"></fa-icon>
-                                </button>
-                            </div>
-                        </form>
+<div class="page-editor">
+    <div class="card border-0">
+        <div class="card-header bg-primary">
+            <h2 id="page-heading">
+                <span>Homes</span>
+                <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-home"
+                    [routerLink]="['/home/new']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                    <span class="hidden-sm-down">
+                        Create new Home
+                    </span>
+                </button>
+            </h2>
+            <jhi-alert></jhi-alert>
+        </div>
+        <div class="card-body">
+            <jhi-infobox [info]="info"></jhi-infobox>
+            <div class="row-fluid justify-content-center">
+                <div class="card-deck" *ngIf="homes">
+                    <div class="card" *ngFor="let home of homes ;trackBy: trackId">
+
                     </div>
-                </div>
-                -->
-                <br />
-                <div class="table-responsive data-view" *ngIf="homes && homes.length > 0">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th><span>Current</span></th>
-                                <th><span>Header</span></th>
-                                <th><span>Information</span></th>
-                                <th><span>Created Date</span></th>
-                                <th><span>Modified Date</span></th>
-                                <th><span>Created By</span></th>
-                                <th><span>Modified By</span></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let home of homes; trackBy: trackId">
-                                <td>{{ home.current }}</td>
-                                <td>{{ home.header }}</td>
-                                <td>{{ home.information }}</td>
-                                <td>{{ home.createdDate | date: 'medium' }}</td>
-                                <td>{{ home.modifiedDate | date: 'medium' }}</td>
-                                <td>{{ home.createdBy }}</td>
-                                <td>{{ home.modifiedBy }}</td>
-                                <td class="text-right">
-                                    <div class="btn-group flex-btn-group-container">
-                                        <button type="submit" [routerLink]="['/home', home.id, 'view']" class="btn btn-info btn-sm">
-                                            <fa-icon [icon]="'eye'"></fa-icon>
-                                            <span class="d-none d-md-inline">View</span>
-                                        </button>
-                                        <button type="submit" [routerLink]="['/home', home.id, 'edit']" class="btn btn-primary btn-sm">
-                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                            <span class="d-none d-md-inline">Edit</span>
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            [routerLink]="['/', 'home', { outlets: { popup: home.id + '/delete' } }]"
-                                            replaceUrl="true"
-                                            queryParamsHandling="merge"
-                                            class="btn btn-danger btn-sm"
-                                        >
-                                            <fa-icon [icon]="'times'"></fa-icon>
-                                            <span class="d-none d-md-inline">Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
-        <div class="col-6" *ngIf="home && isView">
-            <jhi-home-detail [home]="home" (closeHome)="close($event)"></jhi-home-detail>
-        </div>
-        <div class="col-6" *ngIf="home && isEdit">
-            <jhi-home-update [home]="home"  (closeHome)="close($event)"></jhi-home-detail>
-        </div>
-        <div class="col-6" *ngIf="home && isNew">
-            <jhi-home-update [home]="home" (closeHome)="close($event)"></jhi-home-detail>
-        </div>
     </div>
+
 </div>

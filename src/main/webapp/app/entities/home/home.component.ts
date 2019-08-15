@@ -5,9 +5,11 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { IHome, Home } from 'app/shared/model/home.model';
+import { IHome } from 'app/shared/model/home.model';
 import { AccountService } from 'app/core';
 import { HomeService } from './home.service';
+import { IInformation } from 'app/shared/model/information.model';
+import { InformationService } from '../information';
 
 @Component({
     selector: 'jhi-home',
@@ -19,13 +21,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
-    home: IHome;
-    isView: boolean;
-    isEdit: boolean;
-    isNew: boolean;
+    info: IInformation;
 
     constructor(
         protected homeService: HomeService,
+        protected informationService: InformationService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
@@ -35,6 +35,17 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
+    }
+
+    loadInformation() {
+        this.informationService.query().subscribe(res => {
+            console.log(res);
+            if (res.body && res.body.length > 0) {
+                this.info = res.body[0];
+                console.log('info');
+                console.log(this.info);
+            }
+        });
     }
 
     loadAll() {
@@ -100,28 +111,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    create() {
-        this.home = new Home();
-        this.isNew = true;
-        this.isEdit = this.isView = false;
-    }
-
-    view(home: IHome) {
-        this.home = home;
-        this.isView = true;
-        this.isEdit = this.isNew = false;
-    }
-
-    edit(home: IHome) {
-        this.home = home;
-        this.isEdit =  true;
-        this.isView = this.isNew = false;
-    }
-
-    close(event: any) {
-        this.home = null;
-        this.isEdit = this.isView = this.isNew = false;
     }
 }

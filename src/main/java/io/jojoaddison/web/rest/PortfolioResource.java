@@ -1,29 +1,32 @@
 package io.jojoaddison.web.rest;
-import io.jojoaddison.domain.Portfolio;
-import io.jojoaddison.repository.PortfolioRepository;
-import io.jojoaddison.repository.search.PortfolioSearchRepository;
-import io.jojoaddison.web.rest.errors.BadRequestAlertException;
-import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.jojoaddison.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.jojoaddison.domain.Portfolio;
+import io.jojoaddison.repository.PortfolioRepository;
+import io.jojoaddison.web.rest.errors.BadRequestAlertException;
+import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.jojoaddison.web.rest.util.PaginationUtil;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Portfolio.
@@ -38,11 +41,8 @@ public class PortfolioResource {
 
     private final PortfolioRepository portfolioRepository;
 
-    private final PortfolioSearchRepository portfolioSearchRepository;
-
-    public PortfolioResource(PortfolioRepository portfolioRepository, PortfolioSearchRepository portfolioSearchRepository) {
+    public PortfolioResource(PortfolioRepository portfolioRepository) {
         this.portfolioRepository = portfolioRepository;
-        this.portfolioSearchRepository = portfolioSearchRepository;
     }
 
     /**
@@ -59,7 +59,6 @@ public class PortfolioResource {
             throw new BadRequestAlertException("A new portfolio cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Portfolio result = portfolioRepository.save(portfolio);
-        portfolioSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/portfolios/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,7 +80,6 @@ public class PortfolioResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Portfolio result = portfolioRepository.save(portfolio);
-        portfolioSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, portfolio.getId().toString()))
             .body(result);
@@ -124,24 +122,7 @@ public class PortfolioResource {
     public ResponseEntity<Void> deletePortfolio(@PathVariable String id) {
         log.debug("REST request to delete Portfolio : {}", id);
         portfolioRepository.deleteById(id);
-        portfolioSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
-    }
-
-    /**
-     * SEARCH  /_search/portfolios?query=:query : search for the portfolio corresponding
-     * to the query.
-     *
-     * @param query the query of the portfolio search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/portfolios")
-    public ResponseEntity<List<Portfolio>> searchPortfolios(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Portfolios for query {}", query);
-        Page<Portfolio> page = portfolioSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/portfolios");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }

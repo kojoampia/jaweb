@@ -4,7 +4,6 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Blog;
 import io.jojoaddison.repository.BlogRepository;
-import io.jojoaddison.repository.search.BlogSearchRepository;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -34,7 +33,6 @@ import java.util.List;
 import static io.jojoaddison.web.rest.TestUtil.sameInstant;
 import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -67,14 +65,6 @@ public class BlogResourceIntTest {
     @Autowired
     private BlogRepository blogRepository;
 
-    /**
-     * This repository is mocked in the io.jojoaddison.repository.search test package.
-     *
-     * @see io.jojoaddison.repository.search.BlogSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private BlogSearchRepository mockBlogSearchRepository;
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -94,7 +84,7 @@ public class BlogResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final BlogResource blogResource = new BlogResource(blogRepository, mockBlogSearchRepository);
+        final BlogResource blogResource = new BlogResource(blogRepository);
         this.restBlogMockMvc = MockMvcBuilders.standaloneSetup(blogResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -145,8 +135,6 @@ public class BlogResourceIntTest {
         assertThat(testBlog.getModifiedDate()).isEqualTo(DEFAULT_MODIFIED_DATE);
         assertThat(testBlog.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
 
-        // Validate the Blog in Elasticsearch
-        verify(mockBlogSearchRepository, times(1)).save(testBlog);
     }
 
     @Test
@@ -166,8 +154,6 @@ public class BlogResourceIntTest {
         List<Blog> blogList = blogRepository.findAll();
         assertThat(blogList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Blog in Elasticsearch
-        verify(mockBlogSearchRepository, times(0)).save(blog);
     }
 
     @Test
@@ -242,8 +228,6 @@ public class BlogResourceIntTest {
         assertThat(testBlog.getModifiedDate()).isEqualTo(UPDATED_MODIFIED_DATE);
         assertThat(testBlog.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
 
-        // Validate the Blog in Elasticsearch
-        verify(mockBlogSearchRepository, times(1)).save(testBlog);
     }
 
     @Test
@@ -262,8 +246,6 @@ public class BlogResourceIntTest {
         List<Blog> blogList = blogRepository.findAll();
         assertThat(blogList).hasSize(databaseSizeBeforeUpdate);
 
-        // Validate the Blog in Elasticsearch
-        verify(mockBlogSearchRepository, times(0)).save(blog);
     }
 
     @Test
@@ -282,27 +264,8 @@ public class BlogResourceIntTest {
         List<Blog> blogList = blogRepository.findAll();
         assertThat(blogList).hasSize(databaseSizeBeforeDelete - 1);
 
-        // Validate the Blog in Elasticsearch
-        verify(mockBlogSearchRepository, times(1)).deleteById(blog.getId());
     }
 
-    @Test
-    public void searchBlog() throws Exception {
-        // Initialize the database
-        blogRepository.save(blog);
-        when(mockBlogSearchRepository.search(queryStringQuery("id:" + blog.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(blog), PageRequest.of(0, 1), 1));
-        // Search the blog
-        restBlogMockMvc.perform(get("/api/_search/blogs?query=id:" + blog.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(blog.getId())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(sameInstant(DEFAULT_CREATED_DATE))))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
-            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
-    }
 
     @Test
     public void equalsVerifier() throws Exception {

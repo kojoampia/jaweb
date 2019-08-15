@@ -1,29 +1,31 @@
 package io.jojoaddison.web.rest;
-import io.jojoaddison.domain.Imprint;
-import io.jojoaddison.repository.ImprintRepository;
-import io.jojoaddison.repository.search.ImprintSearchRepository;
-import io.jojoaddison.web.rest.errors.BadRequestAlertException;
-import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.jojoaddison.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.jojoaddison.domain.Imprint;
+import io.jojoaddison.repository.ImprintRepository;
+import io.jojoaddison.web.rest.errors.BadRequestAlertException;
+import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.jojoaddison.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing Imprint.
@@ -38,11 +40,8 @@ public class ImprintResource {
 
     private final ImprintRepository imprintRepository;
 
-    private final ImprintSearchRepository imprintSearchRepository;
-
-    public ImprintResource(ImprintRepository imprintRepository, ImprintSearchRepository imprintSearchRepository) {
+    public ImprintResource(ImprintRepository imprintRepository) {
         this.imprintRepository = imprintRepository;
-        this.imprintSearchRepository = imprintSearchRepository;
     }
 
     /**
@@ -59,7 +58,6 @@ public class ImprintResource {
             throw new BadRequestAlertException("A new imprint cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Imprint result = imprintRepository.save(imprint);
-        imprintSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/imprints/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,7 +79,6 @@ public class ImprintResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Imprint result = imprintRepository.save(imprint);
-        imprintSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, imprint.getId().toString()))
             .body(result);
@@ -124,24 +121,7 @@ public class ImprintResource {
     public ResponseEntity<Void> deleteImprint(@PathVariable String id) {
         log.debug("REST request to delete Imprint : {}", id);
         imprintRepository.deleteById(id);
-        imprintSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
-    }
-
-    /**
-     * SEARCH  /_search/imprints?query=:query : search for the imprint corresponding
-     * to the query.
-     *
-     * @param query the query of the imprint search
-     * @param pageable the pagination information
-     * @return the result of the search
-     */
-    @GetMapping("/_search/imprints")
-    public ResponseEntity<List<Imprint>> searchImprints(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Imprints for query {}", query);
-        Page<Imprint> page = imprintSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/imprints");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }

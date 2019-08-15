@@ -1,16 +1,13 @@
 package io.jojoaddison.service;
 
-import io.jojoaddison.config.Constants;
-import io.jojoaddison.domain.Authority;
-import io.jojoaddison.domain.User;
-import io.jojoaddison.repository.AuthorityRepository;
-import io.jojoaddison.repository.UserRepository;
-import io.jojoaddison.repository.search.UserSearchRepository;
-import io.jojoaddison.security.AuthoritiesConstants;
-import io.jojoaddison.security.SecurityUtils;
-import io.jojoaddison.service.dto.UserDTO;
-import io.jojoaddison.service.util.RandomUtil;
-import io.jojoaddison.web.rest.errors.*;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +18,18 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import io.jojoaddison.config.Constants;
+import io.jojoaddison.domain.Authority;
+import io.jojoaddison.domain.User;
+import io.jojoaddison.repository.AuthorityRepository;
+import io.jojoaddison.repository.UserRepository;
+import io.jojoaddison.security.AuthoritiesConstants;
+import io.jojoaddison.security.SecurityUtils;
+import io.jojoaddison.service.dto.UserDTO;
+import io.jojoaddison.service.util.RandomUtil;
+import io.jojoaddison.web.rest.errors.EmailAlreadyUsedException;
+import io.jojoaddison.web.rest.errors.InvalidPasswordException;
+import io.jojoaddison.web.rest.errors.LoginAlreadyUsedException;
 
 /**
  * Service class for managing users.
@@ -38,16 +43,13 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final UserSearchRepository userSearchRepository;
-
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userSearchRepository = userSearchRepository;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
     }
@@ -60,7 +62,6 @@ public class UserService {
                 user.setActivated(true);
                 user.setActivationKey(null);
                 userRepository.save(user);
-                userSearchRepository.save(user);
                 this.clearUserCaches(user);
                 log.debug("Activated user: {}", user);
                 return user;
@@ -124,7 +125,6 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
-        userSearchRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -165,7 +165,6 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
-        userSearchRepository.save(user);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
@@ -190,7 +189,6 @@ public class UserService {
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
                 userRepository.save(user);
-                userSearchRepository.save(user);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
             });
@@ -224,7 +222,6 @@ public class UserService {
                     .map(Optional::get)
                     .forEach(managedAuthorities::add);
                 userRepository.save(user);
-                userSearchRepository.save(user);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;
@@ -235,7 +232,6 @@ public class UserService {
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             userRepository.delete(user);
-            userSearchRepository.delete(user);
             this.clearUserCaches(user);
             log.debug("Deleted User: {}", user);
         });
@@ -285,7 +281,6 @@ public class UserService {
             .forEach(user -> {
                 log.debug("Deleting not activated user {}", user.getLogin());
                 userRepository.delete(user);
-                userSearchRepository.delete(user);
                 this.clearUserCaches(user);
             });
     }
