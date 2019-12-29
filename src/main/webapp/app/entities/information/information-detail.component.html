@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="information">
+            <h2><span>Information</span> {{information.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Content</span></dt>
+                <dd>
+                    <span>{{information.content}}</span>
+                </dd>
+                <dt><span>Title</span></dt>
+                <dd>
+                    <span>{{information.title}}</span>
+                </dd>
+                <dt><span>Brief</span></dt>
+                <dd>
+                    <span>{{information.brief}}</span>
+                </dd>
+                <dt><span>Link Text</span></dt>
+                <dd>
+                    <span>{{information.linkText}}</span>
+                </dd>
+                <dt><span>Home</span></dt>
+                <dd>
+                    <div *ngIf="information.home">
+                        <a [routerLink]="['/home', information.home?.id, 'view']">{{information.home?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/information', information.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
