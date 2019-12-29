@@ -35,7 +35,7 @@ public class HomeService {
      * @return the persisted entity
      */
     public Home save(Home home) {
-        log.debug("Request to save Home : {}", home);        
+        log.debug("Request to save Home : {}", home);
         Home result = homeRepository.save(saveVersion(home));
         saveVersion(result);
         return result;
@@ -43,7 +43,7 @@ public class HomeService {
 
     private Home saveVersion(Home home){
         Version version = null;
-        Optional<Version> opVersion = this.versionService.findByType("Home");
+        Optional<Version> opVersion = Optional.ofNullable(this.versionService.findByType("Home"));
         if(opVersion.isPresent()){
             version = opVersion.get();
         }else{
@@ -87,7 +87,7 @@ public class HomeService {
      * @param id the id of the entity
      */
     public void delete(String id) {
-        log.debug("Request to delete Home : {}", id);        
+        log.debug("Request to delete Home : {}", id);
         homeRepository.deleteById(id);
     }
 

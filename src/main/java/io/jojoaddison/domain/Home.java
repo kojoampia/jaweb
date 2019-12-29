@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Home implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 
@@ -41,7 +41,7 @@ public class Home implements Serializable {
     private Boolean current;
 
     @Field("version")
-    private Integer version;
+    private Integer version = 0;
 
     @DBRef
     @Field("slides")

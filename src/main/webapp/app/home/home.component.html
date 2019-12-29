@@ -1,32 +1,35 @@
 <div class="home">
+    <!--Information Box-->
     <div class="row justify-content-center mt-1 mb-1 head-info bg-transparent">
-        <div class="col-4">
+        <div class="container">
             <jhi-infobox [info]="info"></jhi-infobox>
         </div>
-        <div class="col-6">
-            <!-- Sliderbox-->
+    </div>
+    <!-- Sliderbox-->
+    <div class="row justify-content-center mt-1 mb-1 slidebox bg-transparent">
+        <div class="container">
             <jhi-slider [slides]="slides"></jhi-slider>
         </div>
     </div>
-    <div class="container-fluid mt-0 viewbox bg-dark">
+    <div class="row-fluid mt-0 viewbox bg-dark">
         <div class="container" *ngIf="portfolios">
-            <!-- Sliderbox-->
+            <!-- Portfolio-->
             <jhi-portfolio-viewer [portfolios]="portfolios">
                 </jhi-portfolio-viewer>
         </div>
     </div>
 
-    <div class="container-fluid mt-0 bg-secondary viewbox ">
+    <div class="row-fluid mt-0 bg-secondary viewbox ">
         <div class="container" *ngIf="services">
-            <!-- Sliderbox-->
+            <!-- Services-->
             <jhi-service-viewer [services]="services">
                 </jhi-service-viewer>
         </div>
     </div>
 
-    <div class="container-fluid mt-0 bg-info viewbox">
+    <div class="row-fluid mt-0 bg-info viewbox">
         <div class="container" *ngIf="partners">
-            <!-- Sliderbox-->
+            <!-- Partner-->
             <jhi-partner-viewer [partners]="partners">
                 </jhi-partner-viewer>
         </div>

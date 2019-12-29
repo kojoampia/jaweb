@@ -62,7 +62,10 @@ import {
     faImages,
     faBriefcase,
     faGavel,
-    faCheckCircle
+    faCheckCircle,
+    faGlobe,
+    faCog,
+    faCogs
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -122,4 +125,8 @@ library.add(faImages);
 library.add(faBriefcase);
 library.add(faGavel);
 library.add(faCheckCircle);
+library.add(faGlobe);
+library.add(faCog);
+library.add(faCogs);
+
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

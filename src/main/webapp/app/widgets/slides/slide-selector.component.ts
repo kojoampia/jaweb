@@ -16,6 +16,8 @@ export class SlideSelectorComponent implements OnDestroy {
     }
 
     onClick(item: any) {
+        console.log('slide-selected');
+        console.log(item);
         this.slideSelected.emit(item);
     }
 

@@ -43,6 +43,8 @@ export class HomeUpdateComponent implements OnInit {
     slideWidth = 600;
     slideHeight = 300;
 
+    slideSelected: ISlide[] = [];
+
     constructor(
         protected slideService: SlideService,
         protected portfolioService: PortfolioService,
@@ -149,7 +151,17 @@ export class HomeUpdateComponent implements OnInit {
             }
         });
     }
-    onSlideSelected(item: any) {
-        console.log(item);
+    onSlideSelected(item: ISlide) {
+        console.log('slides');
+        if (!this.home.slides) {
+            this.home.slides = [];
+        }
+        const slideIndex = this.home.slides.findIndex(slide => slide.id === item.id);
+        if (slideIndex < 0) {
+            this.home.slides.push(item);
+        } else {
+            this.home.slides.splice(slideIndex, 1);
+        }
+        console.log(this.home.slides);
     }
 }

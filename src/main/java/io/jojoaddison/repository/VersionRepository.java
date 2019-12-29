@@ -15,5 +15,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface VersionRepository extends MongoRepository<Version, String> {
-    Optional<Version> findByType(String type);
+    Version findByType(String type);
 }

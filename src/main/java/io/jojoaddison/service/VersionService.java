@@ -59,7 +59,7 @@ public class VersionService {
         log.debug("Request to get Version : {}", id);
         return versionRepository.findById(id);
     }
-    
+
 
     /**
      * Get one version by id.
@@ -67,7 +67,7 @@ public class VersionService {
      * @param id the id of the entity
      * @return the entity
      */
-    public Optional<Version> findByType(String type) {
+    public Version findByType(String type) {
         log.debug("Request to get Version by type : {}", type);
         return versionRepository.findByType(type);
     }
@@ -78,8 +78,8 @@ public class VersionService {
      * @param id the id of the entity
      */
     public void delete(String id) {
-        log.debug("Request to delete Version : {}", id);        
+        log.debug("Request to delete Version : {}", id);
         versionRepository.deleteById(id);
     }
-    
+
 }

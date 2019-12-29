@@ -10,8 +10,13 @@
                     <jhi-alert-error></jhi-alert-error>
                 </div>
                 <div class="card-body">
-                    <ngb-tabset>
+                    <ngb-tabset class="bg-transparent">
                         <ngb-tab title="Information">
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_header">Header</label>
+                                <input type="text" class="form-control" name="header" id="field_header"
+                                    [(ngModel)]="home.header" />
+                            </div>
                             <ng-template ngbTabContent *ngFor="let item of information; let i = index;">
                                 <div class="card bg-light border-0">
                                     <div class="card-body">
@@ -26,14 +31,12 @@
                             </ng-template>
                         </ngb-tab>
                         <ngb-tab title="Slides">
-                            <ng-template ngbTabContent>
+                            <ng-template ngbTabContent  class="bg-transparent">
                                 <!-- Sliderbox-->
-                                <div class="card border-0 bg-light">
-                                    <div class="row justify-content-center pt-5 pb-5 mt-4">
-                                        <jhi-slide-selector [slides]="slides">
-                                        </jhi-slide-selector>
-                                    </div>
-                                </div>
+                                <jhi-slide-selector [slides]="slides" (slideSelected)="onSlideSelected($event)">
+                                </jhi-slide-selector>
+                                <hr>
+                                <jhi-tilebox [tiles]="home.slides" [showSelected]="true" (tileSelected)="onSlideSelected($event)" [title]="home.header"></jhi-tilebox>
                             </ng-template>
                         </ngb-tab>
                         <ngb-tab title="Portfolio">
@@ -61,7 +64,7 @@
                         </ngb-tab>
                     </ngb-tabset>
                 </div>
-                <div class="card-footer bg-secondary text-right">
+                <div class="card-footer bg-dark text-right">
                     <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                         <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                     </button>

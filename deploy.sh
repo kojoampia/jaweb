@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#@Author: Kojo Ampia-Addison
+#@Email: kojo.ampia@jojoaddison.net
+#@Description: Bash Deployment Script
+
 # Clean Build
 build(){
 mvn -Pprod clean package -DskipTests

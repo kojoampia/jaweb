@@ -2,7 +2,7 @@ import { OnInit, Input, Component, EventEmitter, Output } from '@angular/core';
 @Component({
     selector: 'jhi-tilebox',
     templateUrl: './tilebox.component.html',
-    styleUrls: ['./tilebox.component.css']
+    styleUrls: ['./tilebox.component.scss']
 })
 export class TileboxComponent implements OnInit {
     @Input() config: {};

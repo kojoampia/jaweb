@@ -2,67 +2,66 @@
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="page-editor">
-                <div class="card border-0">
+                <div class="card bg-dark border-0">
                     <div class="card-header bg-primary">
                         <h2 id="jhi-information-heading">Create or edit a Information</h2>
                     </div>
                     <div class="card-body bg-dark">
-                        <div class="row justify-content-center">
-                            <div class="col-8">
-                                <div>
-                                    <jhi-alert-error></jhi-alert-error>
-                                    <div class="form-group" [hidden]="!information.id">
-                                        <label for="id">ID</label>
-                                        <input type="text" class="form-control" id="id" name="id"
-                                            [(ngModel)]="information.id" readonly />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="field_title">Title</label>
-                                        <input type="text" class="form-control" name="title" id="field_title"
-                                            [(ngModel)]="information.title" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="field_content">Content</label>
-                                        <input type="text" class="form-control" name="content" id="field_content"
-                                            [(ngModel)]="information.content" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="field_brief">Brief</label>
-                                        <input type="text" class="form-control" name="brief" id="field_brief"
-                                            [(ngModel)]="information.brief" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="field_linkText">Link Text</label>
-                                        <input type="text" class="form-control" name="linkText" id="field_linkText"
-                                            [(ngModel)]="information.linkText" />
-                                    </div>
+                        <div>
+                            <jhi-alert-error></jhi-alert-error>
+                            <!--
+                            <div class="form-group" [hidden]="!information.id">
+                                <label for="id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id"
+                                    [(ngModel)]="information.id" readonly />
+                            </div>
+                            -->
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_title">Title</label>
+                                <input type="text" class="form-control" name="title" id="field_title"
+                                    [(ngModel)]="information.title" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_content">Content</label>
+                                <input type="text" class="form-control" name="content" id="field_content"
+                                    [(ngModel)]="information.content" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_brief">Brief</label>
+                                <input type="text" class="form-control" name="brief" id="field_brief"
+                                    [(ngModel)]="information.brief" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_linkText">Link Text</label>
+                                <input type="text" class="form-control" name="linkText" id="field_linkText"
+                                    [(ngModel)]="information.linkText" />
+                            </div>
 
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="field_home">Home</label>
-                                        <select class="form-control" id="field_home" name="home"
-                                            [(ngModel)]="information.home">
-                                            <option [ngValue]="null"></option>
-                                            <option
-                                                [ngValue]="homeOption.id === information.home?.id ? information.home : homeOption"
-                                                *ngFor="let homeOption of homes; trackBy: trackHomeById">
-                                                {{homeOption.id}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button type="button" id="cancel-save" class="btn btn-secondary"
-                                        (click)="previousState()">
-                                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                                    </button>
-                                    <button type="submit" id="save-entity"
-                                        [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                                    </button>
-                                </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_home">Home</label>
+                                <select class="form-control" id="field_home" name="home"
+                                    [(ngModel)]="information.home">
+                                    <option [ngValue]="null"></option>
+                                    <option
+                                        [ngValue]="homeOption.id === information.home?.id ? information.home : homeOption"
+                                        *ngFor="let homeOption of homes; trackBy: trackHomeById">
+                                        {{homeOption.id}}</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-footer bg-transparent text-right">
+                        <button type="button" id="cancel-save" class="btn btn-secondary"
+                            (click)="previousState()">
+                            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                        </button>
+                        <button type="submit" id="save-entity"
+                            [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </form>
