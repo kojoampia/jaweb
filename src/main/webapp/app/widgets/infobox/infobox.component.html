@@ -8,9 +8,14 @@
         </div>
         <div class="card-link border-0 text-right" *ngIf="!showMore">
                 <button class="btn btn-primary btn-md" (click)="toggleShowMore()" >
-                    <fa-icon [icon]="'eye-open'"></fa-icon>&nbsp;<span>learn more...</span>
+                    <fa-icon [icon]="'eye'"></fa-icon>&nbsp;<span>learn more...</span>
                 </button>
         </div>
+        <div class="card-link border-0 text-right" *ngIf="showMore">
+            <button class="btn btn-primary btn-md" (click)="toggleShowMore()" >
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hide</span>
+            </button>
+    </div>
     </div>
 </div>
 <div class="card info-theme ml-auto mr-auto" *ngIf="showMore">

@@ -69,7 +69,10 @@ import {
     faTools,
     faToolbox,
     faUserCog,
-    faUsersCog
+    faUsersCog,
+    faHandScissors,
+    faHandSpock,
+    faPrayingHands
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -136,5 +139,9 @@ library.add(faTools);
 library.add(faToolbox);
 library.add(faUserCog);
 library.add(faUsersCog);
+library.add(faHandPointer);
+library.add(faHandScissors);
+library.add(faHandSpock);
+library.add(faPrayingHands);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
