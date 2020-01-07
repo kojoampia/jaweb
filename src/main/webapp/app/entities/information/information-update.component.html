@@ -1,5 +1,5 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" *ngIf="information">
         <div class="col-8">
             <div class="page-editor">
                 <div class="card bg-dark border-0">
@@ -22,31 +22,12 @@
                                     [(ngModel)]="information.title" />
                             </div>
                             <div class="form-group">
-                                <label class="form-control-label" for="field_content">Content</label>
-                                <input type="text" class="form-control" name="content" id="field_content"
-                                    [(ngModel)]="information.content" />
-                            </div>
-                            <div class="form-group">
                                 <label class="form-control-label" for="field_brief">Brief</label>
                                 <input type="text" class="form-control" name="brief" id="field_brief"
                                     [(ngModel)]="information.brief" />
                             </div>
                             <div class="form-group">
-                                <label class="form-control-label" for="field_linkText">Link Text</label>
-                                <input type="text" class="form-control" name="linkText" id="field_linkText"
-                                    [(ngModel)]="information.linkText" />
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-control-label" for="field_home">Home</label>
-                                <select class="form-control" id="field_home" name="home"
-                                    [(ngModel)]="information.home">
-                                    <option [ngValue]="null"></option>
-                                    <option
-                                        [ngValue]="homeOption.id === information.home?.id ? information.home : homeOption"
-                                        *ngFor="let homeOption of homes; trackBy: trackHomeById">
-                                        {{homeOption.id}}</option>
-                                </select>
+                                <jhi-editor [name]="'content'" [content]="information.content" (onDataChanged)="setContentChanged($event)"></jhi-editor>
                             </div>
                         </div>
                     </div>

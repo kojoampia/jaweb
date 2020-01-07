@@ -42,10 +42,14 @@ Navbar
     ul.navbar-nav {
         color: #005825;
         z-index: 100;
+        padding-left: 10px;
+        padding-right: 10px;
         .nav-item {
             z-index: 100;
             margin-left: 0.5em;
             color: #005825;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
     }
 

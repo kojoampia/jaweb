@@ -6,7 +6,7 @@ export interface IInformation {
     title?: string;
     brief?: string;
     linkText?: string;
-    home?: IHome;
+    link?: string;
 }
 
 export class Information implements IInformation {
@@ -16,6 +16,6 @@ export class Information implements IInformation {
         public title?: string,
         public brief?: string,
         public linkText?: string,
-        public home?: IHome
+        public link?: string
     ) {}
 }

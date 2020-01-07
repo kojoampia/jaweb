@@ -1,42 +1,20 @@
-<div class="home">
-    <!--Information Box-->
+<div class="home" *ngIf="loaded">
     <div class="row justify-content-center mt-1 mb-1 head-info bg-transparent">
-        <div class="container">
+        <div class="container text-center ml-auto mr-auto ">
+            <!--Information Box -->
             <jhi-infobox [info]="info"></jhi-infobox>
-        </div>
-    </div>
-    <!-- Sliderbox-->
-    <div class="row justify-content-center mt-1 mb-1 slidebox bg-transparent">
-        <div class="container">
-            <jhi-slider [slides]="slides"></jhi-slider>
-        </div>
-    </div>
-    <div class="row-fluid mt-0 viewbox bg-dark">
-        <div class="container" *ngIf="portfolios">
-            <!-- Portfolio-->
+            <!-- Sliderbox -->
+            <jhi-slider [width]="1200" [height]="620" [slides]="slides"></jhi-slider>
+            <!-- Portfolio -->
             <jhi-portfolio-viewer [portfolios]="portfolios">
-                </jhi-portfolio-viewer>
-        </div>
-    </div>
-
-    <div class="row-fluid mt-0 bg-secondary viewbox ">
-        <div class="container" *ngIf="services">
-            <!-- Services-->
+            </jhi-portfolio-viewer>
+            <!-- Services -->
             <jhi-service-viewer [services]="services">
-                </jhi-service-viewer>
-        </div>
-    </div>
-
-    <div class="row-fluid mt-0 bg-info viewbox">
-        <div class="container" *ngIf="partners">
-            <!-- Partner-->
+            </jhi-service-viewer>
+            <!-- Partner -->
             <jhi-partner-viewer [partners]="partners">
-                </jhi-partner-viewer>
-        </div>
-    </div>
-
-    <div class="container mt-3">
-        <div id="home-table-inner-container" id="home-table-container">
+            </jhi-partner-viewer>
+            <!-- Footer -->
             <jhi-footer></jhi-footer>
         </div>
     </div>

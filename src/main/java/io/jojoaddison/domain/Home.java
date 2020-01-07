@@ -58,6 +58,9 @@ public class Home implements Serializable {
     @DBRef
     @Field("information")
     private Information information;
+    @DBRef
+    @Field("partners")
+    private Set<Partner> partners = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -262,6 +265,29 @@ public class Home implements Serializable {
 
     public void setInformation(Information information) {
         this.information = information;
+    }
+
+    public Set<Partner> getPartners() {
+        return partners;
+    }
+
+    public Home partners(Set<Partner> partners) {
+        this.partners = partners;
+        return this;
+    }
+
+    public Home addPartner(Partner partner) {
+        this.partners.add(partner);
+        return this;
+    }
+
+    public Home removePartner(Partner partner) {
+        this.partners.remove(partner);
+        return this;
+    }
+
+    public void setPartners(Set<Partner> partners) {
+        this.partners = partners;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

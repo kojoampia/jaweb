@@ -5,7 +5,7 @@ import * as tinymce from 'tinymce';
 @Component({
     selector: 'jhi-editor',
     templateUrl: './editor.component.html',
-    styleUrls: ['./editor.component.css']
+    styleUrls: ['./editor.component.scss']
 })
 export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() elementId: String = 'editor';

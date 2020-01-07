@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Information implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 
@@ -32,9 +32,8 @@ public class Information implements Serializable {
     @Field("link_text")
     private String linkText;
 
-    @DBRef
-    @Field("home")
-    private Home home;
+    @Field("link")
+    private String link;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -97,17 +96,17 @@ public class Information implements Serializable {
         this.linkText = linkText;
     }
 
-    public Home getHome() {
-        return home;
+    public String getLink() {
+        return link;
     }
 
-    public Information home(Home home) {
-        this.home = home;
+    public Information link(String link) {
+        this.link = link;
         return this;
     }
 
-    public void setHome(Home home) {
-        this.home = home;
+    public void setLink(String link) {
+        this.link = link;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -139,6 +138,7 @@ public class Information implements Serializable {
             ", title='" + getTitle() + "'" +
             ", brief='" + getBrief() + "'" +
             ", linkText='" + getLinkText() + "'" +
+            ", link='" + getLink() + "'" +
             "}";
     }
 }

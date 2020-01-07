@@ -18,11 +18,14 @@ cd ../../
 # Deploy to test
 totest(){
 ./mvnw -Pdev clean package -DskipTests
-cp target/jojoaddison.war dist/jojoaddison.jar
-cd target/www
-tar -czf ../../dist/jojoaddison.tar.gz .
-cd ../../
-scp dist/jojoaddison* root@host.gahano.at:/var/www/vhosts/jojoaddison.net/dev.jojoaddison.net/.
+rm -fr dist/*
+mv target/jojoaddison.war dist/jojoaddison.jar
+mv target/www dist/.
+cd dist/www
+touch ../jojoaddison.tar.gz
+tar -czf ../jojoaddison.tar.gz .
+cd ../
+scp jojoaddison* root@host.gahano.at:/var/www/vhosts/jojoaddison.net/dev/.
 }
 
 # Deploy to prod

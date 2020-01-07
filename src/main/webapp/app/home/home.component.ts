@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
     @LocalStorage() partners: any[];
     @LocalStorage() portfolios: IPortfolio[];
     @LocalStorage() services: IService[];
+    loaded = false;
 
     info: any = {
         title: 'Specialists, Implementors, Innovators...',
@@ -59,6 +60,7 @@ export class HomeComponent implements OnInit {
     }
 
     loadHome() {
+        this.loaded = false;
         this.homeService.getCurrent().subscribe(res => {
             this.currentHome = null;
             this.slides = null;
@@ -70,11 +72,13 @@ export class HomeComponent implements OnInit {
                 this.currentHome = res.body;
                 console.log(this.currentHome);
                 if (this.currentHome) {
+                    this.info = this.currentHome.information;
                     this.slides = this.currentHome.slides;
-                    this.services = this.currentHome.services;
                     this.portfolios = this.currentHome.portfolios;
+                    this.services = this.currentHome.services;
                 }
-            }, 2000);
+                this.loaded = true;
+            }, 20);
         });
     }
 

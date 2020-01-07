@@ -4,6 +4,7 @@ import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { IService } from 'app/shared/model/service.model';
 import { IBlog } from 'app/shared/model/blog.model';
 import { IInformation } from 'app/shared/model/information.model';
+import { IPartner } from './partner.model';
 
 export interface IHome {
     id?: string;
@@ -18,6 +19,7 @@ export interface IHome {
     portfolios?: IPortfolio[];
     services?: IService[];
     blogs?: IBlog[];
+    partners?: IPartner[];
     information?: IInformation;
 }
 
@@ -35,7 +37,8 @@ export class Home implements IHome {
         public portfolios?: IPortfolio[],
         public services?: IService[],
         public blogs?: IBlog[],
-        public information?: IInformation
+        public information?: IInformation,
+        public partners?: IPartner[]
     ) {
         this.current = this.current || false;
     }

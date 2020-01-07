@@ -50,7 +50,6 @@
         }
     ],
     "dto": "no",
-    "searchEngine": "elasticsearch",
     "service": "no",
     "entityTableName": "partner",
     "databaseType": "mongodb",

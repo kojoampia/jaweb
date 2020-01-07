@@ -18,12 +18,9 @@ export class InformationUpdateComponent implements OnInit {
     information: IInformation;
     isSaving: boolean;
 
-    homes: IHome[];
-
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected informationService: InformationService,
-        protected homeService: HomeService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -31,16 +28,15 @@ export class InformationUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ information }) => {
             this.information = information;
+            if (this.information.content === undefined || this.information.content === null) {
+                this.information.content = '';
+            }
         });
-        this.homeService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IHome[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IHome[]>) => response.body)
-            )
-            .subscribe((res: IHome[]) => (this.homes = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
+    setContentChanged(data: string): void {
+        this.information.content = data;
+    }
     previousState() {
         window.history.back();
     }

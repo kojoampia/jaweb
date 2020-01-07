@@ -38,7 +38,6 @@
         }
     ],
     "dto": "no",
-    "searchEngine": "elasticsearch",
     "service": "no",
     "entityTableName": "slide",
     "databaseType": "mongodb",

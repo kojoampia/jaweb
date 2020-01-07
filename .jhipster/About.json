@@ -36,7 +36,6 @@
         }
     ],
     "dto": "no",
-    "searchEngine": "elasticsearch",
     "service": "no",
     "entityTableName": "about",
     "databaseType": "mongodb",

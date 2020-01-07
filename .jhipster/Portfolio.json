@@ -41,7 +41,6 @@
         }
     ],
     "dto": "no",
-    "searchEngine": "elasticsearch",
     "service": "no",
     "entityTableName": "portfolio",
     "jpaMetamodelFiltering": false,

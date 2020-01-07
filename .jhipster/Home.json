@@ -38,6 +38,13 @@
             "ownerSide": true,
             "otherEntityRelationshipName": "home",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "partners",
+            "otherEntityName": "partner",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "home",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [
@@ -71,7 +78,6 @@
         }
     ],
     "dto": "no",
-    "searchEngine": "elasticsearch",
     "service": "serviceClass",
     "entityTableName": "home",
     "databaseType": "mongodb",

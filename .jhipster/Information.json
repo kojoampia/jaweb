@@ -2,12 +2,6 @@
     "fluentMethods": true,
     "clientRootFolder": "",
     "relationships": [
-        {
-            "relationshipName": "home",
-            "otherEntityName": "home",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        }
     ],
     "fields": [
         {
@@ -25,10 +19,13 @@
         {
             "fieldName": "linkText",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "link",
+            "fieldType": "String"
         }
     ],
     "dto": "no",
-    "searchEngine": "elasticsearch",
     "service": "no",
     "entityTableName": "information",
     "databaseType": "mongodb",

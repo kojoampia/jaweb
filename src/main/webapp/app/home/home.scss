@@ -5,26 +5,14 @@ Main page styles
     position: relative;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 820px;
     margin: 0 auto;
-}
-#home-table-container {
-    height: 100%;
-    width: 100%;
     display: table;
-    border: none;
-}
-#home-table-inner-container {
-    vertical-align: bottom;
-    display: table-cell;
-    height: 100%;
-    border: none;
 }
 
 .head-info {
     opacity: 0.96;
     width: 100%;
+    text-align: center;
 }
 .slidebox {
     opacity: 0.96;
