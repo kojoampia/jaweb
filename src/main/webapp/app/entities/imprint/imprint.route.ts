@@ -12,6 +12,7 @@ import { ImprintDetailComponent } from './imprint-detail.component';
 import { ImprintUpdateComponent } from './imprint-update.component';
 import { ImprintDeletePopupComponent } from './imprint-delete-dialog.component';
 import { IImprint } from 'app/shared/model/imprint.model';
+import { ImprintListComponent } from './imprint-list.component';
 
 @Injectable({ providedIn: 'root' })
 export class ImprintResolve implements Resolve<IImprint> {
@@ -32,14 +33,26 @@ export class ImprintResolve implements Resolve<IImprint> {
 export const imprintRoute: Routes = [
     {
         path: '',
+        component: ImprintListComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: [],
+            defaultSort: 'modifiedDate,desc',
+            pageTitle: 'Legal Notice'
+        }
+    },
+    {
+        path: 'list',
         component: ImprintComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
         data: {
             authorities: ['ROLE_USER'],
-            defaultSort: 'id,asc',
-            pageTitle: 'Imprints'
+            defaultSort: 'modifiedDate,desc',
+            pageTitle: 'Legal Notice List'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -51,7 +64,7 @@ export const imprintRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Imprints'
+            pageTitle: 'Detail Legal Notice'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -63,7 +76,7 @@ export const imprintRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Imprints'
+            pageTitle: 'New Legal Notice'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +88,7 @@ export const imprintRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Imprints'
+            pageTitle: 'Edit Legal Notice'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -90,7 +103,7 @@ export const imprintPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Imprints'
+            pageTitle: 'Delete Legal Notice'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

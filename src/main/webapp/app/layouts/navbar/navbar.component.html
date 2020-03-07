@@ -77,10 +77,10 @@
                 </a>
             </li>
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+                <a class="nav-link" routerLink="imprint" (click)="collapseNavbar()">
                     <span>
                         <fa-icon icon="gavel"></fa-icon>
-                        <span>Imprint</span>
+                        <span>Legal Notice</span>
                     </span>
                 </a>
             </li>
@@ -112,59 +112,59 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
                     <li>
-                        <a class="dropdown-item" routerLink="home" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Home</span>
-                        </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" routerLink="blog" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Blog</span>
+                            <span>Manage blog</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="service" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Service</span>
+                            <span>Our services</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="portfolio" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Portfolio</span>
+                            <span>Our portfolio</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="about" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>About</span>
+                            <span>Manage infos about us</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="contact" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Contact</span>
+                            <span>Manage contact infos</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="imprint" routerLinkActive="active"
+                        <a class="dropdown-item" routerLink="imprint/list" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Imprint</span>
+                            <span>Manage legal notice</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="partner" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Partner</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="slide" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Slide</span>
+                            <span>Slides management</span>
                         </a>
                     </li>
                     <li>
@@ -175,10 +175,10 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="partner" routerLinkActive="active"
+                        <a class="dropdown-item" routerLink="home" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Partner</span>
+                            <span>Manage home</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

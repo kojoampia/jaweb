@@ -1,87 +1,84 @@
-<div>
-    <h2 id="page-heading">
-        <span>Imprints</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-imprint" [routerLink]="['/imprint/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
-            Create new Imprint
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
+<div class="page-editor ml-5 mr-5">
+        <div class="card border-0 bg-transparent" *ngIf="!imprints || imprints.length == 0">
+            <h2 id="page-heading">
+                <span>Imprints</span>
+                <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-imprint"
+                    [routerLink]="['/imprint/new']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                    <span class="hidden-sm-down">
+                        Create new Imprint
+                    </span>
+                </button>
+            </h2>
+            <jhi-alert></jhi-alert>
         </div>
-    </div>
-    <br/>
-    <div class="table-responsive" *ngIf="imprints">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="content"><span>Content</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="slides"><span>Slides</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdDate"><span>Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedDate"><span>Modified Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="lastModifiedBy"><span>Last Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let imprint of imprints ;trackBy: trackId">
-                <td><a [routerLink]="['/imprint', imprint.id, 'view' ]">{{imprint.id}}</a></td>
-                <td>{{imprint.title}}</td>
-                <td>{{imprint.content}}</td>
-                <td>{{imprint.slides}}</td>
-                <td>{{imprint.createdDate | date:'medium'}}</td>
-                <td>{{imprint.modifiedDate | date:'medium'}}</td>
-                <td>{{imprint.lastModifiedBy}}</td>
-                <td class="text-right">
+    <div class="card" *ngFor="let imprint of imprints ;trackBy: trackId">
+        <div class="card-body" *ngIf="imprints && imprints.length > 0">
+            <div>
+                <div class="card-title">
+                    <span>{{imprint.title}}</span>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <!--Content-->
+
+                    </div>
+                    <div class="col-4">
+                        <!--Slides-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-4 text-left">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Created Date</span></dt>
+                        <dd>
+                            <span>{{imprint.createdDate}}</span>
+                        </dd>
+                        <dt><span>Modified Date</span></dt>
+                        <dd>
+                            <span>{{imprint.modifiedDate}}</span>
+                        </dd>
+                        <dt><span>Last Modified By</span></dt>
+                        <dd>
+                            <span>{{imprint.lastModifiedBy}}</span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/imprint', imprint.id, 'view' ]"
-                                class="btn btn-info btn-sm">
+                        <button type="submit" [routerLink]="['/imprint', imprint.id, 'view' ]"
+                            class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/imprint', imprint.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                        <button type="submit" [routerLink]="['/imprint', imprint.id, 'edit']"
+                            class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'imprint', { outlets: { popup: imprint.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
+                            [routerLink]="['/', 'imprint', { outlets: { popup: imprint.id + '/delete'} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
                         </button>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div *ngIf="imprints && imprints.length">
+    <div class="card bg-transparent border-0" *ngIf="imprints && imprints.length">
         <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+            </jhi-item-count>
         </div>
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
 </div>

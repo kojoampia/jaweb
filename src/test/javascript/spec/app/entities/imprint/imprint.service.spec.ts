@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Imprint('ID', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, 'AAAAAAA');
+            elemDefault = new Imprint('ID', 'AAAAAAA', 'AAAAAAA', [], currentDate, currentDate, 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -75,7 +75,7 @@ describe('Service Tests', () => {
                     {
                         title: 'BBBBBB',
                         content: 'BBBBBB',
-                        slides: 'BBBBBB',
+                        slides: [],
                         createdDate: currentDate.format(DATE_TIME_FORMAT),
                         modifiedDate: currentDate.format(DATE_TIME_FORMAT),
                         lastModifiedBy: 'BBBBBB'
@@ -103,7 +103,7 @@ describe('Service Tests', () => {
                     {
                         title: 'BBBBBB',
                         content: 'BBBBBB',
-                        slides: 'BBBBBB',
+                        slides: [],
                         createdDate: currentDate.format(DATE_TIME_FORMAT),
                         modifiedDate: currentDate.format(DATE_TIME_FORMAT),
                         lastModifiedBy: 'BBBBBB'

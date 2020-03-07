@@ -13,7 +13,8 @@ import { ImprintService } from './imprint.service';
 
 @Component({
     selector: 'jhi-imprint',
-    templateUrl: './imprint.component.html'
+    templateUrl: './imprint.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ImprintComponent implements OnInit, OnDestroy {
     currentAccount: any;

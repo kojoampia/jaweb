@@ -19,6 +19,12 @@ export class ImprintService {
 
     constructor(protected http: HttpClient) {}
 
+    getCurrent(): Observable<EntityResponseType> {
+        return this.http
+            .get<IImprint>(`${this.resourceUrl}/current`, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
     create(imprint: IImprint): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(imprint);
         return this.http

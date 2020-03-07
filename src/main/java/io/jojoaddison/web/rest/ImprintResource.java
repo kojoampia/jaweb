@@ -2,8 +2,10 @@ package io.jojoaddison.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +99,22 @@ public class ImprintResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/imprints");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    /**
+     * GET  /imprints/:id : get the "id" imprint.
+     *
+     * @param id the id of the imprint to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the imprint, or with status 404 (Not Found)
+     */
+    @GetMapping("/imprints/current")
+    public Imprint getCurrentImprint() {
+        log.debug("REST request to get current Imprint ");
+        List<Imprint> imprints = imprintRepository.findAll().stream()
+                                                            .sorted(Comparator.comparing(Imprint::getModifiedDate, Comparator.reverseOrder()))
+                                                            .collect(Collectors.toList());
+        return imprints.get(0);
+    }
+
 
     /**
      * GET  /imprints/:id : get the "id" imprint.

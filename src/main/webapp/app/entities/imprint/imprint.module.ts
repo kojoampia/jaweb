@@ -9,7 +9,8 @@ import {
     ImprintDeletePopupComponent,
     ImprintDeleteDialogComponent,
     imprintRoute,
-    imprintPopupRoute
+    imprintPopupRoute,
+    ImprintListComponent
 } from './';
 
 const ENTITY_STATES = [...imprintRoute, ...imprintPopupRoute];
@@ -21,9 +22,16 @@ const ENTITY_STATES = [...imprintRoute, ...imprintPopupRoute];
         ImprintDetailComponent,
         ImprintUpdateComponent,
         ImprintDeleteDialogComponent,
+        ImprintDeletePopupComponent,
+        ImprintListComponent
+    ],
+    entryComponents: [
+        ImprintListComponent,
+        ImprintComponent,
+        ImprintUpdateComponent,
+        ImprintDeleteDialogComponent,
         ImprintDeletePopupComponent
     ],
-    entryComponents: [ImprintComponent, ImprintUpdateComponent, ImprintDeleteDialogComponent, ImprintDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonImprintModule {}
