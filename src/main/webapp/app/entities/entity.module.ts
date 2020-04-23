@@ -10,9 +10,12 @@ import { JojoaddisonImprintModule } from './imprint/imprint.module';
 import { JojoaddisonContactModule } from './contact/contact.module';
 import { JojoaddisonBlogModule } from './blog/blog.module';
 import { JojoaddisonAboutModule } from './about/about.module';
+import { WidgetsModule } from 'app/widgets/widgets.module';
+import { TinyEditorComponent } from 'app/widgets';
 
 @NgModule({
     imports: [
+        WidgetsModule,
         RouterModule.forChild([
             {
                 path: 'slide',
@@ -76,7 +79,7 @@ import { JojoaddisonAboutModule } from './about/about.module';
         JojoaddisonAboutModule
     ],
     declarations: [],
-    entryComponents: [],
+    entryComponents: [TinyEditorComponent],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

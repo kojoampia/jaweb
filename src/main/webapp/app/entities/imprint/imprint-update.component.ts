@@ -21,9 +21,45 @@ export class ImprintUpdateComponent implements OnInit {
     createdDate: string;
     modifiedDate: string;
     slides: ISlide[];
+    tileConfig = {};
+    editorName = 'content';
 
     constructor(protected imprintService: ImprintService, protected activatedRoute: ActivatedRoute, private slideService: SlideService) {
         this.slides = [];
+        this.tileConfig = {
+            grid: { xs: 2, sm: 3, md: 3, lg: 4, all: 0 },
+            speed: 1000,
+            interval: 3000,
+            point: {
+                visible: true,
+                pointStyles: `
+                .ngxcarouselPoint {
+                list-style-type: none;
+                text-align: center;
+                padding: 12px;
+                margin: 0;
+                white-space: nowrap;
+                overflow: auto;
+                box-sizing: border-box;
+                }
+                .ngxcarouselPoint li {
+                display: inline-block;
+                border-radius: 50%;
+                border: 2px solid rgba(0, 0, 0, 0.55);
+                padding: 4px;
+                margin: 0 3px;
+                transition-timing-function: cubic-bezier(.17, .67, .83, .67);
+                transition: .4s;
+                }
+                .ngxcarouselPoint li.active {
+                    background: #6b6b6b;
+                    transform: scale(1.2);
+                }
+            `
+            },
+            load: 2,
+            touch: true
+        };
     }
 
     ngOnInit() {
@@ -36,6 +72,10 @@ export class ImprintUpdateComponent implements OnInit {
         this.slideService.query().subscribe(res => {
             this.slides = res.body;
         });
+    }
+
+    setContentChanged(data: string): void {
+        this.imprint.content = data;
     }
 
     remSlideSelected(slide: ISlide) {
@@ -75,5 +115,19 @@ export class ImprintUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    onSlideSelected(item: ISlide) {
+        console.log('slides');
+        if (!this.imprint.slides) {
+            this.imprint.slides = [];
+        }
+        const slideIndex = this.imprint.slides.findIndex(slide => slide.id === item.id);
+        if (slideIndex < 0) {
+            this.imprint.slides.push(item);
+        } else {
+            this.imprint.slides.splice(slideIndex, 1);
+        }
+        console.log(this.imprint.slides);
     }
 }

@@ -1,0 +1,70 @@
+version: '2'
+services:
+  jac_es_1:
+     image: elasticsearch:7.6.0
+     container_name: jac_es_1
+     volumes:
+       - data01:/usr/share/elasticsearch/data/
+     ports:
+       - 9200:9200
+     environment:
+       - node.name=jac_es_1
+       - cluster.name=jac_es_docker_cluster
+       - discovery.seed_hosts=jac_es_2,jac_es_3
+       - cluster.initial_master_nodes=jac_es_1,jac_es_2,jac_es_3
+       - bootstrap.memory_lock=true
+       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+     ulimits:
+       memlock:
+         soft: -1
+         hard: -1
+     networks:
+       - jac_elastic
+  jac_es_2:
+     image: elasticsearch:7.6.0
+     container_name: jac_es_2
+     volumes:
+       - data02:/usr/share/elasticsearch/data/
+     environment:
+       - node.name=jac_es_2
+       - cluster.name=jac_es_docker_cluster
+       - discovery.seed_hosts=jac_es_1,jac_es_3
+       - cluster.initial_master_nodes=jac_es_1,jac_es_2,jac_es_3
+       - bootstrap.memory_lock=true
+       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+     ulimits:
+       memlock:
+         soft: -1
+         hard: -1
+     networks:
+       - jac_elastic
+  jac_es_3:
+     image: elasticsearch:7.6.0
+     container_name: jac_es_3
+     volumes:
+       - data03:/usr/share/elasticsearch/data/
+     environment:
+       - node.name=jac_es_3
+       - cluster.name=jac_es_docker_cluster
+       - discovery.seed_hosts=jac_es_1,jac_es_2
+       - cluster.initial_master_nodes=jac_es_1,jac_es_2,jac_es_3
+       - bootstrap.memory_lock=true
+       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+     ulimits:
+       memlock:
+         soft: -1
+         hard: -1
+     networks:
+       - jac_elastic
+
+volumes:
+   data01:
+     driver: local
+   data02:
+     driver: local
+   data03:
+     driver: local
+
+networks:
+   jac_elastic:
+     driver: bridge

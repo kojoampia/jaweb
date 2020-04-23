@@ -27,10 +27,10 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://localhost:27017
+            uri: mongodb://0.0.0.0:27017
             database: jojoaddison
         jest:
-            uri: http://localhost:9200
+            uri: http://0.0.0.0:9200
     mail:
         host: localhost
         port: 25

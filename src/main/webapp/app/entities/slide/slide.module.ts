@@ -12,13 +12,19 @@ import {
     slideRoute,
     slidePopupRoute
 } from './';
-import { WidgetsModule } from 'app/widgets/widgets.module';
 
-const ENTITY_STATES = [...slideRoute, ...slidePopupRoute];
+const SLIDE_STATES = [...slideRoute, ...slidePopupRoute];
 
 @NgModule({
-    imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES), WidgetsModule],
-    declarations: [SlideComponent, SlideListComponent, SlideDetailComponent, SlideUpdateComponent, SlideDeleteDialogComponent, SlideDeletePopupComponent],
+    imports: [JojoaddisonSharedModule, RouterModule.forChild(SLIDE_STATES)],
+    declarations: [
+        SlideComponent,
+        SlideListComponent,
+        SlideDetailComponent,
+        SlideUpdateComponent,
+        SlideDeleteDialogComponent,
+        SlideDeletePopupComponent
+    ],
     entryComponents: [SlideComponent, SlideListComponent, SlideUpdateComponent, SlideDeleteDialogComponent, SlideDeletePopupComponent],
     exports: [SlideListComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

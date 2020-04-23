@@ -1,17 +1,19 @@
 <div class="page-editor ml-auto mr-auto w-50">
     <div class="card bg-transparent border-0">
         <div class="card-header">
-                <h2 id="jhi-imprint-heading">Create or edit a Imprint</h2>
+                <h2 id="jhi-imprint-heading">Legal Notice Management</h2>
         </div>
         <div class="card-body">
             <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                 <div>
                     <jhi-alert-error></jhi-alert-error>
+                    <!--
                     <div class="form-group" [hidden]="!imprint.id">
                         <label for="id">ID</label>
                         <input type="text" class="form-control" id="id" name="id"
                             [(ngModel)]="imprint.id" readonly />
                     </div>
+                    -->
                     <div class="form-group">
                         <label class="form-control-label" for="field_title">Title</label>
                         <input type="text" class="form-control" name="title" id="field_title"
@@ -19,14 +21,19 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="field_content">Content</label>
+                        <!--
                         <input type="text" class="form-control" name="content" id="field_content"
                             [(ngModel)]="imprint.content" />
+                        -->
+                        <jhi-editor [name]="'content'" [theme]="'silver'" [content]="imprint.content" (onDataChanged)="setContentChanged($event)"></jhi-editor>
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="field_slides">Slides</label>
-                        <jhi-slide-list [slides]="imprint.slides" (slideSelected)="remSlideSelected($event)"></jhi-slide-list>
-                        <h3>Slides to select from</h3>
-                        <jhi-slide-list [slides]="slides" (slideSelected)="addSlideSelected($event)"></jhi-slide-list>
+                        <!-- Sliderbox-->
+                        <jhi-slide-selector [slides]="slides" (slideSelected)="onSlideSelected($event)" >
+                        </jhi-slide-selector>
+                        <hr>
+                        <jhi-tilebox [tiles]="imprint.slides" (tileSelected)="onSlideSelected($event)" [title]="imprint.title"></jhi-tilebox>
                     </div>
 
                 </div>

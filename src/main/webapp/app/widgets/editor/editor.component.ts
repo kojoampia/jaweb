@@ -8,10 +8,10 @@ import * as tinymce from 'tinymce';
     styleUrls: ['./editor.component.scss']
 })
 export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
-    @Input() elementId: String = 'editor';
+    @Input() elementId = 'editor';
     @Input() tmHeight = 250;
     @Input() content: String;
-    @Input() name: String;
+    @Input() name = 'content';
     editor: any;
     @Input() baseUrl = '/content/tinymce/';
     @Output() onDataChanged = new EventEmitter<any>();
@@ -19,17 +19,20 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() onKeyup = new EventEmitter<any>();
     isLoading = false;
     @Input() config: {};
+    @Input() theme = 'modern';
 
     constructor(private cd: ChangeDetectorRef) {
         this.editor = null;
         this.config = {
-            baseURL: this.baseUrl,
-            selector: '#' + this.elementId,
-            plugins: ['link', 'paste', 'table', 'image', 'codesample', 'lists', 'imagetools', 'fullscreen', 'fullpage'],
+            menubar: false,
+            theme: this.theme,
+            base_url: this.baseUrl,
             skin_url: this.baseUrl + 'skins/lightgray',
+            selector: 'textarea',
+            plugins: ['link', 'paste', 'table', 'image', 'codesample', 'lists', 'imagetools', 'fullscreen', 'fullpage', 'preview'],
             min_height: this.tmHeight,
             toolbar_items_size: 'small',
-            toolbar: ['fontselect, fontsizeselect, bold, italic, paste, numlist bullist, link, table, image, codesample, source'],
+            toolbar: ['fontselect fontsizeselect bold italic | copy cut paste | numlist bullist | link table image | codesample source'],
             codesample_languages: [
                 { text: 'HTML/XML', value: 'markup' },
                 { text: 'JavaScript', value: 'javascript' },
@@ -64,16 +67,18 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             ],
             style_formats_merge: true,
             branding: false,
-            file_picker_callback: (callback, value, meta) => this.fileUploadCallback(callback, meta),
-            setup: editor => this.setup(editor)
+            file_picker_callback: (callback: any, value: any, meta: any) => this.fileUploadCallback(callback, meta),
+            setup: (editor: any) => this.setup(editor)
         };
     }
 
     ngOnInit() {}
 
     ngAfterViewInit() {
-        tinymce.baseURL = this.baseUrl;
+        // tinymce.baseURL = this.baseUrl;
+        console.log('tinymce.baseURL: ' + tinymce.baseURL);
         tinymce.init(this.config);
+        console.log('tinymce.baseURL: ' + tinymce.baseURL);
         if (this.editor !== null && typeof this.editor !== 'undefined') {
             const content = this.content == null ? '' : this.content;
             if (this.editor.initialized) {
@@ -83,10 +88,11 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        tinymce.remove(this.editor);
+        // tinymce.remove(this.editor);
+        delete this.editor;
     }
 
-    private fileUploadCallback(callback, meta) {
+    private fileUploadCallback(callback: (arg0: string | ArrayBuffer, arg1: { title: string }) => void, meta: { filetype: string }) {
         if (meta.filetype === 'image') {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');
@@ -122,13 +128,8 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    private setup(editor) {
+    private setup(editor: { on: (arg0: string, arg1: { (): void; (): void; (): void }) => void; getContent: () => String }) {
         this.editor = editor;
-        /**
-    console.log('<editor>');
-    console.log(this.editor);
-    console.log('</editor>');
-     */
         editor.on('blur', () => {
             this.content = editor.getContent();
             this.onDataBlur.emit(this.content);

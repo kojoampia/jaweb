@@ -4,5 +4,5 @@ services:
         image: mongo:4.0.2
         ports:
             - "27017:27017"
-        # volumes:
-        #     - ~/volumes/jhipster/jojoaddison/mongodb/:/data/db/
+        volumes:
+            - /d/tools/MongoDB/Server/4.0/data/:/data/db/

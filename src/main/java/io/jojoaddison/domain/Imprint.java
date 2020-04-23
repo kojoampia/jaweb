@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * A Imprint.
@@ -16,7 +18,7 @@ import java.util.Objects;
 public class Imprint implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 
@@ -27,7 +29,7 @@ public class Imprint implements Serializable {
     private String content;
 
     @Field("slides")
-    private String slides;
+    private Set<Slide> slides = new HashSet<>();
 
     @Field("created_date")
     private ZonedDateTime createdDate;
@@ -73,16 +75,16 @@ public class Imprint implements Serializable {
         this.content = content;
     }
 
-    public String getSlides() {
+    public Set<Slide> getSlides() {
         return slides;
     }
 
-    public Imprint slides(String slides) {
+    public Imprint slides(Set<Slide> slides) {
         this.slides = slides;
         return this;
     }
 
-    public void setSlides(String slides) {
+    public void setSlides(Set<Slide> slides) {
         this.slides = slides;
     }
 

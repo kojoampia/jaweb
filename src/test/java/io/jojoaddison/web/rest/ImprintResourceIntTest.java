@@ -3,6 +3,7 @@ package io.jojoaddison.web.rest;
 import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Imprint;
+import io.jojoaddison.domain.Slide;
 import io.jojoaddison.repository.ImprintRepository;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
@@ -24,6 +25,7 @@ import org.springframework.validation.Validator;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -37,6 +39,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Test class for the ImprintResource REST controller.
@@ -53,8 +57,8 @@ public class ImprintResourceIntTest {
     private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SLIDES = "AAAAAAAAAA";
-    private static final String UPDATED_SLIDES = "BBBBBBBBBB";
+    private static final Set<Slide> DEFAULT_SLIDES = new HashSet<>();
+    private static final Set<Slide> UPDATED_SLIDES = new HashSet<>();
 
     private static final ZonedDateTime DEFAULT_CREATED_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_CREATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
@@ -64,6 +68,30 @@ public class ImprintResourceIntTest {
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_URL = "AAAAAAAAAA";
+    private static final String UPDATED_URL = "BBBBBBBBBB";
+
+    private static final Instant SLIDE_DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant SLIDE_UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant SLIDE_DEFAULT_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant SLIDE_UPDATED_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     @Autowired
     private ImprintRepository imprintRepository;
@@ -103,6 +131,17 @@ public class ImprintResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Imprint createEntity() {
+        Slide slide = new Slide()
+            .title(DEFAULT_TITLE)
+            .description(DEFAULT_DESCRIPTION)
+            .url(DEFAULT_URL)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE)
+            .createdDate(SLIDE_DEFAULT_CREATED_DATE)
+            .modifiedDate(SLIDE_DEFAULT_MODIFIED_DATE)
+            .createdBy(DEFAULT_CREATED_BY)
+            .modifiedBy(DEFAULT_MODIFIED_BY);
+        DEFAULT_SLIDES.add(slide);
         Imprint imprint = new Imprint()
             .title(DEFAULT_TITLE)
             .content(DEFAULT_CONTENT)
@@ -178,7 +217,7 @@ public class ImprintResourceIntTest {
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())));
     }
-    
+
     @Test
     public void getImprint() throws Exception {
         // Initialize the database
@@ -210,6 +249,18 @@ public class ImprintResourceIntTest {
         imprintRepository.save(imprint);
 
         int databaseSizeBeforeUpdate = imprintRepository.findAll().size();
+
+        Slide slide = new Slide()
+            .title(UPDATED_TITLE)
+            .description(UPDATED_DESCRIPTION)
+            .url(UPDATED_URL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
+            .createdDate(SLIDE_UPDATED_CREATED_DATE)
+            .modifiedDate(SLIDE_UPDATED_MODIFIED_DATE)
+            .createdBy(UPDATED_CREATED_BY)
+            .modifiedBy(UPDATED_MODIFIED_BY);
+        UPDATED_SLIDES.add(slide);
 
         // Update the imprint
         Imprint updatedImprint = imprintRepository.findById(imprint.getId()).get();

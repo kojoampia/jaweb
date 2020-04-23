@@ -12,11 +12,14 @@ import {
     imprintPopupRoute,
     ImprintListComponent
 } from './';
+import { JojoaddisonSlideModule } from '../slide/slide.module';
+import { WidgetsModule } from 'app/widgets/widgets.module';
+import { SlideListComponent } from '../slide';
 
-const ENTITY_STATES = [...imprintRoute, ...imprintPopupRoute];
+const IMPRINT_STATES = [...imprintRoute, ...imprintPopupRoute];
 
 @NgModule({
-    imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [JojoaddisonSharedModule, RouterModule.forChild(IMPRINT_STATES)],
     declarations: [
         ImprintComponent,
         ImprintDetailComponent,
