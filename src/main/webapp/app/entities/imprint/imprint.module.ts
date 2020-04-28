@@ -19,7 +19,7 @@ import { SlideListComponent } from '../slide';
 const IMPRINT_STATES = [...imprintRoute, ...imprintPopupRoute];
 
 @NgModule({
-    imports: [JojoaddisonSharedModule, RouterModule.forChild(IMPRINT_STATES)],
+    imports: [JojoaddisonSharedModule, WidgetsModule, RouterModule.forChild(IMPRINT_STATES)],
     declarations: [
         ImprintComponent,
         ImprintDetailComponent,

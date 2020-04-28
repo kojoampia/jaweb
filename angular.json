@@ -7,7 +7,11 @@
             "root": "",
             "sourceRoot": "src/main/webapp",
             "projectType": "application",
-            "architect": {}
+            "architect": {
+                "options": {
+                    "scripts": ["node_modules/tinymce/tinymce.min.js", "node_modules/tinymce/themes/modern/theme.min.js"]
+                }
+            }
         }
     },
     "defaultProject": "jojoaddison",

@@ -18,34 +18,38 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() onDataBlur = new EventEmitter<any>();
     @Output() onKeyup = new EventEmitter<any>();
     isLoading = false;
-    @Input() config: {};
+    @Input() config: tinymce.Settings;
     @Input() theme = 'modern';
 
     constructor(private cd: ChangeDetectorRef) {
         this.editor = null;
+        this.init();
+    }
+
+    ngOnInit() {}
+
+    ngAfterViewInit() {
+      //  this.init();
+    }
+
+    ngOnDestroy() {
+        // tinymce.remove(this.editor);
+        delete this.editor;
+    }
+
+    init() {
+        // tinymce.baseURL = this.baseUrl;
         this.config = {
             menubar: false,
             theme: this.theme,
+            theme_url: this.theme + '/theme.min.js',
             base_url: this.baseUrl,
+            document_base_url: '/content',
             skin_url: this.baseUrl + 'skins/lightgray',
             selector: 'textarea',
             plugins: ['link', 'paste', 'table', 'image', 'codesample', 'lists', 'imagetools', 'fullscreen', 'fullpage', 'preview'],
             min_height: this.tmHeight,
-            toolbar_items_size: 'small',
             toolbar: ['fontselect fontsizeselect bold italic | copy cut paste | numlist bullist | link table image | codesample source'],
-            codesample_languages: [
-                { text: 'HTML/XML', value: 'markup' },
-                { text: 'JavaScript', value: 'javascript' },
-                { text: 'CSS', value: 'css' },
-                { text: 'PHP', value: 'php' },
-                { text: 'Ruby', value: 'ruby' },
-                { text: 'Python', value: 'python' },
-                { text: 'Java', value: 'java' },
-                { text: 'C', value: 'c' },
-                { text: 'C#', value: 'csharp' },
-                { text: 'C++', value: 'cpp' },
-                { text: 'Typescript', value: 'typescript' }
-            ],
             fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
             style_formats: [
                 {
@@ -70,26 +74,17 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             file_picker_callback: (callback: any, value: any, meta: any) => this.fileUploadCallback(callback, meta),
             setup: (editor: any) => this.setup(editor)
         };
-    }
-
-    ngOnInit() {}
-
-    ngAfterViewInit() {
-        // tinymce.baseURL = this.baseUrl;
+        console.log(this.config);
         console.log('tinymce.baseURL: ' + tinymce.baseURL);
         tinymce.init(this.config);
         console.log('tinymce.baseURL: ' + tinymce.baseURL);
+        console.log('tinymce.baseURL.theme: ' + this.theme);
         if (this.editor !== null && typeof this.editor !== 'undefined') {
             const content = this.content == null ? '' : this.content;
             if (this.editor.initialized) {
                 this.editor.setContent(content);
             }
         }
-    }
-
-    ngOnDestroy() {
-        // tinymce.remove(this.editor);
-        delete this.editor;
     }
 
     private fileUploadCallback(callback: (arg0: string | ArrayBuffer, arg1: { title: string }) => void, meta: { filetype: string }) {
