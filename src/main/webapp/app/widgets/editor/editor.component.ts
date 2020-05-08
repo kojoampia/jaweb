@@ -1,35 +1,62 @@
-import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, OnInit, ChangeDetectorRef } from '@angular/core';
-
-import * as tinymce from 'tinymce';
+import { Component, EventEmitter, OnDestroy, Input, Output, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'jhi-editor',
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.scss']
 })
-export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
-    @Input() elementId = 'editor';
+export class TinyEditorComponent implements OnInit, OnDestroy {
+    @Input() elementId = 'jac-editor';
     @Input() tmHeight = 250;
-    @Input() content: String;
     @Input() name = 'content';
+    @Input() theme = 'silver';
     editor: any;
-    @Input() baseUrl = '/content/tinymce/';
+    baseUrl = '/content/tinymce-4.9.0/';
     @Output() onDataChanged = new EventEmitter<any>();
     @Output() onDataBlur = new EventEmitter<any>();
     @Output() onKeyup = new EventEmitter<any>();
     isLoading = false;
-    @Input() config: tinymce.Settings;
-    @Input() theme = 'modern';
+    @Input() content: string;
+    @Input() config: any;
 
     constructor(private cd: ChangeDetectorRef) {
+        console.log('constructing editor...');
         this.editor = null;
-        this.init();
+        this.config = {
+            height: 250,
+            theme: 'modern',
+            // powerpaste advcode toc tinymcespellchecker a11ychecker mediaembed linkchecker help
+            plugins:
+                'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image imagetools link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists textcolor wordcount contextmenu colorpicker textpattern',
+            toolbar:
+                'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+            image_advtab: true,
+            imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
+            templates: [{ title: 'Test template 1', content: 'Test 1' }, { title: 'Test template 2', content: 'Test 2' }],
+            content_css: ['//fonts.googleapis.com/css?family=Lato:300,300i,400,400i', '//www.tinymce.com/css/codepen.min.css'],
+            style_formats_merge: true,
+            branding: false,
+            file_picker_callback: (callback: any, value: any, meta: any) => this.fileUploadCallback(callback, meta),
+            setup: (editor: any) => this.setup(editor),
+            init_instance_callback: (editor: any) => {
+                console.log('Editor: ' + editor.id + ' is now initialized.');
+            }
+        };
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        console.log('initing editor...');
+        console.log(this.config);
+        // this.configureEditor();
 
-    ngAfterViewInit() {
-      //  this.init();
+        if (!this.content) {
+            this.content = 'test content';
+        }
+    }
+
+    onReady(event: any) {
+        console.log('tinymce ready.');
+        console.log(event);
     }
 
     ngOnDestroy() {
@@ -37,16 +64,21 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         delete this.editor;
     }
 
-    init() {
-        // tinymce.baseURL = this.baseUrl;
+    configureEditor() {
+        const selectorId = '#' + this.elementId;
+        console.log('selectorID: ' + selectorId);
+        const themeSource = 'themes/' + this.theme;
+        const themeUrl = this.baseUrl + themeSource + '/theme.js';
+        console.log('themeURL: ' + themeUrl);
         this.config = {
+            height: 400,
             menubar: false,
             theme: this.theme,
-            theme_url: this.theme + '/theme.min.js',
+            theme_url: themeUrl,
             base_url: this.baseUrl,
-            document_base_url: '/content',
+            document_base_url: this.baseUrl,
             skin_url: this.baseUrl + 'skins/lightgray',
-            selector: 'textarea',
+            selector: selectorId,
             plugins: ['link', 'paste', 'table', 'image', 'codesample', 'lists', 'imagetools', 'fullscreen', 'fullpage', 'preview'],
             min_height: this.tmHeight,
             toolbar: ['fontselect fontsizeselect bold italic | copy cut paste | numlist bullist | link table image | codesample source'],
@@ -72,19 +104,12 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             style_formats_merge: true,
             branding: false,
             file_picker_callback: (callback: any, value: any, meta: any) => this.fileUploadCallback(callback, meta),
-            setup: (editor: any) => this.setup(editor)
-        };
-        console.log(this.config);
-        console.log('tinymce.baseURL: ' + tinymce.baseURL);
-        tinymce.init(this.config);
-        console.log('tinymce.baseURL: ' + tinymce.baseURL);
-        console.log('tinymce.baseURL.theme: ' + this.theme);
-        if (this.editor !== null && typeof this.editor !== 'undefined') {
-            const content = this.content == null ? '' : this.content;
-            if (this.editor.initialized) {
-                this.editor.setContent(content);
+            setup: (editor: any) => this.setup(editor),
+            // tslint:disable-next-line: object-literal-shorthand
+            init_instance_callback: (editor: any) => {
+                console.log('Editor: ' + editor.id + ' is now initialized.');
             }
-        }
+        };
     }
 
     private fileUploadCallback(callback: (arg0: string | ArrayBuffer, arg1: { title: string }) => void, meta: { filetype: string }) {
@@ -123,7 +148,7 @@ export class TinyEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    private setup(editor: { on: (arg0: string, arg1: { (): void; (): void; (): void }) => void; getContent: () => String }) {
+    private setup(editor: { on: (arg0: string, arg1: { (): void; (): void; (): void }) => void; getContent: () => string }) {
         this.editor = editor;
         editor.on('blur', () => {
             this.content = editor.getContent();

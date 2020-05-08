@@ -10,7 +10,7 @@ import {
     SidebarComponent,
     PiechartComponent,
     SlidesComponent,
-    SlideSelectorComponent,
+    SlideSelectorComponent
 } from './index';
 import { DocviewerComponent } from './docviewer/docviewer.component';
 import { DropDownBoxComponent } from './drop-down-box/ddb.component';
@@ -23,8 +23,19 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxCarouselModule } from 'ngx-carousel';
+import { NgxTinymceModule } from 'ngx-tinymce';
 @NgModule({
-    imports: [CommonModule, FormsModule, NgbModule, NgxChartsModule, NgxEchartsModule, NgxCarouselModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgbModule,
+        NgxChartsModule,
+        NgxEchartsModule,
+        NgxCarouselModule,
+        NgxTinymceModule.forRoot({
+            baseURL: '/content/tinymce-4.9.0/'
+        })
+    ],
     declarations: [
         TinyEditorComponent,
         TileboxComponent,
@@ -41,7 +52,7 @@ import { NgxCarouselModule } from 'ngx-carousel';
         SidebarComponent,
         PiechartComponent,
         SlidesComponent,
-        SlideSelectorComponent,
+        SlideSelectorComponent
     ],
     exports: [
         TinyEditorComponent,
