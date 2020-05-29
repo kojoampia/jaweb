@@ -2,6 +2,7 @@ package io.jojoaddison.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Portfolio;
 import io.jojoaddison.repository.PortfolioRepository;
+import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
@@ -58,6 +60,10 @@ public class PortfolioResource {
         if (portfolio.getId() != null) {
             throw new BadRequestAlertException("A new portfolio cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        portfolio.setCreatedDate(ZonedDateTime.now());
+        portfolio.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        portfolio.setModifiedDate(ZonedDateTime.now());
+        portfolio.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         Portfolio result = portfolioRepository.save(portfolio);
         return ResponseEntity.created(new URI("/api/portfolios/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -79,6 +85,8 @@ public class PortfolioResource {
         if (portfolio.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        portfolio.setModifiedDate(ZonedDateTime.now());
+        portfolio.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         Portfolio result = portfolioRepository.save(portfolio);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, portfolio.getId().toString()))

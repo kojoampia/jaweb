@@ -2,6 +2,7 @@ package io.jojoaddison.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Imprint;
 import io.jojoaddison.repository.ImprintRepository;
+import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
@@ -59,6 +61,9 @@ public class ImprintResource {
         if (imprint.getId() != null) {
             throw new BadRequestAlertException("A new imprint cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        imprint.setCreatedDate(ZonedDateTime.now());
+        imprint.setModifiedDate(ZonedDateTime.now());
+        imprint.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         Imprint result = imprintRepository.save(imprint);
         return ResponseEntity.created(new URI("/api/imprints/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -80,6 +85,8 @@ public class ImprintResource {
         if (imprint.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        imprint.setModifiedDate(ZonedDateTime.now());
+        imprint.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         Imprint result = imprintRepository.save(imprint);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, imprint.getId().toString()))

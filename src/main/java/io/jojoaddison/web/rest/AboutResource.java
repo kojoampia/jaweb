@@ -2,6 +2,7 @@ package io.jojoaddison.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.About;
 import io.jojoaddison.repository.AboutRepository;
+import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
@@ -57,6 +59,9 @@ public class AboutResource {
         if (about.getId() != null) {
             throw new BadRequestAlertException("A new about cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        about.setCreatedDate(ZonedDateTime.now());
+        about.setModifiedDate(ZonedDateTime.now());
+        about.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         About result = aboutRepository.save(about);
         return ResponseEntity.created(new URI("/api/abouts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -78,6 +83,8 @@ public class AboutResource {
         if (about.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        about.setModifiedDate(ZonedDateTime.now());
+        about.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         About result = aboutRepository.save(about);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, about.getId().toString()))
