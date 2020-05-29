@@ -10,13 +10,11 @@ import { JojoaddisonImprintModule } from './imprint/imprint.module';
 import { JojoaddisonContactModule } from './contact/contact.module';
 import { JojoaddisonBlogModule } from './blog/blog.module';
 import { JojoaddisonAboutModule } from './about/about.module';
-import { WidgetsModule } from 'app/widgets/widgets.module';
-import { TinyEditorComponent } from 'app/widgets';
-import { CareerComponent } from './career/career.component';
+import { JojoaddisonSharedCommonModule } from 'app/shared';
 
 @NgModule({
     imports: [
-        WidgetsModule,
+        JojoaddisonSharedCommonModule,
         RouterModule.forChild([
             {
                 path: 'home',
@@ -75,8 +73,8 @@ import { CareerComponent } from './career/career.component';
         JojoaddisonBlogModule,
         JojoaddisonAboutModule
     ],
-    declarations: [CareerComponent],
-    entryComponents: [TinyEditorComponent],
+    declarations: [],
+    entryComponents: [],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
