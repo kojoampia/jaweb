@@ -7,26 +7,38 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { BlogService } from './blog.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'jhi-blog-update',
-    templateUrl: './blog-update.component.html'
+    templateUrl: './blog-update.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class BlogUpdateComponent implements OnInit {
     blog: IBlog = new Blog();
     isSaving = false;
     createdDate = '';
     modifiedDate = '';
+    content: SafeHtml = '';
 
-    constructor(protected blogService: BlogService, protected activatedRoute: ActivatedRoute) {}
+    constructor(protected blogService: BlogService, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ blog }) => {
             this.blog = blog;
+            this.updateContent(blog.content);
             this.createdDate = this.blog.createdDate != null ? this.blog.createdDate.format(DATE_TIME_FORMAT) : '';
             this.modifiedDate = this.blog.modifiedDate != null ? this.blog.modifiedDate.format(DATE_TIME_FORMAT) : '';
         });
+    }
+
+    setContentChanged(data: string): void {
+        this.blog.content = data;
+    }
+
+    updateContent(data: string): void {
+        this.content = this.domSanitizer.bypassSecurityTrustHtml(data);
     }
 
     previousState() {

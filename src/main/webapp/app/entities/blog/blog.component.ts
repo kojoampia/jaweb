@@ -13,7 +13,8 @@ import { BlogService } from './blog.service';
 
 @Component({
     selector: 'jhi-blog',
-    templateUrl: './blog.component.html'
+    templateUrl: './blog.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class BlogComponent implements OnInit, OnDestroy {
     currentAccount: any;

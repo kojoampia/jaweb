@@ -9,7 +9,8 @@ import { BlogService } from './blog.service';
 
 @Component({
     selector: 'jhi-blog-delete-dialog',
-    templateUrl: './blog-delete-dialog.component.html'
+    templateUrl: './blog-delete-dialog.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class BlogDeleteDialogComponent {
     blog: IBlog = new Blog();
