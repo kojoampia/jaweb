@@ -11,6 +11,7 @@ import {
     serviceRoute,
     servicePopupRoute
 } from './';
+import { ServiceViewComponent } from './service-view.component';
 
 const ENTITY_STATES = [...serviceRoute, ...servicePopupRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...serviceRoute, ...servicePopupRoute];
         ServiceDetailComponent,
         ServiceUpdateComponent,
         ServiceDeleteDialogComponent,
-        ServiceDeletePopupComponent
+        ServiceDeletePopupComponent,
+        ServiceViewComponent
     ],
     entryComponents: [ServiceComponent, ServiceUpdateComponent, ServiceDeleteDialogComponent, ServiceDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
