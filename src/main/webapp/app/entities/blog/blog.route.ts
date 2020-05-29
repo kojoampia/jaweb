@@ -12,6 +12,7 @@ import { BlogDetailComponent } from './blog-detail.component';
 import { BlogUpdateComponent } from './blog-update.component';
 import { BlogDeletePopupComponent } from './blog-delete-dialog.component';
 import { IBlog } from 'app/shared/model/blog.model';
+import { BlogViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class BlogResolve implements Resolve<IBlog> {
@@ -32,6 +33,19 @@ export class BlogResolve implements Resolve<IBlog> {
 export const blogRoute: Routes = [
     {
         path: '',
+        component: BlogViewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Blogs'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: BlogComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

@@ -1,0 +1,70 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
+
+import { ICareer, Career } from 'app/shared/model/career.model';
+import { CareerService } from './career.service';
+
+@Component({
+    selector: 'jhi-career-delete-dialog',
+    templateUrl: './career-delete-dialog.component.html'
+})
+export class CareerDeleteDialogComponent {
+    career: ICareer = new Career();
+
+    constructor(protected careerService: CareerService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {
+        delete this.career;
+    }
+
+    clear() {
+        this.activeModal.dismiss('cancel');
+    }
+
+    confirmDelete(id: string) {
+        this.careerService.delete(id).subscribe(response => {
+            this.eventManager.broadcast({
+                name: 'careerListModification',
+                content: 'Deleted an career'
+            });
+            this.activeModal.dismiss(true);
+        });
+    }
+}
+
+@Component({
+    selector: 'jhi-career-delete-popup',
+    template: ''
+})
+export class CareerDeletePopupComponent implements OnInit, OnDestroy {
+    protected ngbModalRef: NgbModalRef;
+
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
+        this.ngbModalRef = modalService.open(null);
+        delete this.ngbModalRef;
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ career }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(CareerDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef.componentInstance.career = career;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/career', { outlets: { popup: null } }]);
+                        delete this.ngbModalRef;
+                    },
+                    reason => {
+                        this.router.navigate(['/career', { outlets: { popup: null } }]);
+                        delete this.ngbModalRef;
+                    }
+                );
+            }, 0);
+        });
+    }
+
+    ngOnDestroy() {
+        delete this.ngbModalRef;
+    }
+}

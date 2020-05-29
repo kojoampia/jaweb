@@ -12,6 +12,7 @@ import { SlideDetailComponent } from './slide-detail.component';
 import { SlideUpdateComponent } from './slide-update.component';
 import { SlideDeletePopupComponent } from './slide-delete-dialog.component';
 import { ISlide } from 'app/shared/model/slide.model';
+import { SlideViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class SlideResolve implements Resolve<ISlide> {
@@ -21,8 +22,8 @@ export class SlideResolve implements Resolve<ISlide> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Slide>) => response.ok),
-                map((slide: HttpResponse<Slide>) => slide.body)
+                filter((response: any) => response.ok),
+                map((slide: any) => slide.body)
             );
         }
         return of(new Slide());
@@ -32,6 +33,19 @@ export class SlideResolve implements Resolve<ISlide> {
 export const slideRoute: Routes = [
     {
         path: '',
+        component: SlideViewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Slides'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: SlideComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

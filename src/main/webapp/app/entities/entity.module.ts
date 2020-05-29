@@ -12,14 +12,43 @@ import { JojoaddisonBlogModule } from './blog/blog.module';
 import { JojoaddisonAboutModule } from './about/about.module';
 import { WidgetsModule } from 'app/widgets/widgets.module';
 import { TinyEditorComponent } from 'app/widgets';
+import { CareerComponent } from './career/career.component';
 
 @NgModule({
     imports: [
         WidgetsModule,
         RouterModule.forChild([
             {
+                path: 'home',
+                loadChildren: './home/home.module#JojoaddisonHomeModule'
+            },
+            {
+                path: 'blog',
+                loadChildren: './blog/blog.module#JojoaddisonBlogModule'
+            },
+            {
+                path: 'information',
+                loadChildren: './information/information.module#JojoaddisonInformationModule'
+            },
+            {
                 path: 'slide',
                 loadChildren: './slide/slide.module#JojoaddisonSlideModule'
+            },
+            {
+                path: 'service',
+                loadChildren: './service/service.module#JojoaddisonServiceModule'
+            },
+            {
+                path: 'portfolio',
+                loadChildren: './portfolio/portfolio.module#JojoaddisonPortfolioModule'
+            },
+            {
+                path: 'career',
+                loadChildren: './career/career.module#JojoaddisonCareerModule'
+            },
+            {
+                path: 'partner',
+                loadChildren: './partner/partner.module#JojoaddisonPartnerModule'
             },
             {
                 path: 'about',
@@ -32,38 +61,6 @@ import { TinyEditorComponent } from 'app/widgets';
             {
                 path: 'imprint',
                 loadChildren: './imprint/imprint.module#JojoaddisonImprintModule'
-            },
-            {
-                path: 'portfolio',
-                loadChildren: './portfolio/portfolio.module#JojoaddisonPortfolioModule'
-            },
-            {
-                path: 'blog',
-                loadChildren: './blog/blog.module#JojoaddisonBlogModule'
-            },
-            {
-                path: 'home',
-                loadChildren: './home/home.module#JojoaddisonHomeModule'
-            },
-            {
-                path: 'service',
-                loadChildren: './service/service.module#JojoaddisonServiceModule'
-            },
-            {
-                path: 'information',
-                loadChildren: './information/information.module#JojoaddisonInformationModule'
-            },
-            {
-                path: 'home',
-                loadChildren: './home/home.module#JojoaddisonHomeModule'
-            },
-            {
-                path: 'home',
-                loadChildren: './home/home.module#JojoaddisonHomeModule'
-            },
-            {
-                path: 'partner',
-                loadChildren: './partner/partner.module#JojoaddisonPartnerModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ]),
@@ -78,7 +75,7 @@ import { TinyEditorComponent } from 'app/widgets';
         JojoaddisonBlogModule,
         JojoaddisonAboutModule
     ],
-    declarations: [],
+    declarations: [CareerComponent],
     entryComponents: [TinyEditorComponent],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

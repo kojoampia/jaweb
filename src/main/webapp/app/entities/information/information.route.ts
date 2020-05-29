@@ -11,6 +11,7 @@ import { InformationDetailComponent } from './information-detail.component';
 import { InformationUpdateComponent } from './information-update.component';
 import { InformationDeletePopupComponent } from './information-delete-dialog.component';
 import { IInformation } from 'app/shared/model/information.model';
+import { InformationViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class InformationResolve implements Resolve<IInformation> {
@@ -20,8 +21,8 @@ export class InformationResolve implements Resolve<IInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Information>) => response.ok),
-                map((information: HttpResponse<Information>) => information.body)
+                filter((response: any) => response.ok),
+                map((information: any) => information.body)
             );
         }
         return of(new Information());
@@ -31,10 +32,19 @@ export class InformationResolve implements Resolve<IInformation> {
 export const informationRoute: Routes = [
     {
         path: '',
+        component: InformationViewComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'Information'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: InformationComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Information'
+            pageTitle: 'Information Management Dashboard'
         },
         canActivate: [UserRouteAccessService]
     },

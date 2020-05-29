@@ -17,10 +17,10 @@ import { AboutService } from './about.service';
 })
 export class AboutComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    abouts: IAbout[];
+    abouts: IAbout[] = [];
     error: any;
     success: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription = new Subscription();
     currentSearch: string;
     routeData: any;
     links: any;
@@ -63,7 +63,7 @@ export class AboutComponent implements OnInit, OnDestroy {
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<IAbout[]>) => this.paginateAbouts(res.body, res.headers),
+                    (res: HttpResponse<IAbout[]>) => this.paginateAbouts(res.body || [], res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
@@ -75,7 +75,7 @@ export class AboutComponent implements OnInit, OnDestroy {
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IAbout[]>) => this.paginateAbouts(res.body, res.headers),
+                (res: HttpResponse<IAbout[]>) => this.paginateAbouts(res.body || [], res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -112,7 +112,7 @@ export class AboutComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
+    search(query: string) {
         if (!query) {
             return this.clear();
         }
@@ -131,7 +131,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then(account => {
+        this.accountService.identity().then((account: any) => {
             this.currentAccount = account;
         });
         this.registerChangeInAbouts();
@@ -146,7 +146,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInAbouts() {
-        this.eventSubscriber = this.eventManager.subscribe('aboutListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('aboutListModification', (response: any) => this.loadAll());
     }
 
     sort() {
@@ -158,12 +158,12 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
 
     protected paginateAbouts(data: IAbout[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.links = this.parseLinks.parse(headers.get('link') || '');
+        this.totalItems = parseInt(headers.get('X-Total-Count') || '', 10);
         this.abouts = data;
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error(errorMessage, null, undefined);
     }
 }

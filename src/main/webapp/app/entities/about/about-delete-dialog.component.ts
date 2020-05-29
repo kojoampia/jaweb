@@ -38,7 +38,10 @@ export class AboutDeleteDialogComponent {
 export class AboutDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
-    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
+        this.ngbModalRef = modalService.open(null);
+        delete this.ngbModalRef;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ about }) => {
@@ -48,11 +51,11 @@ export class AboutDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/about', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
+                        delete this.ngbModalRef;
                     },
                     reason => {
                         this.router.navigate(['/about', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
+                        delete this.ngbModalRef;
                     }
                 );
             }, 0);
@@ -60,6 +63,6 @@ export class AboutDeletePopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.ngbModalRef = null;
+        delete this.ngbModalRef;
     }
 }

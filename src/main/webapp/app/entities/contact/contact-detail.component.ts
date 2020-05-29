@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
-import { IContact } from 'app/shared/model/contact.model';
+import { IContact, Contact } from 'app/shared/model/contact.model';
 
 @Component({
     selector: 'jhi-contact-detail',
     templateUrl: './contact-detail.component.html'
 })
 export class ContactDetailComponent implements OnInit {
-    contact: IContact;
+    contact: IContact = new Contact();
 
-    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {
+        delete this.contact;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ contact }) => {
@@ -19,11 +21,11 @@ export class ContactDetailComponent implements OnInit {
         });
     }
 
-    byteSize(field) {
+    byteSize(field: any) {
         return this.dataUtils.byteSize(field);
     }
 
-    openFile(contentType, field) {
+    openFile(contentType: any, field: any) {
         return this.dataUtils.openFile(contentType, field);
     }
     previousState() {

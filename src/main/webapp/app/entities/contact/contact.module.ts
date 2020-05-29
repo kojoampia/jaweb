@@ -11,6 +11,7 @@ import {
     contactRoute,
     contactPopupRoute
 } from './';
+import { ContactViewComponent } from './contact-view.component';
 
 const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
         ContactDetailComponent,
         ContactUpdateComponent,
         ContactDeleteDialogComponent,
-        ContactDeletePopupComponent
+        ContactDeletePopupComponent,
+        ContactViewComponent
     ],
     entryComponents: [ContactComponent, ContactUpdateComponent, ContactDeleteDialogComponent, ContactDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

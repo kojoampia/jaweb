@@ -11,6 +11,7 @@ import { PartnerDetailComponent } from './partner-detail.component';
 import { PartnerUpdateComponent } from './partner-update.component';
 import { PartnerDeletePopupComponent } from './partner-delete-dialog.component';
 import { IPartner } from 'app/shared/model/partner.model';
+import { PartnerViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class PartnerResolve implements Resolve<IPartner> {
@@ -20,8 +21,8 @@ export class PartnerResolve implements Resolve<IPartner> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Partner>) => response.ok),
-                map((partner: HttpResponse<Partner>) => partner.body)
+                filter((response: any) => response.ok),
+                map((partner: any) => partner.body)
             );
         }
         return of(new Partner());
@@ -31,6 +32,15 @@ export class PartnerResolve implements Resolve<IPartner> {
 export const partnerRoute: Routes = [
     {
         path: '',
+        component: PartnerViewComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'Partners'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: PartnerComponent,
         data: {
             authorities: ['ROLE_USER'],

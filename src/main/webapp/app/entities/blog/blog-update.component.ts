@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { IBlog } from 'app/shared/model/blog.model';
+import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { BlogService } from './blog.service';
 
 @Component({
@@ -13,10 +13,10 @@ import { BlogService } from './blog.service';
     templateUrl: './blog-update.component.html'
 })
 export class BlogUpdateComponent implements OnInit {
-    blog: IBlog;
-    isSaving: boolean;
-    createdDate: string;
-    modifiedDate: string;
+    blog: IBlog = new Blog();
+    isSaving = false;
+    createdDate = '';
+    modifiedDate = '';
 
     constructor(protected blogService: BlogService, protected activatedRoute: ActivatedRoute) {}
 
@@ -24,8 +24,8 @@ export class BlogUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ blog }) => {
             this.blog = blog;
-            this.createdDate = this.blog.createdDate != null ? this.blog.createdDate.format(DATE_TIME_FORMAT) : null;
-            this.modifiedDate = this.blog.modifiedDate != null ? this.blog.modifiedDate.format(DATE_TIME_FORMAT) : null;
+            this.createdDate = this.blog.createdDate != null ? this.blog.createdDate.format(DATE_TIME_FORMAT) : '';
+            this.modifiedDate = this.blog.modifiedDate != null ? this.blog.modifiedDate.format(DATE_TIME_FORMAT) : '';
         });
     }
 
@@ -35,8 +35,8 @@ export class BlogUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.blog.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
-        this.blog.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : null;
+        this.blog.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : undefined;
+        this.blog.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : undefined;
         if (this.blog.id !== undefined) {
             this.subscribeToSaveResponse(this.blogService.update(this.blog));
         } else {

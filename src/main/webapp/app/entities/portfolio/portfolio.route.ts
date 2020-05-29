@@ -12,6 +12,7 @@ import { PortfolioDetailComponent } from './portfolio-detail.component';
 import { PortfolioUpdateComponent } from './portfolio-update.component';
 import { PortfolioDeletePopupComponent } from './portfolio-delete-dialog.component';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
+import { PortfolioViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioResolve implements Resolve<IPortfolio> {
@@ -21,8 +22,8 @@ export class PortfolioResolve implements Resolve<IPortfolio> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Portfolio>) => response.ok),
-                map((portfolio: HttpResponse<Portfolio>) => portfolio.body)
+                filter((response: any) => response.ok),
+                map((portfolio: any) => portfolio.body)
             );
         }
         return of(new Portfolio());
@@ -32,6 +33,19 @@ export class PortfolioResolve implements Resolve<IPortfolio> {
 export const portfolioRoute: Routes = [
     {
         path: '',
+        component: PortfolioViewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Portfolios'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: PortfolioComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IAbout } from 'app/shared/model/about.model';
+import { IAbout, About } from 'app/shared/model/about.model';
 
 @Component({
     selector: 'jhi-about-detail',
     templateUrl: './about-detail.component.html'
 })
 export class AboutDetailComponent implements OnInit {
-    about: IAbout;
+    about: IAbout = new About();
 
-    constructor(protected activatedRoute: ActivatedRoute) {}
+    constructor(protected activatedRoute: ActivatedRoute) {
+        delete this.about;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ about }) => {

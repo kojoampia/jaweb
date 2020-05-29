@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IBlog } from 'app/shared/model/blog.model';
+import { IBlog, Blog } from 'app/shared/model/blog.model';
 
 @Component({
     selector: 'jhi-blog-detail',
     templateUrl: './blog-detail.component.html'
 })
 export class BlogDetailComponent implements OnInit {
-    blog: IBlog;
+    blog: IBlog = new Blog();
 
-    constructor(protected activatedRoute: ActivatedRoute) {}
+    constructor(protected activatedRoute: ActivatedRoute) {
+        delete this.blog;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ blog }) => {

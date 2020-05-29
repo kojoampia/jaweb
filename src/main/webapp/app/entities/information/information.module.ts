@@ -11,6 +11,7 @@ import {
     informationRoute,
     informationPopupRoute
 } from './';
+import { InformationViewComponent } from './information-view.component';
 
 const ENTITY_STATES = [...informationRoute, ...informationPopupRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...informationRoute, ...informationPopupRoute];
         InformationDetailComponent,
         InformationUpdateComponent,
         InformationDeleteDialogComponent,
-        InformationDeletePopupComponent
+        InformationDeletePopupComponent,
+        InformationViewComponent
     ],
     entryComponents: [InformationComponent, InformationUpdateComponent, InformationDeleteDialogComponent, InformationDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

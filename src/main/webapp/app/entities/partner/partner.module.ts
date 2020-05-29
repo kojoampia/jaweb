@@ -11,6 +11,7 @@ import {
     partnerRoute,
     partnerPopupRoute
 } from './';
+import { PartnerViewComponent } from './partner-view.component';
 
 const ENTITY_STATES = [...partnerRoute, ...partnerPopupRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...partnerRoute, ...partnerPopupRoute];
         PartnerDetailComponent,
         PartnerUpdateComponent,
         PartnerDeleteDialogComponent,
-        PartnerDeletePopupComponent
+        PartnerDeletePopupComponent,
+        PartnerViewComponent
     ],
     entryComponents: [PartnerComponent, PartnerUpdateComponent, PartnerDeleteDialogComponent, PartnerDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

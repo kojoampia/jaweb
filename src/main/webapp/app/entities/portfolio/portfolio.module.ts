@@ -9,7 +9,8 @@ import {
     PortfolioDeletePopupComponent,
     PortfolioDeleteDialogComponent,
     portfolioRoute,
-    portfolioPopupRoute
+    portfolioPopupRoute,
+    PortfolioViewComponent
 } from './';
 
 const ENTITY_STATES = [...portfolioRoute, ...portfolioPopupRoute];
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...portfolioRoute, ...portfolioPopupRoute];
         PortfolioDetailComponent,
         PortfolioUpdateComponent,
         PortfolioDeleteDialogComponent,
-        PortfolioDeletePopupComponent
+        PortfolioDeletePopupComponent,
+        PortfolioViewComponent
     ],
     entryComponents: [PortfolioComponent, PortfolioUpdateComponent, PortfolioDeleteDialogComponent, PortfolioDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

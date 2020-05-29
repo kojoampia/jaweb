@@ -14,9 +14,9 @@ import { ContactService } from './contact.service';
     templateUrl: './contact.component.html'
 })
 export class ContactComponent implements OnInit, OnDestroy {
-    contacts: IContact[];
+    contacts: IContact[] = [];
     currentAccount: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription = new Subscription();
     currentSearch: string;
 
     constructor(
@@ -43,7 +43,7 @@ export class ContactComponent implements OnInit, OnDestroy {
                     filter((res: HttpResponse<IContact[]>) => res.ok),
                     map((res: HttpResponse<IContact[]>) => res.body)
                 )
-                .subscribe((res: IContact[]) => (this.contacts = res), (res: HttpErrorResponse) => this.onError(res.message));
+                .subscribe((res: IContact[] | null) => (this.contacts = res || []), (res: HttpErrorResponse) => this.onError(res.message));
             return;
         }
         this.contactService
@@ -53,15 +53,15 @@ export class ContactComponent implements OnInit, OnDestroy {
                 map((res: HttpResponse<IContact[]>) => res.body)
             )
             .subscribe(
-                (res: IContact[]) => {
-                    this.contacts = res;
+                (res: IContact[] | null) => {
+                    this.contacts = res || [];
                     this.currentSearch = '';
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
 
-    search(query) {
+    search(query: string) {
         if (!query) {
             return this.clear();
         }
@@ -76,7 +76,7 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then(account => {
+        this.accountService.identity().then((account: any) => {
             this.currentAccount = account;
         });
         this.registerChangeInContacts();
@@ -90,19 +90,19 @@ export class ContactComponent implements OnInit, OnDestroy {
         return item.id;
     }
 
-    byteSize(field) {
+    byteSize(field: any) {
         return this.dataUtils.byteSize(field);
     }
 
-    openFile(contentType, field) {
+    openFile(contentType: string, field: any) {
         return this.dataUtils.openFile(contentType, field);
     }
 
     registerChangeInContacts() {
-        this.eventSubscriber = this.eventManager.subscribe('contactListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('contactListModification', (response: any) => this.loadAll());
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error(errorMessage, null, undefined);
     }
 }

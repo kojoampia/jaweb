@@ -9,8 +9,8 @@ import { ContactService } from './contact.service';
 import { ContactComponent } from './contact.component';
 import { ContactDetailComponent } from './contact-detail.component';
 import { ContactUpdateComponent } from './contact-update.component';
-import { ContactDeletePopupComponent } from './contact-delete-dialog.component';
 import { IContact } from 'app/shared/model/contact.model';
+import { ContactViewComponent, ContactDeletePopupComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class ContactResolve implements Resolve<IContact> {
@@ -20,8 +20,8 @@ export class ContactResolve implements Resolve<IContact> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Contact>) => response.ok),
-                map((contact: HttpResponse<Contact>) => contact.body)
+                filter((response: any) => response.ok),
+                map((contact: any) => contact.body)
             );
         }
         return of(new Contact());
@@ -31,6 +31,15 @@ export class ContactResolve implements Resolve<IContact> {
 export const contactRoute: Routes = [
     {
         path: '',
+        component: ContactViewComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Contacts'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: ContactComponent,
         data: {
             authorities: ['ROLE_USER'],

@@ -12,6 +12,7 @@ import { ServiceDetailComponent } from './service-detail.component';
 import { ServiceUpdateComponent } from './service-update.component';
 import { ServiceDeletePopupComponent } from './service-delete-dialog.component';
 import { IService } from 'app/shared/model/service.model';
+import { ServiceViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceResolve implements Resolve<IService> {
@@ -21,8 +22,8 @@ export class ServiceResolve implements Resolve<IService> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Service>) => response.ok),
-                map((service: HttpResponse<Service>) => service.body)
+                filter((response: any) => response.ok),
+                map((service: any) => service.body)
             );
         }
         return of(new Service());
@@ -32,6 +33,19 @@ export class ServiceResolve implements Resolve<IService> {
 export const serviceRoute: Routes = [
     {
         path: '',
+        component: ServiceViewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Services'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: ServiceComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

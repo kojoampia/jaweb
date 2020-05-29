@@ -12,6 +12,7 @@ import { AboutDetailComponent } from './about-detail.component';
 import { AboutUpdateComponent } from './about-update.component';
 import { AboutDeletePopupComponent } from './about-delete-dialog.component';
 import { IAbout } from 'app/shared/model/about.model';
+import { AboutViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class AboutResolve implements Resolve<IAbout> {
@@ -21,8 +22,8 @@ export class AboutResolve implements Resolve<IAbout> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<About>) => response.ok),
-                map((about: HttpResponse<About>) => about.body)
+                filter((response: any) => response.ok),
+                map((about: any) => about.body)
             );
         }
         return of(new About());
@@ -32,6 +33,19 @@ export class AboutResolve implements Resolve<IAbout> {
 export const aboutRoute: Routes = [
     {
         path: '',
+        component: AboutViewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: [],
+            defaultSort: 'id,asc',
+            pageTitle: 'Team information page'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: AboutComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -39,7 +53,7 @@ export const aboutRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Abouts'
+            pageTitle: 'Team information management dashboard'
         },
         canActivate: [UserRouteAccessService]
     },

@@ -10,11 +10,9 @@ import {
     ImprintDeleteDialogComponent,
     imprintRoute,
     imprintPopupRoute,
-    ImprintListComponent
+    ImprintViewComponent
 } from './';
-import { JojoaddisonSlideModule } from '../slide/slide.module';
 import { WidgetsModule } from 'app/widgets/widgets.module';
-import { SlideListComponent } from '../slide';
 
 const IMPRINT_STATES = [...imprintRoute, ...imprintPopupRoute];
 
@@ -26,15 +24,9 @@ const IMPRINT_STATES = [...imprintRoute, ...imprintPopupRoute];
         ImprintUpdateComponent,
         ImprintDeleteDialogComponent,
         ImprintDeletePopupComponent,
-        ImprintListComponent
+        ImprintViewComponent
     ],
-    entryComponents: [
-        ImprintListComponent,
-        ImprintComponent,
-        ImprintUpdateComponent,
-        ImprintDeleteDialogComponent,
-        ImprintDeletePopupComponent
-    ],
+    entryComponents: [ImprintComponent, ImprintUpdateComponent, ImprintDeleteDialogComponent, ImprintDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonImprintModule {}

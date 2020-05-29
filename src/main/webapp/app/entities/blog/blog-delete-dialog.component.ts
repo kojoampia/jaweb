@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { IBlog } from 'app/shared/model/blog.model';
+import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { BlogService } from './blog.service';
 
 @Component({
@@ -12,9 +12,11 @@ import { BlogService } from './blog.service';
     templateUrl: './blog-delete-dialog.component.html'
 })
 export class BlogDeleteDialogComponent {
-    blog: IBlog;
+    blog: IBlog = new Blog();
 
-    constructor(protected blogService: BlogService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected blogService: BlogService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {
+        delete this.blog;
+    }
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -38,7 +40,10 @@ export class BlogDeleteDialogComponent {
 export class BlogDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
-    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
+        this.ngbModalRef = modalService.open(null);
+        delete this.ngbModalRef;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ blog }) => {
@@ -48,11 +53,11 @@ export class BlogDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/blog', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
+                        delete this.ngbModalRef;
                     },
                     reason => {
                         this.router.navigate(['/blog', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
+                        delete this.ngbModalRef;
                     }
                 );
             }, 0);
@@ -60,6 +65,6 @@ export class BlogDeletePopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.ngbModalRef = null;
+        delete this.ngbModalRef;
     }
 }

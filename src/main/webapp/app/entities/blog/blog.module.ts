@@ -11,12 +11,20 @@ import {
     blogRoute,
     blogPopupRoute
 } from './';
+import { BlogViewComponent } from './blog-view.component';
 
 const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
 
 @NgModule({
     imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [BlogComponent, BlogDetailComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
+    declarations: [
+        BlogComponent,
+        BlogDetailComponent,
+        BlogUpdateComponent,
+        BlogDeleteDialogComponent,
+        BlogDeletePopupComponent,
+        BlogViewComponent
+    ],
     entryComponents: [BlogComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

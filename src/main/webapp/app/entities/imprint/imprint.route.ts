@@ -12,7 +12,7 @@ import { ImprintDetailComponent } from './imprint-detail.component';
 import { ImprintUpdateComponent } from './imprint-update.component';
 import { ImprintDeletePopupComponent } from './imprint-delete-dialog.component';
 import { IImprint } from 'app/shared/model/imprint.model';
-import { ImprintListComponent } from './imprint-list.component';
+import { ImprintViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class ImprintResolve implements Resolve<IImprint> {
@@ -22,8 +22,8 @@ export class ImprintResolve implements Resolve<IImprint> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Imprint>) => response.ok),
-                map((imprint: HttpResponse<Imprint>) => imprint.body)
+                filter((response: any) => response.ok),
+                map((imprint: any) => imprint.body)
             );
         }
         return of(new Imprint());
@@ -33,7 +33,7 @@ export class ImprintResolve implements Resolve<IImprint> {
 export const imprintRoute: Routes = [
     {
         path: '',
-        component: ImprintListComponent,
+        component: ImprintViewComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -44,7 +44,7 @@ export const imprintRoute: Routes = [
         }
     },
     {
-        path: 'list',
+        path: 'dashboard',
         component: ImprintComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -52,7 +52,7 @@ export const imprintRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'modifiedDate,desc',
-            pageTitle: 'Legal Notice List'
+            pageTitle: 'Legal Notice Management Dashboard'
         },
         canActivate: [UserRouteAccessService]
     },

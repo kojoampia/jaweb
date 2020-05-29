@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { IAbout } from 'app/shared/model/about.model';
+import { IAbout, About } from 'app/shared/model/about.model';
 import { AboutService } from './about.service';
 
 @Component({
@@ -13,19 +13,22 @@ import { AboutService } from './about.service';
     templateUrl: './about-update.component.html'
 })
 export class AboutUpdateComponent implements OnInit {
-    about: IAbout;
-    isSaving: boolean;
-    createdDate: string;
-    modifiedDate: string;
+    about: IAbout = new About();
+    isSaving = false;
+    createdDate = '';
+    modifiedDate = '';
 
-    constructor(protected aboutService: AboutService, protected activatedRoute: ActivatedRoute) {}
+    constructor(protected aboutService: AboutService, protected activatedRoute: ActivatedRoute) {
+        delete this.createdDate;
+        delete this.modifiedDate;
+    }
 
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ about }) => {
             this.about = about;
-            this.createdDate = this.about.createdDate != null ? this.about.createdDate.format(DATE_TIME_FORMAT) : null;
-            this.modifiedDate = this.about.modifiedDate != null ? this.about.modifiedDate.format(DATE_TIME_FORMAT) : null;
+            this.createdDate = this.about.createdDate != null ? this.about.createdDate.format(DATE_TIME_FORMAT) : '';
+            this.modifiedDate = this.about.modifiedDate != null ? this.about.modifiedDate.format(DATE_TIME_FORMAT) : '';
         });
     }
 
@@ -35,8 +38,8 @@ export class AboutUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.about.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
-        this.about.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : null;
+        this.about.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : undefined;
+        this.about.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : undefined;
         if (this.about.id !== undefined) {
             this.subscribeToSaveResponse(this.aboutService.update(this.about));
         } else {

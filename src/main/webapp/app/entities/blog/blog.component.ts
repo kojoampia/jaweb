@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IBlog } from 'app/shared/model/blog.model';
+import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -17,10 +17,10 @@ import { BlogService } from './blog.service';
 })
 export class BlogComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    blogs: IBlog[];
+    blogs: IBlog[] = [];
     error: any;
     success: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription = new Subscription();
     currentSearch: string;
     routeData: any;
     links: any;
@@ -63,7 +63,7 @@ export class BlogComponent implements OnInit, OnDestroy {
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<IBlog[]>) => this.paginateBlogs(res.body, res.headers),
+                    (res: HttpResponse<IBlog[]>) => this.paginateBlogs(res.body || [], res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
@@ -75,7 +75,7 @@ export class BlogComponent implements OnInit, OnDestroy {
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IBlog[]>) => this.paginateBlogs(res.body, res.headers),
+                (res: HttpResponse<IBlog[]>) => this.paginateBlogs(res.body || [], res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -112,7 +112,7 @@ export class BlogComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
+    search(query: any) {
         if (!query) {
             return this.clear();
         }
@@ -131,7 +131,7 @@ export class BlogComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then(account => {
+        this.accountService.identity().then((account: any) => {
             this.currentAccount = account;
         });
         this.registerChangeInBlogs();
@@ -146,7 +146,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInBlogs() {
-        this.eventSubscriber = this.eventManager.subscribe('blogListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('blogListModification', (response: any) => this.loadAll());
     }
 
     sort() {
@@ -158,12 +158,12 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
 
     protected paginateBlogs(data: IBlog[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.links = this.parseLinks.parse(headers.get('link') || '');
+        this.totalItems = parseInt(headers.get('X-Total-Count') || '', 10);
         this.blogs = data;
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error(errorMessage, null, undefined);
     }
 }

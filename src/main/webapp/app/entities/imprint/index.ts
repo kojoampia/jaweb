@@ -3,5 +3,5 @@ export * from './imprint-update.component';
 export * from './imprint-delete-dialog.component';
 export * from './imprint-detail.component';
 export * from './imprint.component';
+export * from './imprint-view.component';
 export * from './imprint.route';
-export * from './imprint-list.component';
