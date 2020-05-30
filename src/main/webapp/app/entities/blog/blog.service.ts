@@ -46,6 +46,13 @@ export class BlogService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    getRecentBlogs(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IBlog[]>(`${this.resourceUrl}/recent`, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     delete(id: string): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
@@ -67,8 +74,8 @@ export class BlogService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
-            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : undefined;
+            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : undefined;
         }
         return res;
     }
@@ -76,8 +83,8 @@ export class BlogService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((blog: IBlog) => {
-                blog.createdDate = blog.createdDate != null ? moment(blog.createdDate) : null;
-                blog.modifiedDate = blog.modifiedDate != null ? moment(blog.modifiedDate) : null;
+                blog.createdDate = blog.createdDate != null ? moment(blog.createdDate) : undefined;
+                blog.modifiedDate = blog.modifiedDate != null ? moment(blog.modifiedDate) : undefined;
             });
         }
         return res;

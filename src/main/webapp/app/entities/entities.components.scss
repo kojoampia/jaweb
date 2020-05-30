@@ -88,6 +88,20 @@ form > option {
     margin-right: auto;
     background-color: #003300;
     color: #fff;
-    border: 0px;
+    border: 5px;
+    border-radius: 5px;
     padding: 10px;
+}
+
+.scroller {
+    z-index: 99;
+    background-color: #003300;
+    color: #fff;
+    border: 5px;
+    border-radius: 20px;
+    width: 40px;
+    height: 40px;
+    text-align: right;
+    position: fixed;
+    bottom: 0;
 }

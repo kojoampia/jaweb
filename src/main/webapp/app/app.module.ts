@@ -20,6 +20,7 @@ import { JojoaddisonEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent } from './layouts';
+import { FooterModule } from './layouts/footer/footer.module';
 
 @NgModule({
     imports: [

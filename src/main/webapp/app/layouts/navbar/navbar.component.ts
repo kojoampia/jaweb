@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { VERSION } from 'app/app.constants';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
@@ -13,11 +13,10 @@ import { ScrollSpyService } from 'ngx-scrollspy';
     styleUrls: ['navbar.scss']
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
-    inProduction: boolean;
+    inProduction = false;
     isNavbarCollapsed: boolean;
-    languages: any[];
-    swaggerEnabled: boolean;
-    modalRef: NgbModalRef;
+    languages: any[] = [];
+    swaggerEnabled = false;
     version: string;
     showHeader = false;
     constructor(
@@ -55,7 +54,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
 
     login() {
-        this.modalRef = this.loginModalService.open();
+        this.loginModalService.open();
     }
 
     logout() {
@@ -71,10 +70,19 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     getImageUrl() {
         return this.isAuthenticated() ? this.accountService.getImageUrl() : null;
     }
-
+    /*
     @HostListener('window:scroll', ['$event'])
     fixNavbar() {
-        // this.showHeader = true;
+        this.showHeader = true;
         // console.log('scrolling...');
+    }
+    */
+
+    onScrollDown() {
+        this.showHeader = true;
+    }
+
+    onScrollUp() {
+        this.showHeader = false;
     }
 }

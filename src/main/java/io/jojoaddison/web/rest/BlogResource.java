@@ -106,6 +106,22 @@ public class BlogResource {
     }
 
     /**
+     * GET  /blogs : get all the blogs.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of blogs in body
+     */
+    @GetMapping("/blogs/recent")
+    public ResponseEntity<List<Blog>> getRecentBlogs(Pageable pageable) {
+        log.debug("REST request to get a page of Blogs");
+        ZonedDateTime recent = ZonedDateTime.now().minusDays(7);
+        Page<Blog> page = blogRepository.findByModifiedDateAfter(recent, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/blogs/recent");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+
+    /**
      * GET  /blogs/:id : get the "id" blog.
      *
      * @param id the id of the blog to retrieve

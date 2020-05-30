@@ -22,7 +22,7 @@ export class AccountService {
         return this.http.post(SERVER_API_URL + 'api/account', account, { observe: 'response' });
     }
 
-    authenticate(identity) {
+    authenticate(identity: { authorities: string[] } | null) {
         this.userIdentity = identity;
         this.authenticated = identity !== null;
         this.authenticationState.next(this.userIdentity);
@@ -57,7 +57,7 @@ export class AccountService {
         );
     }
 
-    identity(force?: boolean): Promise<any> {
+    async identity(force?: boolean): Promise<any> {
         if (force) {
             this.userIdentity = undefined;
         }
@@ -69,30 +69,28 @@ export class AccountService {
         }
 
         // retrieve the userIdentity data from the server, update the identity object, and then resolve.
-        return this.fetch()
-            .toPromise()
-            .then(response => {
-                const account = response.body;
-                if (account) {
-                    this.userIdentity = account;
-                    this.authenticated = true;
-                    this.trackerService.connect();
-                } else {
-                    this.userIdentity = null;
-                    this.authenticated = false;
-                }
-                this.authenticationState.next(this.userIdentity);
-                return this.userIdentity;
-            })
-            .catch(err => {
-                if (this.trackerService.stompClient && this.trackerService.stompClient.connected) {
-                    this.trackerService.disconnect();
-                }
+        try {
+            const response = await this.fetch().toPromise();
+            const account = response.body;
+            if (account) {
+                this.userIdentity = account;
+                this.authenticated = true;
+                this.trackerService.connect();
+            } else {
                 this.userIdentity = null;
                 this.authenticated = false;
-                this.authenticationState.next(this.userIdentity);
-                return null;
-            });
+            }
+            this.authenticationState.next(this.userIdentity);
+            return this.userIdentity;
+        } catch (err) {
+            if (this.trackerService.stompClient && this.trackerService.stompClient.connected === true) {
+                this.trackerService.disconnect();
+            }
+            this.userIdentity = null;
+            this.authenticated = false;
+            this.authenticationState.next(this.userIdentity);
+            return null;
+        }
     }
 
     isAuthenticated(): boolean {
