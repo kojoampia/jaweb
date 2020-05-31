@@ -45,6 +45,18 @@ export const blogRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'view/:id',
+        component: BlogDetailComponent,
+        resolve: {
+            blog: BlogResolve
+        },
+        data: {
+            authorities: [],
+            pageTitle: 'Blogs'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: 'dashboard',
         component: BlogComponent,
         resolve: {

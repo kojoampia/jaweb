@@ -4,6 +4,7 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Blog;
 import io.jojoaddison.repository.BlogRepository;
+import io.jojoaddison.service.UserService;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -63,6 +64,9 @@ public class BlogResourceIntTest {
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private BlogRepository blogRepository;
 
     @Autowired
@@ -84,7 +88,7 @@ public class BlogResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final BlogResource blogResource = new BlogResource(blogRepository);
+        final BlogResource blogResource = new BlogResource(blogRepository, userService);
         this.restBlogMockMvc = MockMvcBuilders.standaloneSetup(blogResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -172,7 +176,7 @@ public class BlogResourceIntTest {
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(sameInstant(DEFAULT_MODIFIED_DATE))))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())));
     }
-    
+
     @Test
     public void getBlog() throws Exception {
         // Initialize the database

@@ -11,7 +11,7 @@
                         <button type="button" class="btn btn-outline-light btn-primary"
                             aria-label="refresh" (click)="previousPage()">
                             <span aria-hidden="true">
-                                <fa-icon icon="arrow-left"></fa-icon>
+                                <fa-icon icon="arrow-circle-left"></fa-icon>
                             </span>
                         </button>
                     </div>
@@ -19,11 +19,11 @@
                         <button type="button" class="btn btn-outline-light btn-primary"
                             aria-label="refresh" (click)="nextPage()">
                             <span aria-hidden="true">
-                                <fa-icon icon="arrow-right"></fa-icon>
+                                <fa-icon icon="arrow-circle-right"></fa-icon>
                             </span>
                         </button>
                     </div>
-                    <h1>{{blog.title}}</h1>
+                    <h1><a [routerLink]="['/blog/view', blog.id]" class="text-white">{{blog.title}}</a></h1>
                     <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
                 </div>
                 <div class="card-body bg-white text-black">

@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer bg-secondary text-right">
+        <div *jhiHasAnyAuthority="'ROLE_USER'" class="card-footer bg-secondary text-right">
             <button type="submit" (click)="previousState()" class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
