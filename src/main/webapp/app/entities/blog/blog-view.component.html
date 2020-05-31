@@ -3,12 +3,28 @@
 
     </div>
 
-    <div class="col" #blogHeader>
+    <div class="col" scrollSpyElement="blogHeader" #blogHeader>
         <div class="container page-editor" *ngIf="blog">
             <div class="card border-0 bg-transparent">
                 <div class="card-header text-white text-center">
+                    <div class="float-left" *ngIf="page > 0">
+                        <button type="button" class="btn btn-outline-light btn-primary"
+                            aria-label="refresh" (click)="previousPage()">
+                            <span aria-hidden="true">
+                                <fa-icon icon="arrow-left"></fa-icon>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="float-right" *ngIf="page < (blogs.length - 1)">
+                        <button type="button" class="btn btn-outline-light btn-primary"
+                            aria-label="refresh" (click)="nextPage()">
+                            <span aria-hidden="true">
+                                <fa-icon icon="arrow-right"></fa-icon>
+                            </span>
+                        </button>
+                    </div>
                     <h1>{{blog.title}}</h1>
-                    <span class="text-right">{{blog.modifiedDate | date: 'medium'}}</span>
+                    <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
                 </div>
                 <div class="card-body bg-white text-black">
                     <div [innerHTML]="safeContent(blog.content)"></div>

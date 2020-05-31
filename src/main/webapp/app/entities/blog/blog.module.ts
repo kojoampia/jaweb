@@ -12,11 +12,12 @@ import {
     blogPopupRoute
 } from './';
 import { BlogViewComponent } from './blog-view.component';
+import { ScrollSpyModule } from 'ngx-scrollspy';
 
 const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
 
 @NgModule({
-    imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [JojoaddisonSharedModule, ScrollSpyModule.forRoot(), RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         BlogComponent,
         BlogDetailComponent,

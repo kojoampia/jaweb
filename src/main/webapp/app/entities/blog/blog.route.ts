@@ -22,8 +22,8 @@ export class BlogResolve implements Resolve<IBlog> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Blog>) => response.ok),
-                map((blog: HttpResponse<Blog>) => blog.body)
+                filter((response: any) => response.ok),
+                map((blog: any) => blog.body)
             );
         }
         return of(new Blog());
@@ -38,7 +38,7 @@ export const blogRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             defaultSort: 'id,asc',
             pageTitle: 'Blogs'
         },

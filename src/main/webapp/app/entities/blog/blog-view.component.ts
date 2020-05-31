@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { BlogService } from './blog.service';
 import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ScrollSpyService } from 'ngx-scrollspy';
 
 @Component({
     selector: 'jhi-blog-view',
     templateUrl: './blog-view.component.html',
     styleUrls: ['../entities.components.scss']
 })
-export class BlogViewComponent implements OnInit {
+export class BlogViewComponent implements OnInit, AfterViewInit {
     blogs: IBlog[] = [];
     page = 0;
     blog: IBlog = new Blog();
     content: SafeHtml = '';
 
-    constructor(protected blogService: BlogService, protected domSaniter: DomSanitizer) {
+    constructor(protected blogService: BlogService, protected domSaniter: DomSanitizer, protected scrollSpyService: ScrollSpyService) {
         delete this.blog;
     }
 
@@ -24,6 +25,13 @@ export class BlogViewComponent implements OnInit {
             if (this.blogs && this.blogs.length) {
                 this.blog = this.blogs[this.page];
             }
+        });
+    }
+
+    ngAfterViewInit() {
+        this.scrollSpyService.getObservable('window').subscribe((e: any) => {
+            console.log('blogHeader-scroll-spying...');
+            console.log('blogHeader::ScrollSpy::window: ', e);
         });
     }
 
