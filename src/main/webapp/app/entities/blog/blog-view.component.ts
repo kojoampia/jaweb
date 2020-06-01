@@ -29,7 +29,7 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.scrollSpyService.getObservable('window').subscribe((e: any) => {
+        this.scrollSpyService.getObservable('blogHeader').subscribe((e: any) => {
             console.log('blogHeader-scroll-spying...');
             console.log('blogHeader::ScrollSpy::window: ', e);
         });

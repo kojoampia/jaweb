@@ -13,14 +13,15 @@ import { ServiceService } from './service.service';
 
 @Component({
     selector: 'jhi-service',
-    templateUrl: './service.component.html'
+    templateUrl: './service.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ServiceComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    services: IService[];
+    services: IService[] = [];
     error: any;
     success: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription = new Subscription();
     currentSearch: string;
     routeData: any;
     links: any;
@@ -64,7 +65,7 @@ export class ServiceComponent implements OnInit, OnDestroy {
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<IService[]>) => this.paginateServices(res.body, res.headers),
+                    (res: HttpResponse<IService[]>) => this.paginateServices(res.body || [], res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
@@ -76,7 +77,7 @@ export class ServiceComponent implements OnInit, OnDestroy {
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IService[]>) => this.paginateServices(res.body, res.headers),
+                (res: HttpResponse<IService[]>) => this.paginateServices(res.body || [], res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -113,7 +114,7 @@ export class ServiceComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
+    search(query: string) {
         if (!query) {
             return this.clear();
         }
@@ -146,16 +147,16 @@ export class ServiceComponent implements OnInit, OnDestroy {
         return item.id;
     }
 
-    byteSize(field) {
+    byteSize(field: any) {
         return this.dataUtils.byteSize(field);
     }
 
-    openFile(contentType, field) {
+    openFile(contentType: string, field: any) {
         return this.dataUtils.openFile(contentType, field);
     }
 
     registerChangeInServices() {
-        this.eventSubscriber = this.eventManager.subscribe('serviceListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('serviceListModification', (response: any) => this.loadAll());
     }
 
     sort() {
@@ -167,12 +168,12 @@ export class ServiceComponent implements OnInit, OnDestroy {
     }
 
     protected paginateServices(data: IService[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.links = this.parseLinks.parse(headers.get('link') || '');
+        this.totalItems = parseInt(headers.get('X-Total-Count') || '', 10);
         this.services = data;
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error(errorMessage, null, undefined);
     }
 }
