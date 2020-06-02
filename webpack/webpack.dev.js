@@ -17,6 +17,8 @@ const ENV = 'development';
 module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
     devtool: 'eval-source-map',
     devServer: {
+        inline: true,
+        hot: true,
         contentBase: './target/www',
         proxy: [{
             context: [
@@ -31,7 +33,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
             target: `http${options.tls ? 's' : ''}://127.0.0.1:1980`,
             secure: false,
             changeOrigin: options.tls,
-            headers: { host: 'localhost:9000' }
+            headers: { host: 'localhost:3000' }
         },{
             context: [
                 '/websocket'

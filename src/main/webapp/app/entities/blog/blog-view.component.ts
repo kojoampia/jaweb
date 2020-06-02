@@ -15,7 +15,7 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
     blog: IBlog = new Blog();
     content: SafeHtml = '';
 
-    constructor(protected blogService: BlogService, protected domSaniter: DomSanitizer, protected scrollSpyService: ScrollSpyService) {
+    constructor(protected blogService: BlogService, protected domSanitizer: DomSanitizer, protected scrollSpyService: ScrollSpyService) {
         delete this.blog;
     }
 
@@ -55,8 +55,8 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
         }, 5);
     }
 
-    safeContent(blogContent: string): SafeHtml {
-        return this.domSaniter.bypassSecurityTrustHtml(blogContent);
+    safeContent(data: string): SafeHtml {
+        return this.domSanitizer.bypassSecurityTrustHtml(data);
     }
 
     onScrollUp(target: HTMLElement) {

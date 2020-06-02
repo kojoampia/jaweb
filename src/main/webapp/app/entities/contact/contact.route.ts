@@ -33,8 +33,8 @@ export const contactRoute: Routes = [
         path: '',
         component: ContactViewComponent,
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'Contacts'
+            authorities: [],
+            pageTitle: 'The many avenues for contacting us'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -43,7 +43,7 @@ export const contactRoute: Routes = [
         component: ContactComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Contacts'
+            pageTitle: 'Contact us management dashboard'
         },
         canActivate: [UserRouteAccessService]
     },

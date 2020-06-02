@@ -1,61 +1,68 @@
-<div class="card border-0 mt-2" *ngIf="slide">
-    <div class="card-header bg-info">
-        <h2>{{ slide.title }}</h2>
-        <jhi-alert-error></jhi-alert-error>
-    </div>
-    <div class="card-body">
-        <div *ngIf="slide" class="p-3">
-            <dl class="row-md jh-entity-details">
-                <dt><span>Description</span></dt>
-                <dd>
-                    <span>{{ slide.description }}</span>
-                </dd>
-                <dt><span>Photo</span></dt>
-                <dd>
-                    <div *ngIf="slide.photo">
-                        <a (click)="openFile(slide.photoContentType, slide.photo)">
-                            <img
-                                [src]="'data:' + slide.photoContentType + ';base64,' + slide.photo"
-                                height="200px" width="auto"
-                                alt="slide image"
-                            />
-                        </a>
-                        {{ slide.photoContentType }}, {{ byteSize(slide.photo) }}
-                    </div>
-                    <div *ngIf="slide.url">
-                        <img [src]="slide.url" alt="" height="200px" width="auto">
-                    </div>
-                </dd>
-            </dl>
+<div class="page-editor container ml-auto mr-auto">
+    <div class="card border-0 bg-transparent" *ngIf="slide">
+        <div class="card-header text-white">
+            <h2>{{ slide.title }}</h2>
+            <jhi-alert-error></jhi-alert-error>
         </div>
-    </div>
-    <div class="card-footer bg-info">
-        <div class="row">
-            <div class="col text-left">
-                <dl>
-                    <dt><span>Created Date</span></dt>
+        <div class="card-body">
+            <div *ngIf="slide" class="p-3">
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Description</span></dt>
                     <dd>
-                        <span>{{ slide.createdDate }}</span>
+                        <span>{{ slide.description }}</span>
                     </dd>
-                    <dt><span>Modified Date</span></dt>
+                    <dt><span>Photo</span></dt>
                     <dd>
-                        <span>{{ slide.modifiedDate }}</span>
-                    </dd>
-                    <dt><span>Created By</span></dt>
-                    <dd>
-                        <span>{{ slide.createdBy }}</span>
-                    </dd>
-                    <dt><span>Modified By</span></dt>
-                    <dd>
-                        <span>{{ slide.modifiedBy }}</span>
+                        <div *ngIf="slide.photo">
+                            <a (click)="openFile(slide.photoContentType, slide.photo)">
+                                <img
+                                    [src]="'data:' + slide.photoContentType + ';base64,' + slide.photo"
+                                    height="200px" width="auto"
+                                    alt="slide image"
+                                />
+                            </a>
+                            {{ slide.photoContentType }}, {{ byteSize(slide.photo) }}
+                        </div>
+                        <div *ngIf="slide.url">
+                            <img [src]="slide.url" alt="" height="200px" width="auto">
+                        </div>
                     </dd>
                 </dl>
             </div>
-            <div class="col text-right">
-                <button type="submit" (click)="close()" class="btn btn-secondary">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span> Close</span>
-                </button>
+        </div>
+        <div class="card-footer">
+            <div class="row text-white">
+                <div class="col-4 text-left">
+                    <dl>
+                        <dt><span>Created By</span></dt>
+                        <dd>
+                            <span>{{ slide.createdBy }}</span>
+                        </dd>
+                        <dt><span>Modified By</span></dt>
+                        <dd>
+                            <span>{{ slide.modifiedBy }}</span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-4 text-left">
+                    <dl>
+                        <dt><span>Created Date</span></dt>
+                        <dd>
+                            <span>{{ slide.createdDate }}</span>
+                        </dd>
+                        <dt><span>Modified Date</span></dt>
+                        <dd>
+                            <span>{{ slide.modifiedDate }}</span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-2 text-right">
+                    <button type="submit" (click)="close()" class="btn btn-secondary">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span> Close</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
 </div>

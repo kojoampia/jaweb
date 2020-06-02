@@ -34,7 +34,7 @@
             <div>
                 <div class="table-responsive" *ngIf="services">
                     <table class="table table-striped">
-                        <thead>
+                        <thead class="text-white">
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                         <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                         <th jhiSortBy="photo"><span>Photo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -45,7 +45,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let service of services ;trackBy: trackId">
+                        <tr *ngFor="let service of services ;trackBy: trackId" class="text-white">
                             <td><a [routerLink]="['/service', service.id, 'view' ]">{{service.name}}</a></td>
                             <td>
                                 <a *ngIf="service.photo" (click)="openFile(service.photoContentType, service.photo)">
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer bg-secondary">
+        <div class="card-footer">
             <div *ngIf="services && services.length">
                 <div class="row justify-content-center">
                     <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>

@@ -38,9 +38,9 @@ export const serviceRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             defaultSort: 'id,asc',
-            pageTitle: 'Services'
+            pageTitle: 'Services we offer'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -53,7 +53,7 @@ export const serviceRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Services'
+            pageTitle: 'Services management dashboard'
         },
         canActivate: [UserRouteAccessService]
     },

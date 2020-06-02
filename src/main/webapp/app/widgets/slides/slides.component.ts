@@ -14,7 +14,7 @@ export class SlidesComponent implements OnDestroy {
     constructor() {}
 
     ngOnDestroy() {
-        this.slideSelected = null;
+        delete this.slideSelected;
     }
 
     onClick(item: any) {

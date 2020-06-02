@@ -19,25 +19,25 @@ import { Tile } from 'app/widgets';
 })
 export class SlideComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    slides: ISlide[];
-    slide: ISlide;
-    isEdit: boolean;
-    isView: boolean;
-    isNew: boolean;
+    slides: ISlide[] = [];
+    slide: ISlide = new Slide();
+    isEdit = false;
+    isView = false;
+    isNew = false;
     error: any;
     success: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription = new Subscription();
     currentSearch: string;
     routeData: any;
     links: any;
-    totalItems: any;
+    totalItems = 0;
     itemsPerPage: any;
     page: any;
     predicate: any;
     previousPage: any;
     reverse: any;
-    tiles: Tile[];
-    selectedTiles: ISlide[];
+    tiles: Tile[] = [];
+    selectedTiles: ISlide[] = [];
 
     constructor(
         protected slideService: SlideService,
@@ -72,7 +72,7 @@ export class SlideComponent implements OnInit, OnDestroy {
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<ISlide[]>) => this.paginateSlides(res.body, res.headers),
+                    (res: HttpResponse<ISlide[]>) => this.paginateSlides(res.body || [], res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
@@ -80,7 +80,7 @@ export class SlideComponent implements OnInit, OnDestroy {
         this.slideService
             .query()
             .subscribe(
-                (res: HttpResponse<ISlide[]>) => this.paginateSlides(res.body, res.headers),
+                (res: HttpResponse<ISlide[]>) => this.paginateSlides(res.body || [], res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -117,7 +117,7 @@ export class SlideComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
+    search(query: string) {
         if (!query) {
             return this.clear();
         }
@@ -150,16 +150,16 @@ export class SlideComponent implements OnInit, OnDestroy {
         return item.id;
     }
 
-    byteSize(field) {
+    byteSize(field: any) {
         return this.dataUtils.byteSize(field);
     }
 
-    openFile(contentType, field) {
+    openFile(contentType: string, field: any) {
         return this.dataUtils.openFile(contentType, field);
     }
 
     registerChangeInSlides() {
-        this.eventSubscriber = this.eventManager.subscribe('slideListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('slideListModification', (response: any) => this.loadAll());
     }
 
     sort() {
@@ -178,13 +178,14 @@ export class SlideComponent implements OnInit, OnDestroy {
             this.links = this.parseLinks.parse(link);
         }
 
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.totalItems = parseInt(headers.get('X-Total-Count') || '0', 10);
         this.slides = data;
+        this.totalItems = data.length;
         this.loadTiles(this.slides);
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error(errorMessage, null, undefined);
     }
 
     loadTiles(slides: ISlide[]) {
@@ -192,18 +193,20 @@ export class SlideComponent implements OnInit, OnDestroy {
         if (slides && slides.length > 0) {
             this.tiles = [];
             slides.forEach(slide => {
-                this.tiles.push(new Tile(slide.id, slide.title, slide.description, slide.url, false));
+                this.tiles.push(new Tile(slide.id || '', slide.title || '', slide.description || '', slide.url || '', false));
             });
         }
     }
 
     reload() {
-        this.slides = null;
-        this.loadAll();
+        this.slides = [];
+        setTimeout(() => {
+            this.loadAll();
+        }, 1);
     }
 
-    close(event: any) {
-        this.slide = null;
+    close() {
+        delete this.slide;
         this.isEdit = this.isView = this.isNew = false;
     }
     create() {
