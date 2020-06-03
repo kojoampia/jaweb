@@ -7,8 +7,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <div class="card mb-4" style="min-height: 400px; max-height: 400px; overflow-y: hidden;">
-                        <div class="card-body text-left">
+                    <div class="card border-0 bg-transparent" style="min-height: 400px; max-height: 400px; overflow-y: hidden;">
+                        <div class="card-body text-center mb-4">
                             <h4 class="card-title">{{ service.name }}</h4>
                             <div [innerHTML]="safeContent(service.description)"></div>
                         </div>
@@ -27,7 +27,7 @@
                                     <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
                                         style="max-width: 100%;" alt="service image" />
                                 </a>
-                                {{service.photoContentType}}, {{byteSize(service.photo)}}
+
                             </div>
                         </dd>
                         <dt><span>Created Date</span></dt>

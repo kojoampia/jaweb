@@ -4,9 +4,9 @@
     </div>
 
     <div class="col" scrollSpyElement="blogHeader" #blogHeader>
-        <div class="container page-editor" *ngIf="blog">
-            <div class="card border-0 bg-transparent">
-                <div class="card-header text-white text-center">
+        <div class="container" *ngIf="blog">
+            <div class="card border-0 blogbox">
+                <div class="card-header text-primary text-center">
                     <div class="float-left" *ngIf="page > 0">
                         <button type="button" class="btn btn-outline-light btn-primary"
                             aria-label="refresh" (click)="previousPage()">
@@ -23,10 +23,10 @@
                             </span>
                         </button>
                     </div>
-                    <h1><a [routerLink]="['/blog/view', blog.id]" class="text-white">{{blog.title}}</a></h1>
+                    <h2><a [routerLink]="['/blog/view', blog.id]">{{blog.title}}</a></h2>
                     <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
                 </div>
-                <div class="card-body bg-white text-black">
+                <div class="card-body bg-white text-black databox">
                     <div [innerHTML]="safeContent(blog.content)"></div>
                 </div>
             </div>

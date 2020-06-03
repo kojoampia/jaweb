@@ -46,7 +46,7 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let service of services ;trackBy: trackId" class="text-white">
-                            <td><a [routerLink]="['/service', service.id, 'view' ]">{{service.name}}</a></td>
+                            <td><a class="text-white" [routerLink]="['/service', service.id, 'view' ]">{{service.name}}</a></td>
                             <td>
                                 <a *ngIf="service.photo" (click)="openFile(service.photoContentType, service.photo)">
                                     <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo" style="max-height: 30px;" alt="service image"/>
