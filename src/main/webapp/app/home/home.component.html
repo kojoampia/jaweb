@@ -1,23 +1,20 @@
-<div class="home" *ngIf="loaded">
-    <div class="row justify-content-center mt-1 mb-1 head-info bg-transparent">
-        <div class="container text-center ml-auto mr-auto ">
-            <!--Information Box -->
-            <jhi-infobox [info]="info"></jhi-infobox>
-            <!-- Sliderbox -->
-            <jhi-slider [width]="1200" [height]="620" [slides]="slides"></jhi-slider>
-            <!-- Portfolio -->
-            <jhi-portfolio-viewer [portfolios]="portfolios">
-            </jhi-portfolio-viewer>
-            <!-- Services -->
-            <jhi-service-viewer [services]="services">
-            </jhi-service-viewer>
-            <!-- Partner -->
-            <jhi-partner-viewer [partners]="partners">
-            </jhi-partner-viewer>
-        </div>
+<div class="home ml-5 mr-5" *ngIf="loaded">
+    <div class="ml-auto mr-auto w-100">
+        <!--Information Box -->
+        <jhi-infobox [info]="info"></jhi-infobox>
+        <!-- Sliderbox -->
+        <jhi-slider [width]="1200" [height]="620" [slides]="slides"></jhi-slider>
+        <!-- Services -->
+        <jhi-service-view>
+        </jhi-service-view>
+        <!-- Portfolio -->
+        <jhi-portfolio-view [portfolios]="portfolios">
+        </jhi-portfolio-view>
+        <!-- Partner -->
+        <jhi-partner-view [partners]="partners">
+        </jhi-partner-view>
     </div>
 </div>
-
 <!-- Footer -->
 <div class="fixed-bottom">
     <jhi-footer></jhi-footer>

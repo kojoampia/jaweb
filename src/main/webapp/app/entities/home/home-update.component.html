@@ -31,19 +31,37 @@
                             </ng-template>
                         </ngb-tab>
                         <ngb-tab title="Slides">
-                            <ng-template ngbTabContent  class="bg-transparent">
+                            <ng-template ngbTabContent class="bg-transparent">
                                 <!-- Sliderbox-->
                                 <jhi-slide-selector [slides]="slides" (slideSelected)="onSlideSelected($event)">
                                 </jhi-slide-selector>
                                 <hr>
-                                <jhi-tilebox [tiles]="home.slides" [showSelected]="true" (tileSelected)="onSlideSelected($event)" [title]="home.header"></jhi-tilebox>
-                            </ng-template>
-                        </ngb-tab>
-                        <ngb-tab title="Portfolio">
-                            <ng-template ngbTabContent>
+                                <jhi-tilebox [tiles]="home.slides" [showSelected]="true"
+                                    (tileSelected)="onSlideSelected($event)" [title]="home.header"></jhi-tilebox>
                             </ng-template>
                         </ngb-tab>
                         <ngb-tab title="Services">
+                            <ng-template ngbTabContent>
+                                <div class="table-responsive" *ngIf="services">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <tr *ngFor="let service of services ;trackBy: trackId" class="text-white">
+                                            <td><a class="text-white"
+                                                    (click)="selectService(service)">{{service.name}}</a></td>
+                                            <td>
+                                                <a *ngIf="service.photo" (click)="selectService(service)">
+                                                    <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
+                                                        style="max-height: 30px;" alt="service image" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="Portfolio">
                             <ng-template ngbTabContent>
                             </ng-template>
                         </ngb-tab>

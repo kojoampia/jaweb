@@ -13,7 +13,7 @@ import { InformationService } from 'app/entities/information';
 import { ISlide } from 'app/shared/model/slide.model';
 import { SlideService } from '../slide';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
-import { IService } from 'app/shared/model/service.model';
+import { IService, Service } from 'app/shared/model/service.model';
 import { IPartner } from 'app/shared/model/partner.model';
 import { PortfolioService } from '../portfolio';
 import { PartnerService } from '../partner';
@@ -32,10 +32,10 @@ export class HomeUpdateComponent implements OnInit {
     createdDate: string;
     modifiedDate: string;
 
-    slides: ISlide[];
-    portfolios: IPortfolio[];
-    services: IService[];
-    partners: IPartner[];
+    slides: ISlide[] = [];
+    portfolios: IPortfolio[] = [];
+    services: IService[] = [];
+    partners: IPartner[] = [];
 
     error: any;
     success: any;
@@ -49,7 +49,7 @@ export class HomeUpdateComponent implements OnInit {
         protected slideService: SlideService,
         protected portfolioService: PortfolioService,
         protected partnerService: PartnerService,
-        protected servicesService: ServiceService,
+        protected restService: ServiceService,
         protected jhiAlertService: JhiAlertService,
         protected homeService: HomeService,
         protected informationService: InformationService,
@@ -63,14 +63,19 @@ export class HomeUpdateComponent implements OnInit {
             this.createdDate = this.home.createdDate != null ? this.home.createdDate.format(DATE_TIME_FORMAT) : null;
             this.modifiedDate = this.home.modifiedDate != null ? this.home.modifiedDate.format(DATE_TIME_FORMAT) : null;
         });
-            this.loadInformation();
-            this.loadSlides();
+        this.loadInformation();
+        this.loadSlides();
+        this.loadServices();
+    }
+
+    loadServices() {
+        this.restService.query().subscribe((res: HttpResponse<IService[]>) => {
+            this.services = res.body || [];
+        });
     }
 
     loadSlides() {
-        this.slideService
-        .query()
-        .subscribe(
+        this.slideService.query().subscribe(
             (res: HttpResponse<ISlide[]>) => {
                 this.slides = res.body;
                 console.log('load-slides');
@@ -85,7 +90,7 @@ export class HomeUpdateComponent implements OnInit {
             const data = res.body;
             this.information = [];
             data.forEach(item => {
-                this.information.push({selected: false, info: item});
+                this.information.push({ selected: false, info: item });
             });
             console.log('load-information');
             console.log(this.information);
@@ -163,5 +168,16 @@ export class HomeUpdateComponent implements OnInit {
             this.home.slides.splice(slideIndex, 1);
         }
         console.log(this.home.slides);
+    }
+
+    trackId(index: number, item: IService) {
+        return item.id;
+    }
+
+    selectService(service: Service) {
+        if (!this.home.services) {
+            this.home.services = [];
+        }
+        this.home.services.push(service);
     }
 }
