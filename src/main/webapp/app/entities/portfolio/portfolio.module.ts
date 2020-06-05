@@ -26,6 +26,7 @@ const ENTITY_STATES = [...portfolioRoute, ...portfolioPopupRoute];
         PortfolioViewComponent
     ],
     entryComponents: [PortfolioComponent, PortfolioUpdateComponent, PortfolioDeleteDialogComponent, PortfolioDeletePopupComponent],
+    exports: [PortfolioViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonPortfolioModule {}

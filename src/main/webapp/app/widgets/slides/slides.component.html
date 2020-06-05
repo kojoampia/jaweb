@@ -1,5 +1,5 @@
-<ngb-carousel *ngIf="slides && slides.length > 0">
-    <ng-template ngbSlide *ngFor="let slide of slides ;trackBy: trackId" class="text-center ml-auto mr-auto">
+<ngb-carousel *ngIf="slides && slides.length > 0" class="w-100">
+    <ng-template ngbSlide *ngFor="let slide of slides ;trackBy: trackId" class="ml-auto mr-auto">
             <!--
              <div [style.width]="width" [style.height]="height" [style.background]="'url(' + slide.url + ')'"></div>
             -->

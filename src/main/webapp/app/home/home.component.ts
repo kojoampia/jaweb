@@ -9,6 +9,7 @@ import { ISlide } from 'app/shared/model/slide.model';
 import { LocalStorage } from 'ngx-webstorage';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { IService } from 'app/shared/model/service.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'jhi-home',
@@ -36,7 +37,8 @@ export class HomeComponent implements OnInit {
         private homeService: HomeService,
         private accountService: AccountService,
         private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private domSanitizer: DomSanitizer
     ) {}
 
     ngOnInit() {
@@ -84,5 +86,9 @@ export class HomeComponent implements OnInit {
 
     login() {
         this.modalRef = this.loginModalService.open();
+    }
+
+    safeContent(data: string): SafeHtml {
+        return this.domSanitizer.bypassSecurityTrustHtml(data);
     }
 }

@@ -15,3 +15,5 @@ export * from './treemap/treemap.component';
 export * from './sidebar/sidebar.component';
 export * from './slides/slides.component';
 export * from './slides/slide-selector.component';
+export * from './owlslider/slider.component';
+export * from './gmap/gmap.component';

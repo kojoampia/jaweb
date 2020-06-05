@@ -26,6 +26,7 @@ const ENTITY_STATES = [...serviceRoute, ...servicePopupRoute];
         ServiceViewComponent
     ],
     entryComponents: [ServiceComponent, ServiceUpdateComponent, ServiceDeleteDialogComponent, ServiceDeletePopupComponent],
+    exports: [ServiceViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonServiceModule {}

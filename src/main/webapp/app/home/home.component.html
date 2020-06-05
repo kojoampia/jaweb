@@ -5,8 +5,26 @@
         <!-- Sliderbox -->
         <jhi-slider [width]="1200" [height]="620" [slides]="slides"></jhi-slider>
         <!-- Services -->
-        <jhi-service-view>
+        <jhi-service-view [services]="services">
         </jhi-service-view>
+        <div class="mr-5 ml-5">
+            <div class="card-group mt-3">
+                <div *ngFor="let service of services" class="col-md-4">
+                    <div class="card border-0 widgetbox">
+                        <div class="card-header">
+                            <h4 class="card-title">{{ service.name }}</h4>
+                        </div>
+                        <div class="card-body text-left databox">
+                            <div [innerHTML]="safeContent(service.description)"></div>
+                        </div>
+                        <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
+                        style="max-width: 100%;" alt="service image" class="card-bottom-img img-fluid" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <!-- Portfolio -->
         <jhi-portfolio-view [portfolios]="portfolios">
         </jhi-portfolio-view>

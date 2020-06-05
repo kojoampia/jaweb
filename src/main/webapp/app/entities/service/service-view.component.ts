@@ -3,7 +3,6 @@ import { IService } from 'app/shared/model/service.model';
 import { ServiceService } from './service.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpResponse } from '@angular/common/http';
-
 @Component({
     selector: 'jhi-service-view',
     templateUrl: './service-view.component.html',

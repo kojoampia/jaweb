@@ -26,6 +26,7 @@ const ENTITY_STATES = [...partnerRoute, ...partnerPopupRoute];
         PartnerViewComponent
     ],
     entryComponents: [PartnerComponent, PartnerUpdateComponent, PartnerDeleteDialogComponent, PartnerDeletePopupComponent],
+    exports: [PartnerViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonPartnerModule {}
