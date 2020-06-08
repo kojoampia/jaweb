@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -12,7 +11,6 @@ import { CareerDetailComponent } from './career-detail.component';
 import { CareerUpdateComponent } from './career-update.component';
 import { CareerDeletePopupComponent } from './career-delete-dialog.component';
 import { ICareer } from 'app/shared/model/career.model';
-import { CareerViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class CareerResolve implements Resolve<ICareer> {
@@ -22,8 +20,8 @@ export class CareerResolve implements Resolve<ICareer> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: any) => response.ok),
-                map((career: any) => career.body)
+                filter((response: HttpResponse<Career>) => response.ok),
+                map((career: HttpResponse<Career>) => career.body)
             );
         }
         return of(new Career());
@@ -33,27 +31,10 @@ export class CareerResolve implements Resolve<ICareer> {
 export const careerRoute: Routes = [
     {
         path: '',
-        component: CareerViewComponent,
-        resolve: {
-            pagingParams: JhiResolvePagingParams
-        },
-        data: {
-            authorities: [],
-            defaultSort: 'id,asc',
-            pageTitle: 'Team information page'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'dashboard',
         component: CareerComponent,
-        resolve: {
-            pagingParams: JhiResolvePagingParams
-        },
         data: {
             authorities: ['ROLE_USER'],
-            defaultSort: 'id,asc',
-            pageTitle: 'Team information management dashboard'
+            pageTitle: 'Careers'
         },
         canActivate: [UserRouteAccessService]
     },

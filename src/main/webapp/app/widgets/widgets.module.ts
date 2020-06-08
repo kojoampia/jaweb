@@ -10,7 +10,9 @@ import {
     SidebarComponent,
     PiechartComponent,
     SlidesComponent,
-    SlideSelectorComponent
+    SlideSelectorComponent,
+    PageEditorComponent,
+    PageViewerComponent
 } from './index';
 import { DocviewerComponent } from './docviewer/docviewer.component';
 import { DropDownBoxComponent } from './drop-down-box/ddb.component';
@@ -24,6 +26,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxCarouselModule } from 'ngx-carousel';
 import { NgxTinymceModule } from 'ngx-tinymce';
+import { GMapComponent } from './gmap/gmap.component';
+import { OwlSliderComponent } from './owlslider/slider.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -49,16 +53,23 @@ import { NgxTinymceModule } from 'ngx-tinymce';
         PrintViewerComponent,
         TreeMapComponent,
         BubbleMapComponent,
+        GMapComponent,
+        MapComponent,
+        OwlSliderComponent,
         SidebarComponent,
         PiechartComponent,
         SlidesComponent,
-        SlideSelectorComponent
+        SlideSelectorComponent,
+        PageEditorComponent,
+        PageViewerComponent
     ],
     exports: [
         TinyEditorComponent,
         TileboxComponent,
         InfoboxComponent,
         MapComponent,
+        GMapComponent,
+        OwlSliderComponent,
         DocviewerComponent,
         DropDownBoxComponent,
         HeatmapComponent,
@@ -70,7 +81,9 @@ import { NgxTinymceModule } from 'ngx-tinymce';
         SidebarComponent,
         PiechartComponent,
         SlidesComponent,
-        SlideSelectorComponent
+        SlideSelectorComponent,
+        PageEditorComponent,
+        PageViewerComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

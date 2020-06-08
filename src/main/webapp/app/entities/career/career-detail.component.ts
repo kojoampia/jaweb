@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ICareer, Career } from 'app/shared/model/career.model';
+import { ICareer } from 'app/shared/model/career.model';
 
 @Component({
     selector: 'jhi-career-detail',
     templateUrl: './career-detail.component.html'
 })
 export class CareerDetailComponent implements OnInit {
-    career: ICareer = new Career();
+    career: ICareer;
 
-    constructor(protected activatedRoute: ActivatedRoute) {
-        delete this.career;
-    }
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ career }) => {

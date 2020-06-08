@@ -19,11 +19,11 @@ const ENTITY_STATES = [...careerRoute, ...careerPopupRoute];
     imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         CareerComponent,
+        CareerViewComponent,
         CareerDetailComponent,
         CareerUpdateComponent,
         CareerDeleteDialogComponent,
-        CareerDeletePopupComponent,
-        CareerViewComponent
+        CareerDeletePopupComponent
     ],
     entryComponents: [CareerComponent, CareerUpdateComponent, CareerDeleteDialogComponent, CareerDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

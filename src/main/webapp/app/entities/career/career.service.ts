@@ -15,7 +15,6 @@ type EntityArrayResponseType = HttpResponse<ICareer[]>;
 @Injectable({ providedIn: 'root' })
 export class CareerService {
     public resourceUrl = SERVER_API_URL + 'api/careers';
-    public resourceSearchUrl = SERVER_API_URL + 'api/_search/careers';
 
     constructor(protected http: HttpClient) {}
 
@@ -50,13 +49,6 @@ export class CareerService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    search(req?: any): Observable<EntityArrayResponseType> {
-        const options = createRequestOption(req);
-        return this.http
-            .get<ICareer[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
-            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
-    }
-
     protected convertDateFromClient(career: ICareer): ICareer {
         const copy: ICareer = Object.assign({}, career, {
             createdDate: career.createdDate != null && career.createdDate.isValid() ? career.createdDate.toJSON() : null,
@@ -67,8 +59,8 @@ export class CareerService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : undefined;
-            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : undefined;
+            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
+            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : null;
         }
         return res;
     }
@@ -76,8 +68,8 @@ export class CareerService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((career: ICareer) => {
-                career.createdDate = career.createdDate != null ? moment(career.createdDate) : undefined;
-                career.modifiedDate = career.modifiedDate != null ? moment(career.modifiedDate) : undefined;
+                career.createdDate = career.createdDate != null ? moment(career.createdDate) : null;
+                career.modifiedDate = career.modifiedDate != null ? moment(career.modifiedDate) : null;
             });
         }
         return res;

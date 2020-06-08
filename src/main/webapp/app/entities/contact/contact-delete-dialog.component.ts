@@ -12,7 +12,7 @@ import { ContactService } from './contact.service';
     templateUrl: './contact-delete-dialog.component.html'
 })
 export class ContactDeleteDialogComponent {
-    protected contact: IContact = new Contact();
+    contact: IContact = new Contact();
 
     constructor(protected contactService: ContactService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 

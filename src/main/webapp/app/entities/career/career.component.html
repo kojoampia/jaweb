@@ -3,48 +3,33 @@
         <span>Careers</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-career" [routerLink]="['/career/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
+            <span >
             Create new Career
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
     <br/>
     <div class="table-responsive" *ngIf="careers">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="content"><span>Content</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="language"><span>Language</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdDate"><span>Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedDate"><span>Modified Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="lastModifiedBy"><span>Last Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Name</span></th>
+            <th><span>Description</span></th>
+            <th><span>Department</span></th>
+            <th><span>Created Date</span></th>
+            <th><span>Modified Date</span></th>
+            <th><span>Last Modified By</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let career of careers ;trackBy: trackId">
                 <td><a [routerLink]="['/career', career.id, 'view' ]">{{career.id}}</a></td>
-                <td>{{career.title}}</td>
-                <td>{{career.content}}</td>
-                <td>{{career.language}}</td>
+                <td>{{career.name}}</td>
+                <td>{{career.description}}</td>
+                <td>{{career.department}}</td>
                 <td>{{career.createdDate | date:'medium'}}</td>
                 <td>{{career.modifiedDate | date:'medium'}}</td>
                 <td>{{career.lastModifiedBy}}</td>
@@ -75,13 +60,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div *ngIf="careers && careers.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

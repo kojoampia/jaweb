@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -448,10 +448,10 @@
                     <version>${jib-maven-plugin.version}</version>
                     <configuration>
                         <from>
-                            <image>openjdk:8-jre-alpine</image>
+                            <image>openjdk:11.0.7-jre</image>
                         </from>
                         <to>
-                            <image>jojoaddison:latest</image>
+                            <image>docker-registry.jojoaddison.net:5000/jaweb:latest</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -460,7 +460,7 @@
                                 <arg>chmod +x /entrypoint.sh &amp;&amp; sync &amp;&amp; /entrypoint.sh</arg>
                             </entrypoint>
                             <ports>
-                                <port>8080</port>
+                                <port>1980</port>
                             </ports>
                             <environment>
                                 <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>

@@ -1,26 +1,23 @@
 import { Moment } from 'moment';
-import { ISlide } from 'app/shared/model/slide.model';
 
 export interface ICareer {
     id?: string;
-    title?: string;
-    content?: string;
-    language?: string;
+    name?: string;
+    description?: string;
+    department?: string;
     createdDate?: Moment;
     modifiedDate?: Moment;
     lastModifiedBy?: string;
-    slides?: ISlide[];
 }
 
 export class Career implements ICareer {
     constructor(
         public id?: string,
-        public title?: string,
-        public content?: string,
-        public language?: string,
+        public name?: string,
+        public description?: string,
+        public department?: string,
         public createdDate?: Moment,
         public modifiedDate?: Moment,
-        public lastModifiedBy?: string,
-        public slides?: ISlide[]
+        public lastModifiedBy?: string
     ) {}
 }

@@ -1,28 +1,28 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-about-heading">Create or edit a About</h2>
+            <h2 id="jhi-career-heading">Create or edit a Career</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!about.id">
+                <div class="form-group" [hidden]="!career.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="about.id" readonly />
+                        [(ngModel)]="career.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_title">Title</label>
-                    <input type="text" class="form-control" name="title" id="field_title"
-                        [(ngModel)]="about.title" />
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="career.name" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_content">Content</label>
-                    <input type="text" class="form-control" name="content" id="field_content"
-                        [(ngModel)]="about.content" />
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="career.description" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_language">Language</label>
-                    <input type="text" class="form-control" name="language" id="field_language"
-                        [(ngModel)]="about.language" />
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <input type="text" class="form-control" name="department" id="field_department"
+                        [(ngModel)]="career.department" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_createdDate">Created Date</label>
@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_lastModifiedBy">Last Modified By</label>
                     <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
-                        [(ngModel)]="about.lastModifiedBy" />
+                        [(ngModel)]="career.lastModifiedBy" />
                 </div>
 
             </div>

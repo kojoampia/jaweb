@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import moment = require('moment');
+import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared';
 
 @Component({

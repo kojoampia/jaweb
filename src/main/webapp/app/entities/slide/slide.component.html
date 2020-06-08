@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="col-6">
-            <jhi-slide-detail [slide]="slide" [embed]="true" (onClose)="close($event)" *ngIf="slide && isView">
+            <jhi-slide-detail [slide]="slide" [embed]="true" (onClose)="close()" *ngIf="slide && isView">
             </jhi-slide-detail>
             <jhi-slide-update [slide]="slide" [embed]="true" (onClose)="reload()" *ngIf="slide && isEdit">
             </jhi-slide-update>

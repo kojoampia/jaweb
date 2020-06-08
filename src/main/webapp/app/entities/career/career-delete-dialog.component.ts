@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { ICareer, Career } from 'app/shared/model/career.model';
+import { ICareer } from 'app/shared/model/career.model';
 import { CareerService } from './career.service';
 
 @Component({
@@ -12,11 +12,9 @@ import { CareerService } from './career.service';
     templateUrl: './career-delete-dialog.component.html'
 })
 export class CareerDeleteDialogComponent {
-    career: ICareer = new Career();
+    career: ICareer;
 
-    constructor(protected careerService: CareerService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {
-        delete this.career;
-    }
+    constructor(protected careerService: CareerService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -40,10 +38,7 @@ export class CareerDeleteDialogComponent {
 export class CareerDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
-    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
-        this.ngbModalRef = modalService.open(null);
-        delete this.ngbModalRef;
-    }
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ career }) => {
@@ -53,11 +48,11 @@ export class CareerDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/career', { outlets: { popup: null } }]);
-                        delete this.ngbModalRef;
+                        this.ngbModalRef = null;
                     },
                     reason => {
                         this.router.navigate(['/career', { outlets: { popup: null } }]);
-                        delete this.ngbModalRef;
+                        this.ngbModalRef = null;
                     }
                 );
             }, 0);
@@ -65,6 +60,6 @@ export class CareerDeletePopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        delete this.ngbModalRef;
+        this.ngbModalRef = null;
     }
 }
