@@ -11,7 +11,8 @@ import { ContactService } from './contact.service';
 
 @Component({
     selector: 'jhi-contact-update',
-    templateUrl: './contact-update.component.html'
+    templateUrl: './contact-update.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ContactUpdateComponent implements OnInit {
     contact: IContact = new Contact();

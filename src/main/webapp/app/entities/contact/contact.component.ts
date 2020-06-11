@@ -11,7 +11,8 @@ import { ContactService } from './contact.service';
 
 @Component({
     selector: 'jhi-contact',
-    templateUrl: './contact.component.html'
+    templateUrl: './contact.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ContactComponent implements OnInit, OnDestroy {
     contacts: IContact[] = [];

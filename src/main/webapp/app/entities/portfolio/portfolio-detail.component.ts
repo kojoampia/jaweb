@@ -3,15 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
 import { IPortfolio } from 'app/shared/model/portfolio.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'jhi-portfolio-detail',
-    templateUrl: './portfolio-detail.component.html'
+    templateUrl: './portfolio-detail.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class PortfolioDetailComponent implements OnInit {
     portfolio: IPortfolio;
 
-    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ portfolio }) => {
@@ -28,5 +30,8 @@ export class PortfolioDetailComponent implements OnInit {
     }
     previousState() {
         window.history.back();
+    }
+    sanitize(data: string): SafeHtml {
+        return this.domSanitizer.bypassSecurityTrustHtml(data);
     }
 }

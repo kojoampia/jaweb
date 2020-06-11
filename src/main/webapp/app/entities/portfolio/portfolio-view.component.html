@@ -1,3 +1,19 @@
-<p>
-  portfolio-view works!
-</p>
+<div class="container ml-auto mr-auto mb-5">
+    <div class="jumbotron headerbox">
+        <h1 class="display-4">Portfolio</h1>
+    </div>
+    <div class="card-group border-0 bg-transparent">
+        <div *ngFor="let portfolio of portfolios" class="col-md-4">
+            <div class="card widgetbox">
+                <div class="card-header">
+                    {{portfolio.name}}
+                </div>
+                <div class="card-body databox">
+                    <div [innerHTML]="sanitize(portfolio.description)"></div>
+                </div>
+                <img [src]="'data:' + portfolio.photoContentType + ';base64,' + portfolio.photo"
+                style="max-width: 100%;" alt="portfolio image" class="card-bottom-img img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>

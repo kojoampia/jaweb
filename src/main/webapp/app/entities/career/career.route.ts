@@ -11,6 +11,7 @@ import { CareerDetailComponent } from './career-detail.component';
 import { CareerUpdateComponent } from './career-update.component';
 import { CareerDeletePopupComponent } from './career-delete-dialog.component';
 import { ICareer } from 'app/shared/model/career.model';
+import { CareerViewComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class CareerResolve implements Resolve<ICareer> {
@@ -31,10 +32,19 @@ export class CareerResolve implements Resolve<ICareer> {
 export const careerRoute: Routes = [
     {
         path: '',
+        component: CareerViewComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'Careers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard',
         component: CareerComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Careers'
+            pageTitle: 'Careers Dashboard'
         },
         canActivate: [UserRouteAccessService]
     },

@@ -4,7 +4,6 @@ package io.jojoaddison.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -17,7 +16,7 @@ import java.util.Objects;
 public class Career implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 

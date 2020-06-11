@@ -13,7 +13,8 @@ import { AboutService } from './about.service';
 
 @Component({
     selector: 'jhi-about',
-    templateUrl: './about.component.html'
+    templateUrl: './about.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class AboutComponent implements OnInit, OnDestroy {
     currentAccount: any;

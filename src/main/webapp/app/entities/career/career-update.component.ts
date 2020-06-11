@@ -10,7 +10,8 @@ import { CareerService } from './career.service';
 
 @Component({
     selector: 'jhi-career-update',
-    templateUrl: './career-update.component.html'
+    templateUrl: './career-update.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class CareerUpdateComponent implements OnInit {
     career: ICareer;
@@ -55,5 +56,9 @@ export class CareerUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    setContentChanged(data: string) {
+        this.career.description = data;
     }
 }

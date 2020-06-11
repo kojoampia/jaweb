@@ -1,3 +1,18 @@
-<p>
-  partner-view works!
-</p>
+<div class="container ml-auto mr-auto mb-5">
+    <div class="jumbotron headerbox">
+        <h1 class="display-1">Partner</h1>
+    </div>
+    <!-- Portfolio -->
+    <div class="card-group border-0 bg-transparent">
+        <div *ngFor="let partner of partners" class="col-md-4">
+            <div class="card widgetbox">
+                <div class="card-header">
+                    {{partner.name}}
+                </div>
+                <div class="card-body databox">
+                </div>
+                <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo"
+                style="max-width: 100%;" alt="partner logo image" class="card-bottom-img img-fluid" />
+            </div>
+        </div>
+    </div>

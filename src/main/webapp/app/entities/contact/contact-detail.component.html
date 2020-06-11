@@ -1,3 +1,96 @@
+<div class="page-editor container ml-auto mr-auto">
+    <div class="card border-0 bg-transparent" *ngIf="contact">
+        <div class="card-header bg-primary">
+            <h2>{{contact.title}}</h2>
+        </div>
+        <div class="card-body text-left">
+            <div class="row">
+                <div class="col">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" *ngIf="contact.appointment">
+                            {{contact.appointment}}&nbsp;
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.address">
+                            {{contact.address}}&nbsp; <span *ngIf="contact.street"> {{contact.street}} </span>
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.code">
+                            {{contact.code}}&nbsp;<span *ngIf="contact.city">{{contact.city}}</span>
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.state">
+                            {{contact.state}}&nbsp;<span *ngIf="contact.region">{{contact.region}}</span>
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.country">
+                            {{contact.country}}
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.telephone">
+                            <button class="btn btn-round btn-info btn-sm">
+                                                            <i class="fa fa-phone"></i>
+                                                        </button> {{contact.telephone}}
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.email">
+                            <a [href]="'mailto:' + contact.email" class="btn btn-dark btn-sm">
+                                <i class="fa fa-at"></i>
+                            </a>
+                            {{contact.email}}
+                        </li>
+                        <li class="list-group-item" *ngIf="contact.whatsapp">
+                            <button class="btn btn-round btn-success btn-sm">
+                                                                <i class="fa fa-whatsapp"></i>
+                                                        </button> {{contact.whatsapp}}
+                        </li>
+                        <li class="list-group-item">
+                            <div class="btn-group flex-btn-group-container text-left float-left">
+                                <a [href]="contact.facebook" class="btn btn-round btn-info btn-sm" target="_blank" *ngIf="contact.facebook">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a [href]="contact.google" class="btn btn-round btn-info btn-sm" target="_blank" *ngIf="contact.google">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                                <a [href]="contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank" *ngIf="contact.twitter">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <div *ngIf="contact.image">
+                        <a (click)="openFile(contact.imageContentType, contact.image)">
+                            <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image" style="max-width: 100%;" alt="contact image" />
+                        </a>
+                        <hr> {{contact.imageContentType}}, {{byteSize(contact.image)}}, url: {{contact.url}}
+                    </div>
+                    <hr>
+                    <jhi-gmap [lng]="contact.longitude" [lat]="contact.latitude"></jhi-gmap>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info" *ngIf="!embed">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/contact', contact.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="contact">
@@ -118,3 +211,4 @@
         </div>
     </div>
 </div>
+-->

@@ -1,6 +1,7 @@
 package io.jojoaddison.web.rest;
 import io.jojoaddison.domain.Career;
 import io.jojoaddison.repository.CareerRepository;
+import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,9 @@ public class CareerResource {
         if (career.getId() != null) {
             throw new BadRequestAlertException("A new career cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        career.setCreatedDate(ZonedDateTime.now());
+        career.setModifiedDate(ZonedDateTime.now());
+        career.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         Career result = careerRepository.save(career);
         return ResponseEntity.created(new URI("/api/careers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -66,6 +70,8 @@ public class CareerResource {
         if (career.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        career.setModifiedDate(ZonedDateTime.now());
+        career.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         Career result = careerRepository.save(career);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, career.getId().toString()))

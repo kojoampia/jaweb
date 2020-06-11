@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
@@ -6,10 +6,12 @@ import { IContact, Contact } from 'app/shared/model/contact.model';
 
 @Component({
     selector: 'jhi-contact-detail',
-    templateUrl: './contact-detail.component.html'
+    templateUrl: './contact-detail.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ContactDetailComponent implements OnInit {
-    contact: IContact = new Contact();
+    @Input() contact: IContact = new Contact();
+    @Input() embed = false;
 
     constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {
         delete this.contact;

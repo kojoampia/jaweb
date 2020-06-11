@@ -70,6 +70,13 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     getImageUrl() {
         return this.isAuthenticated() ? this.accountService.getImageUrl() : null;
     }
+
+    isActive(item: string): boolean {
+        if (this.router.url.endsWith(item)) {
+            return true;
+        }
+    }
+
     /*
     @HostListener('window:scroll', ['$event'])
     fixNavbar() {

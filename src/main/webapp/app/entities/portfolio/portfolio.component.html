@@ -1,4 +1,4 @@
-<div class="page-editor ml-5 mr-5">
+<div class="page-editor container ml-auto mr-auto">
     <div class="card border-0 bg-transparent">
         <div class="card-header">
             <h2 id="page-heading">
@@ -15,28 +15,10 @@
         </div>
         <div class="card-body">
             <div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form name="searchForm" class="form-inline">
-                            <div class="input-group w-100 mt-3">
-                                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                                    name="currentSearch" placeholder="Query">
-                                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                                    <fa-icon [icon]="'search'"></fa-icon>
-                                </button>
-                                <button class="input-group-append btn btn-danger" (click)="clear()"
-                                    *ngIf="currentSearch">
-                                    <fa-icon [icon]="'trash-alt'"></fa-icon>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <br />
                 <div class="table-responsive" *ngIf="portfolios">
                     <table class="table table-striped">
                         <thead>
-                            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
+                            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" class="text-white"
                                 [callback]="transition.bind(this)">
                                 <th jhiSortBy="name"><span>Name</span>
                                     <fa-icon [icon]="'sort'"></fa-icon>
@@ -54,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let portfolio of portfolios ;trackBy: trackId">
+                            <tr *ngFor="let portfolio of portfolios ;trackBy: trackId" class="text-white">
                                 <td>{{portfolio.name}}</td>
                                 <td>
                                     <a *ngIf="portfolio.photo"

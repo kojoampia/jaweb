@@ -1,4 +1,4 @@
-<div>
+<div class="page-editor container mr-auto ml-auto">
     <h2 id="page-heading">
         <span>Careers</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-career" [routerLink]="['/career/new']">
@@ -13,24 +13,18 @@
     <div class="table-responsive" *ngIf="careers">
         <table class="table table-striped">
             <thead>
-            <tr>
-            <th><span>ID</span></th>
+            <tr class="text-white">
             <th><span>Name</span></th>
-            <th><span>Description</span></th>
             <th><span>Department</span></th>
-            <th><span>Created Date</span></th>
             <th><span>Modified Date</span></th>
             <th><span>Last Modified By</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let career of careers ;trackBy: trackId">
-                <td><a [routerLink]="['/career', career.id, 'view' ]">{{career.id}}</a></td>
+            <tr *ngFor="let career of careers ;trackBy: trackId" class="text-white">
                 <td>{{career.name}}</td>
-                <td>{{career.description}}</td>
                 <td>{{career.department}}</td>
-                <td>{{career.createdDate | date:'medium'}}</td>
                 <td>{{career.modifiedDate | date:'medium'}}</td>
                 <td>{{career.lastModifiedBy}}</td>
                 <td class="text-right">

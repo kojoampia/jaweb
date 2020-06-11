@@ -13,6 +13,7 @@ Navbar
 .profile-image {
     height: 1.75em;
     width: 1.75em;
+    border-radius: 5px;
 }
 
 .navbar {
@@ -53,20 +54,32 @@ Navbar
         }
     }
 
+    li.active {
+        background-color: #005825;
+        border: 0;
+        color: #ffffff;
+    }
+
     a.nav-link {
         font-weight: 400;
         background-color: #ffffff;
     }
+
+    a.active {
+        background-color: #005825;
+        border: 1px solid #ffffff;
+        color: #ffffff;
+    }
+
     a:hover {
         background-color: #005825;
-        border-color: #ffff99;
+        border: 1px solid #ffff99;
         color: #ffffff;
     }
     a:active {
         background-color: #005825;
-        border-color: #ffff99;
         color: #ffffff;
-        border: 1px solid #ffffff;
+        border: 1px solid #ffff99;
     }
     .navbar-toggler {
         &:hover {
@@ -85,6 +98,7 @@ Logo styles
     vertical-align: middle;
     background: url('../../../content/images/logo.jpg') no-repeat center center;
     background-size: contain;
+    border-radius: 10px;
 }
 
 .nav-item .nav-link {

@@ -10,7 +10,8 @@ import { AboutService } from './about.service';
 
 @Component({
     selector: 'jhi-about-update',
-    templateUrl: './about-update.component.html'
+    templateUrl: './about-update.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class AboutUpdateComponent implements OnInit {
     about: IAbout = new About();
@@ -58,5 +59,9 @@ export class AboutUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    setContentChanged(data: string) {
+        this.about.content = data;
     }
 }

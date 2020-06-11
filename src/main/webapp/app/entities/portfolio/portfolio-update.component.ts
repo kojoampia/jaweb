@@ -11,7 +11,8 @@ import { PortfolioService } from './portfolio.service';
 
 @Component({
     selector: 'jhi-portfolio-update',
-    templateUrl: './portfolio-update.component.html'
+    templateUrl: './portfolio-update.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class PortfolioUpdateComponent implements OnInit {
     portfolio: IPortfolio;
@@ -77,5 +78,8 @@ export class PortfolioUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+    setContentChanged(data: string) {
+        this.portfolio.description = data;
     }
 }

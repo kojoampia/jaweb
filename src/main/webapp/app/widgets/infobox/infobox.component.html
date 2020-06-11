@@ -1,25 +1,17 @@
-<div class="card border-0 info-theme text-center mb-1" *ngIf="info">
-    <div class="card-body">
-        <div class="card-title" *ngIf="info.title">
-            <h1>{{info.title}}</h1>
-        </div>
-        <div class="card-body">
-            <h3>{{ info.brief }}</h3>
-        </div>
-        <div class="card-link border-0 text-right" *ngIf="!showMore">
-                <button class="btn btn-primary btn-md" (click)="toggleShowMore()" >
-                    <fa-icon [icon]="'eye'"></fa-icon> <span class="d-none d-md-inline">Learn more...</span>
-                </button>
-        </div>
-        <div class="card-link border-0 text-right" *ngIf="showMore">
-            <button class="btn btn-primary btn-md" (click)="toggleShowMore()" >
+<div class="container ml-auto mr-auto">
+    <div class="jumbotron info-theme">
+        <h1 class="display-4">{{info.title}}</h1>
+        <p class="lead">{{info.brief}}</p>
+        <div class="text-right">
+            <button class="btn btn-primary btn-md" (click)="toggleShowMore()" *ngIf="!showMore" >
+                <fa-icon [icon]="'eye'"></fa-icon> <span class="d-none d-md-inline">Learn more...</span>
+            </button>
+            <button class="btn btn-primary btn-md" (click)="toggleShowMore()" *ngIf="showMore" >
                 <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span class="d-none d-md-inline">Hide</span>
             </button>
+        </div>
     </div>
-    </div>
-</div>
-<div class="card info-theme ml-auto mr-auto" *ngIf="showMore">
-    <div class="card-body">
+    <div class="jumbotron info-theme ml-auto mr-auto" *ngIf="showMore">
         <div [innerHTML]="info.content" *ngIf="info.content"></div>
     </div>
 </div>

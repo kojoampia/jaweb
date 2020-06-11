@@ -1,3 +1,11 @@
-<p>
-  imprint-view works!
-</p>
+<div class="container ml-auto mr-auto mb-5 mt-1">
+    <div class="card blogbox" *ngIf="imprint">
+        <div class="card-header text-primary text-center">
+            <h2 class="display-2">{{imprint.title}}</h2>
+            <span>{{imprint.modifiedDate | date: 'medium'}}</span>
+        </div>
+        <div class="card-body bg-white text-black databox">
+            <div [innerHTML]="sanitize(imprint.content)"></div>
+        </div>
+    </div>
+</div>

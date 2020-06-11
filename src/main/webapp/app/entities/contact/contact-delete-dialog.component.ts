@@ -9,7 +9,8 @@ import { ContactService } from './contact.service';
 
 @Component({
     selector: 'jhi-contact-delete-dialog',
-    templateUrl: './contact-delete-dialog.component.html'
+    templateUrl: './contact-delete-dialog.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ContactDeleteDialogComponent {
     contact: IContact = new Contact();

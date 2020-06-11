@@ -1,7 +1,10 @@
-<div class="mr-5 ml-5">
+<div class="container ml-auto mr-auto">
+    <div class="jumbotron headerbox">
+        <h1 class="display-4">Services</h1>
+    </div>
     <div class="card-group mt-3">
         <div *ngFor="let service of services" class="col-md-4">
-            <div class="card border-0 widgetbox">
+            <div class="card widgetbox">
                 <div class="card-header">
                     <h4 class="card-title">{{ service.name }}</h4>
                 </div>

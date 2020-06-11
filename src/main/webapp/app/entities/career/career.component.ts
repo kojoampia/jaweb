@@ -10,7 +10,8 @@ import { CareerService } from './career.service';
 
 @Component({
     selector: 'jhi-career',
-    templateUrl: './career.component.html'
+    templateUrl: './career.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class CareerComponent implements OnInit, OnDestroy {
     careers: ICareer[];

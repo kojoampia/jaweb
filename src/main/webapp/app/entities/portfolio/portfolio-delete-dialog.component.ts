@@ -9,7 +9,8 @@ import { PortfolioService } from './portfolio.service';
 
 @Component({
     selector: 'jhi-portfolio-delete-dialog',
-    templateUrl: './portfolio-delete-dialog.component.html'
+    templateUrl: './portfolio-delete-dialog.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class PortfolioDeleteDialogComponent {
     portfolio: IPortfolio;

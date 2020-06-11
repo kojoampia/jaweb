@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IAbout, About } from 'app/shared/model/about.model';
 
 @Component({
     selector: 'jhi-about-detail',
-    templateUrl: './about-detail.component.html'
+    templateUrl: './about-detail.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class AboutDetailComponent implements OnInit {
-    about: IAbout = new About();
+    @Input() about: IAbout;
+    @Input() embed = false;
 
-    constructor(protected activatedRoute: ActivatedRoute) {
-        delete this.about;
-    }
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ about }) => {
-            this.about = about;
-        });
+        if (!this.about) {
+            this.activatedRoute.data.subscribe(({ about }) => {
+                this.about = about;
+            });
+        }
     }
 
     previousState() {

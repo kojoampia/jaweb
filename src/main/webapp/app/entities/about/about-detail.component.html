@@ -1,47 +1,33 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <div *ngIf="about">
-            <h2><span>About</span> {{about.id}}</h2>
-            <hr>
-            <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Title</span></dt>
-                <dd>
-                    <span>{{about.title}}</span>
-                </dd>
-                <dt><span>Content</span></dt>
-                <dd>
-                    <span>{{about.content}}</span>
-                </dd>
-                <dt><span>Language</span></dt>
-                <dd>
-                    <span>{{about.language}}</span>
-                </dd>
-                <dt><span>Created Date</span></dt>
-                <dd>
-                    <span>{{about.createdDate}}</span>
-                </dd>
-                <dt><span>Modified Date</span></dt>
-                <dd>
-                    <span>{{about.modifiedDate}}</span>
-                </dd>
-                <dt><span>Last Modified By</span></dt>
-                <dd>
-                    <span>{{about.lastModifiedBy}}</span>
-                </dd>
-            </dl>
+<div class="page-editor container ml-auto mr-auto" *ngIf="about">
+    <div class="card border-0 bg-transparent">
+            <div class="card-header text-center">
+               <h1 class="display-3">All about us</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-10 p-3 bg-white text-primary">
+                        <div [innerHTML]="about.content"></div>
+                    </div>
+                    <div class="col-2">
+                        <dl class="row-md jh-entity-details">
+                            <dt>Created Date</dt>
+                            <dd>{{about.createdDate}}</dd>
+                            <dt>Last Modified By</dt>
+                            <dd>{{about.lastModifiedBy}}</dd>
+                            <dt>Modified Date</dt>
+                            <dd>{{about.modifiedDate}}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" (click)="previousState()" class="btn btn-info" *ngIf="!embed">
+                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                </button>
 
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/about', about.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
-        </div>
+                <button type="button" [routerLink]="['/about', about.id, 'edit']" class="btn btn-primary">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                </button>
+            </div>
     </div>
 </div>

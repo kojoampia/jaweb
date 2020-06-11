@@ -1,118 +1,15 @@
-<div>
-    <h2 id="page-heading">
-        <span>Contacts</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-contact" [routerLink]="['/contact/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
-            Create new Contact
-            </span>
-        </button>
-    </h2>
+<div class="page-editor container ml-auto mr-auto">
+    <div class="jumbotron headerbox" *ngIf="!contacts || contacts.length == 0">
+        <h2 class="display-3" id="page-heading">
+            <span>Contacts</span>
+            <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-contact" [routerLink]="['/contact/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span class="hidden-sm-down" >
+                Create new Contact
+                </span>
+            </button>
+        </h2>
+    </div>
     <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <br/>
-    <div class="table-responsive" *ngIf="contacts">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span>ID</span></th>
-            <th><span>Title</span></th>
-            <th><span>Address</span></th>
-            <th><span>Street</span></th>
-            <th><span>Code</span></th>
-            <th><span>City</span></th>
-            <th><span>State</span></th>
-            <th><span>Region</span></th>
-            <th><span>Country</span></th>
-            <th><span>Telephone</span></th>
-            <th><span>Email</span></th>
-            <th><span>Whatsapp</span></th>
-            <th><span>Facebook</span></th>
-            <th><span>Twitter</span></th>
-            <th><span>Google</span></th>
-            <th><span>Youtube</span></th>
-            <th><span>Last Modified</span></th>
-            <th><span>Last Modified By</span></th>
-            <th><span>Language</span></th>
-            <th><span>Appointment</span></th>
-            <th><span>Latitude</span></th>
-            <th><span>Longitude</span></th>
-            <th><span>Image</span></th>
-            <th><span>Url</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let contact of contacts ;trackBy: trackId">
-                <td><a [routerLink]="['/contact', contact.id, 'view' ]">{{contact.id}}</a></td>
-                <td>{{contact.title}}</td>
-                <td>{{contact.address}}</td>
-                <td>{{contact.street}}</td>
-                <td>{{contact.code}}</td>
-                <td>{{contact.city}}</td>
-                <td>{{contact.state}}</td>
-                <td>{{contact.region}}</td>
-                <td>{{contact.country}}</td>
-                <td>{{contact.telephone}}</td>
-                <td>{{contact.email}}</td>
-                <td>{{contact.whatsapp}}</td>
-                <td>{{contact.facebook}}</td>
-                <td>{{contact.twitter}}</td>
-                <td>{{contact.google}}</td>
-                <td>{{contact.youtube}}</td>
-                <td>{{contact.lastModified | date:'medium'}}</td>
-                <td>{{contact.lastModifiedBy}}</td>
-                <td>{{contact.language}}</td>
-                <td>{{contact.appointment}}</td>
-                <td>{{contact.latitude}}</td>
-                <td>{{contact.longitude}}</td>
-                <td>
-                    <a *ngIf="contact.image" (click)="openFile(contact.imageContentType, contact.image)">
-                        <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image" style="max-height: 30px;" alt="contact image"/>
-                    </a>
-                    <span *ngIf="contact.image">{{contact.imageContentType}}, {{byteSize(contact.image)}}</span>
-                </td>
-                <td>{{contact.url}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/contact', contact.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/contact', contact.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'contact', { outlets: { popup: contact.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <jhi-contact-detail [contact]="contacts[0]" [embed]="true"></jhi-contact-detail>
 </div>

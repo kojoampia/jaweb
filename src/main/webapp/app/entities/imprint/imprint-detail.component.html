@@ -1,45 +1,43 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <div *ngIf="imprint">
-            <h2><span>Imprint</span> {{imprint.id}}</h2>
-            <hr>
+<div class="page-editor container mr-auto ml-auto" *ngIf="imprint">
+    <div class="card border-0 bg-transparent">
+        <div class="card-header text-center">
+            <h1 class="display-4">{{imprint.title}}</h1>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Title</span></dt>
-                <dd>
-                    <span>{{imprint.title}}</span>
-                </dd>
-                <dt><span>Content</span></dt>
-                <dd>
-                    <span>{{imprint.content}}</span>
-                </dd>
-                <dt><span>Slides</span></dt>
-                <dd>
-                    <span>{{imprint.slides}}</span>
-                </dd>
-                <dt><span>Created Date</span></dt>
-                <dd>
-                    <span>{{imprint.createdDate}}</span>
-                </dd>
-                <dt><span>Modified Date</span></dt>
-                <dd>
-                    <span>{{imprint.modifiedDate}}</span>
-                </dd>
-                <dt><span>Last Modified By</span></dt>
-                <dd>
-                    <span>{{imprint.lastModifiedBy}}</span>
-                </dd>
-            </dl>
-
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col bg-white text-primary p-3">
+                    <div [innerHTML]="sanitize(imprint.content)"></div>
+                </div>
+                <div class="col-2">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Created Date</span></dt>
+                        <dd>
+                            <span>{{imprint.createdDate}}</span>
+                        </dd>
+                        <dt><span>Modified Date</span></dt>
+                        <dd>
+                            <span>{{imprint.modifiedDate}}</span>
+                        </dd>
+                        <dt><span>Last Modified By</span></dt>
+                        <dd>
+                            <span>{{imprint.lastModifiedBy}}</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Sliderbox-->
+                <jhi-slide-selector [slides]="imprint.slides" *ngIf="imprint.slides && imprint.slides.length > 0">
+                </jhi-slide-selector>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button type="submit" (click)="previousState()" class="btn btn-info" *ngIf="!embed">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <button type="button"
-                    [routerLink]="['/imprint', imprint.id, 'edit']"
-                    class="btn btn-primary">
+            <button type="button" [routerLink]="['/imprint', imprint.id, 'edit']" class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>

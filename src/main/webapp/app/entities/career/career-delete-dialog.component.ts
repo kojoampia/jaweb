@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -9,11 +9,12 @@ import { CareerService } from './career.service';
 
 @Component({
     selector: 'jhi-career-delete-dialog',
-    templateUrl: './career-delete-dialog.component.html'
+    templateUrl: './career-delete-dialog.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class CareerDeleteDialogComponent {
-    career: ICareer;
-
+    @Input() career: ICareer;
+    @Input() embed = false;
     constructor(protected careerService: CareerService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {

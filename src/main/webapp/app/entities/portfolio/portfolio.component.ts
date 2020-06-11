@@ -13,7 +13,8 @@ import { PortfolioService } from './portfolio.service';
 
 @Component({
     selector: 'jhi-portfolio',
-    templateUrl: './portfolio.component.html'
+    templateUrl: './portfolio.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
     currentAccount: any;

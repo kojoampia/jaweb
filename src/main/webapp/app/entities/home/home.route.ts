@@ -30,7 +30,7 @@ export class HomeResolve implements Resolve<IHome> {
 
 export const homeRoute: Routes = [
     {
-        path: '',
+        path: 'dashboard',
         component: HomeComponent,
         data: {
             authorities: ['ROLE_USER'],
