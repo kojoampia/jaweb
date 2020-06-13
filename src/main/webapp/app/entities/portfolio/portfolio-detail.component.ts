@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
@@ -11,14 +11,16 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['../entities.components.scss']
 })
 export class PortfolioDetailComponent implements OnInit {
-    portfolio: IPortfolio;
+    @Input() portfolio: IPortfolio;
 
     constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ portfolio }) => {
-            this.portfolio = portfolio;
-        });
+        if (!this.portfolio) {
+            this.activatedRoute.data.subscribe(({ portfolio }) => {
+                this.portfolio = portfolio;
+            });
+        }
     }
 
     byteSize(field) {

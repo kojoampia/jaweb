@@ -1,11 +1,11 @@
 <div class="page-editor container ml-auto mr-auto">
     <div class="card border-0 bg-transparent" *ngIf="contact">
-        <div class="card-header bg-primary">
-            <h2>{{contact.title}}</h2>
+        <div class="card-header text-center">
+            <h2 class="display-4">{{contact.title}}</h2>
         </div>
-        <div class="card-body text-left">
+        <div class="card-body text-left text-primary">
             <div class="row">
-                <div class="col">
+                <div class="col-md-4">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" *ngIf="contact.appointment">
                             {{contact.appointment}}&nbsp;
@@ -24,58 +24,59 @@
                         </li>
                         <li class="list-group-item" *ngIf="contact.telephone">
                             <button class="btn btn-round btn-info btn-sm">
-                                                            <i class="fa fa-phone"></i>
-                                                        </button> {{contact.telephone}}
+                                <fa-icon [icon]="'phone'"></fa-icon>
+                            </button> {{contact.telephone}}
                         </li>
                         <li class="list-group-item" *ngIf="contact.email">
                             <a [href]="'mailto:' + contact.email" class="btn btn-dark btn-sm">
-                                <i class="fa fa-at"></i>
+                                <fa-icon [icon]="'at'"></fa-icon>
                             </a>
                             {{contact.email}}
                         </li>
                         <li class="list-group-item" *ngIf="contact.whatsapp">
                             <button class="btn btn-round btn-success btn-sm">
-                                                                <i class="fa fa-whatsapp"></i>
-                                                        </button> {{contact.whatsapp}}
+                                <fa-icon [icon]="'user-friends'"></fa-icon>
+                            </button>
+                            <a [href]="'/#/social/' + contact.whatsapp">{{contact.whatsapp}}</a>
                         </li>
-                        <li class="list-group-item">
-                            <div class="btn-group flex-btn-group-container text-left float-left">
-                                <a [href]="contact.facebook" class="btn btn-round btn-info btn-sm" target="_blank" *ngIf="contact.facebook">
-                                    <i class="fa fa-facebook"></i>
+                        <li class="list-group-item text-center">
+                            <div class="btn-group flex-btn-group-container">
+                                <a [href]="'/#/social/' + contact.facebook" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="contact.facebook">
+                                    <fa-icon [icon]="'thumbs-up'"></fa-icon>
                                 </a>
-                                <a [href]="contact.google" class="btn btn-round btn-info btn-sm" target="_blank" *ngIf="contact.google">
-                                    <i class="fa fa-google-plus"></i>
+                                <a [href]="contact.google" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="'/#/social/' + contact.google">
+                                    <fa-icon [icon]="'users'"></fa-icon>
                                 </a>
-                                <a [href]="contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank" *ngIf="contact.twitter">
-                                    <i class="fa fa-twitter"></i>
+                                <a [href]="contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="'/#/social/' + contact.twitter">
+                                    <fa-icon [icon]="'retweet'"></fa-icon>
                                 </a>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 text-white">
                     <div *ngIf="contact.image">
                         <a (click)="openFile(contact.imageContentType, contact.image)">
-                            <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image" style="max-width: 100%;" alt="contact image" />
+                            <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image"
+                                style="max-width: 100%;" alt="contact image" />
                         </a>
                         <hr> {{contact.imageContentType}}, {{byteSize(contact.image)}}, url: {{contact.url}}
                     </div>
                     <hr>
-                    <jhi-gmap [lng]="contact.longitude" [lat]="contact.latitude"></jhi-gmap>
+                    <jhi-map [longitude]="contact.longitude" [latitude]="contact.latitude"></jhi-map>
                 </div>
             </div>
 
         </div>
-        <div class="card-footer">
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info" *ngIf="!embed">
+        <div class="card-footer text-right">
+            <button type="submit" (click)="previousState()" class="btn btn-info" *ngIf="!embed">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <button type="button"
-                    [routerLink]="['/contact', contact.id, 'edit']"
-                    class="btn btn-primary">
+            <button type="button" [routerLink]="['/contact', contact.id, 'edit']" class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>

@@ -1,12 +1,12 @@
-<div class="container ml-auto mr-auto mb-5">
-    <div class="jumbotron headerbox">
+<div class="container-fluid ml-auto mr-auto mb-5 mt-2">
+    <div class="jumbotron headerbox bg-transparent">
         <h1 class="display-4">Portfolio</h1>
     </div>
     <div class="card-group border-0 bg-transparent">
-        <div *ngFor="let portfolio of portfolios" class="col-md-4">
+        <div *ngFor="let portfolio of portfolios" class="col-md-4 mb-2">
             <div class="card widgetbox">
-                <div class="card-header">
-                    {{portfolio.name}}
+                <div class="card-header text-center">
+                    <h4 class="display-6">{{portfolio.name}}</h4>
                 </div>
                 <div class="card-body databox">
                     <div [innerHTML]="sanitize(portfolio.description)"></div>
@@ -16,4 +16,9 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Footer -->
+<div class="fixed-bottom bg-white">
+    <jhi-footer></jhi-footer>
 </div>

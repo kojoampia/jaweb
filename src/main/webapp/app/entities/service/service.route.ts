@@ -58,6 +58,18 @@ export const serviceRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'view/:id',
+        component: ServiceDetailComponent,
+        resolve: {
+            service: ServiceResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Services'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/view',
         component: ServiceDetailComponent,
         resolve: {

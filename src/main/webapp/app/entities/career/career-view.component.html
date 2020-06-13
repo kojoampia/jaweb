@@ -1,5 +1,19 @@
-<div class="container ml-auto mr-auto mb-5">
-    <div class="jumbotron headerbox">
+<div class="container-fluid ml-auto mr-auto mb-5 mt-2">
+    <div class="jumbotron headerbox bg-transparent">
         <h1 class="display-4">Career</h1>
     </div>
+    <div class="card-group border-0 bg-transparent">
+        <div *ngFor="let career of careers" class="col-md-4 mb-2">
+            <div class="card widgetbox">
+                <div class="card-header text-center">
+                    <h2>{{career.name}}</h2>
+                    <span>{{career.department}}</span>
+                </div>
+                <div class="card-body databox">
+                    <div [innerHTML]="sanitize(career.description)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

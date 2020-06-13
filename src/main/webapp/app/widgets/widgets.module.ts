@@ -44,7 +44,6 @@ import { OwlSliderComponent } from './owlslider/slider.component';
         TinyEditorComponent,
         TileboxComponent,
         InfoboxComponent,
-        MapComponent,
         DocviewerComponent,
         DropDownBoxComponent,
         HeatmapComponent,

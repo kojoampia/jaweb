@@ -1,51 +1,39 @@
-<div class="row-fluid mt-2">
-    <div class="col-2">
+<div class="container-fluid ml-auto mr-auto mt-2 mb-2">
+    <div class="row-fluid mt-2 mb-2">
+        <div class="col-2">
 
-    </div>
-
-    <div class="col" scrollSpyElement="blogHeader" #blogHeader>
-        <div class="container" *ngIf="blog">
-            <div class="card blogbox">
-                <div class="card-header text-primary text-center">
-                    <div class="float-left" *ngIf="page > 0">
-                        <button type="button" class="btn btn-outline-light btn-primary"
-                            aria-label="refresh" (click)="previousPage()">
-                            <span aria-hidden="true">
-                                <fa-icon icon="arrow-circle-left"></fa-icon>
-                            </span>
-                        </button>
+        </div>
+        <div class="col" scrollSpyElement="blogHeader" #blogHeader>
+            <div class="container" *ngIf="blog">
+                <div class="card blogbox bg-transparent text-primary ">
+                    <div class="card-header  text-center">
+                        <div class="float-left" *ngIf="page > 0">
+                            <button type="button" class="btn btn-outline-light btn-primary" aria-label="refresh"
+                                (click)="previousPage()">
+                                <span aria-hidden="true">
+                                    <fa-icon icon="arrow-circle-left"></fa-icon>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="float-right" *ngIf="page < (blogs.length - 1)">
+                            <button type="button" class="btn btn-outline-light btn-primary" aria-label="refresh"
+                                (click)="nextPage()">
+                                <span aria-hidden="true">
+                                    <fa-icon icon="arrow-circle-right"></fa-icon>
+                                </span>
+                            </button>
+                        </div>
+                        <h2><a [routerLink]="['/blog/view', blog.id]">{{blog.title}}</a></h2>
+                        <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
                     </div>
-                    <div class="float-right" *ngIf="page < (blogs.length - 1)">
-                        <button type="button" class="btn btn-outline-light btn-primary"
-                            aria-label="refresh" (click)="nextPage()">
-                            <span aria-hidden="true">
-                                <fa-icon icon="arrow-circle-right"></fa-icon>
-                            </span>
-                        </button>
+                    <div class="card-body bg-white text-black databox">
+                        <div [innerHTML]="safeContent(blog.content)"></div>
                     </div>
-                    <h2><a [routerLink]="['/blog/view', blog.id]">{{blog.title}}</a></h2>
-                    <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
-                </div>
-                <div class="card-body bg-white text-black databox">
-                    <div [innerHTML]="safeContent(blog.content)"></div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col-2">
 
-    <div class="col">
-
-    </div>
-
-</div>
-<!--
-<div class="row-fluid fixed-bottom">
-    <div class="col text-right">
-        <div class="scroller">
-            <button (click)="onScrollUp(blogHeader)">
-                <fa-icon [icon]="'sort-up'"></fa-icon>
-            </button>
         </div>
     </div>
 </div>
--->

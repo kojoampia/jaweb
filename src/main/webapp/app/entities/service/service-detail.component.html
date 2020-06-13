@@ -1,60 +1,14 @@
-<div class="page-editor container ml-auto mr-auto" *ngIf="service">
-    <div class="card border-0 bg-transparent">
-        <div class="card-header">
-            <h2>Preview</h2>
-            <jhi-alert-error></jhi-alert-error>
+<div class="page-editor container ml-auto mr-auto mt-2" *ngIf="service">
+    <div class="card blogbox bg-transparent">
+        <div class="card-header text-center">
+            <h4 class="card-title">{{ service.name }}</h4>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <div class="card border-0 bg-transparent" style="min-height: 400px; max-height: 400px; overflow-y: hidden;">
-                        <div class="card-body text-center mb-4">
-                            <h4 class="card-title">{{ service.name }}</h4>
-                            <div [innerHTML]="safeContent(service.description)"></div>
-                        </div>
-                        <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo" style="max-width: 100%;" alt="service image" class="card-bottom-img img-fluid" />
-                    </div>
-                </div>
-                <div class="col-4">
-                    <dl class="row-md jh-entity-details">
-                        <div class="card-title">
-                            <h3>{{service.name}}</h3>
-                        </div>
-                        <dt><span>Photo</span></dt>
-                        <dd>
-                            <div *ngIf="service.photo">
-                                <a (click)="openFile(service.photoContentType, service.photo)">
-                                    <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
-                                        style="max-width: 100%;" alt="service image" />
-                                </a>
-
-                            </div>
-                        </dd>
-                        <dt><span>Created Date</span></dt>
-                        <dd>
-                            <span>{{service.createdDate}}</span>
-                        </dd>
-                        <dt><span>Modified Date</span></dt>
-                        <dd>
-                            <span>{{service.modifiedDate}}</span>
-                        </dd>
-                        <dt><span>Created By</span></dt>
-                        <dd>
-                            <span>{{service.createdBy}}</span>
-                        </dd>
-                        <dt><span>Modified By</span></dt>
-                        <dd>
-                            <span>{{service.modifiedBy}}</span>
-                        </dd>
-                        <dt><span>Contact</span></dt>
-                        <dd>
-                            <span>{{service.contact}}</span>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
+        <div class="card-body text-left databox">
+            <div [innerHTML]="safeContent(service.description)"></div>
         </div>
-        <div class="card-footer text-right">
+        <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
+        style="max-width: 100%;" alt="service image" class="card-bottom-img img-fluid" />
+        <div *jhiHasAnyAuthority="'ROLE_USER'" class="card-footer text-right">
             <button type="submit" (click)="previousState()" class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>

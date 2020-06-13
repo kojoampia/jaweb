@@ -3,6 +3,7 @@ import { IContact } from 'app/shared/model/contact.model';
 import { ContactService } from './contact.service';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { LocalStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-contact-view',
@@ -10,14 +11,15 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['../entities.components.scss']
 })
 export class ContactViewComponent implements OnInit {
-    @Input() contact: IContact;
-    @Input() embed = false;
+    @LocalStorage() contact: IContact;
     constructor(private contactService: ContactService, private domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
-        this.contactService.query({}).subscribe((res: any) => {
-            this.contact = res.body[0];
-        });
+        if (!this.contact) {
+            this.contactService.query({}).subscribe((res: any) => {
+                this.contact = res.body[0];
+            });
+        }
     }
 
     sanitzer(data: string): SafeHtml {

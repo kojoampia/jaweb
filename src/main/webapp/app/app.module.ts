@@ -38,7 +38,8 @@ import { FooterModule } from './layouts/footer/footer.module';
         JojoaddisonAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         JojoaddisonEntityModule,
-        JojoaddisonAppRoutingModule
+        JojoaddisonAppRoutingModule,
+        FooterModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent],
     providers: [

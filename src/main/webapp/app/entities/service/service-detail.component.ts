@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
@@ -11,16 +11,16 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['../entities.components.scss']
 })
 export class ServiceDetailComponent implements OnInit {
-    service: IService = new Service();
+    @Input() service: IService = new Service();
 
-    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {
-        delete this.service;
-    }
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ service }) => {
-            this.service = service;
-        });
+        if (!this.service) {
+            this.activatedRoute.data.subscribe(({ service }) => {
+                this.service = service;
+            });
+        }
     }
 
     byteSize(field: any) {

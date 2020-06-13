@@ -58,6 +58,18 @@ export const portfolioRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'view/:id',
+        component: PortfolioDetailComponent,
+        resolve: {
+            portfolio: PortfolioResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Portfolios'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/view',
         component: PortfolioDetailComponent,
         resolve: {

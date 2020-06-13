@@ -1,8 +1,9 @@
-<div class="container ml-auto mr-auto mb-5">
-    <div class="jumbotron headerbox">
+<div class="container ml-auto mr-auto mb-5 mt-2">
+    <div class="card blogbox bg-transparent text-primary">
+    <div class="card-header text-center">
         <h1 class="display-4">About us</h1>
+        <span>{{about.modifiedDate | date: 'medium'}}</span>
     </div>
-    <div class="card blogbox">
         <div class="card-body databox">
             <div [innerHTML]="sanitize(about.content)">
             </div>

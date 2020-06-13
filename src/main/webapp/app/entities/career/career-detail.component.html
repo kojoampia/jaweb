@@ -1,42 +1,13 @@
-<div class="page-editor container mr-auto ml-auto" *ngIf="career">
-    <div class="card border-0 bg-transparent">
-        <div class="card-header">
-            <h2><span>{{career.name}}</span></h2>
+<div class="page-editor container mr-auto ml-auto mt-2" *ngIf="career">
+    <div class="card blogbox bg-transparent">
+        <div class="card-header text-center">
+            <h2>{{career.name}}</h2>
+            <span>{{career.department}}</span>
         </div>
-        <div class="card-body">
-            <div class="row text-left">
-                <div class="col-10 bg-white text-primary">
-                    <jhi-alert-error></jhi-alert-error>
-                    <dl class="row-md jh-entity-details">
-                        <dt><span>Department</span></dt>
-                        <dd>
-                            <span>{{career.department}}</span>
-                        </dd>
-                        <dt><span>Description</span></dt>
-                        <dd>
-                            <div [innerHTML]="career.description"></div>
-                        </dd>
-                    </dl>
-                </div>
-                <div class="col-2 text-right">
-                    <dl>
-                        <dt><span>Created Date</span></dt>
-                        <dd>
-                            <span>{{career.createdDate}}</span>
-                        </dd>
-                        <dt><span>Modified Date</span></dt>
-                        <dd>
-                            <span>{{career.modifiedDate}}</span>
-                        </dd>
-                        <dt><span>Last Modified By</span></dt>
-                        <dd>
-                            <span>{{career.lastModifiedBy}}</span>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
+        <div class="card-body databox">
+            <div [innerHTML]="sanitize(career.description)"></div>
         </div>
-        <div class="card-footer text-right">
+        <div *jhiHasAnyAuthority="'ROLE_USER'" class="card-footer text-right">
             <button type="submit" (click)="previousState()" class="btn btn-info" *ngIf="!embed">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>

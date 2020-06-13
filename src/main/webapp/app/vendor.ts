@@ -78,7 +78,14 @@ import {
     faArrowCircleRight,
     faUserTie,
     faCamera,
-    faSlidersH
+    faSlidersH,
+    faPhone,
+    faComment,
+    faThumbsUp,
+    faPeopleCarry,
+    faRetweet,
+    faUserFriends,
+    faUsers
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -161,4 +168,13 @@ library.add(faUserTie);
 library.add(faCamera);
 library.add(faImages);
 library.add(faSlidersH);
+library.add(faPhone);
+library.add(faComment);
+library.add(faFlag);
+library.add(faThumbsUp);
+library.add(faPeopleCarry);
+library.add(faFistRaised);
+library.add(faRetweet);
+library.add(faUserFriends);
+library.add(faUsers);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

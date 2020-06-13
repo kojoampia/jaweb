@@ -49,6 +49,18 @@ export const careerRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'view/:id',
+        component: CareerDetailComponent,
+        resolve: {
+            career: CareerResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Careers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/view',
         component: CareerDetailComponent,
         resolve: {

@@ -73,13 +73,13 @@ Navbar
 
     a:hover {
         background-color: #005825;
-        border: 1px solid #ffff99;
+        border: 0;
         color: #ffffff;
     }
     a:active {
         background-color: #005825;
         color: #ffffff;
-        border: 1px solid #ffff99;
+        border: 0;
     }
     .navbar-toggler {
         &:hover {

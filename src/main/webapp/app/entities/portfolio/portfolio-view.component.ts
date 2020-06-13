@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { PortfolioService } from './portfolio.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { LocalStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-portfolio-view',
@@ -9,13 +10,15 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['../entities.components.scss']
 })
 export class PortfolioViewComponent implements OnInit {
-    portfolios: IPortfolio[] = [];
+    @LocalStorage() portfolios: IPortfolio[];
     constructor(private portfolioService: PortfolioService, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
-        this.portfolioService.query({}).subscribe((result: any) => {
-            this.portfolios = result.body;
-        });
+        if (!this.portfolios || this.portfolios.length === 0) {
+            this.portfolioService.query({}).subscribe((result: any) => {
+                this.portfolios = result.body;
+            });
+        }
     }
 
     sanitize(data: string): SafeHtml {

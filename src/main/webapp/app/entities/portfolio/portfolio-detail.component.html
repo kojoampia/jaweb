@@ -1,42 +1,14 @@
 <div class="page-editor container ml-auto mr-auto" *ngIf="portfolio">
-    <div class="card border-0 bg-transparent">
-        <div class="card-header">
-                        <h2><span>Portfolio Detail</span></h2>
+    <div class="card blogbox bg-transparent">
+        <div class="card-header text-center">
+            <h4 class="display-6">{{portfolio.name}}</h4>
         </div>
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <div class="col">
-                    <div>
-                        <jhi-alert-error></jhi-alert-error>
-                        <dl class="row-md jh-entity-details">
-                            <dt><span>Name</span></dt>
-                            <dd>
-                                <span>{{portfolio.name}}</span>
-                            </dd>
-                            <dt><span>Status</span></dt>
-                            <dd>
-                                <span>{{portfolio.status === true ? 'Enabled' : 'Disabled'}}</span>
-                            </dd>
-                            <dt><span>Description</span></dt>
-                            <dd class="bg-white databox">
-                                <div [innerHTML]="sanitize(portfolio.description)"></div>
-                            </dd>
-                            <dt><span>Photo</span></dt>
-                            <dd>
-                                <div *ngIf="portfolio.photo">
-                                    <a (click)="openFile(portfolio.photoContentType, portfolio.photo)">
-                                        <img [src]="'data:' + portfolio.photoContentType + ';base64,' + portfolio.photo"
-                                            style="max-width: 100%;" alt="portfolio image" />
-                                    </a>
-                                </div>
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-
+        <div class="card-body databox">
+            <div [innerHTML]="sanitize(portfolio.description)"></div>
         </div>
-        <div class="card-footer">
+        <img [src]="'data:' + portfolio.photoContentType + ';base64,' + portfolio.photo"
+        style="max-width: 100%;" alt="portfolio image" class="card-bottom-img img-fluid" />
+        <div *jhiHasAnyAuthority="'ROLE_USER'" class="card-footer">
             <div class="row">
                 <div class="col text-left">
                     <dl>

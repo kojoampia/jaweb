@@ -3,13 +3,14 @@ import { IService } from 'app/shared/model/service.model';
 import { ServiceService } from './service.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpResponse } from '@angular/common/http';
+import { LocalStorage } from 'ngx-webstorage';
 @Component({
     selector: 'jhi-service-view',
     templateUrl: './service-view.component.html',
     styleUrls: ['../entities.components.scss']
 })
 export class ServiceViewComponent implements OnInit {
-    @Input() services: IService[] = [];
+    @LocalStorage() services: IService[];
 
     constructor(protected restService: ServiceService, protected domSanitizer: DomSanitizer) {}
 

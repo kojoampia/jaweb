@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IImprint } from 'app/shared/model/imprint.model';
 import { ImprintService } from './imprint.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { LocalStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-imprint-view',
@@ -9,13 +10,15 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['../entities.components.scss']
 })
 export class ImprintViewComponent implements OnInit {
-    imprint: IImprint;
+    @LocalStorage() imprint: IImprint;
     constructor(private imprintService: ImprintService, private sanitizer: DomSanitizer) {}
 
     ngOnInit() {
-        this.imprintService.query({}).subscribe((res: any) => {
-            this.imprint = res.body[0];
-        });
+        if (!this.imprint) {
+            this.imprintService.query({}).subscribe((res: any) => {
+                this.imprint = res.body[0];
+            });
+        }
     }
 
     sanitize(data: string): SafeHtml {

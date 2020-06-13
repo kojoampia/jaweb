@@ -3,6 +3,7 @@ import { BlogService } from './blog.service';
 import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ScrollSpyService } from 'ngx-scrollspy';
+import { LocalStorage, SessionStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-blog-view',
@@ -10,22 +11,23 @@ import { ScrollSpyService } from 'ngx-scrollspy';
     styleUrls: ['../entities.components.scss']
 })
 export class BlogViewComponent implements OnInit, AfterViewInit {
-    blogs: IBlog[] = [];
+    @LocalStorage() blogs: IBlog[];
     page = 0;
-    blog: IBlog = new Blog();
-    content: SafeHtml = '';
+    @SessionStorage() blog: IBlog = new Blog();
 
     constructor(protected blogService: BlogService, protected domSanitizer: DomSanitizer, protected scrollSpyService: ScrollSpyService) {
         delete this.blog;
     }
 
     ngOnInit() {
-        this.blogService.getRecentBlogs().subscribe((response: any) => {
-            this.blogs = response.body;
-            if (this.blogs && this.blogs.length) {
-                this.blog = this.blogs[this.page];
-            }
-        });
+        if (!this.blogs || this.blogs.length === 0) {
+            this.blogService.getRecentBlogs().subscribe((response: any) => {
+                this.blogs = response.body;
+                this.loadFirstPage();
+            });
+        } else {
+            this.loadFirstPage();
+        }
     }
 
     ngAfterViewInit() {
@@ -33,6 +35,12 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
             console.log('blogHeader-scroll-spying...');
             console.log('blogHeader::ScrollSpy::window: ', e);
         });
+    }
+
+    loadFirstPage() {
+        if (this.blogs && this.blogs.length) {
+            this.blog = this.blogs[this.page];
+        }
     }
 
     nextPage() {
