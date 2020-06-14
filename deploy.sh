@@ -4,6 +4,11 @@
 #@Email: kojo.ampia@jojoaddison.net
 #@Description: Bash Deployment Script
 
+WWW_TARGET="./target/www";
+GEND_TARGET="./target/jojoaddison.war";
+DIST_TARGET="./dist/jojoaddison.jar";
+WWW_DIST="./dist/www";
+
 # Clean Build
 build(){
 mvn -Pprod clean package -DskipTests
@@ -17,14 +22,35 @@ cd ../../
 
 # Deploy to test
 totest(){
-./mvnw -Pdev clean package -DskipTests
+echo "building package..."
+./mvnw -Pdev package -DskipTests
+
+if [ ! -d "dist" ]; then
+mkdir dist;
+fi
+
+if [ -d "dist" ]; then
+echo "cleaning dist..."
 rm -fr dist/*
-mv target/jojoaddison.war dist/jojoaddison.jar
-mv target/www dist/.
-cd dist/www
+fi
+
+if [ -f "$GEND_TARGET" ]; then
+echo "moving $GEND_TARGET to dist...";
+cp $GEND_TARGET $DIST_TARGET;
+fi
+
+if [ -d "$WWW_TARGET" ]; then
+echo "moving $WWW_TARGET to dist...";
+cp -r $WWW_TARGET ./dist/.
+fi
+
+echo "compressing..."
+cd $WWW_DIST
 touch ../jojoaddison.tar.gz
 tar -czf ../jojoaddison.tar.gz .
 cd ../
+
+echo "remote copying..."
 scp jojoaddison* root@host.gahano.at:/var/www/vhosts/jojoaddison.net/dev/.
 }
 

@@ -11,7 +11,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['../entities.components.scss']
 })
 export class ServiceDetailComponent implements OnInit {
-    @Input() service: IService = new Service();
+    @Input() service: IService;
 
     constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
 

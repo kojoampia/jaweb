@@ -6,7 +6,7 @@
         <div *ngFor="let service of services" class="col-md-4">
             <div class="card widgetbox">
                 <div class="card-header text-center">
-                    <h4 class="card-title">{{ service.name }}</h4>
+                    <h4 class="display-4">{{ service.name }}</h4>
                 </div>
                 <div class="card-body text-left databox">
                     <div [innerHTML]="safeContent(service.description)"></div>
