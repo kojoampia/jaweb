@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared';
+import { SessionStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-footer',

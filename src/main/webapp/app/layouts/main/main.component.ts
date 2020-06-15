@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
+import { LocalStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-main',
@@ -9,7 +10,12 @@ import { Title } from '@angular/platform-browser';
     styleUrls: ['./main.component.scss']
 })
 export class JhiMainComponent implements OnInit {
-    constructor(private titleService: Title, private router: Router) {}
+    @LocalStorage() cookieAccepted: boolean;
+    constructor(private titleService: Title, private router: Router) {
+        if (this.cookieAccepted === null) {
+            this.cookieAccepted = false;
+        }
+    }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'jojoaddisonApp';
@@ -28,5 +34,9 @@ export class JhiMainComponent implements OnInit {
                 this.router.navigate(['/404']);
             }
         });
+    }
+
+    acceptCookies() {
+        this.cookieAccepted = true;
     }
 }

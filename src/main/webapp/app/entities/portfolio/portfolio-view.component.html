@@ -1,12 +1,16 @@
 <div class="container-fluid ml-auto mr-auto mb-5 mt-2">
     <div class="jumbotron headerbox bg-transparent">
-        <h1 class="display-4">Portfolio</h1>
+        <h1 class="display-3">Portfolio</h1>
     </div>
     <div class="card-group border-0 bg-transparent">
         <div *ngFor="let portfolio of portfolios" class="col-md-4 mb-2">
             <div class="card widgetbox">
                 <div class="card-header text-center">
-                    <h4 class="display-6">{{portfolio.name}}</h4>
+                    <h4 class="display-6">
+                        <a [routerLink]="['/portfolio', 'view' , portfolio.id]">
+                            {{portfolio.name}}
+                        </a>
+                    </h4>
                 </div>
                 <div class="card-body databox">
                     <div [innerHTML]="sanitize(portfolio.description)"></div>

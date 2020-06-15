@@ -8,6 +8,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { BlogService } from './blog.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { JhiEventManager } from 'ng-jhipster';
+import { SessionStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-blog-update',
@@ -20,8 +22,14 @@ export class BlogUpdateComponent implements OnInit {
     createdDate = '';
     modifiedDate = '';
     content: SafeHtml = '';
+    @SessionStorage() blogDataChanged = false;
 
-    constructor(protected blogService: BlogService, protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
+    constructor(
+        protected eventManager: JhiEventManager,
+        protected blogService: BlogService,
+        protected activatedRoute: ActivatedRoute,
+        protected domSanitizer: DomSanitizer
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
@@ -57,11 +65,13 @@ export class BlogUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IBlog>>) {
-        result.subscribe((res: HttpResponse<IBlog>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe((res: HttpResponse<IBlog>) => this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    protected onSaveSuccess() {
+    protected onSaveSuccess(blog) {
         this.isSaving = false;
+        this.eventManager.broadcast({ name: 'blogListModification', blogItem: blog });
+        this.blogDataChanged = true;
         this.previousState();
     }
 

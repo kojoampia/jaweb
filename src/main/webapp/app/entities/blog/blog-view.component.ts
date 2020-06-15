@@ -4,6 +4,8 @@ import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ScrollSpyService } from 'ngx-scrollspy';
 import { LocalStorage, SessionStorage } from 'ngx-webstorage';
+import { JhiEventManager } from 'ng-jhipster';
+import { Subscriber, Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-blog-view',
@@ -13,13 +15,18 @@ import { LocalStorage, SessionStorage } from 'ngx-webstorage';
 export class BlogViewComponent implements OnInit, AfterViewInit {
     @LocalStorage() blogs: IBlog[];
     page = 0;
-    @SessionStorage() blog: IBlog = new Blog();
+    @SessionStorage() blog: IBlog;
+    eventSubscriber: Subscription;
 
-    constructor(protected blogService: BlogService, protected domSanitizer: DomSanitizer, protected scrollSpyService: ScrollSpyService) {
-        delete this.blog;
-    }
+    constructor(
+        protected blogService: BlogService,
+        protected domSanitizer: DomSanitizer,
+        protected eventManager: JhiEventManager,
+        protected scrollSpyService: ScrollSpyService
+    ) {}
 
     ngOnInit() {
+        this.registerChangeInBlogs();
         if (!this.blogs || this.blogs.length === 0) {
             this.blogService.getRecentBlogs().subscribe((response: any) => {
                 this.blogs = response.body;
@@ -69,5 +76,15 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
 
     onScrollUp(target: HTMLElement) {
         target.scrollIntoView();
+    }
+
+    registerChangeInBlogs() {
+        this.eventSubscriber = this.eventManager.subscribe('blogListModification', (response: any) => this.resetBlogs(response));
+    }
+
+    resetBlogs(item: any) {
+        console.log('Resetting blogs' + item);
+        this.blog = null;
+        this.blogs = [];
     }
 }

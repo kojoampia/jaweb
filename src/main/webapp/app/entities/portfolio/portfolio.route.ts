@@ -64,7 +64,7 @@ export const portfolioRoute: Routes = [
             portfolio: PortfolioResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'Portfolios'
         },
         canActivate: [UserRouteAccessService]

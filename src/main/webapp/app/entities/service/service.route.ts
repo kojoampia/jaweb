@@ -64,7 +64,7 @@ export const serviceRoute: Routes = [
             service: ServiceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'Services'
         },
         canActivate: [UserRouteAccessService]

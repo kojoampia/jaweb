@@ -10,6 +10,7 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { BlogService } from './blog.service';
+import { LocalStorage, SessionStorage } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-blog',
@@ -18,7 +19,7 @@ import { BlogService } from './blog.service';
 })
 export class BlogComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    blogs: IBlog[] = [];
+    @LocalStorage() blogs: IBlog[];
     error: any;
     success: any;
     eventSubscriber: Subscription = new Subscription();
@@ -31,6 +32,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    @SessionStorage() blogDataChanged: boolean;
 
     constructor(
         protected blogService: BlogService,
@@ -46,7 +48,7 @@ export class BlogComponent implements OnInit, OnDestroy {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
+            this.predicate = 'modifiedDate'; // data.pagingParams.predicate;
         });
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
@@ -131,7 +133,13 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        if (!this.blogs || this.blogs.length === 0) {
+            this.loadAll();
+        } else if (this.blogDataChanged === true) {
+            console.log('data-changed-detected');
+            this.blogDataChanged = false;
+            this.loadAll();
+        }
         this.accountService.identity().then((account: any) => {
             this.currentAccount = account;
         });
@@ -147,7 +155,14 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInBlogs() {
-        this.eventSubscriber = this.eventManager.subscribe('blogListModification', (response: any) => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('blogListModification', (response: any) => {
+            console.log(response);
+            setTimeout(() => {
+                this.blogs = [];
+                this.predicate = 'modifiedDate';
+                this.loadAll();
+            }, 1);
+        });
     }
 
     sort() {

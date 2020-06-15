@@ -1,12 +1,45 @@
 <div class="container-fluid ml-auto mr-auto mb-5 mt-2">
     <div class="jumbotron headerbox bg-transparent">
-        <h1 class="display-4">Career</h1>
+        <h1 class="display-4">Career Paths</h1>
+        <div class="container ml-auto mr-auto">
+            <span class="text-left pl-5 pr-5">
+                <p>At Jojo Addison Consultancy, each person is either a consultant, an associate consultant or on the
+                    path
+                    to
+                    becoming a consultant.<br>
+                    As a consultant trainee, you’re expected to take on a project from inception to completion under the
+                    guidance of a senior consultant.<br>
+                    As an associate consultant, you’re guided by a senior consultant in your project delivery. You’re
+                    also
+                    expected as part of your consultancy tasks to provide tutelage and guidance to consultant
+                    trainees.<br>
+                    As a consultant or senior consultant, you’ll be expected to independently carry out each project
+                    under
+                    your
+                    supervision from inception to completion.<br>
+                    Each consultant is required to wear different hats at all times.<br>
+                </p>
+                <ul>
+                    <li>Business Requirement Analysis</li>
+                    <li>Technical Requirement Analysis</li>
+                    <li>Acceptance Criteria Analysis</li>
+                    <li>Programming deliverables</li>
+                    <li>Test Requirement Analysis</li>
+                    <li>Documentation and tutorial writing</li>
+                    <li>Team, client presentation and publication</li>
+                </ul>
+                <p>We strive to provide you with all the necessary tools and resources to make your journey as smooth as
+                    possible.</p>
+            </span>
+        </div>
     </div>
     <div class="card-group border-0 bg-transparent">
         <div *ngFor="let career of careers" class="col-md-4 mb-2">
             <div class="card widgetbox">
                 <div class="card-header text-center">
-                    <h2>{{career.name}}</h2>
+                    <h2>
+                        <a [routerLink]="['/career', 'view', career.id]">{{career.name}}</a>
+                    </h2>
                     <span>{{career.department}}</span>
                 </div>
                 <div class="card-body databox">
@@ -16,4 +49,3 @@
         </div>
     </div>
 </div>
-

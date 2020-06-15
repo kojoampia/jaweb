@@ -1,9 +1,9 @@
-<div class="container ml-auto mr-auto mt-2 mb-2" *ngIf="service">
-    <div class="card blogbox bg-transparent">
+<div class="container ml-auto mr-auto mt-2 mb-5" *ngIf="service">
+    <div class="card detailbox bg-transparent">
         <div class="card-header text-center">
             <h4 class="display-4">{{ service.name }}</h4>
         </div>
-        <div class="card-body text-left databox">
+        <div class="card-body text-left databox ">
             <div [innerHTML]="safeContent(service.description)"></div>
         </div>
         <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"

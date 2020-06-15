@@ -55,8 +55,8 @@ export const careerRoute: Routes = [
             career: CareerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'Careers'
+            authorities: [],
+            pageTitle: 'Career Detail'
         },
         canActivate: [UserRouteAccessService]
     },

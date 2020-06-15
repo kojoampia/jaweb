@@ -23,7 +23,7 @@ cd ../../
 # Deploy to test
 totest(){
 echo "building package..."
-./mvnw -Pdev package -DskipTests
+./mvnw -Pdev clean verify package -DskipTests
 
 if [ ! -d "dist" ]; then
 mkdir dist;
