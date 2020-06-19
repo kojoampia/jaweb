@@ -35,29 +35,31 @@ rm -fr dist/*
 fi
 
 if [ -f "$GEND_TARGET" ]; then
-echo "moving $GEND_TARGET to dist...";
+echo "copying $GEND_TARGET to dist...";
 cp $GEND_TARGET $DIST_TARGET;
 fi
 
 if [ -d "$WWW_TARGET" ]; then
-echo "moving $WWW_TARGET to dist...";
+echo "copying $WWW_TARGET to dist...";
 cp -r $WWW_TARGET ./dist/.
 fi
 
-echo "compressing..."
+echo "compressing... to $WWW_DIST"
 cd $WWW_DIST
 touch ../jojoaddison.tar.gz
 tar -czf ../jojoaddison.tar.gz .
+echo "finished."
 cd ../
 
 echo "remote copying..."
-scp jojoaddison* root@host.gahano.at:/var/www/vhosts/jojoaddison.net/dev/.
+scp jojoaddison* root@ghost.gahano.at:/var/www/vhosts/jojoaddison.net/dev/.
+echo "done."
 }
 
 # Deploy to prod
 
 toprod(){
-scp dist/web* root@host.gahano.at:/var/www/vhosts/jojoaddison.net/.
+scp dist/web* root@ghost.gahano.at:/var/www/vhosts/jojoaddison.net/.
 }
 
 

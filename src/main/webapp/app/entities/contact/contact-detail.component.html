@@ -45,12 +45,12 @@
                                     *ngIf="contact.facebook">
                                     <fa-icon [icon]="'thumbs-up'"></fa-icon>
                                 </a>
-                                <a [href]="contact.google" class="btn btn-round btn-info btn-sm" target="_blank"
-                                    *ngIf="'/#/social/' + contact.google">
+                                <a [href]="'/#/social/' + contact.google" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="contact.google">
                                     <fa-icon [icon]="'users'"></fa-icon>
                                 </a>
-                                <a [href]="contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank"
-                                    *ngIf="'/#/social/' + contact.twitter">
+                                <a [href]="'/#/social/' + contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="contact.twitter">
                                     <fa-icon [icon]="'retweet'"></fa-icon>
                                 </a>
                             </div>

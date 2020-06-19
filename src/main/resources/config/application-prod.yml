@@ -27,7 +27,7 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://localhost:27017
+            uri: mongodb://masterjoda:Ma$terJ0da!@localhost:27017
             database: jacprod
         jest:
             uri: http://localhost:9200

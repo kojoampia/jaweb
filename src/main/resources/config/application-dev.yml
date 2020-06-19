@@ -36,7 +36,7 @@ spring:
             indent-output: true
     data:
         mongodb:
-            uri: mongodb://staposerver:27017
+            uri: mongodb://masterjoda:Ma$terJ0da!@staposerver:27017
             database: jojoaddison
         jest:
             uri: http://staposerver:9200
