@@ -41,8 +41,7 @@ export const aboutRoute: Routes = [
             authorities: [],
             defaultSort: 'id,asc',
             pageTitle: 'Team information page'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',

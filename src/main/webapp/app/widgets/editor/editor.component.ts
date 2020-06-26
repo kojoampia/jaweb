@@ -11,7 +11,7 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
     @Input() name = 'content';
     @Input() theme = 'silver';
     editor: any;
-    baseUrl = '/content/tinymce-4.9.0/';
+    //   baseUrl = 'tinymce/';
     @Output() onDataChanged = new EventEmitter<any>();
     @Output() onDataBlur = new EventEmitter<any>();
     @Output() onKeyup = new EventEmitter<any>();
@@ -23,6 +23,8 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
         console.log('constructing editor...');
         this.editor = null;
         this.config = {
+            //           base_url: this.baseUrl,
+            //           baseUrl: this.baseUrl,
             height: 250,
             theme: 'modern',
             // powerpaste advcode toc tinymcespellchecker a11ychecker mediaembed linkchecker help
@@ -68,16 +70,17 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
         const selectorId = '#' + this.elementId;
         console.log('selectorID: ' + selectorId);
         const themeSource = 'themes/' + this.theme;
-        const themeUrl = this.baseUrl + themeSource + '/theme.js';
+        //        const themeUrl = this.baseUrl + themeSource + '/theme.js';
+        const themeUrl = themeSource + '/theme.js';
         console.log('themeURL: ' + themeUrl);
         this.config = {
             height: 400,
             menubar: false,
-            theme: this.theme,
-            theme_url: themeUrl,
-            base_url: this.baseUrl,
-            document_base_url: this.baseUrl,
-            skin_url: this.baseUrl + 'skins/lightgray',
+            //            theme: this.theme,
+            //            theme_url: themeUrl,
+            //            base_url: this.baseUrl,
+            //            document_base_url: this.baseUrl,
+            //            skin_url: this.baseUrl + 'skins/lightgray',
             selector: selectorId,
             plugins: ['link', 'paste', 'table', 'image', 'codesample', 'lists', 'imagetools', 'fullscreen', 'fullpage', 'preview'],
             min_height: this.tmHeight,
@@ -110,6 +113,8 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
                 console.log('Editor: ' + editor.id + ' is now initialized.');
             }
         };
+        console.log('this.config');
+        console.log(this.config);
     }
 
     private fileUploadCallback(callback: (arg0: string | ArrayBuffer, arg1: { title: string }) => void, meta: { filetype: string }) {

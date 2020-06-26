@@ -36,8 +36,7 @@ export const partnerRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'Partners'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',

@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 
@@ -41,6 +41,19 @@ public class Blog implements Serializable {
     @Field("slides")
     private Set<Slide> slides = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+
+    public int getCreatedYear(){
+        return createdDate.getYear();
+    }
+
+    public int getCreatedMonth(){
+        return createdDate.getMonthValue();
+    }
+
+    public int getCreatedDay(){
+        return createdDate.getDayOfMonth();
+    }
+
     public String getId() {
         return id;
     }

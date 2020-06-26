@@ -56,8 +56,7 @@ export const contactRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Contacts'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'new',

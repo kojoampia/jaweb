@@ -5,7 +5,7 @@
 
     <groupId>io.jojoaddison</groupId>
     <artifactId>jojoaddison</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.5</version>
     <packaging>war</packaging>
     <name>JojoAddison</name>
 
@@ -451,7 +451,7 @@
                             <image>openjdk:11.0.7-jre</image>
                         </from>
                         <to>
-                            <image>docker-registry.jojoaddison.net:5000/jaweb:latest</image>
+                            <image>docker-registry.jojoaddison.net/jaweb:${project.version}</image>
                         </to>
                         <container>
                             <entrypoint>

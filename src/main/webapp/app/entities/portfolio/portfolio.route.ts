@@ -41,8 +41,7 @@ export const portfolioRoute: Routes = [
             authorities: [],
             defaultSort: 'id,asc',
             pageTitle: 'Portfolios'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',
@@ -66,8 +65,7 @@ export const portfolioRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'Portfolios'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: ':id/view',

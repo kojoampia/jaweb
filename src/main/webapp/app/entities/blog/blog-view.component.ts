@@ -12,11 +12,16 @@ import { Subscriber, Subscription } from 'rxjs';
     templateUrl: './blog-view.component.html',
     styleUrls: ['../entities.components.scss']
 })
-export class BlogViewComponent implements OnInit, AfterViewInit {
-    @LocalStorage() blogs: IBlog[];
+export class BlogViewComponent implements OnInit {
+    blogs: IBlog[];
     page = 0;
     @SessionStorage() blog: IBlog;
     eventSubscriber: Subscription;
+    recentBlogs: any[] = [];
+    archivedBlogs: any[] = [];
+    archiveYears: any[];
+    ready = false;
+    archiveList: BlogArchive[] = [];
 
     constructor(
         protected blogService: BlogService,
@@ -35,18 +40,48 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
         } else {
             this.loadFirstPage();
         }
+        setTimeout(() => {
+            this.loadArchives();
+        }, 100);
     }
 
-    ngAfterViewInit() {
-        this.scrollSpyService.getObservable('blogHeader').subscribe((e: any) => {
-            console.log('blogHeader-scroll-spying...');
-            console.log('blogHeader::ScrollSpy::window: ', e);
+    loadArchives() {
+        this.blogService.getArchives().subscribe(res => {
+            const blogsMap = res.body;
+            console.log(blogsMap);
+            if (blogsMap) {
+                this.archivedBlogs = [];
+                this.archiveYears = [];
+                const keys = Object.getOwnPropertyNames(blogsMap);
+                const values = Object.keys(blogsMap).map(item => {
+                    return blogsMap[item];
+                });
+                console.log(keys);
+                console.log(values);
+                this.archivedBlogs = values[0];
+                const year = Number.parseInt(keys[0], 0);
+                for (let i = 0; i < this.archivedBlogs.length; i++) {
+                    this.archivedBlogs[i].year = year;
+                }
+                console.log(this.archivedBlogs);
+            }
         });
+    }
+
+    loadArchiveByYear(year: number) {
+        const yearArchives = this.archivedBlogs.filter(item => item.id === year);
+        console.log('loading for ' + year);
+        console.log(yearArchives);
+        return yearArchives;
     }
 
     loadFirstPage() {
         if (this.blogs && this.blogs.length) {
             this.blog = this.blogs[this.page];
+            this.recentBlogs = [];
+            this.blogs.forEach(blog => {
+                this.recentBlogs.push({ key: blog.id, value: blog.title });
+            });
         }
     }
 
@@ -87,4 +122,16 @@ export class BlogViewComponent implements OnInit, AfterViewInit {
         this.blog = null;
         this.blogs = [];
     }
+
+    onSidebarItemSelected(item: any) {
+        console.log('sidebar-item-selected');
+        console.log(item);
+        this.blog = this.blogs.find(blog => blog.id === item.key);
+        console.log('Blog-found');
+        console.log(this.blog);
+    }
+}
+
+class BlogArchive {
+    constructor(public id?: number, public key?: string, public value?: any) {}
 }

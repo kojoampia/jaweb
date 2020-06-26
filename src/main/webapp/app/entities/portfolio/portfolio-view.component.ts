@@ -10,7 +10,7 @@ import { LocalStorage } from 'ngx-webstorage';
     styleUrls: ['../entities.components.scss']
 })
 export class PortfolioViewComponent implements OnInit {
-    @LocalStorage() portfolios: IPortfolio[];
+    portfolios: IPortfolio[];
     constructor(private portfolioService: PortfolioService, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {

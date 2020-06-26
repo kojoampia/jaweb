@@ -41,8 +41,7 @@ export const serviceRoute: Routes = [
             authorities: [],
             defaultSort: 'id,asc',
             pageTitle: 'Services we offer'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',
@@ -66,8 +65,7 @@ export const serviceRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'Services'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: ':id/view',

@@ -53,6 +53,18 @@ export class BlogService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    getArchives(): Observable<EntityArrayResponseType> {
+        return this.http.get<any>(`${this.resourceUrl}/archive`, { observe: 'response' });
+    }
+
+    getArchivesByYear(year?: number): Observable<EntityArrayResponseType> {
+        return this.http.get<any>(`${this.resourceUrl}/archive/${year}`, { observe: 'response' });
+    }
+
+    getArchivesByYearMonth(year?: number, month?: number): Observable<EntityArrayResponseType> {
+        return this.http.get<any>(`${this.resourceUrl}/archive/${year}/${month}`, { observe: 'response' });
+    }
+
     delete(id: string): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

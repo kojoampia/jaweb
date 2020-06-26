@@ -13,8 +13,7 @@ import { CareerService } from './career.service';
     styleUrls: ['../entities.components.scss']
 })
 export class CareerDeleteDialogComponent {
-    @Input() career: ICareer;
-    @Input() embed = false;
+    career: ICareer;
     constructor(protected careerService: CareerService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {

@@ -13,6 +13,7 @@ export class SidebarComponent implements OnInit {
     @LocalStorage() isSidebarCollapsed: boolean;
     @LocalStorage() isHideSidebar: boolean;
     @LocalStorage() sidebarItem: SidebarItem;
+    @Input() title: string;
 
     constructor() {}
 

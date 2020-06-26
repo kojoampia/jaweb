@@ -11,7 +11,7 @@ import { LocalStorage } from 'ngx-webstorage';
     styleUrls: ['../entities.components.scss']
 })
 export class ContactViewComponent implements OnInit {
-    @LocalStorage() contact: IContact;
+    contact: IContact;
     constructor(private contactService: ContactService, private domSanitizer: DomSanitizer) {}
 
     ngOnInit() {

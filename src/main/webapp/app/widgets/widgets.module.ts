@@ -37,7 +37,7 @@ import { OwlSliderComponent } from './owlslider/slider.component';
         NgxEchartsModule,
         NgxCarouselModule,
         NgxTinymceModule.forRoot({
-            baseURL: '/content/tinymce-4.9.0/'
+            baseURL: '/tinymce/'
         })
     ],
     declarations: [

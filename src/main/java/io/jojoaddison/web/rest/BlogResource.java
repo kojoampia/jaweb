@@ -3,8 +3,11 @@ package io.jojoaddison.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +109,10 @@ public class BlogResource {
         log.debug("REST request to get a page of Blogs");
         Page<Blog> page = blogRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/blogs");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<Blog> blogs = page.getContent().stream()
+        .sorted(Comparator.comparing(Blog::getModifiedDate, Comparator.reverseOrder()))
+        .collect(Collectors.toList());
+        return ResponseEntity.ok().headers(headers).body(blogs);
     }
 
     /**
@@ -121,7 +127,56 @@ public class BlogResource {
         ZonedDateTime recent = ZonedDateTime.now().minusDays(7);
         Page<Blog> page = blogRepository.findByModifiedDateAfter(recent, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/blogs/recent");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<Blog> blogs = page.getContent().stream()
+        .sorted(Comparator.comparing(Blog::getModifiedDate, Comparator.reverseOrder()))
+        .collect(Collectors.toList());
+        return ResponseEntity.ok().headers(headers).body(blogs);
+    }
+
+    /**
+     * GET  /blogs : get all the blogs.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of blogs in body
+     */
+    @GetMapping("/blogs/archive")
+    public Map<Integer,List<Blog>> getArchiveBlogs() {
+        log.debug("REST request to get a page of Blogs");
+        Map<Integer, List<Blog>> blogs = blogRepository.findAll().stream()
+        .sorted(Comparator.comparing(Blog::getCreatedDate, Comparator.reverseOrder()))
+        .collect(Collectors.groupingBy(Blog::getCreatedYear, Collectors.toList()));
+        return blogs;
+    }
+
+    /**
+     * GET  /blogs : get all the blogs.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of blogs in body
+     */
+    @GetMapping("/blogs/archive/{year}")
+    public Map<Integer,List<Blog>> getArchiveByYearBlogs(@PathVariable int year) {
+        log.debug("REST request to get a page of Blogs");
+        Map<Integer,List<Blog>> blogs = blogRepository.findAll().stream()
+        .filter(b -> b.getCreatedYear() == year)
+        .sorted(Comparator.comparing(Blog::getCreatedDate, Comparator.reverseOrder()))
+        .collect(Collectors.groupingBy(Blog::getCreatedMonth, Collectors.toList()));
+        return blogs;
+    }
+    /**
+     * GET  /blogs : get all the blogs.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of blogs in body
+     */
+    @GetMapping("/blogs/archive/{year}/{month}")
+    public Map<Integer,List<Blog>> getArchiveByYearAndMonthBlogs(@PathVariable int year, @PathVariable int month) {
+        log.debug("REST request to get a page of Blogs");
+        Map<Integer,List<Blog>> blogs = blogRepository.findAll().stream()
+        .filter(b -> b.getCreatedYear() == year && b.getCreatedMonth() == month)
+        .sorted(Comparator.comparing(Blog::getCreatedDate, Comparator.reverseOrder()))
+        .collect(Collectors.groupingBy(Blog::getCreatedDay, Collectors.toList()));
+        return blogs;
     }
 
 

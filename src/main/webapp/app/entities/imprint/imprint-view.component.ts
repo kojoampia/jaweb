@@ -10,7 +10,7 @@ import { LocalStorage } from 'ngx-webstorage';
     styleUrls: ['../entities.components.scss']
 })
 export class ImprintViewComponent implements OnInit {
-    @LocalStorage() imprint: IImprint;
+    imprint: IImprint;
     constructor(private imprintService: ImprintService, private sanitizer: DomSanitizer) {}
 
     ngOnInit() {

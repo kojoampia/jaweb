@@ -40,9 +40,8 @@ export const blogRoute: Routes = [
         data: {
             authorities: [],
             defaultSort: 'id,asc',
-            pageTitle: 'Blogs'
-        },
-        canActivate: [UserRouteAccessService]
+            pageTitle: 'JojoAddison.Net - Blog and Articles'
+        }
     },
     {
         path: 'view/:id',
@@ -52,9 +51,8 @@ export const blogRoute: Routes = [
         },
         data: {
             authorities: [],
-            pageTitle: 'Blogs'
-        },
-        canActivate: [UserRouteAccessService]
+            pageTitle: 'JojoAddison.Net - Article'
+        }
     },
     {
         path: 'dashboard',
@@ -65,7 +63,7 @@ export const blogRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Blogs'
+            pageTitle: 'Blog Dashboard'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -77,7 +75,7 @@ export const blogRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Blogs'
+            pageTitle: '{{blog.title}}'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -89,7 +87,7 @@ export const blogRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Blogs'
+            pageTitle: 'Blog Editor'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -101,7 +99,7 @@ export const blogRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Blogs'
+            pageTitle: 'JojoAddison.Net - Blog management editor'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -116,7 +114,7 @@ export const blogPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Blogs'
+            pageTitle: 'blog.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

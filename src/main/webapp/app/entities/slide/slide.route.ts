@@ -38,11 +38,10 @@ export const slideRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             defaultSort: 'id,asc',
             pageTitle: 'Slides'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',

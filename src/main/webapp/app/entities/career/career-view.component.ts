@@ -10,7 +10,7 @@ import { LocalStorage } from 'ngx-webstorage';
     styleUrls: ['../entities.components.scss']
 })
 export class CareerViewComponent implements OnInit {
-    @LocalStorage() careers: ICareer[];
+    careers: ICareer[];
     constructor(protected careerService: CareerService, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {

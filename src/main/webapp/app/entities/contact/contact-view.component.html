@@ -45,12 +45,12 @@
                                     *ngIf="contact.facebook">
                                     <fa-icon [icon]="'thumbs-up'"></fa-icon>
                                 </a>
-                                <a [href]="contact.google" class="btn btn-round btn-info btn-sm" target="_blank"
-                                    *ngIf="'/#/social/' + contact.google">
+                                <a [href]="'/#/social/' + contact.google" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="contact.google">
                                     <fa-icon [icon]="'users'"></fa-icon>
                                 </a>
-                                <a [href]="contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank"
-                                    *ngIf="'/#/social/' + contact.twitter">
+                                <a [href]="'/#/social/' + contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank"
+                                    *ngIf="contact.twitter">
                                     <fa-icon [icon]="'retweet'"></fa-icon>
                                 </a>
                             </div>
@@ -59,10 +59,8 @@
                 </div>
                 <div class="col-md-8">
                     <div *ngIf="contact.image">
-                        <a (click)="openFile(contact.imageContentType, contact.image)">
-                            <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image"
+                        <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image"
                                 style="max-width: 100%;" alt="contact image" />
-                        </a>
                     </div>
                     <jhi-map [longitude]="contact.longitude" [latitude]="contact.latitude"></jhi-map>
                 </div>

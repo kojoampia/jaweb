@@ -36,8 +36,7 @@ export const careerRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'Careers'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',
@@ -57,8 +56,7 @@ export const careerRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'Career Detail'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: ':id/view',

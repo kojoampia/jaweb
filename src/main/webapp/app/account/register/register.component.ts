@@ -8,7 +8,8 @@ import { Register } from './register.service';
 
 @Component({
     selector: 'jhi-register',
-    templateUrl: './register.component.html'
+    templateUrl: './register.component.html',
+    styleUrls: ['../account.scss']
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
     confirmPassword: string;

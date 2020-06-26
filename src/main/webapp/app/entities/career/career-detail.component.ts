@@ -11,6 +11,7 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 })
 export class CareerDetailComponent implements OnInit {
     @Input() career: ICareer;
+    @Input() embed = false;
 
     constructor(protected activatedRoute: ActivatedRoute, protected domSanitizer: DomSanitizer) {}
 

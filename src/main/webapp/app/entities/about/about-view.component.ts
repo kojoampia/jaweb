@@ -10,7 +10,7 @@ import { LocalStorage } from 'ngx-webstorage';
     styleUrls: ['../entities.components.scss']
 })
 export class AboutViewComponent implements OnInit {
-    @LocalStorage() about: IAbout;
+    about: IAbout;
     constructor(private aboutService: AboutService, private sanitizer: DomSanitizer) {}
 
     ngOnInit() {

@@ -36,8 +36,7 @@ export const informationRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'Information'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',
@@ -57,8 +56,7 @@ export const informationRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Information'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'new',

@@ -1,39 +1,45 @@
 <div class="container-fluid ml-auto mr-auto mt-2 mb-2">
-    <div class="row-fluid mt-2 mb-2">
-        <div class="col-2">
-
+    <div class="row mt-2 mb-2">
+        <div class="col-2 text-center pr-1 pl-1" *ngIf="recentBlogs && recentBlogs?.length > 0">
+            <jhi-sidebar [items]="recentBlogs" [title]="'Recent blogs...'"
+                (itemSelected)="onSidebarItemSelected($event)"></jhi-sidebar>
         </div>
-        <div class="col" scrollSpyElement="blogHeader" #blogHeader>
-            <div class="container" *ngIf="blog">
-                <div class="card blogbox bg-transparent text-primary ">
-                    <div class="card-header  text-center">
-                        <div class="float-left" *ngIf="page > 0">
-                            <button type="button" class="btn btn-outline-light btn-primary" aria-label="refresh"
-                                (click)="previousPage()">
-                                <span aria-hidden="true">
-                                    <fa-icon icon="arrow-circle-left"></fa-icon>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="float-right" *ngIf="page < (blogs.length - 1)">
-                            <button type="button" class="btn btn-outline-light btn-primary" aria-label="refresh"
-                                (click)="nextPage()">
-                                <span aria-hidden="true">
-                                    <fa-icon icon="arrow-circle-right"></fa-icon>
-                                </span>
-                            </button>
-                        </div>
-                        <h2><a [routerLink]="['/blog/view', blog.id]">{{blog.title}}</a></h2>
-                        <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
+        <div class="col text-center pr-1 pl-1" *ngIf="blog">
+            <div class="card blogbox bg-transparent text-primary ">
+                <div class="card-header  text-center">
+                    <div class="float-left" *ngIf="page > 0">
+                        <button type="button round-btn" class="btn btn-outline-light btn-primary" aria-label="refresh"
+                            (click)="previousPage()">
+                            <span aria-hidden="true">
+                                <fa-icon icon="arrow-circle-left"></fa-icon>
+                            </span>
+                        </button>
                     </div>
-                    <div class="card-body bg-white text-black databox">
-                        <div [innerHTML]="safeContent(blog.content)"></div>
+                    <div class="float-right" *ngIf="page < (blogs?.length - 1)">
+                        <button type="button round-btn" class="btn btn-outline-light btn-primary" aria-label="refresh"
+                            (click)="nextPage()">
+                            <span aria-hidden="true">
+                                <fa-icon icon="arrow-circle-right"></fa-icon>
+                            </span>
+                        </button>
                     </div>
+                    <h2><a [routerLink]="['/blog/view', blog.id]">{{blog.title}}</a></h2>
+                    <span>{{blog.lastModifiedBy}}, {{blog.modifiedDate | date: 'medium'}}</span>
+                </div>
+                <div class="card-body bg-white text-black databox">
+                    <div [innerHTML]="safeContent(blog.content)"></div>
                 </div>
             </div>
         </div>
-        <div class="col-2">
-
+        <div class="col-2 text-center pr-1 pl-1">
+            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngIf="ready">
+                <ngb-panel title="'Archives ' + year " *ngFor="let year of archiveYears">
+                    <ng-template ngbPanelContent>
+                        <jhi-sidebar [items]="loadArchiveByYear(year)" (itemSelected)="onSidebarItemSelected($event)">
+                        </jhi-sidebar>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
         </div>
     </div>
 </div>
