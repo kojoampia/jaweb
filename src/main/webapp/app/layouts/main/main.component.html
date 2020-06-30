@@ -5,21 +5,21 @@
     <router-outlet name="popup"></router-outlet>
 </div>
 <!-- Footer -->
-<div class="fixed-bottom bg-white">
+<div class="fixed-bottom bg-transparent">
     <div class="row justify-content-center bg-primary p-3" *ngIf="cookieAccepted === false">
         <div class="col text-center text-white">
             <h5 class="display-5">
-                <span>I accept all cookies on this website. &nbsp;</span>
+                <span>We use cookies to help tailor serve you better. &nbsp;</span>
                 <button class="btn btn-md btn-md-primary btn-outline-light" (click)="acceptCookies()">OK</button>
             </h5>
         </div>
-        <!--
-        <share-buttons [theme]="'modern-dark'"
-            [include]="['facebook','twitter','linkedin','whatsapp','sms','email','print','copy']" [show]="3"
-            [showText]="true" [showCount]="true" [url]="'https://www.jojoaddison.net/'" [autoSetMeta]="false"></share-buttons>
-        -->
     </div>
     <jhi-footer></jhi-footer>
 </div>
+<!--
+<share-buttons [theme]="'modern-dark'"
+    [include]="['facebook','twitter','linkedin','whatsapp','sms','email','print','copy']" [show]="3"
+    [showText]="true" [showCount]="true" [url]="'https://www.jojoaddison.net/'" [autoSetMeta]="false"></share-buttons>
+-->
 
 

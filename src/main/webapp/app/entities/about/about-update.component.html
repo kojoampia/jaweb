@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()" [disabled]="isSaving">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
