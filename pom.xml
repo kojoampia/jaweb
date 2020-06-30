@@ -5,7 +5,7 @@
 
     <groupId>io.jojoaddison</groupId>
     <artifactId>jojoaddison</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.9</version>
     <packaging>war</packaging>
     <name>JojoAddison</name>
 
@@ -209,7 +209,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-          <!-- log4j needed to create embedded elasticsearch instance -->
+        <!-- log4j needed to create embedded elasticsearch instance -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -304,10 +304,8 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-messaging</artifactId>
         </dependency>
-
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
-
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <finalName>${project.artifactId}</finalName>

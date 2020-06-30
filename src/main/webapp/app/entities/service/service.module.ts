@@ -12,6 +12,7 @@ import {
     servicePopupRoute
 } from './';
 import { ServiceViewComponent } from './service-view.component';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...serviceRoute, ...servicePopupRoute];
 
@@ -26,6 +27,7 @@ const ENTITY_STATES = [...serviceRoute, ...servicePopupRoute];
         ServiceViewComponent
     ],
     entryComponents: [ServiceComponent, ServiceUpdateComponent, ServiceDeleteDialogComponent, ServiceDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     exports: [ServiceViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

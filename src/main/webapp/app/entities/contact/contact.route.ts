@@ -35,8 +35,7 @@ export const contactRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'The many avenues for contacting us'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'dashboard',

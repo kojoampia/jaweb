@@ -147,7 +147,7 @@ To stop it and remove the container, run:
 You can also fully dockerize your application and all the services that it depends on.
 To achieve this, first build a docker image of your app by running:
 
-    ./mvnw package -Pprod verify jib:dockerBuild
+    ./mvnw package -Pprod verify jib:dockerBuild -DskipTests
 
 Then run:
 

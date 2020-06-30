@@ -29,9 +29,9 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
             theme: 'modern',
             // powerpaste advcode toc tinymcespellchecker a11ychecker mediaembed linkchecker help
             plugins:
-                'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image imagetools link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists textcolor wordcount contextmenu colorpicker textpattern',
+                'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image imagetools link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists textcolor wordcount contextmenu colorpicker textpattern code',
             toolbar:
-                'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+                'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat | code',
             image_advtab: true,
             imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
             templates: [{ title: 'Test template 1', content: 'Test 1' }, { title: 'Test template 2', content: 'Test 2' }],
@@ -52,7 +52,7 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
         // this.configureEditor();
 
         if (!this.content) {
-            this.content = 'test content';
+            this.content = '';
         }
     }
 

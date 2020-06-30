@@ -12,6 +12,7 @@ import {
     aboutPopupRoute
 } from './';
 import { AboutViewComponent } from './about-view.component';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...aboutRoute, ...aboutPopupRoute];
 
@@ -26,6 +27,7 @@ const ENTITY_STATES = [...aboutRoute, ...aboutPopupRoute];
         AboutViewComponent
     ],
     entryComponents: [AboutComponent, AboutUpdateComponent, AboutDeleteDialogComponent, AboutDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonAboutModule {}

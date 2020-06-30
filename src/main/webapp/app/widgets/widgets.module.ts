@@ -28,6 +28,7 @@ import { NgxCarouselModule } from 'ngx-carousel';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import { GMapComponent } from './gmap/gmap.component';
 import { OwlSliderComponent } from './owlslider/slider.component';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 @NgModule({
     imports: [
         CommonModule,
@@ -84,6 +85,7 @@ import { OwlSliderComponent } from './owlslider/slider.component';
         PageEditorComponent,
         PageViewerComponent
     ],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class WidgetsModule {}

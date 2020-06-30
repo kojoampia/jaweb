@@ -12,6 +12,7 @@ import {
     portfolioPopupRoute,
     PortfolioViewComponent
 } from './';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...portfolioRoute, ...portfolioPopupRoute];
 
@@ -26,6 +27,7 @@ const ENTITY_STATES = [...portfolioRoute, ...portfolioPopupRoute];
         PortfolioViewComponent
     ],
     entryComponents: [PortfolioComponent, PortfolioUpdateComponent, PortfolioDeleteDialogComponent, PortfolioDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     exports: [PortfolioViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

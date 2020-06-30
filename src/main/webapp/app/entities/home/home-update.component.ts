@@ -12,12 +12,13 @@ import { IInformation } from 'app/shared/model/information.model';
 import { InformationService } from 'app/entities/information';
 import { ISlide } from 'app/shared/model/slide.model';
 import { SlideService } from '../slide';
-import { IPortfolio } from 'app/shared/model/portfolio.model';
+import { IPortfolio, Portfolio } from 'app/shared/model/portfolio.model';
 import { IService, Service } from 'app/shared/model/service.model';
 import { IPartner } from 'app/shared/model/partner.model';
 import { PortfolioService } from '../portfolio';
 import { PartnerService } from '../partner';
 import { ServiceService } from '../service';
+import { isArray, isNumber } from 'util';
 
 @Component({
     selector: 'jhi-home-update',
@@ -66,6 +67,13 @@ export class HomeUpdateComponent implements OnInit {
         this.loadInformation();
         this.loadSlides();
         this.loadServices();
+        this.loadPortfolios();
+    }
+
+    loadPortfolios() {
+        this.portfolioService.query().subscribe((res: HttpResponse<IPortfolio[]>) => {
+            this.portfolios = res.body || [];
+        });
     }
 
     loadServices() {
@@ -174,10 +182,46 @@ export class HomeUpdateComponent implements OnInit {
         return item.id;
     }
 
+    selectPortfolio(portfolio: Portfolio) {
+        if (!this.home.portfolios || !isArray(this.home.portfolios)) {
+            this.home.portfolios = [];
+        }
+        const itemIndex = this.home.portfolios.findIndex(item => item.id === portfolio.id);
+
+        if (itemIndex < 0) {
+            this.home.portfolios.push(portfolio);
+        } else {
+            this.home.portfolios.splice(itemIndex, 1);
+        }
+    }
+
+    isSelectedPortfolio(portfolio: any): boolean {
+        if (!this.home.portfolios || !isArray(this.home.portfolios)) {
+            return false;
+        }
+        const itemIndex = this.home.portfolios.findIndex(item => item.id === portfolio.id);
+        return itemIndex > -1;
+    }
+
     selectService(service: Service) {
-        if (!this.home.services) {
+        if (!this.home.services || !isArray(this.home.services)) {
             this.home.services = [];
         }
-        this.home.services.push(service);
+
+        const itemIndex = this.home.services.findIndex(item => item.id === service.id);
+
+        if (itemIndex < 0) {
+            this.home.services.push(service);
+        } else {
+            this.home.services.splice(itemIndex, 1);
+        }
+    }
+
+    isSelectedService(service: any): boolean {
+        if (!this.home.services || !isArray(this.home.services)) {
+            return false;
+        }
+        const itemIndex = this.home.services.findIndex(item => item.id === service.id);
+        return itemIndex > -1;
     }
 }

@@ -13,6 +13,7 @@ import {
 } from './';
 import { BlogViewComponent } from './blog-view.component';
 import { ScrollSpyModule } from 'ngx-scrollspy';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
 
@@ -27,6 +28,7 @@ const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
         BlogViewComponent
     ],
     entryComponents: [BlogComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonBlogModule {}

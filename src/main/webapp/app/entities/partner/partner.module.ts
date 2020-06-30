@@ -12,6 +12,7 @@ import {
     partnerPopupRoute
 } from './';
 import { PartnerViewComponent } from './partner-view.component';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...partnerRoute, ...partnerPopupRoute];
 
@@ -26,6 +27,7 @@ const ENTITY_STATES = [...partnerRoute, ...partnerPopupRoute];
         PartnerViewComponent
     ],
     entryComponents: [PartnerComponent, PartnerUpdateComponent, PartnerDeleteDialogComponent, PartnerDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     exports: [PartnerViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

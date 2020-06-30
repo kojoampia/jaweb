@@ -1,38 +1,49 @@
-<div class="home ml-auto mr-auto w-100" *ngIf="loaded">
+<div class="home ml-auto mr-auto mb-5 w-100" *ngIf="loaded">
     <!--Information Box -->
     <div class="container ml-auto mr-auto">
         <jhi-infobox [info]="info"></jhi-infobox>
         <!-- Sliderbox -->
-        <jhi-slider [width]="1200" [height]="620" [slides]="slides"></jhi-slider>
+        <jhi-slider [slides]="slides"></jhi-slider>
+    </div>
+    <br />
+    <div class="container-fluid bg-success pt-5 pb-5">
         <!-- Services -->
-        <div class="mr-5 ml-5">
-            <div class="card-group mt-3">
-                <div *ngFor="let service of services" class="col-md-4">
-                    <div class="card widgetbox">
-                        <div class="card-header">
-                            <h4 class="card-title">{{ service.name }}</h4>
-                        </div>
-                        <div class="card-body text-left databox">
-                            <div [innerHTML]="safeContent(service.description)"></div>
-                        </div>
-                        <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
-                        style="max-width: 100%;" alt="service image" class="card-bottom-img img-fluid" />
+        <div class="card-group">
+            <div *ngFor="let service of services" class="col-md-4 mt-1 mb-1">
+                <div class="card widgetbox">
+                    <div class="card-header text-center">
+                        <h4 class="display-6">
+                            <a [routerLink]="['/service', 'view' , service.id]">
+                                {{ service.name }}
+                            </a>
+                        </h4>
                     </div>
+                    <div class="card-body text-left databox">
+                        <div [innerHTML]="safeContent(service.description)"></div>
+                    </div>
+                    <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
+                        style="max-width: 100%;" alt="service image" class="card-bottom-img img-fluid" />
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container-fluid bg-warning ml-auto mr-auto pt-5 pb-5">
         <!-- Portfolio -->
-        <div class="card-group border-0 bg-transparent">
-            <div *ngFor="let portfolio of portfolios" class="col-md-4">
-                <div class="card widgetbox">
-                    <div class="card-header">
-                        {{portfolio.name}}
+        <div class="container ml-auto mr-auto bg-transparent">
+            <div class="card-group border-0 bg-transparent mt-5 mb-5">
+                <div *ngFor="let portfolio of portfolios" class="col-md-6">
+                    <div class="card widgetbox">
+                        <div class="card-header text-center">
+                            <a [routerLink]="['/portfolio', 'view' , portfolio.id]">
+                                {{ portfolio.name }}
+                            </a>
+                        </div>
+                        <div class="card-body databox">
+                            <div [innerHTML]="safeContent(portfolio.description)"></div>
+                        </div>
+                        <img [src]="'data:' + portfolio.photoContentType + ';base64,' + portfolio.photo"
+                            style="max-width: 100%;" alt="portfolio image" class="card-bottom-img img-fluid" />
                     </div>
-                    <div class="card-body databox">
-                        <div [innerHTML]="safeContent(portfolio.description)"></div>
-                    </div>
-                    <img [src]="'data:' + portfolio.photoContentType + ';base64,' + portfolio.photo"
-                    style="max-width: 100%;" alt="portfolio image" class="card-bottom-img img-fluid" />
                 </div>
             </div>
         </div>

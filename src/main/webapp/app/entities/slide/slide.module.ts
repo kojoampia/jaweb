@@ -12,6 +12,7 @@ import {
     slideRoute,
     slidePopupRoute
 } from './';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const SLIDE_STATES = [...slideRoute, ...slidePopupRoute];
 

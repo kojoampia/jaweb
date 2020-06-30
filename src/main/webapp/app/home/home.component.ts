@@ -19,11 +19,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
-    @LocalStorage() currentHome: Home;
-    @LocalStorage() slides: ISlide[];
-    @LocalStorage() partners: any[];
-    @LocalStorage() portfolios: IPortfolio[];
-    @LocalStorage() services: IService[];
+    currentHome: Home;
+    slides: ISlide[];
+    partners: any[];
+    portfolios: IPortfolio[];
+    services: IService[];
     loaded = false;
 
     info: any = {

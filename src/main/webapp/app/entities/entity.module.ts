@@ -11,6 +11,7 @@ import { JojoaddisonContactModule } from './contact/contact.module';
 import { JojoaddisonBlogModule } from './blog/blog.module';
 import { JojoaddisonAboutModule } from './about/about.module';
 import { JojoaddisonSharedCommonModule } from 'app/shared';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 @NgModule({
     imports: [
@@ -79,7 +80,7 @@ import { JojoaddisonSharedCommonModule } from 'app/shared';
     ],
     declarations: [],
     entryComponents: [],
-    providers: [],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonEntityModule {}

@@ -8,8 +8,8 @@ import { Slide } from 'app/shared/model/slide.model';
 })
 export class SlidesComponent implements OnDestroy {
     @Input() slides: any[] = [];
-    @Input() width = 800;
-    @Input() height = 400;
+    @Input() width = '100%';
+    @Input() height = 'auto';
     @Output() slideSelected = new EventEmitter<any>();
     constructor() {}
 

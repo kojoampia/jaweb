@@ -11,6 +11,7 @@ import {
     homeRoute,
     homePopupRoute
 } from './';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...homeRoute, ...homePopupRoute];
 
@@ -18,6 +19,7 @@ const ENTITY_STATES = [...homeRoute, ...homePopupRoute];
     imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [HomeComponent, HomeDetailComponent, HomeUpdateComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
     entryComponents: [HomeComponent, HomeUpdateComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonHomeModule {}

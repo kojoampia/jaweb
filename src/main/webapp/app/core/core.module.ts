@@ -3,6 +3,7 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import locale from '@angular/common/locales/en';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 @NgModule({
     imports: [HttpClientModule],
@@ -14,7 +15,8 @@ import locale from '@angular/common/locales/en';
             provide: LOCALE_ID,
             useValue: 'en'
         },
-        DatePipe
+        DatePipe,
+        ConsoleLoggerService
     ]
 })
 export class JojoaddisonCoreModule {

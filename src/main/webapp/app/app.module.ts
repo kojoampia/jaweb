@@ -21,6 +21,7 @@ import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent } from './layouts';
 import { FooterModule } from './layouts/footer/footer.module';
+import { ConsoleLoggerService } from './console-logger.service';
 
 @NgModule({
     imports: [
@@ -62,7 +63,8 @@ import { FooterModule } from './layouts/footer/footer.module';
             provide: HTTP_INTERCEPTORS,
             useClass: NotificationInterceptor,
             multi: true
-        }
+        },
+        ConsoleLoggerService
     ],
     bootstrap: [JhiMainComponent]
 })

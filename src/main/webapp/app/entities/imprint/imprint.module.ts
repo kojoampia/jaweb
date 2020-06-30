@@ -13,6 +13,7 @@ import {
     ImprintViewComponent
 } from './';
 import { WidgetsModule } from 'app/widgets/widgets.module';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const IMPRINT_STATES = [...imprintRoute, ...imprintPopupRoute];
 
@@ -27,6 +28,7 @@ const IMPRINT_STATES = [...imprintRoute, ...imprintPopupRoute];
         ImprintViewComponent
     ],
     entryComponents: [ImprintComponent, ImprintUpdateComponent, ImprintDeleteDialogComponent, ImprintDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonImprintModule {}

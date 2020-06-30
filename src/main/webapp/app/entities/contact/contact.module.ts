@@ -12,6 +12,7 @@ import {
     contactPopupRoute
 } from './';
 import { ContactViewComponent } from './contact-view.component';
+import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
 
@@ -26,6 +27,7 @@ const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
         ContactViewComponent
     ],
     entryComponents: [ContactComponent, ContactUpdateComponent, ContactDeleteDialogComponent, ContactDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonContactModule {}
