@@ -1,5 +1,5 @@
-<div class="container-fluid ml-auto mr-auto mt-2 mb-2">
-    <div class="row mt-2 mb-2">
+<div class="container-fluid ml-auto mr-auto mt-2 mb-5">
+    <div class="row mt-2 mb-5">
         <div class="col-2 text-center pr-1 pl-1" *ngIf="recentBlogs && recentBlogs?.length > 0">
             <jhi-sidebar [items]="recentBlogs" [title]="'Recent blogs...'"
                 (itemSelected)="onSidebarItemSelected($event)"></jhi-sidebar>

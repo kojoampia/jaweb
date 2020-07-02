@@ -35,6 +35,19 @@
         {
             "fieldName": "contact",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "url",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "document",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "documentContentType",
+            "fieldType": "String"
         }
     ],
     "dto": "no",

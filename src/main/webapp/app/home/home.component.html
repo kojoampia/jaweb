@@ -1,13 +1,14 @@
 <div class="home ml-auto mr-auto mb-5 w-100" *ngIf="loaded">
     <!--Information Box -->
-    <div class="container ml-auto mr-auto">
+    <div class="container-fluid bg-white pt-3 pb-3">
         <jhi-infobox [info]="info"></jhi-infobox>
-        <!-- Sliderbox -->
+    </div>
+    <!-- Sliderbox -->
+    <div class="container ml-auto mr-auto">
         <jhi-slider [slides]="slides"></jhi-slider>
     </div>
-    <br />
+    <!-- Services -->
     <div class="container-fluid bg-success pt-5 pb-5">
-        <!-- Services -->
         <div class="card-group">
             <div *ngFor="let service of services" class="col-md-4 mt-1 mb-1">
                 <div class="card widgetbox">
@@ -27,8 +28,8 @@
             </div>
         </div>
     </div>
+    <!-- Portfolio -->
     <div class="container-fluid bg-warning ml-auto mr-auto pt-5 pb-5">
-        <!-- Portfolio -->
         <div class="container ml-auto mr-auto bg-transparent">
             <div class="card-group border-0 bg-transparent mt-5 mb-5">
                 <div *ngFor="let portfolio of portfolios" class="col-md-6">

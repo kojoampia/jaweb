@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 .info-theme {
     margin-top: -5px;
     margin-bottom: 2px;
@@ -6,4 +8,12 @@
     color: #005825;
     opacity: 0.85;
     text-align: center;
+}
+
+button {
+    font-weight: 400;
+}
+fa-icon {
+    width: 20px;
+    height: 14px;
 }

@@ -64,6 +64,10 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
             {
                 path: 'career',
                 loadChildren: './career/career.module#JojoaddisonCareerModule'
+            },
+            {
+                path: 'contact-message',
+                loadChildren: './contact-message/contact-message.module#JojoaddisonContactMessageModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ]),
