@@ -5,7 +5,7 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 import { JhiEventManager } from 'ng-jhipster';
 
 import { IContactMessage } from 'app/shared/model/contact-message.model';
-import { ContactMessageService } from './contact-message.service';
+import { ContactService } from '../contact.service';
 
 @Component({
     selector: 'jhi-contact-message-delete-dialog',
@@ -15,7 +15,7 @@ export class ContactMessageDeleteDialogComponent {
     contactMessage: IContactMessage;
 
     constructor(
-        protected contactMessageService: ContactMessageService,
+        protected contactMessageService: ContactService,
         public activeModal: NgbActiveModal,
         protected eventManager: JhiEventManager
     ) {}
@@ -25,7 +25,7 @@ export class ContactMessageDeleteDialogComponent {
     }
 
     confirmDelete(id: string) {
-        this.contactMessageService.delete(id).subscribe(response => {
+        this.contactMessageService.deleteMessage(id).subscribe(response => {
             this.eventManager.broadcast({
                 name: 'contactMessageListModification',
                 content: 'Deleted an contactMessage'

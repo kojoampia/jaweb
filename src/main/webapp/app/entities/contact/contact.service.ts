@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IContact } from 'app/shared/model/contact.model';
+import { IContactMessage } from 'app/shared/model/contact-message.model';
 
 type EntityResponseType = HttpResponse<IContact>;
 type EntityArrayResponseType = HttpResponse<IContact[]>;
@@ -15,9 +16,49 @@ type EntityArrayResponseType = HttpResponse<IContact[]>;
 @Injectable({ providedIn: 'root' })
 export class ContactService {
     public resourceUrl = SERVER_API_URL + 'api/contacts';
+    public messageResourceUrl = SERVER_API_URL + 'api/contact-messages';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/contacts';
+    public messageResourceSearchUrl = SERVER_API_URL + 'api/_search/contact-messages';
 
     constructor(protected http: HttpClient) {}
+
+    postMessage(contactMessage: IContactMessage): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(contactMessage);
+        return this.http
+            .post<IContactMessage>(this.messageResourceUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    updateMessage(contact: IContactMessage): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(contact);
+        return this.http
+            .put<IContactMessage>(this.messageResourceUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    findMessage(id: string): Observable<EntityResponseType> {
+        return this.http
+            .get<IContactMessage>(`${this.messageResourceUrl}/${id}`, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    readMessages(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IContactMessage[]>(this.messageResourceUrl, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
+    deleteMessage(id: string): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.messageResourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    searchMessage(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IContactMessage[]>(this.messageResourceSearchUrl, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
 
     create(contact: IContact): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(contact);

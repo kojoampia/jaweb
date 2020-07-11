@@ -10,7 +10,14 @@ import { ContactComponent } from './contact.component';
 import { ContactDetailComponent } from './contact-detail.component';
 import { ContactUpdateComponent } from './contact-update.component';
 import { IContact } from 'app/shared/model/contact.model';
-import { ContactViewComponent, ContactDeletePopupComponent } from '.';
+import {
+    ContactViewComponent,
+    ContactDeletePopupComponent,
+    ContactMessageComponent,
+    ContactMessageUpdateComponent,
+    ContactMessageDetailComponent,
+    ContactMessageDeletePopupComponent
+} from '.';
 
 @Injectable({ providedIn: 'root' })
 export class ContactResolve implements Resolve<IContact> {
@@ -80,6 +87,39 @@ export const contactRoute: Routes = [
             pageTitle: 'Contacts'
         },
         canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'messages',
+        component: ContactMessageComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Contact messaging dashboard'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'messages/:id/reply',
+        component: ContactMessageUpdateComponent,
+        resolve: {
+            contact: ContactResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Reply Message'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'messages/:id/view',
+        component: ContactMessageDetailComponent,
+        resolve: {
+            contact: ContactResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'View Message'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
 
@@ -87,6 +127,19 @@ export const contactPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: ContactDeletePopupComponent,
+        resolve: {
+            contact: ContactResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Contacts'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'messages/:id/delete',
+        component: ContactMessageDeletePopupComponent,
         resolve: {
             contact: ContactResolve
         },

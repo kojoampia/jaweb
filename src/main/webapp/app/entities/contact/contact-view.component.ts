@@ -1,10 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IContact } from 'app/shared/model/contact.model';
 import { ContactService } from './contact.service';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { LocalStorage } from 'ngx-webstorage';
-import { ContactMessageService } from '../contact-message';
 import { ContactMessage, IContactMessage } from 'app/shared/model/contact-message.model';
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -22,11 +20,7 @@ export class ContactViewComponent implements OnInit {
     isSent = false;
     isError = false;
 
-    constructor(
-        private contactService: ContactService,
-        private contactMessageService: ContactMessageService,
-        private domSanitizer: DomSanitizer
-    ) {}
+    constructor(private contactService: ContactService, private domSanitizer: DomSanitizer) {}
 
     ngOnInit() {
         if (!this.contact) {
@@ -44,7 +38,7 @@ export class ContactViewComponent implements OnInit {
         contactMessage.title = data.title;
         contactMessage.message = data.content;
         this.isSending = true;
-        this.subscribeToSaveResponse(this.contactMessageService.create(contactMessage));
+        this.subscribeToSaveResponse(this.contactService.postMessage(contactMessage));
     }
 
     sanitzer(data: string): SafeHtml {

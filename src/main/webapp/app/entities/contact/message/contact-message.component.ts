@@ -9,7 +9,7 @@ import { IContactMessage } from 'app/shared/model/contact-message.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
-import { ContactMessageService } from './contact-message.service';
+import { ContactService } from '../contact.service';
 
 @Component({
     selector: 'jhi-contact-message',
@@ -26,9 +26,11 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    error: any;
+    success: any;
 
     constructor(
-        protected contactMessageService: ContactMessageService,
+        protected contactMessageService: ContactService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
@@ -52,7 +54,7 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
     loadAll() {
         if (this.currentSearch) {
             this.contactMessageService
-                .search({
+                .searchMessage({
                     query: this.currentSearch,
                     page: this.page,
                     size: this.itemsPerPage,
@@ -65,7 +67,7 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
             return;
         }
         this.contactMessageService
-            .query({
+            .readMessages({
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -82,7 +84,7 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    loadPage(page) {
+    loadPage(page: any) {
         this.page = page;
         this.loadAll();
     }
@@ -99,7 +101,7 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
+    search(query: string) {
         if (!query) {
             return this.clear();
         }
@@ -145,12 +147,29 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
     protected paginateContactMessages(data: IContactMessage[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        for (let i = 0; i < data.length; i++) {
-            this.contactMessages.push(data[i]);
-        }
+        this.contactMessages = [];
+        setTimeout(() => {
+            for (let i = 0; i < data.length; i++) {
+                this.contactMessages.push(data[i]);
+            }
+        }, 1000);
     }
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    setApproved(message: IContactMessage, isApproved: boolean) {
+        message.approved = isApproved;
+        this.contactMessageService.updateMessage(message).subscribe(response => {
+            if (response.status === 200) {
+                this.error = null;
+                this.success = 'OK';
+                this.loadAll();
+            } else {
+                this.success = null;
+                this.error = 'ERROR';
+            }
+        });
     }
 }

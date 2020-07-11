@@ -6,19 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IContactMessage } from 'app/shared/model/contact-message.model';
-import { ContactMessageService } from './contact-message.service';
+import { ContactService } from '../contact.service';
 
 @Component({
     selector: 'jhi-contact-message-update',
     templateUrl: './contact-message-update.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../../entities.components.scss']
 })
 export class ContactMessageUpdateComponent implements OnInit {
     contactMessage: IContactMessage;
     isSaving: boolean;
     createdDate: string;
 
-    constructor(protected contactMessageService: ContactMessageService, protected activatedRoute: ActivatedRoute) {}
+    constructor(protected contactMessageService: ContactService, protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.isSaving = false;
@@ -40,9 +40,9 @@ export class ContactMessageUpdateComponent implements OnInit {
         this.isSaving = true;
         this.contactMessage.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
         if (this.contactMessage.id !== undefined) {
-            this.subscribeToSaveResponse(this.contactMessageService.update(this.contactMessage));
+            this.subscribeToSaveResponse(this.contactMessageService.updateMessage(this.contactMessage));
         } else {
-            this.subscribeToSaveResponse(this.contactMessageService.create(this.contactMessage));
+            this.subscribeToSaveResponse(this.contactMessageService.postMessage(this.contactMessage));
         }
     }
 

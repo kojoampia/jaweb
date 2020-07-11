@@ -18,8 +18,10 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing ContactMessage.
@@ -39,65 +41,75 @@ public class ContactMessageResource {
     }
 
     /**
-     * POST  /contact-messages : Create a new contactMessage.
+     * POST /contact-messages : Create a new contactMessage.
      *
      * @param contactMessage the contactMessage to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new contactMessage, or with status 400 (Bad Request) if the contactMessage has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new
+     *         contactMessage, or with status 400 (Bad Request) if the
+     *         contactMessage has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/contact-messages")
-    public ResponseEntity<ContactMessage> createContactMessage(@Valid @RequestBody ContactMessage contactMessage) throws URISyntaxException {
+    public ResponseEntity<ContactMessage> createContactMessage(@Valid @RequestBody ContactMessage contactMessage)
+            throws URISyntaxException {
         log.debug("REST request to save ContactMessage : {}", contactMessage);
         if (contactMessage.getId() != null) {
-            throw new BadRequestAlertException("A new contactMessage cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new contactMessage cannot already have an ID", ENTITY_NAME,
+                    "idexists");
         }
         contactMessage.createdDate(ZonedDateTime.now());
         ContactMessage result = contactMessageRepository.save(contactMessage);
         return ResponseEntity.created(new URI("/api/contact-messages/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     /**
-     * PUT  /contact-messages : Updates an existing contactMessage.
+     * PUT /contact-messages : Updates an existing contactMessage.
      *
      * @param contactMessage the contactMessage to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated contactMessage,
-     * or with status 400 (Bad Request) if the contactMessage is not valid,
-     * or with status 500 (Internal Server Error) if the contactMessage couldn't be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     *         contactMessage, or with status 400 (Bad Request) if the
+     *         contactMessage is not valid, or with status 500 (Internal Server
+     *         Error) if the contactMessage couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/contact-messages")
-    public ResponseEntity<ContactMessage> updateContactMessage(@Valid @RequestBody ContactMessage contactMessage) throws URISyntaxException {
+    public ResponseEntity<ContactMessage> updateContactMessage(@Valid @RequestBody ContactMessage contactMessage)
+            throws URISyntaxException {
         log.debug("REST request to update ContactMessage : {}", contactMessage);
         if (contactMessage.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ContactMessage result = contactMessageRepository.save(contactMessage);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contactMessage.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contactMessage.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /contact-messages : get all the contactMessages.
+     * GET /contact-messages : get all the contactMessages.
      *
      * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of contactMessages in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     *         contactMessages in body
      */
     @GetMapping("/contact-messages")
     public ResponseEntity<List<ContactMessage>> getAllContactMessages(Pageable pageable) {
         log.debug("REST request to get a page of ContactMessages");
         Page<ContactMessage> page = contactMessageRepository.findAll(pageable);
+        List<ContactMessage> messages = page.getContent().stream()
+                .sorted(Comparator.comparing(ContactMessage::getCreatedDate, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/contact-messages");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return ResponseEntity.ok().headers(headers).body(messages);
     }
 
     /**
-     * GET  /contact-messages/:id : get the "id" contactMessage.
+     * GET /contact-messages/:id : get the "id" contactMessage.
      *
      * @param id the id of the contactMessage to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the contactMessage, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     *         contactMessage, or with status 404 (Not Found)
      */
     @GetMapping("/contact-messages/{id}")
     public ResponseEntity<ContactMessage> getContactMessage(@PathVariable String id) {
@@ -107,7 +119,27 @@ public class ContactMessageResource {
     }
 
     /**
-     * DELETE  /contact-messages/:id : delete the "id" contactMessage.
+     * APPROVE /contact-messages/approve/:id : approve the message by "id".
+     *
+     * @param id the id of the contactMessage to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     *         contactMessage, or with status 404 (Not Found)
+     */
+    @PutMapping("/contact-messages/approve/{id}")
+    public ResponseEntity<ContactMessage> approveContactMessage(@PathVariable String id) {
+        log.debug("REST request to get ContactMessage : {}", id);
+        Optional<ContactMessage> contactMessage = contactMessageRepository.findById(id).map(message -> {
+            message.setApproved(true);
+            contactMessageRepository.save(message);
+            log.debug("Approved message: {}", message);
+            return message;
+        });
+
+        return ResponseUtil.wrapOrNotFound(contactMessage);
+    }
+
+    /**
+     * DELETE /contact-messages/:id : delete the "id" contactMessage.
      *
      * @param id the id of the contactMessage to delete
      * @return the ResponseEntity with status 200 (OK)

@@ -4,4 +4,8 @@ export * from './contact-delete-dialog.component';
 export * from './contact-detail.component';
 export * from './contact.component';
 export * from './contact-view.component';
+export * from './message/contact-message-delete-dialog.component';
+export * from './message/contact-message-detail.component';
+export * from './message/contact-message-update.component';
+export * from './message/contact-message.component';
 export * from './contact.route';

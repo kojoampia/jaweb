@@ -4,7 +4,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
     selector: 'jhi-messenger',
     templateUrl: './messenger.component.html',
-    styleUrls: ['./messenger.component.ts']
+    styleUrls: ['./messenger.component.scss']
 })
 export class MessengerComponent implements OnInit {
     @Input() message: Messenger = new Messenger();

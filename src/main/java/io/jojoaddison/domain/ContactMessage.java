@@ -42,9 +42,12 @@ public class ContactMessage implements Serializable {
     @Field("created_date")
     private ZonedDateTime createdDate;
 
+    @Field("approved")
+    private boolean approved;
+
     @DBRef
-    @Field("messages")
-    private Set<ContactMessage> messages = new HashSet<>();
+    @Field("replies")
+    private Set<ContactMessage> replies = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -119,17 +122,30 @@ public class ContactMessage implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Set<ContactMessage> getMessages() {
-        return messages;
+    public boolean getApproved(){
+        return approved;
     }
 
-    public ContactMessage messages(Set<ContactMessage> contactMessages) {
-        this.messages = contactMessages;
+    public ContactMessage approved(boolean approved){
+        this.approved = approved;
         return this;
     }
 
-    public void setMessages(Set<ContactMessage> contactMessages) {
-        this.messages = contactMessages;
+    public void setApproved(boolean approved){
+        this.approved = approved;
+    }
+
+    public Set<ContactMessage> getReplies() {
+        return replies;
+    }
+
+    public ContactMessage replies(Set<ContactMessage> contactReplies) {
+        this.replies = contactReplies;
+        return this;
+    }
+
+    public void setReplies(Set<ContactMessage> contactReplies) {
+        this.replies = contactReplies;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -161,6 +177,7 @@ public class ContactMessage implements Serializable {
             ", email='" + getEmail() + "'" +
             ", title='" + getTitle() + "'" +
             ", message='" + getMessage() + "'" +
+            ", replies='" + getReplies() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             "}";
     }

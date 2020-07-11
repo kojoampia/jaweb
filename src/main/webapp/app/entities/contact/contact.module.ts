@@ -13,7 +13,10 @@ import {
 } from './';
 import { ContactViewComponent } from './contact-view.component';
 import { ConsoleLoggerService } from 'app/console-logger.service';
-import { JojoaddisonContactMessageModule } from '../contact-message/contact-message.module';
+import { ContactMessageComponent } from './message/contact-message.component';
+import { ContactMessageDetailComponent } from './message/contact-message-detail.component';
+import { ContactMessageUpdateComponent } from './message/contact-message-update.component';
+import { ContactMessageDeleteDialogComponent, ContactMessageDeletePopupComponent } from './message/contact-message-delete-dialog.component';
 
 const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
 
@@ -25,9 +28,24 @@ const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
         ContactUpdateComponent,
         ContactDeleteDialogComponent,
         ContactDeletePopupComponent,
-        ContactViewComponent
+        ContactViewComponent,
+        ContactMessageComponent,
+        ContactMessageDetailComponent,
+        ContactMessageUpdateComponent,
+        ContactMessageDeleteDialogComponent,
+        ContactMessageDeletePopupComponent
     ],
-    entryComponents: [ContactComponent, ContactUpdateComponent, ContactDeleteDialogComponent, ContactDeletePopupComponent],
+    entryComponents: [
+        ContactComponent,
+        ContactUpdateComponent,
+        ContactDeleteDialogComponent,
+        ContactDeletePopupComponent,
+        ContactMessageComponent,
+        ContactMessageDetailComponent,
+        ContactMessageUpdateComponent,
+        ContactMessageDeleteDialogComponent,
+        ContactMessageDeletePopupComponent
+    ],
     providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

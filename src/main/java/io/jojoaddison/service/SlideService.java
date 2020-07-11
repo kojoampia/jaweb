@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,14 +45,11 @@ public class SlideService {
     private final Environment environment;
     private final GridFsTemplate gridFsTemplate;
 
-    public SlideService(SlideRepository slideRepository,
-                        Environment environment,
-                        GridFsTemplate gridFsTemplate) {
+    public SlideService(SlideRepository slideRepository, Environment environment, GridFsTemplate gridFsTemplate) {
         this.slideRepository = slideRepository;
         this.environment = environment;
         this.gridFsTemplate = gridFsTemplate;
     }
-
 
     /**
      * Get all the slides.
@@ -60,9 +58,10 @@ public class SlideService {
      */
     public List<Slide> findAll() {
         log.debug("Request to get all Slides");
-        return slideRepository.findAll();
+        return slideRepository.findAll().stream()
+                .sorted(Comparator.comparing(Slide::getModifiedDate, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
     }
-
 
     /**
      * Get one slide by id.
@@ -73,7 +72,7 @@ public class SlideService {
     public Optional<Slide> findOne(String id) {
         log.debug("Request to get Slide : {}", id);
         Optional<Slide> slide = slideRepository.findById(id);
-        if(slide.isPresent()) {
+        if (slide.isPresent()) {
             try {
                 Optional<GridFSFile> slideFile = findFileByMetadata("slideId", slide.get().getId());
                 if (slideFile.isPresent()) {
@@ -107,7 +106,6 @@ public class SlideService {
         slideRepository.deleteById(id);
     }
 
-
     /**
      * Save a slide.
      *
@@ -128,7 +126,7 @@ public class SlideService {
                 gridFsTemplate.store(is, slide.getUrl(), slide.getPhotoContentType(), data);
             }
             is.close();
-        }catch(Exception ioe) {
+        } catch (Exception ioe) {
             ioe.printStackTrace();
         }
         return slide;
@@ -143,7 +141,7 @@ public class SlideService {
     public Slide update(Slide slide) {
         log.debug("Request to update Service : {}", slide);
         try {
-            byte [] photo = slide.getPhoto();
+            byte[] photo = slide.getPhoto();
             ByteArrayInputStream is = new ByteArrayInputStream(photo);
             slide = slideRepository.save(slide);
             slide = createFile(slide);
@@ -152,14 +150,14 @@ public class SlideService {
             data.put("slideId", slide.getId());
             gridFsTemplate.store(is, slide.getUrl(), slide.getPhotoContentType(), data);
             is.close();
-        }catch(Exception ioe) {
+        } catch (Exception ioe) {
             ioe.printStackTrace();
         }
         return slide;
     }
 
-    private Slide createFile(Slide slide){
-        try{
+    private Slide createFile(Slide slide) {
+        try {
             String fileExt = slide.getPhotoContentType().split("/")[1];
             String root = Tools.getContentRoot().concat(environment.getProperty(ROOT_DIR));
             String directory = root.concat(Tools.getSeparator()).concat(ENTITY_NAME);
@@ -168,17 +166,17 @@ public class SlideService {
             String path = directory.concat(Tools.getSeparator()).concat(filename);
             log.debug("Creating file: {}", path);
             Tools.createFile(path, slide.getPhoto());
-            String url = ("content").concat(Tools.getSeparator()).concat(ENTITY_NAME).concat(Tools.getSeparator()).concat(filename);
+            String url = ("content").concat(Tools.getSeparator()).concat(ENTITY_NAME).concat(Tools.getSeparator())
+                    .concat(filename);
             slide.setUrl(url);
             slide.setPhoto(null);
             slide = slideRepository.save(slide);
-        }catch(Exception ioe) {
+        } catch (Exception ioe) {
             log.debug("Failed: {}", ioe.getCause());
             ioe.printStackTrace();
         }
         return slide;
     }
-
 
     private Optional<GridFSFile> findFileByMetadata(String key, String value) {
         GridFSFile file = gridFsTemplate.findOne(getQueryByMetadata(key, value));
@@ -193,19 +191,15 @@ public class SlideService {
         return Query.query(GridFsCriteria.whereMetaData("slideId").is(fileName));
     }
 
+    public void deleteById(String id) {
+    }
 
-	public void deleteById(String id) {
-	}
+    public Optional<Slide> findById(String id) {
+        return slideRepository.findById(id);
+    }
 
-
-
-	public Optional<Slide> findById(String id) {
-		return slideRepository.findById(id);
-	}
-
-
-	public void deleteAll() {
+    public void deleteAll() {
         slideRepository.deleteAll();
-	}
+    }
 
 }
