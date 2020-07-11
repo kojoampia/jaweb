@@ -11,7 +11,6 @@ import { ContactMessageDetailComponent } from './contact-message-detail.componen
 import { ContactMessageUpdateComponent } from './contact-message-update.component';
 import { ContactMessageDeletePopupComponent } from './contact-message-delete-dialog.component';
 import { IContactMessage } from 'app/shared/model/contact-message.model';
-import { ContactMessageViewComponent } from './contact-message-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class ContactMessageResolve implements Resolve<IContactMessage> {
@@ -32,14 +31,6 @@ export class ContactMessageResolve implements Resolve<IContactMessage> {
 export const contactMessageRoute: Routes = [
     {
         path: '',
-        component: ContactMessageViewComponent,
-        data: {
-            authorities: [],
-            pageTitle: 'View Contact Messages'
-        }
-    },
-    {
-        path: 'view/:id',
         component: ContactMessageComponent,
         data: {
             authorities: [],

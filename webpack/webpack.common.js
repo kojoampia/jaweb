@@ -72,6 +72,7 @@ module.exports = (options) => ({
             { from: './node_modules/tinymce/', to: 'tinymce' },
             { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui' },
             { from: './src/main/webapp/content/', to: 'content' },
+            { from: './src/main/webapp/static/', to: 'static' },
             { from: './slides/', to: 'content/slide' },
             { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
             { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },

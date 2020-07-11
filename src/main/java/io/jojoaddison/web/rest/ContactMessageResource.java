@@ -1,4 +1,5 @@
 package io.jojoaddison.web.rest;
+
 import io.jojoaddison.domain.ContactMessage;
 import io.jojoaddison.repository.ContactMessageRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,7 @@ public class ContactMessageResource {
         if (contactMessage.getId() != null) {
             throw new BadRequestAlertException("A new contactMessage cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        contactMessage.createdDate(ZonedDateTime.now());
         ContactMessage result = contactMessageRepository.save(contactMessage);
         return ResponseEntity.created(new URI("/api/contact-messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

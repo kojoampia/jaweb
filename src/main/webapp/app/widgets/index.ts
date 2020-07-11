@@ -19,3 +19,5 @@ export * from './owlslider/slider.component';
 export * from './gmap/gmap.component';
 export * from './page-editor/page-editor.component';
 export * from './page-viewer/page-viewer.component';
+export * from './loading/loader.component';
+export * from './messenger/messenger.component';

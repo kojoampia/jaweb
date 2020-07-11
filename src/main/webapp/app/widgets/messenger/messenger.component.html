@@ -1,0 +1,83 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="sendMessage()" #editForm="ngForm">
+    <div class="card bg-transparent">
+        <div class="card-header text-center">
+            <h2 id="jhi-contact-message-heading" (click)="toggleView()" [style.cursor]="'pointer'"
+            [ngClass]="{'bg-white': !isVisible}">Send us a message</h2>
+        </div>
+        <div class="card-body bg-white" *ngIf="isVisible">
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                        <!--
+                            <div class="form-group" [hidden]="!contactMessage.id">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id" name="id"
+                                [(ngModel)]="contactMessage.id" readonly />
+                            </div>
+                        -->
+                <div class="form-group" *ngIf="isReady">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name" required minlength="5"
+                        maxlength="50" pattern="^[A-Za-z ]*$" [(ngModel)]="message.senderName" />
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required">
+                            Name is required.
+                        </small>
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.pattern">
+                            A name may be any number of alphabetic characters greater than 5 but less than 50.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group" *ngIf="isReady">
+                    <label class="form-control-label" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                        [(ngModel)]="message.senderEmail" minlength="5" maxlength="254" email required />
+                    <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.email?.errors?.required">
+                            An email is required.
+                        </small>
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.email?.errors?.pattern">
+                            Your entry does not follow the pattern for a regular "Email".
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group" *ngIf="isReady">
+                    <label class="form-control-label" for="field_title">Title</label>
+                    <input type="text" class="form-control" name="title" id="field_title" [(ngModel)]="message.title"
+                        required />
+                    <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.title?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_message">Message</label>
+                    <br/>
+                    <div [hidden]="!(editForm.controls.message?.dirty && editForm.controls.message?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.message?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                    <textarea name="message" id="message" [(ngModel)]="message.content" cols="90" rows="10"></textarea>
+
+                    <!--
+                    <input type="text" class="form-control" name="message" id="field_message"
+                        [(ngModel)]="contactMessage.message" required />
+                    -->
+                    <!--
+                    <jhi-editor [name]="'content'" [content]="message.content"
+                        (onDataChanged)="setContentChanged($event)"></jhi-editor>
+                    -->
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right" *ngIf="isVisible">
+            <div>
+                <button type="submit" id="send-message" [disabled]="editForm.form.invalid || isSending"
+                    class="btn btn-primary">
+                    <fa-icon [icon]="'send'"></fa-icon>&nbsp;<span>Send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

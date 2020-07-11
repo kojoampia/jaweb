@@ -1,7 +1,5 @@
 package io.jojoaddison.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,11 +16,10 @@ import java.util.Objects;
  * A ContactMessage.
  */
 @Document(collection = "contact_message")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "contactmessage")
 public class ContactMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 
@@ -30,7 +27,7 @@ public class ContactMessage implements Serializable {
     private String name;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Pattern(regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
     @Field("email")
     private String email;
 
@@ -128,18 +125,6 @@ public class ContactMessage implements Serializable {
 
     public ContactMessage messages(Set<ContactMessage> contactMessages) {
         this.messages = contactMessages;
-        return this;
-    }
-
-    public ContactMessage addMessages(ContactMessage contactMessage) {
-        this.messages.add(contactMessage);
-        contactMessage.setId(this);
-        return this;
-    }
-
-    public ContactMessage removeMessages(ContactMessage contactMessage) {
-        this.messages.remove(contactMessage);
-        contactMessage.setId(null);
         return this;
     }
 

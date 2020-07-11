@@ -10,7 +10,8 @@ import { ContactMessageService } from './contact-message.service';
 
 @Component({
     selector: 'jhi-contact-message-update',
-    templateUrl: './contact-message-update.component.html'
+    templateUrl: './contact-message-update.component.html',
+    styleUrls: ['../entities.components.scss']
 })
 export class ContactMessageUpdateComponent implements OnInit {
     contactMessage: IContactMessage;
@@ -25,6 +26,10 @@ export class ContactMessageUpdateComponent implements OnInit {
             this.contactMessage = contactMessage;
             this.createdDate = this.contactMessage.createdDate != null ? this.contactMessage.createdDate.format(DATE_TIME_FORMAT) : null;
         });
+    }
+
+    setContentChanged(data: string) {
+        this.contactMessage.message = data;
     }
 
     previousState() {

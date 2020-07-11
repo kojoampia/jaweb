@@ -13,6 +13,7 @@ import {
 } from './';
 import { ContactViewComponent } from './contact-view.component';
 import { ConsoleLoggerService } from 'app/console-logger.service';
+import { JojoaddisonContactMessageModule } from '../contact-message/contact-message.module';
 
 const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
 

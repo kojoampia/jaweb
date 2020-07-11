@@ -1,4 +1,4 @@
-<nav scrollSpyElement="headerInfo" class="navbar navbar-expand-md"
+<nav id="navbar" scrollSpyElement="navbar" class="navbar navbar-expand-md"
 [ngClass]="{'navbar-fixed': showHeader==true}">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <span class="logo-img"></span>
@@ -183,9 +183,9 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="contact-message" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Contact Message</span>
+                            <span>Messages</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

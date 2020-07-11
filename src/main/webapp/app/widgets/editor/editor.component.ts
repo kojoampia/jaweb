@@ -49,8 +49,6 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
     ngOnInit() {
         console.log('initing editor...');
         console.log(this.config);
-        // this.configureEditor();
-
         if (!this.content) {
             this.content = '';
         }

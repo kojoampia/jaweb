@@ -3,7 +3,7 @@
         <div class="card-header text-primary text-center">
             <h2 class="display-4">{{contact.title}}</h2>
         </div>
-        <div class="card-body text-left text-primary">
+        <div class="card-body text-left text-primary" style="overflow-y: auto;">
             <div class="row">
                 <div class="col-md-4">
                     <ul class="list-group list-group-flush">
@@ -58,7 +58,15 @@
                     </ul>
                 </div>
                 <div class="col-md-8">
-                    <div *ngIf="contact.image">
+                    <h3 *ngIf="isSent" class="text-center bg-success text-white">
+                        Message sent. Thank you for your message.
+                    </h3>
+                    <h3 *ngIf="isError" class="text-center bg-warning text-danger">
+                        Error sending message. Please try again later.
+                    </h3>
+                    <jhi-messenger *ngIf="!isSent" [isVisible]="isVisible" [message]="message"
+                    [isSending]="isSending" (onMessage)="sendMessage($event)"></jhi-messenger>
+                    <div *ngIf="contact.image" class="mt-2">
                         <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image"
                                 style="max-width: 100%;" alt="contact image" />
                     </div>

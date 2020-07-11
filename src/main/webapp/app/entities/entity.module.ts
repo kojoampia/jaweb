@@ -12,6 +12,8 @@ import { JojoaddisonBlogModule } from './blog/blog.module';
 import { JojoaddisonAboutModule } from './about/about.module';
 import { JojoaddisonSharedCommonModule } from 'app/shared';
 import { ConsoleLoggerService } from 'app/console-logger.service';
+import { ContactMessageUpdateComponent } from './contact-message';
+import { JojoaddisonContactMessageModule } from './contact-message/contact-message.module';
 
 @NgModule({
     imports: [
@@ -66,7 +68,7 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
                 loadChildren: './career/career.module#JojoaddisonCareerModule'
             },
             {
-                path: 'contact-message',
+                path: 'message',
                 loadChildren: './contact-message/contact-message.module#JojoaddisonContactMessageModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
@@ -80,9 +82,11 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
         JojoaddisonImprintModule,
         JojoaddisonContactModule,
         JojoaddisonBlogModule,
-        JojoaddisonAboutModule
+        JojoaddisonAboutModule,
+        JojoaddisonContactMessageModule
     ],
     declarations: [],
+    exports: [],
     entryComponents: [],
     providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

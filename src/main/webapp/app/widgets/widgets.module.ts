@@ -29,6 +29,8 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 import { GMapComponent } from './gmap/gmap.component';
 import { OwlSliderComponent } from './owlslider/slider.component';
 import { ConsoleLoggerService } from 'app/console-logger.service';
+import { LoaderComponent } from './loading/loader.component';
+import { MessengerComponent } from './messenger/messenger.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -61,7 +63,9 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
         SlidesComponent,
         SlideSelectorComponent,
         PageEditorComponent,
-        PageViewerComponent
+        PageViewerComponent,
+        LoaderComponent,
+        MessengerComponent
     ],
     exports: [
         TinyEditorComponent,
@@ -83,7 +87,9 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
         SlidesComponent,
         SlideSelectorComponent,
         PageEditorComponent,
-        PageViewerComponent
+        PageViewerComponent,
+        LoaderComponent,
+        MessengerComponent
     ],
     providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

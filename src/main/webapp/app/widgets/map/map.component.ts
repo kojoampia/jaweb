@@ -8,7 +8,8 @@ import { Component, Input } from '@angular/core';
 export class MapComponent {
     public zoom = 17;
     public opacity = 1.0;
-    public width = 5;
+    @Input() width = '100%';
+    @Input() height = 'auto';
     @Input() longitude = 6.738169;
     @Input() latitude = 51.450802;
 

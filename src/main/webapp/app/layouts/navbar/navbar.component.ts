@@ -1,7 +1,5 @@
-import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { VERSION } from 'app/app.constants';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
@@ -39,10 +37,14 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.scrollSpyService.getObservable('headerInfo').subscribe((e: any) => {
-            console.log('scroll-spying...');
-            console.log('ScrollSpy::window: ', e);
-        });
+        const navEl = this.scrollSpyService.getObservable('navbar');
+        console.log('nav-element', navEl);
+        if (navEl) {
+            console.log('navbar-element', navEl);
+            navEl.subscribe((res: any) => {
+                console.log('scrollspy', res);
+            });
+        }
     }
 
     collapseNavbar() {

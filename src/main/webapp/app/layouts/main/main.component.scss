@@ -1,7 +1,10 @@
-.main {
-    position: absolute;
+* {
     margin: 0;
     padding: 0;
+}
+
+.main {
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -9,6 +12,9 @@
     max-width: 100%;
     max-height: 100%;
     float: none;
-    background: url('/content/images/background.jpg') repeat-y center center;
+    background-image: url('/content/images/background.jpg');
     background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
 }

@@ -22,6 +22,7 @@ import * as moment from 'moment';
 import { JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent } from './layouts';
 import { FooterModule } from './layouts/footer/footer.module';
 import { ConsoleLoggerService } from './console-logger.service';
+import { NgxScrollTopModule } from 'ngx-scrolltop';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { ConsoleLoggerService } from './console-logger.service';
             alertTimeout: 5000
         }),
         ScrollSpyModule.forRoot(),
+        NgxScrollTopModule,
         JojoaddisonSharedModule.forRoot(),
         JojoaddisonCoreModule,
         JojoaddisonHomeModule,
