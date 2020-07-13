@@ -13,7 +13,8 @@ import { ContactService } from '../contact.service';
 
 @Component({
     selector: 'jhi-contact-message',
-    templateUrl: './contact-message.component.html'
+    templateUrl: './contact-message.component.html',
+    styleUrls: ['../../entities.components.scss']
 })
 export class ContactMessageComponent implements OnInit, OnDestroy {
     contactMessages: IContactMessage[];
@@ -28,6 +29,8 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
     currentSearch: string;
     error: any;
     success: any;
+    message: any;
+    info: any;
 
     constructor(
         protected contactMessageService: ContactService,
@@ -171,5 +174,22 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
                 this.error = 'ERROR';
             }
         });
+    }
+
+    viewMessage(contactMessage: IContactMessage) {
+        this.message = null;
+        this.info = null;
+        setTimeout(() => {
+            this.message = contactMessage;
+            this.info = {
+                title: contactMessage.title,
+                brief: contactMessage.message,
+                content: contactMessage.message
+            };
+        }, 500);
+    }
+
+    close() {
+        this.message = null;
     }
 }

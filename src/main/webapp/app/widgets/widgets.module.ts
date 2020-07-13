@@ -31,6 +31,7 @@ import { OwlSliderComponent } from './owlslider/slider.component';
 import { ConsoleLoggerService } from 'app/console-logger.service';
 import { LoaderComponent } from './loading/loader.component';
 import { MessengerComponent } from './messenger/messenger.component';
+import { FloatboxComponent, FloatboxPopupComponent } from './floatbox/floatbox.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -65,7 +66,9 @@ import { MessengerComponent } from './messenger/messenger.component';
         PageEditorComponent,
         PageViewerComponent,
         LoaderComponent,
-        MessengerComponent
+        MessengerComponent,
+        FloatboxComponent,
+        FloatboxPopupComponent
     ],
     exports: [
         TinyEditorComponent,
@@ -89,7 +92,8 @@ import { MessengerComponent } from './messenger/messenger.component';
         PageEditorComponent,
         PageViewerComponent,
         LoaderComponent,
-        MessengerComponent
+        MessengerComponent,
+        FloatboxPopupComponent
     ],
     providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -1,9 +1,11 @@
-<div class="page-editor container ml-auto mr-auto">
-    <h2 id="page-heading">
-        <span>Contact Messages</span>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <!--
+<div class="page-editor bg-transparent text-primary p-5 ml-5 mr-5 mt-3">
+    <div class="card bg-transparent">
+        <div class="card-header text-center bg-transparent">
+            <h2 id="page-heading" class="display-4">
+                <span>Contact Messages</span>
+            </h2>
+            <jhi-alert></jhi-alert>
+            <!--
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
@@ -21,71 +23,162 @@
         </div>
     </div>
     -->
-    <br />
-    <div class="table-responsive" *ngIf="contactMessages">
-        <table class="table table-striped">
-            <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-                    <th jhiSortBy="name"><span>Name</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="email"><span>Email</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="title"><span>Title</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="createdDate"><span>Created Date</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
-                [infiniteScrollDistance]="0">
-                <tr *ngFor="let contactMessage of contactMessages ;trackBy: trackId">
-                    <td><a [routerLink]="['/contact/messages', contactMessage.id, 'view' ]">{{contactMessage.name}}</a>
-                    </td>
-                    <td><a [routerLink]="['/contact/messages', contactMessage.id, 'view' ]">{{contactMessage.email}}</a>
-                    </td>
-                    <td><a [routerLink]="['/contact/messages', contactMessage.id, 'view' ]">{{contactMessage.title}}</a>
-                    </td>
-                    <td><a
-                            [routerLink]="['/contact/messages', contactMessage.id, 'view' ]">{{contactMessage.createdDate | date:'medium'}}</a>
-                    </td>
-                    <td>
-                        <div *ngIf="contactMessage.replies && contactMessage.replies.length > 0">
-                            {{contactMessage.replies?.length}} replies
+            <br />
+        </div>
+        <div class="card-body bg-transparent">
+            <div class="table-responsive" *ngIf="contactMessages">
+                <div class="table table-striped">
+                    <div jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
+                        [callback]="reset.bind(this)" class="row text-left table-head p2">
+                        <div class="col-2" jhiSortBy="name"><span>Name</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </div>
+                        <div class="col-2"  jhiSortBy="email"><span>Email</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </div>
+                        <div class="col-2"  jhiSortBy="title"><span>Title</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </div>
+                        <div class="col-2"  jhiSortBy="createdDate"><span>Created Date</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </div>
+                        <div class="col-2" >Replies</div>
+                        <div class="col-2" >Action</div>
+                    </div>
+                <div infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                    [infiniteScrollDistance]="0" class="table table-striped">
+                    <div *ngFor="let contactMessage of contactMessages ;trackBy: trackId; let i = index;" class="">
+                        <div class="row" [ngClass]="{'drow': (i % 2) === 0, 'brow': (i % 2) > 0}">
+                            <div class="col-2 text-left">{{contactMessage.name}}</div>
+                            <div class="col-2 text-left">{{contactMessage.email}}</div>
+                            <div class="col-2 text-left">{{contactMessage.title}}</div>
+                            <div class="col-2 text-left">{{contactMessage.createdDate | date:'medium'}}</div>
+                            <div class="col-2 text-left">
+                                <span *ngIf="!contactMessage.replies || contactMessage.replies.length === 0">
+                                    no replies
+                                </span>
+                                <span *ngIf="contactMessage.replies && contactMessage.replies.length === 1">
+                                    {{contactMessage.replies?.length}} reply
+                                </span>
+                                <span *ngIf="contactMessage.replies && contactMessage.replies.length > 1">
+                                    {{contactMessage.replies?.length}} replies
+                                </span>
+                            </div>
+                            <div class="col-2 text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button (click)="viewMessage(contactMessage)" class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">View</span>
+                                    </button>
+                                    <button (click)="viewMessage(contactMessage)"
+                                        class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Reply</span>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" (click)="setApproved(contactMessage, true)"
+                                        *ngIf="contactMessage.approved === false">Unapproved</button>
+                                    <button class="btn btn-success btn-sm" (click)="setApproved(contactMessage, false)"
+                                        *ngIf="contactMessage.approved === true">Approved</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="message && message?.id === contactMessage.id">
+                            <div class="col-12" style="height: 480px;">
+                                <div class="card bg-transparent">
+                                    <div class="card-header">
+                                        <div class="float-right">
+                                            <button type="button" class="close" aria-label="Close" (click)="close()">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body text-primary">
+                                        <jhi-infobox [info]="message"></jhi-infobox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+                <div class="table-responsive" *ngIf="contactMessages">
+                <table class="table table-striped">
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                            <th jhiSortBy="name"><span>Name</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="email"><span>Email</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="title"><span>Title</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="createdDate"><span>Created Date</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody infinite-scroll (scrolled)="loadPage(page + 1)"
+                        [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                        <tr *ngFor="let contactMessage of contactMessages ;trackBy: trackId">
+                            <td><a (click)="viewMessage(contactMessage)">{{contactMessage.name}}</a>
+                            </td>
+                            <td>{{contactMessage.email}}
+                            </td>
+                            <td>{{contactMessage.title}}
+                            </td>
+                            <td>{{contactMessage.createdDate | date:'medium'}}
+                            </td>
+                            <td>
+                                <div *ngIf="contactMessage.replies && contactMessage.replies.length > 0">
+                                    {{contactMessage.replies?.length}} replies
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button (click)="viewMessage(contactMessage)" class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">View</span>
+                                    </button>
+                                    <button type="submit"
+                                        [routerLink]="['contact/messages', contactMessage.id, 'reply']"
+                                        class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Reply</span>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" (click)="setApproved(contactMessage, true)"
+                                        *ngIf="contactMessage.approved === false">Unapproved</button>
+                                    <button class="btn btn-success btn-sm" (click)="setApproved(contactMessage, false)"
+                                        *ngIf="contactMessage.approved === true">Approved</button>
+
                         </div>
                     </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit" [routerLink]="['contact/messages', contactMessage.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                                <fa-icon [icon]="'eye'"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
-                            <button type="submit" [routerLink]="['contact/messages', contactMessage.id, 'reply']"
-                                class="btn btn-primary btn-sm">
-                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                <span class="d-none d-md-inline">Reply</span>
-                            </button>
-                            <button class="btn btn-danger btn-sm" (click)="setApproved(contactMessage, true)"
-                                *ngIf="contactMessage.approved === false">Unapproved</button>
-                            <button class="btn btn-success btn-sm" (click)="setApproved(contactMessage, false)"
-                                *ngIf="contactMessage.approved === true">Approved</button>
-                            <!--
-                            <button type="submit"
-                                [routerLink]="['/', 'contact-message', { outlets: { popup: contactMessage.id + '/delete'} }]"
-                                replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
-                                <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                            -->
+                    <td colspan="8" *ngIf="message && message?.id === contactMessage.id"
+                        style="z-index: 100; height: 480px;">
+                        <div class="card bg-transparent">
+                            <div class="card-header">
+                                <div class="float-right">
+                                    <button type="button" class="close" aria-label="Close" (click)="close()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body text-primary">
+                                <jhi-infobox [info]="message"></jhi-infobox>
+                            </div>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+            -->
+        </div>
     </div>
 </div>

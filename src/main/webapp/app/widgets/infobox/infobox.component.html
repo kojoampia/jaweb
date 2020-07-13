@@ -1,7 +1,7 @@
-<div class="container ml-auto mr-auto">
+<div class="w-100 ml-auto mr-auto">
     <div class="jumbotron info-theme">
-        <h1 class="display-4">{{info.title}}</h1>
-        <p class="lead">{{info.brief}}</p>
+        <h1 class="display-4" *ngIf="info.title">{{info.title}}</h1>
+        <p class="lead" *ngIf="info.brief">{{info.brief}}</p>
         <div class="text-right">
             <button class="btn btn-primary btn-md" (click)="toggleShowMore()" *ngIf="!showMore" >
                 <span>

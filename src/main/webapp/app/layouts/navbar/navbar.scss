@@ -1,10 +1,14 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '../../../content/scss/bootstrap-variables';
 
 /* ==========================================================================
 Navbar
 ========================================================================== */
-
+nav {
+    width: 100% !important;
+    z-index: 200 !important;
+}
 .navbar-version {
     font-size: 0.65em;
     color: $navbar-dark-color;
@@ -21,10 +25,10 @@ Navbar
     opacity: 0.95;
     background: #005825;
     color: #005825;
-    z-index: 100;
+    z-index: 200;
     .dropdown-item {
         color: #005825;
-        z-index: 100;
+        z-index: 200;
     }
     .dropdown-item:focus,
     .dropdown-item:hover {
@@ -136,4 +140,8 @@ Logo styles
 
 #back-to-top:hover {
     background-color: #555; /* Add a dark-grey background on hover */
+}
+.sticky-box-shadow {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
+    background-color: $warning;
 }

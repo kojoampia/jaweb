@@ -21,3 +21,4 @@ export * from './page-editor/page-editor.component';
 export * from './page-viewer/page-viewer.component';
 export * from './loading/loader.component';
 export * from './messenger/messenger.component';
+export * from './floatbox/floatbox.component';

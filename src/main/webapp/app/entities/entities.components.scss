@@ -198,3 +198,32 @@ form > option {
     text-align: center;
     margin-bottom: -10px;
 }
+
+.drow {
+    height: 50px;
+    line-height: 40px;
+    background-color: #ffffff;
+    padding: 5px;
+    border-bottom: 1px #505050;
+    cursor: pointer;
+}
+.brow {
+    height: 50px;
+    line-height: 40px;
+    background-color: #eeeeee;
+    padding: 5px;
+    border-bottom: 1px #505050;
+    cursor: pointer;
+}
+.table {
+    overflow-x: hidden;
+    color: $primary;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+.table-head {
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 10px;
+    font-size: larger;
+    font-weight: bold;
+}

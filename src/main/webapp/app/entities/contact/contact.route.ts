@@ -132,7 +132,7 @@ export const contactPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Contacts'
+            pageTitle: 'Delete Contact'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
@@ -145,7 +145,7 @@ export const contactPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Contacts'
+            pageTitle: 'Delete Message'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

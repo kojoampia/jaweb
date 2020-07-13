@@ -5,7 +5,7 @@
 
     <groupId>io.jojoaddison</groupId>
     <artifactId>jojoaddison</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.4</version>
     <packaging>war</packaging>
     <name>JojoAddison</name>
 
