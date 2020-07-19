@@ -59,11 +59,14 @@
                         </small>
                     </div>
                     <textarea class="text-white bg-primary border-0"
+                    maxlength="400"
                     name="message"
                     id="message"
                     [(ngModel)]="message.content"
                     cols="90"
                     rows="5"></textarea>
+                    <br>
+                    <h4><span>{{message.content.length}}/400</span></h4>
 
                     <!--
                     <input type="text" class="form-control" name="message" id="field_message"

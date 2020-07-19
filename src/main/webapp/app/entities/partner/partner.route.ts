@@ -54,10 +54,9 @@ export const partnerRoute: Routes = [
             partner: PartnerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'Partners'
-        },
-        canActivate: [UserRouteAccessService]
+        }
     },
     {
         path: 'new',

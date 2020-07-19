@@ -43,14 +43,15 @@ nav {
     }
     ul.dropdown-menu {
         background-color: #ffff99;
+        z-index: 200;
     }
     ul.navbar-nav {
         color: #005825;
-        z-index: 100;
+        z-index: 200;
         padding-left: 10px;
         padding-right: 10px;
         .nav-item {
-            z-index: 100;
+            z-index: 200;
             margin-left: 0.5em;
             color: #005825;
             margin-top: 3px;
@@ -143,5 +144,9 @@ Logo styles
 }
 .sticky-box-shadow {
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
-    background-color: $warning;
+    background-color: #ffffff;
+    z-index: 200;
+}
+.sticky-nav-wrapper {
+    min-height: 50px;
 }

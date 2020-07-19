@@ -116,3 +116,5 @@ jhipster:
 # ===================================================================
 
 # application:
+content-root: ../
+content-directory: content

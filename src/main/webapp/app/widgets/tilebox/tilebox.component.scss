@@ -19,8 +19,11 @@
 
 .tile {
     min-height: 200px;
-    background-color: #ccc;
-    background-size: cover !important;
+    background-color: #ffffff;
+    background-size: 200px !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }
 
 .tile h1 {

@@ -10,9 +10,17 @@
                     {{partner.name}}
                 </div>
                 <div class="card-body databox">
+                    <div class="card-title">
+                        {{partner.contactPerson}}
+                    </div>
+                    <span>{{partner.streetAddress}}</span><br>
+                    <span>{{partner.postCode}} {{partner.location}}</span><br>
+                    <span>{{partner.country}}</span><br>
+                    <span><a [href]="partner.link" target="_blank">{{partner.link}}</a></span><br>
+                    <span>{{partner.email}}</span><br>
                 </div>
-                <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo"
-                style="max-width: 100%;" alt="partner logo image" class="card-bottom-img img-fluid" />
+                <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo" style="max-width: 100%;"
+                    alt="partner logo image" class="card-bottom-img img-fluid" />
             </div>
         </div>
     </div>

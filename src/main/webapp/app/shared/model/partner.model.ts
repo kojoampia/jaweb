@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export interface IPartner {
     id?: string;
     name?: string;
@@ -10,6 +12,8 @@ export interface IPartner {
     streetAddress?: string;
     email?: string;
     contactPerson?: string;
+    logoUrl?: string;
+    createdDate?: Moment;
 }
 
 export class Partner implements IPartner {
@@ -24,6 +28,8 @@ export class Partner implements IPartner {
         public postCode?: string,
         public streetAddress?: string,
         public email?: string,
-        public contactPerson?: string
+        public contactPerson?: string,
+        public logoUrl?: string,
+        public createdDate?: Moment
     ) {}
 }

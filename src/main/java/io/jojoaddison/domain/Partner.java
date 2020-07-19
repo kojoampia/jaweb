@@ -1,6 +1,7 @@
 package io.jojoaddison.domain;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ import io.jojoaddison.config.Constants;
 public class Partner implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
 
@@ -28,6 +29,9 @@ public class Partner implements Serializable {
 
     @Field("link")
     private String link;
+
+    @Field("logourl")
+    private String logoUrl;
 
     @Field("logo")
     private byte[] logo;
@@ -47,9 +51,12 @@ public class Partner implements Serializable {
     @Field("street_address")
     private String streetAddress;
 
+    @Field("created-date")
+    private ZonedDateTime createdDate;
+
     @NotNull
    // @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/")
-    @Pattern(regexp = Constants.EMAIL_REGEX) 
+    @Pattern(regexp = Constants.EMAIL_REGEX)
     @Field("email")
     private String email;
 
@@ -194,6 +201,33 @@ public class Partner implements Serializable {
 
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
+    }
+
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public Partner logoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+        return this;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public ZonedDateTime getCreatedDate(){
+        return createdDate;
+    }
+
+    public Partner createdDate(ZonedDateTime createdDate){
+        this.createdDate = createdDate;
+        return this;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate){
+        this.createdDate = createdDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

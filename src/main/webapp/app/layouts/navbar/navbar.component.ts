@@ -4,6 +4,7 @@ import { VERSION } from 'app/app.constants';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { ScrollSpyService } from 'ngx-scrollspy';
+import { fromEvent } from 'rxjs';
 
 @Component({
     selector: 'jhi-navbar',
@@ -33,6 +34,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+        fromEvent(document, 'scroll').subscribe(e => {
+            console.log('scroll-event', e);
         });
     }
 

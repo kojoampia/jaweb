@@ -4,6 +4,7 @@ import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Partner;
 import io.jojoaddison.repository.PartnerRepository;
+import io.jojoaddison.service.PhotoService;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -73,6 +74,9 @@ public class PartnerResourceIntTest {
     @Autowired
     private PartnerRepository partnerRepository;
 
+    @Autowired
+    private PhotoService photoService;
+
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -93,7 +97,7 @@ public class PartnerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PartnerResource partnerResource = new PartnerResource(partnerRepository);
+        final PartnerResource partnerResource = new PartnerResource(partnerRepository, photoService);
         this.restPartnerMockMvc = MockMvcBuilders.standaloneSetup(partnerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -230,7 +234,7 @@ public class PartnerResourceIntTest {
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
             .andExpect(jsonPath("$.[*].contactPerson").value(hasItem(DEFAULT_CONTACT_PERSON.toString())));
     }
-    
+
     @Test
     public void getPartner() throws Exception {
         // Initialize the database

@@ -3,8 +3,10 @@ package io.jojoaddison.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Partner;
 import io.jojoaddison.repository.PartnerRepository;
-import io.jojoaddison.security.SecurityUtils;
+import io.jojoaddison.service.PhotoService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 
@@ -39,9 +41,11 @@ public class PartnerResource {
     private static final String ENTITY_NAME = "partner";
 
     private final PartnerRepository partnerRepository;
+    private final PhotoService photoService;
 
-    public PartnerResource(PartnerRepository partnerRepository) {
+    public PartnerResource(PartnerRepository partnerRepository, PhotoService photoService ) {
         this.partnerRepository = partnerRepository;
+        this.photoService = photoService;
     }
 
     /**
@@ -57,7 +61,11 @@ public class PartnerResource {
         if (partner.getId() != null) {
             throw new BadRequestAlertException("A new partner cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        partner.setCreatedDate(ZonedDateTime.now());
         Partner result = partnerRepository.save(partner);
+        String logoUrl = photoService.createFile(partner.getLogo(), partner.getLogoContentType(), result.getId(), ENTITY_NAME);
+        result.setLogoUrl(logoUrl);
+        result = partnerRepository.save(result);
         return ResponseEntity.created(new URI("/api/partners/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +86,11 @@ public class PartnerResource {
         if (partner.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        partner.setCreatedDate(ZonedDateTime.now());
         Partner result = partnerRepository.save(partner);
+        String logoUrl = photoService.createFile(partner.getLogo(), partner.getLogoContentType(), result.getId(), ENTITY_NAME);
+        result.setLogoUrl(logoUrl);
+        result = partnerRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, partner.getId().toString()))
             .body(result);
@@ -92,7 +104,9 @@ public class PartnerResource {
     @GetMapping("/partners")
     public List<Partner> getAllPartners() {
         log.debug("REST request to get all Partners");
-        return partnerRepository.findAll();
+        return partnerRepository.findAll().stream().sorted(
+            Comparator.comparing(Partner::getCreatedDate, Comparator.reverseOrder())
+        ).collect(Collectors.toList());
     }
 
     /**

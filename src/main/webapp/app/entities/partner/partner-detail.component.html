@@ -1,64 +1,35 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <div *ngIf="partner">
-            <h2><span>Partner</span> {{partner.id}}</h2>
-            <hr>
-            <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Name</span></dt>
-                <dd>
-                    <span>{{partner.name}}</span>
-                </dd>
-                <dt><span>Link</span></dt>
-                <dd>
-                    <span>{{partner.link}}</span>
-                </dd>
-                <dt><span>Logo</span></dt>
-                <dd>
-                    <div *ngIf="partner.logo">
-                        <a (click)="openFile(partner.logoContentType, partner.logo)">
-                            <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo" style="max-width: 100%;" alt="partner image"/>
-                        </a>
-                        {{partner.logoContentType}}, {{byteSize(partner.logo)}}
+<div class="container ml-auto mr-auto mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card bg-transparent" *ngIf="partner" [style.max-width]="'400px'">
+                <div class="card-header">
+                    <h3><a [routerLink]="['/partner', partner.id, 'view' ]">{{partner.name}}</a></h3>
+                </div>
+                <div class="card-body text-left">
+                    <div class="card-title">
+                        <span>{{partner.contactPerson}}</span>
                     </div>
-                </dd>
-                <dt><span>Country</span></dt>
-                <dd>
-                    <span>{{partner.country}}</span>
-                </dd>
-                <dt><span>Location</span></dt>
-                <dd>
-                    <span>{{partner.location}}</span>
-                </dd>
-                <dt><span>Post Code</span></dt>
-                <dd>
-                    <span>{{partner.postCode}}</span>
-                </dd>
-                <dt><span>Street Address</span></dt>
-                <dd>
-                    <span>{{partner.streetAddress}}</span>
-                </dd>
-                <dt><span>Email</span></dt>
-                <dd>
-                    <span>{{partner.email}}</span>
-                </dd>
-                <dt><span>Contact Person</span></dt>
-                <dd>
-                    <span>{{partner.contactPerson}}</span>
-                </dd>
-            </dl>
-
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/partner', partner.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
+                    <span>{{partner.streetAddress}}</span><br>
+                    <span>{{partner.postCode}} {{partner.location}}</span><br>
+                    <span>{{partner.country}}</span><br>
+                    <span><a [href]="partner.link" target="_blank">{{partner.link}}</a></span><br>
+                    <span>{{partner.email}}</span><br>
+                </div>
+                <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo" style="max-height: 200px;"
+                    alt="partner image" class="card-bottom-img img-fluid" />
+                <div class="card-footer text-right" *jhiHasAnyAuthority="'ROLE_USER'">
+                    <button type="submit" [routerLink]="['/partner', partner.id, 'edit']"
+                        class="btn btn-primary btn-sm">
+                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        <span class="d-none d-md-inline">Edit</span>
+                    </button>
+                    <button type="submit" [routerLink]="['/', 'partner', { outlets: { popup: partner.id + '/delete'} }]"
+                        replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                        <fa-icon [icon]="'times'"></fa-icon>
+                        <span class="d-none d-md-inline">Delete</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

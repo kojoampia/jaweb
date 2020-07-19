@@ -12,7 +12,8 @@ import {
     SlidesComponent,
     SlideSelectorComponent,
     PageEditorComponent,
-    PageViewerComponent
+    PageViewerComponent,
+    StickyHeaderDirective
 } from './index';
 import { DocviewerComponent } from './docviewer/docviewer.component';
 import { DropDownBoxComponent } from './drop-down-box/ddb.component';
@@ -32,6 +33,7 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
 import { LoaderComponent } from './loading/loader.component';
 import { MessengerComponent } from './messenger/messenger.component';
 import { FloatboxComponent, FloatboxPopupComponent } from './floatbox/floatbox.component';
+import { InfoViewComponent } from './infoview/info-view.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -68,7 +70,9 @@ import { FloatboxComponent, FloatboxPopupComponent } from './floatbox/floatbox.c
         LoaderComponent,
         MessengerComponent,
         FloatboxComponent,
-        FloatboxPopupComponent
+        FloatboxPopupComponent,
+        InfoViewComponent,
+        StickyHeaderDirective
     ],
     exports: [
         TinyEditorComponent,

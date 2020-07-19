@@ -10,6 +10,8 @@ import { LocalStorage } from 'ngx-webstorage';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { IService } from 'app/shared/model/service.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Partner } from 'app/shared/model/partner.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-home',
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit {
     portfolios: IPortfolio[];
     services: IService[];
     loaded = false;
+    partnerTiles: any[] = [];
 
     info: any = {
         title: 'Specialists, Implementors, Innovators...',
@@ -38,6 +41,7 @@ export class HomeComponent implements OnInit {
         private accountService: AccountService,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
+        private router: Router,
         private domSanitizer: DomSanitizer
     ) {}
 
@@ -69,6 +73,7 @@ export class HomeComponent implements OnInit {
             this.services = null;
             this.portfolios = null;
             this.partners = null;
+            this.partnerTiles = [];
 
             setTimeout(() => {
                 this.currentHome = res.body;
@@ -78,6 +83,14 @@ export class HomeComponent implements OnInit {
                     this.slides = this.currentHome.slides;
                     this.portfolios = this.currentHome.portfolios;
                     this.services = this.currentHome.services;
+                    this.partners = this.currentHome.partners;
+                    this.partners.forEach((item: Partner) => {
+                        this.partnerTiles.push({
+                            id: item.id,
+                            title: item.name,
+                            url: item.logoUrl
+                        });
+                    });
                 }
                 this.loaded = true;
             }, 20);
@@ -90,5 +103,10 @@ export class HomeComponent implements OnInit {
 
     safeContent(data: string): SafeHtml {
         return this.domSanitizer.bypassSecurityTrustHtml(data);
+    }
+
+    onPartnerSelected(item: any) {
+        console.log('partner-selected', item);
+        this.router.navigate(['/partner', item.id, 'view']);
     }
 }

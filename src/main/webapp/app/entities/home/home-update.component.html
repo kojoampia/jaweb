@@ -76,6 +76,24 @@
                                 </div>
                             </ng-template>
                         </ngb-tab>
+                        <ngb-tab title="Partners">
+                            <ng-template ngbTabContent>
+                                <div class="table-responsive" *ngIf="partners">
+                                    <table class="table table-striped bg-info text-primary">
+                                        <tbody>
+                                            <tr style="cursor: pointer;" *ngFor="let partner of partners ;trackBy: trackId" (click)="selectPartner(partner)"
+                                                [ngClass]="{'bg-success text-info': isSelectedPartner(partner)}">
+                                                <td>{{partner.name}}</td>
+                                                <td>
+                                                    <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo"
+                                                    style="max-height: 30px;" alt="partner image"  *ngIf="partner.logo"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
                         <ngb-tab title="Preview">
                             <ng-template ngbTabContent>
                                 <div class="card bg-transparent border-0">

@@ -30,6 +30,11 @@
             </div>
         </div>
     </div>
+    <!-- Partners -->
+    <div class="container-fluid bg-transparent mt-2 mb-2 p-3" *ngIf="partnerTiles && partnerTiles.length > 0">
+        <jhi-tilebox [tiles]="partnerTiles" [showSelected]="false"
+                                    (tileSelected)="onPartnerSelected($event)"></jhi-tilebox>
+    </div>
     <!-- Portfolio -->
     <div style="opacity: 0.9;" class="container-fluid bg-warning ml-auto mr-auto pt-5 pb-5">
         <div class="container ml-auto mr-auto bg-transparent">

@@ -14,7 +14,7 @@ import { ISlide } from 'app/shared/model/slide.model';
 import { SlideService } from '../slide';
 import { IPortfolio, Portfolio } from 'app/shared/model/portfolio.model';
 import { IService, Service } from 'app/shared/model/service.model';
-import { IPartner } from 'app/shared/model/partner.model';
+import { IPartner, Partner } from 'app/shared/model/partner.model';
 import { PortfolioService } from '../portfolio';
 import { PartnerService } from '../partner';
 import { ServiceService } from '../service';
@@ -68,6 +68,13 @@ export class HomeUpdateComponent implements OnInit {
         this.loadSlides();
         this.loadServices();
         this.loadPortfolios();
+        this.loadPartners();
+    }
+
+    loadPartners() {
+        this.partnerService.query().subscribe((res: HttpResponse<IPartner[]>) => {
+            this.partners = res.body || [];
+        });
     }
 
     loadPortfolios() {
@@ -222,6 +229,28 @@ export class HomeUpdateComponent implements OnInit {
             return false;
         }
         const itemIndex = this.home.services.findIndex(item => item.id === service.id);
+        return itemIndex > -1;
+    }
+
+    selectPartner(partner: Partner) {
+        if (!this.home.partners || !isArray(this.home.partners)) {
+            this.home.partners = [];
+        }
+
+        const itemIndex = this.home.partners.findIndex(item => item.id === partner.id);
+
+        if (itemIndex < 0) {
+            this.home.partners.push(partner);
+        } else {
+            this.home.partners.splice(itemIndex, 1);
+        }
+    }
+
+    isSelectedPartner(partner: any): boolean {
+        if (!this.home.partners || !isArray(this.home.partners)) {
+            return false;
+        }
+        const itemIndex = this.home.partners.findIndex(item => item.id === partner.id);
         return itemIndex > -1;
     }
 }

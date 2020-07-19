@@ -83,10 +83,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="message && message?.id === contactMessage.id">
-                            <div class="col-12" style="height: 480px;">
+                        <div class="row justify-content-center" *ngIf="message && message?.id === contactMessage.id">
+                            <div class="col-4" style="height: 280px;">
                                 <div class="card bg-transparent">
                                     <div class="card-header">
+                                        <h3>{{contactMessage.title}}</h3>
                                         <div class="float-right">
                                             <button type="button" class="close" aria-label="Close" (click)="close()">
                                                 <span aria-hidden="true">&times;</span>
@@ -94,7 +95,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body text-primary">
-                                        <jhi-infobox [info]="message"></jhi-infobox>
+                                        <div [innerHTML]="contactMessage.message"></div>
                                     </div>
                                 </div>
                             </div>

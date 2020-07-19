@@ -41,13 +41,12 @@ public class SlideService {
     private final SlideRepository slideRepository;
 
     private static final String ENTITY_NAME = "slide";
-    private final String ROOT_DIR = "content-directory";
-    private final Environment environment;
     private final GridFsTemplate gridFsTemplate;
+    private final PhotoService photoService;
 
-    public SlideService(SlideRepository slideRepository, Environment environment, GridFsTemplate gridFsTemplate) {
+    public SlideService(SlideRepository slideRepository, PhotoService photoService, GridFsTemplate gridFsTemplate) {
         this.slideRepository = slideRepository;
-        this.environment = environment;
+        this.photoService = photoService;
         this.gridFsTemplate = gridFsTemplate;
     }
 
@@ -117,7 +116,11 @@ public class SlideService {
         try {
             ByteArrayInputStream is = new ByteArrayInputStream(slide.getPhoto());
             slide = slideRepository.save(slide);
-            slide = createFile(slide);
+            String fileName = ("slide_").concat(slide.getId());
+            String slideUrl = photoService.createFile(slide.getPhoto(), slide.getPhotoContentType(), fileName, ENTITY_NAME);
+            slide.setUrl(slideUrl);
+            slide.setPhoto(null);
+            slide = slideRepository.save(slide);
             Optional<GridFSFile> slideFile = findFileByMetadata("slideId", slide.getId());
             if (!slideFile.isPresent()) {
                 Map<String, String> data = new HashMap<>();
@@ -143,8 +146,11 @@ public class SlideService {
         try {
             byte[] photo = slide.getPhoto();
             ByteArrayInputStream is = new ByteArrayInputStream(photo);
+            String fileName = ("slide_").concat(slide.getId());
+            String slideUrl = photoService.createFile(slide.getPhoto(), slide.getPhotoContentType(), fileName, ENTITY_NAME);
+            slide.setUrl(slideUrl);
+            slide.setPhoto(null);
             slide = slideRepository.save(slide);
-            slide = createFile(slide);
             Map<String, String> data = new HashMap<>();
             data.put("name", slide.getTitle());
             data.put("slideId", slide.getId());
@@ -156,27 +162,6 @@ public class SlideService {
         return slide;
     }
 
-    private Slide createFile(Slide slide) {
-        try {
-            String fileExt = slide.getPhotoContentType().split("/")[1];
-            String root = Tools.getContentRoot().concat(environment.getProperty(ROOT_DIR));
-            String directory = root.concat(Tools.getSeparator()).concat(ENTITY_NAME);
-            Tools.createDirectory(directory);
-            String filename = ("slide_").concat(slide.getId()).concat(".").concat(fileExt);
-            String path = directory.concat(Tools.getSeparator()).concat(filename);
-            log.debug("Creating file: {}", path);
-            Tools.createFile(path, slide.getPhoto());
-            String url = ("content").concat(Tools.getSeparator()).concat(ENTITY_NAME).concat(Tools.getSeparator())
-                    .concat(filename);
-            slide.setUrl(url);
-            slide.setPhoto(null);
-            slide = slideRepository.save(slide);
-        } catch (Exception ioe) {
-            log.debug("Failed: {}", ioe.getCause());
-            ioe.printStackTrace();
-        }
-        return slide;
-    }
 
     private Optional<GridFSFile> findFileByMetadata(String key, String value) {
         GridFSFile file = gridFsTemplate.findOne(getQueryByMetadata(key, value));

@@ -106,4 +106,5 @@ jhipster:
 # ===================================================================
 
 # application:
-content-directory: target/www/content
+content-root: target/www
+content-directory: content
