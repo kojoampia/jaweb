@@ -1,0 +1,25 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "privileges",
+            "otherEntityName": "privilege",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "authority"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "authority",
+    "databaseType": "mongodb",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

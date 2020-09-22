@@ -1,0 +1,58 @@
+<div>
+    <h2 id="page-heading">
+        <span>Privileges</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-privilege" [routerLink]="['/privilege/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Privilege
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="privileges">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Name</span></th>
+            <th><span>Created Date</span></th>
+            <th><span>Created By</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let privilege of privileges ;trackBy: trackId">
+                <td><a [routerLink]="['/privilege', privilege.id, 'view' ]">{{privilege.id}}</a></td>
+                <td>{{privilege.name}}</td>
+                <td>{{privilege.createdDate | date:'medium'}}</td>
+                <td>{{privilege.createdBy}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/privilege', privilege.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/privilege', privilege.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'privilege', { outlets: { popup: privilege.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

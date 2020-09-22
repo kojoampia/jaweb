@@ -23,6 +23,7 @@ import { JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent 
 import { FooterModule } from './layouts/footer/footer.module';
 import { ConsoleLoggerService } from './console-logger.service';
 import { NgxScrollTopModule } from 'ngx-scrolltop';
+import { StickyNavModule } from 'ng2-sticky-nav';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { NgxScrollTopModule } from 'ngx-scrolltop';
             alertTimeout: 5000
         }),
         ScrollSpyModule.forRoot(),
+        StickyNavModule,
         NgxScrollTopModule,
         JojoaddisonSharedModule.forRoot(),
         JojoaddisonCoreModule,

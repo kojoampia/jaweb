@@ -1,5 +1,5 @@
 <div class="sticky-nav-wrapper">
-    <nav id="navbar" class="navbar navbar-expand-md" >
+    <nav id="navbar" class="navbar navbar-expand-md"  ngStickyNav stickyClass="sticky-box-shadow">
         <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
             <span class="logo-img"></span>
         </a>
@@ -185,6 +185,24 @@
                                 <span>Messages</span>
                             </a>
                         </li>
+                        <li>
+                        <a class="dropdown-item" routerLink="staff" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Staff</span>
+                        </a>
+                    </li>
+                        <li>
+                        <a class="dropdown-item" routerLink="privilege" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Privilege</span>
+                        </a>
+                    </li>
+                        <li>
+                        <a class="dropdown-item" routerLink="authority" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Authority</span>
+                        </a>
+                    </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>

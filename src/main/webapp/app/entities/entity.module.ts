@@ -64,6 +64,26 @@ import { ConsoleLoggerService } from 'app/console-logger.service';
             {
                 path: 'career',
                 loadChildren: './career/career.module#JojoaddisonCareerModule'
+            },
+            {
+                path: 'staff',
+                loadChildren: './staff/staff.module#JojoaddisonStaffModule'
+            },
+            {
+                path: 'staff',
+                loadChildren: './staff/staff.module#JojoaddisonStaffModule'
+            },
+            {
+                path: 'staff',
+                loadChildren: './staff/staff.module#JojoaddisonStaffModule'
+            },
+            {
+                path: 'privilege',
+                loadChildren: './privilege/privilege.module#JojoaddisonPrivilegeModule'
+            },
+            {
+                path: 'authority',
+                loadChildren: './authority/authority.module#JojoaddisonAuthorityModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ]),

@@ -117,6 +117,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, "/api/partners/**").permitAll()
             .antMatchers(HttpMethod.GET, "/api/portfolios/**").permitAll()
             .antMatchers(HttpMethod.GET, "/api/careers/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/staff/**").permitAll()
+            .antMatchers(HttpMethod.PUT, "/api/staff/**").hasAuthority(AuthoritiesConstants.STAFF)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/websocket/**").permitAll()
             .antMatchers(HttpMethod.GET, "/websocket/info/**").permitAll()

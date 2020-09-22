@@ -1,0 +1,61 @@
+# Password reset 2nd July, 2020
+version: '2.2'
+services:
+    jawebdev:
+        image: docker-registry.jojoaddison.net/jaweb:$JAWEB_VERSION
+        container_name: dev.jojoaddison.net
+        hostname: dev.jojoaddison.net
+        environment:
+            - HOSTNAME=dev.jojoaddison.net
+            - JHIPSTER_MAIL_BASE_URL=dev.jojoaddison.net
+            - _JAVA_OPTIONS=-Xmx512m -Xms256m
+            - SPRING_PROFILES_ACTIVE=dev,swagger
+            - SPRING_DATA_MONGODB_URI=mongodb://dev:admin@jacdev-mongodb:27017
+            - SPRING_DATA_MONGODB_DATABASE=jojoaddison
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - JHIPSTER_MAIL_FROM=jedi@jojoaddison.net
+            - SPRING_MAIL_PROTOCOL=smtp
+            - SPRING_MAIL_HOST=smtp.gmail.com
+            - SPRING_MAIL_PORT=587
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+            - SPRING_MAIL_USERNAME=jedi@jojoaddison.net
+            - SPRING_MAIL_PASSWORD=$JEDI_PASSW
+            - CONTENT_ROOT=/
+            - CONTENT_DIRECTORY='content'
+ #           - LOGGING_LOGSTASH_ENABLE=true
+ #           - LOGGING_LOGSTASH_HOST=jacdev-logstash
+ #           - LOGGING_LOGSTASH_PORT=1950
+        ports:
+            - 127.0.0.1:1981:1980
+        volumes:
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+            - ./etc/hosts:/etc/hosts
+            - ./slides:/app/resources/static/content/slide
+            - ./partners:/app/resources/static/content/partner
+            - ./tinymce:/app/resources/static/tinymce
+            - ./entrypoint.sh:/entrypoint.sh
+        networks:
+            - staponet
+    jacdev-mongodb:
+        extends:
+            file: ../../mongodb/single/docker-compose.yml
+            service: dev-jojoaddison-mongodb
+#    jacdev-logstash:
+#        image: logstash:7.6.0
+#	container_name: dev-logstash.jojoaddison.net
+#        hostname: dev-logstash.jojoaddison.net
+#        ports:
+#           - 127.0.0.1:1950:5000
+#        volumes:
+#           - ./logstash/conf:/usr/share/logstash/config
+#           - ./logstash/data:/var/lib/logstash
+#           - ./logstash/logs:/var/log/logstash   
+#        networks:
+#           - staponet
+
+networks:
+   staponet:
+      driver: bridge
+      

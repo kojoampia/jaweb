@@ -265,6 +265,8 @@ public class Partner implements Serializable {
             ", streetAddress='" + getStreetAddress() + "'" +
             ", email='" + getEmail() + "'" +
             ", contactPerson='" + getContactPerson() + "'" +
+            ", logoUrl='" + getLogoUrl() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
             "}";
     }
 }

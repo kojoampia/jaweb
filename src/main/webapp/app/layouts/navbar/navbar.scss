@@ -25,10 +25,10 @@ nav {
     opacity: 0.95;
     background: #005825;
     color: #005825;
-    z-index: 200;
+    z-index: 200 !important;
     .dropdown-item {
         color: #005825;
-        z-index: 200;
+        z-index: 200 !important;
     }
     .dropdown-item:focus,
     .dropdown-item:hover {
@@ -43,15 +43,15 @@ nav {
     }
     ul.dropdown-menu {
         background-color: #ffff99;
-        z-index: 200;
+        z-index: 200 !important;
     }
     ul.navbar-nav {
         color: #005825;
-        z-index: 200;
+        z-index: 200 !important;
         padding-left: 10px;
         padding-right: 10px;
         .nav-item {
-            z-index: 200;
+            z-index: 200 !important;
             margin-left: 0.5em;
             color: #005825;
             margin-top: 3px;

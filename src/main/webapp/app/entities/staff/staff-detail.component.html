@@ -1,0 +1,115 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="staff">
+            <h2><span>Staff</span> {{staff.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>First Name</span></dt>
+                <dd>
+                    <span>{{staff.firstName}}</span>
+                </dd>
+                <dt><span>Last Name</span></dt>
+                <dd>
+                    <span>{{staff.lastName}}</span>
+                </dd>
+                <dt><span>Date Of Birth</span></dt>
+                <dd>
+                    <span>{{staff.dateOfBirth}}</span>
+                </dd>
+                <dt><span>Email</span></dt>
+                <dd>
+                    <span>{{staff.email}}</span>
+                </dd>
+                <dt><span>Digital Address</span></dt>
+                <dd>
+                    <span>{{staff.digitalAddress}}</span>
+                </dd>
+                <dt><span>Street Address</span></dt>
+                <dd>
+                    <span>{{staff.streetAddress}}</span>
+                </dd>
+                <dt><span>Postal Address</span></dt>
+                <dd>
+                    <span>{{staff.postalAddress}}</span>
+                </dd>
+                <dt><span>Town</span></dt>
+                <dd>
+                    <span>{{staff.town}}</span>
+                </dd>
+                <dt><span>District</span></dt>
+                <dd>
+                    <span>{{staff.district}}</span>
+                </dd>
+                <dt><span>City</span></dt>
+                <dd>
+                    <span>{{staff.city}}</span>
+                </dd>
+                <dt><span>Region</span></dt>
+                <dd>
+                    <span>{{staff.region}}</span>
+                </dd>
+                <dt><span>Country</span></dt>
+                <dd>
+                    <span>{{staff.country}}</span>
+                </dd>
+                <dt><span>Digital Profile</span></dt>
+                <dd>
+                    <div *ngIf="staff.digitalProfile">
+                        <a (click)="openFile(staff.digitalProfileContentType, staff.digitalProfile)">
+                            <img [src]="'data:' + staff.digitalProfileContentType + ';base64,' + staff.digitalProfile" style="max-width: 100%;" alt="staff image"/>
+                        </a>
+                        {{staff.digitalProfileContentType}}, {{byteSize(staff.digitalProfile)}}
+                    </div>
+                </dd>
+                <dt><span>Account Number</span></dt>
+                <dd>
+                    <span>{{staff.accountNumber}}</span>
+                </dd>
+                <dt><span>Account Type</span></dt>
+                <dd>
+                    <span>{{staff.accountType}}</span>
+                </dd>
+                <dt><span>Documents</span></dt>
+                <dd>
+                    <div *ngIf="staff.documents">
+                        <a (click)="openFile(staff.documentsContentType, staff.documents)">open</a>
+                        {{staff.documentsContentType}}, {{byteSize(staff.documents)}}
+                    </div>
+                </dd>
+                <dt><span>Created Date</span></dt>
+                <dd>
+                    <span>{{staff.createdDate}}</span>
+                </dd>
+                <dt><span>Modified Date</span></dt>
+                <dd>
+                    <span>{{staff.modifiedDate}}</span>
+                </dd>
+                <dt><span>Last Modified By</span></dt>
+                <dd>
+                    <span>{{staff.lastModifiedBy}}</span>
+                </dd>
+                <dt><span>Document Type</span></dt>
+                <dd>
+                    <span>{{staff.documentType}}</span>
+                </dd>
+                <dt><span>Credential</span></dt>
+                <dd>
+                    {{staff.credential?.login}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/staff', staff.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
