@@ -6,13 +6,10 @@ if [ $args -le 0 ];then
     echo "version number required eg. 0.1.2"
     exit 1
 fi
-   
 
-JAWEB_VERSION=0.1.2
-
+. ./.env
 
 export JAWEB_VERSION=$1
-export JEDI_PASSW='2Ma$terJ0da!'
 echo ""
 echo ""
 echo "Jojo Addison Wep Application Deployment"
