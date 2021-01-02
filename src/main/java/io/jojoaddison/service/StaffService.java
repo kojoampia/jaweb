@@ -75,4 +75,8 @@ public class StaffService {
     public void delete(String id) {
         log.debug("Request to delete Staff : {}", id);        staffRepository.deleteById(id);
     }
+
+	public void deleteAll() {
+        staffRepository.deleteAll();
+	}
 }

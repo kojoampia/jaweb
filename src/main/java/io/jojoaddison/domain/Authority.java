@@ -1,6 +1,7 @@
 package io.jojoaddison.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import io.undertow.connector.PooledByteBuffer;
@@ -18,13 +19,24 @@ import java.util.Set;
 public class Authority implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @Id
+    private String id;
 
     @NotNull
     @Size(max = 50)
-    @Id
+    @Indexed
     private String name;
 
     private Set<Privilege> privileges = new HashSet<>();
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -32,6 +44,11 @@ public class Authority implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Authority name(String name) {
+        this.name = name;
+        return this;
     }
 
     /**

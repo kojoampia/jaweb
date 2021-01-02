@@ -12,7 +12,7 @@ export class SlideSelectorComponent implements OnDestroy {
     constructor() {}
 
     ngOnDestroy() {
-        this.slideSelected = null;
+        this.slideSelected = Object.assign({});
     }
 
     onClick(item: any) {

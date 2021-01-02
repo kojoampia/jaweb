@@ -3,7 +3,7 @@ package io.jojoaddison.web.rest;
 import io.jojoaddison.JojoaddisonApp;
 
 import io.jojoaddison.domain.Staff;
-import io.jojoaddison.repository.StaffRepository;
+import io.jojoaddison.service.StaffService;
 import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -109,7 +109,7 @@ public class StaffResourceIntTest {
     private static final DocumentType UPDATED_DOCUMENT_TYPE = DocumentType.PASSPORT;
 
     @Autowired
-    private StaffRepository staffRepository;
+    private StaffService staffService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -130,7 +130,7 @@ public class StaffResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final StaffResource staffResource = new StaffResource(staffRepository);
+        final StaffResource staffResource = new StaffResource(staffService);
         this.restStaffMockMvc = MockMvcBuilders.standaloneSetup(staffResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -174,13 +174,13 @@ public class StaffResourceIntTest {
 
     @Before
     public void initTest() {
-        staffRepository.deleteAll();
+        staffService.deleteAll();
         staff = createEntity();
     }
 
     @Test
     public void createStaff() throws Exception {
-        int databaseSizeBeforeCreate = staffRepository.findAll().size();
+        int databaseSizeBeforeCreate = staffService.findAll().size();
 
         // Create the Staff
         restStaffMockMvc.perform(post("/api/staff")
@@ -189,7 +189,7 @@ public class StaffResourceIntTest {
             .andExpect(status().isCreated());
 
         // Validate the Staff in the database
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeCreate + 1);
         Staff testStaff = staffList.get(staffList.size() - 1);
         assertThat(testStaff.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
@@ -218,7 +218,7 @@ public class StaffResourceIntTest {
 
     @Test
     public void createStaffWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = staffRepository.findAll().size();
+        int databaseSizeBeforeCreate = staffService.findAll().size();
 
         // Create the Staff with an existing ID
         staff.setId("existing_id");
@@ -230,13 +230,13 @@ public class StaffResourceIntTest {
             .andExpect(status().isBadRequest());
 
         // Validate the Staff in the database
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
     public void checkEmailIsRequired() throws Exception {
-        int databaseSizeBeforeTest = staffRepository.findAll().size();
+        int databaseSizeBeforeTest = staffService.findAll().size();
         // set the field null
         staff.setEmail(null);
 
@@ -247,13 +247,13 @@ public class StaffResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(staff)))
             .andExpect(status().isBadRequest());
 
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     public void checkDocumentTypeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = staffRepository.findAll().size();
+        int databaseSizeBeforeTest = staffService.findAll().size();
         // set the field null
         staff.setDocumentType(null);
 
@@ -264,14 +264,14 @@ public class StaffResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(staff)))
             .andExpect(status().isBadRequest());
 
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     public void getAllStaff() throws Exception {
         // Initialize the database
-        staffRepository.save(staff);
+        staffService.save(staff);
 
         // Get all the staffList
         restStaffMockMvc.perform(get("/api/staff?sort=id,desc"))
@@ -305,7 +305,7 @@ public class StaffResourceIntTest {
     @Test
     public void getStaff() throws Exception {
         // Initialize the database
-        staffRepository.save(staff);
+        staffService.save(staff);
 
         // Get the staff
         restStaffMockMvc.perform(get("/api/staff/{id}", staff.getId()))
@@ -346,12 +346,12 @@ public class StaffResourceIntTest {
     @Test
     public void updateStaff() throws Exception {
         // Initialize the database
-        staffRepository.save(staff);
+        staffService.save(staff);
 
-        int databaseSizeBeforeUpdate = staffRepository.findAll().size();
+        int databaseSizeBeforeUpdate = staffService.findAll().size();
 
         // Update the staff
-        Staff updatedStaff = staffRepository.findById(staff.getId()).get();
+        Staff updatedStaff = staffService.findOne(staff.getId()).get();
         updatedStaff
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
@@ -382,7 +382,7 @@ public class StaffResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the Staff in the database
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeUpdate);
         Staff testStaff = staffList.get(staffList.size() - 1);
         assertThat(testStaff.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
@@ -411,7 +411,7 @@ public class StaffResourceIntTest {
 
     @Test
     public void updateNonExistingStaff() throws Exception {
-        int databaseSizeBeforeUpdate = staffRepository.findAll().size();
+        int databaseSizeBeforeUpdate = staffService.findAll().size();
 
         // Create the Staff
 
@@ -422,16 +422,16 @@ public class StaffResourceIntTest {
             .andExpect(status().isBadRequest());
 
         // Validate the Staff in the database
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     public void deleteStaff() throws Exception {
         // Initialize the database
-        staffRepository.save(staff);
+        staffService.save(staff);
 
-        int databaseSizeBeforeDelete = staffRepository.findAll().size();
+        int databaseSizeBeforeDelete = staffService.findAll().size();
 
         // Delete the staff
         restStaffMockMvc.perform(delete("/api/staff/{id}", staff.getId())
@@ -439,7 +439,7 @@ public class StaffResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Staff> staffList = staffRepository.findAll();
+        List<Staff> staffList = staffService.findAll();
         assertThat(staffList).hasSize(databaseSizeBeforeDelete - 1);
     }
 

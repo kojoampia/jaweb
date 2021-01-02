@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jojoaddison</groupId>
-    <artifactId>jojoaddison</artifactId>
-    <version>0.2.0</version>
-    <packaging>war</packaging>
-    <name>JojoAddison</name>
+    <artifactId>jaweb</artifactId>
+    <version>0.3.0</version>
+    <packaging>jar</packaging>
+    <name>Jojo Addison Consultancy Web Application</name>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
@@ -308,7 +308,7 @@
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}-{project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -449,7 +449,7 @@
                             <image>openjdk:11.0.7-jre</image>
                         </from>
                         <to>
-                            <image>docker-registry.jojoaddison.net/jaweb:${project.version}</image>
+                            <image>docker-registry.jojoaddison.net/${project.artifactId}:${project.version}</image>
                         </to>
                         <container>
                             <entrypoint>

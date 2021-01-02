@@ -28,7 +28,7 @@ import { StickyNavModule } from 'ng2-sticky-nav';
 @NgModule({
     imports: [
         BrowserModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
+        Ng2Webstorage.forRoot({ prefix: 'bed', separator: '-' }),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
             alertAsToast: false,

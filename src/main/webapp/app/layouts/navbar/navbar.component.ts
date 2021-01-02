@@ -81,6 +81,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         if (this.router.url.endsWith(item)) {
             return true;
         }
+        return false;
     }
 
     /*

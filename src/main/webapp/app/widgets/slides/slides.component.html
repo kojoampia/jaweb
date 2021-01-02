@@ -1,10 +1,7 @@
 <ngb-carousel *ngIf="slides && slides.length > 0" class="w-100">
     <ng-template ngbSlide *ngFor="let slide of slides ;trackBy: trackId" class="ml-auto mr-auto text-center">
-            <!--
-             <div [style.width]="width" [style.height]="height" [style.background]="'url(' + slide.url + ')'"></div>
-            -->
             <img [src]="slide.url" [alt]="slide.title" (click)="onClick(slide);">
-           <div class="carousel-caption" *ngIf="slide.title">
+           <div class="carousel-caption w-100" *ngIf="slide.title">
                 <h4>{{slide.title}}</h4>
            </div>
     </ng-template>
