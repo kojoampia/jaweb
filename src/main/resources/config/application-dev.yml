@@ -36,10 +36,10 @@ spring:
             indent-output: true
     data:
         mongodb:
-            uri: mongodb://masterjoda:Ma$terJ0da!@staposerver:27017
+            uri: mongodb://localhost:27017
             database: jojoaddison
         jest:
-            uri: http://staposerver:9200
+            uri: http://localhost:9200
     mail:
         host: localhost
         port: 25

@@ -1,5 +1,5 @@
 <div class="mr-5 ml-5">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col page-editor">
             <div class="card border-0 bg-transparent">
                 <div class="card-header">
@@ -87,12 +87,6 @@
         </div>
     </div>
 </div>
-<!--
-<div class="row-fluid justify-content-center" *ngIf="slides && slides.length > 0">
-    <div class="col text-center">
-        <div class="mr-auto ml-auto w-50">
-            <jhi-slider [slides]="slides" (slideSelected)="onSlideSelected($event)"></jhi-slider>
-        </div>
-    </div>
+<div class="container ml-auto mr-auto p-5 justify-content-center" *ngIf="slides && slides.length > 0">
+    <jhi-slider [slides]="slides" (slideSelected)="onSlideSelected($event)"></jhi-slider>
 </div>
--->

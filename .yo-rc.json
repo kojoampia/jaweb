@@ -30,6 +30,11 @@
         "entitySuffix": "",
         "dtoSuffix": "DTO",
         "otherModules": [],
-        "enableTranslation": false
+        "enableTranslation": false,
+        "appsFolders": ["jaweb"],
+        "directoryPath": "../",
+        "clusteredDbApps": [],
+        "monitoring": "elk",
+        "consoleOptions": ["curator"]
     }
 }

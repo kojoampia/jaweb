@@ -1,7 +1,7 @@
 {
     "name": "jojoaddison",
-    "version": "0.0.1",
-    "description": "Description for jojoaddison",
+    "version": "0.3.0",
+    "description": "Web Application for Jojo Addison Consultancy",
     "private": true,
     "license": "Apache 2.0",
     "cacheDirectories": [
