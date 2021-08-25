@@ -33,7 +33,7 @@ export class BlogViewComponent implements OnInit {
     ngOnInit() {
         this.registerChangeInBlogs();
         if (!this.blogs || this.blogs.length === 0) {
-            this.blogService.getRecentBlogs().subscribe((response: any) => {
+            this.blogService.query().subscribe((response: any) => {
                 this.blogs = response.body;
                 this.loadFirstPage();
             });

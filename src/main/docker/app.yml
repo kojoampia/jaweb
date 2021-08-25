@@ -9,6 +9,18 @@ services:
             - SPRING_DATA_MONGODB_DATABASE=jojoaddison
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
             - SPRING_DATA_JEST_URI=http://jojoaddison-elasticsearch:9200
+            - SPRING_MAIL_HOST=smtp-relay.gmail.com
+            - SPRING_MAIL_PORT=587
+            - SPRING_MAIL_TEST_CONNECTION=false
+            - SPRING_MAIL_USERNAME=jedi@jojoaddison.net
+            - SPRING_MAIL_PASSWORD=2Ma54erJ0dA6
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_DEBUG=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_TRANSPORT_PROTOCOL=smtp
+            - SPRINT_MAIL_PROPERTIES_MAIL_SMTP_TIMEOUT=3000
+            - SPRINT_MAIL_PROPERTIES_MAIL_SMTP_WRITETIMEOUT=3000
+            - SPRINT_MAIL_PROPERTIES_MAIL_SMTP_CONNECTIONTIMEOUT=5000
         ports:
             - 8080:8080
     jojoaddison-mongodb:
