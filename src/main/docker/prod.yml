@@ -1,0 +1,60 @@
+version: '2.2'
+services:
+    jaweb:
+        image: docker-registry.jojoaddison.net/jaweb:$JAWEB_VERSION
+        container_name: www.jojoaddison.net
+        hostname: www.jojoaddison.net
+        restart: always
+        depends_on:
+            - jacmongodb
+        environment:
+            - HOSTNAME=www.jojoaddison.net
+            - _JAVA_OPTIONS=-Xmx512m -Xms256m
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATA_MONGODB_URI=mongodb://jacmongodb:27017
+            - SPRING_DATA_MONGODB_DATABASE=jojoaddison
+            - JHIPSTER_SLEEP=5 # gives time for the database to boot before the application
+            - CONTENT_ROOT=/
+            - CONTENT_DIRECTORY='content'
+            - JHIPSTER_MAIL_FROM=<Jojo Addison>info@jojoaddison.net
+            - JHIPSTER_MAIL_BASE_URL=www.jojoaddison.net
+            - SPRING_MAIL_HOST=smtp-relay.gmail.com
+            - SPRING_MAIL_PORT=587
+            - SPRING_MAIL_TEST_CONNECTION=false
+            - SPRING_MAIL_USERNAME=jedi@jojoaddison.net
+            - SPRING_MAIL_PASSWORD=$JEDI_MAIL_PASSW
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_DEBUG=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+            - SPRING_MAIL_PROPERTIES_MAIL_SMTP_TRANSPORT_PROTOCOL=smtp
+            - SPRINT_MAIL_PROPERTIES_MAIL_SMTP_TIMEOUT=3000
+            - SPRINT_MAIL_PROPERTIES_MAIL_SMTP_WRITETIMEOUT=3000
+            - SPRINT_MAIL_PROPERTIES_MAIL_SMTP_CONNECTIONTIMEOUT=5000
+        ports:
+            - 127.0.0.1:1980:8080
+        volumes:
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+            - ./slides/:/app/resources/static/content/slide/
+            - ./static/:/app/resources/static/static/
+            - ./partners/:/app/resources/static/partner/
+            - ./tinymce/:/app/resources/static/tinymce/
+            - ./entrypoint.sh:/entrypoint.sh
+        networks:
+            - staponet
+    jacmongodb:
+        extends:
+            file: ../../mongodb/single/docker-compose.yml
+            service: prod-jojoaddison-mongodb
+#        command: mongod --auth
+#        ports:
+#            - "127.0.0.1:1987:27017"
+        networks:
+           - staponet
+networks:
+   staponet:
+      external:
+        name: staponet
+
+
+            
