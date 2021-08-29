@@ -1,11 +1,17 @@
 package io.jojoaddison.web.rest;
 
+import io.github.jhipster.web.util.ResponseUtil;
+import io.jojoaddison.domain.About;
+import io.jojoaddison.repository.AboutRepository;
+import io.jojoaddison.security.SecurityUtils;
+import io.jojoaddison.web.rest.errors.BadRequestAlertException;
+import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.jojoaddison.web.rest.util.PaginationUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,13 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
-import io.jojoaddison.domain.About;
-import io.jojoaddison.repository.AboutRepository;
-import io.jojoaddison.security.SecurityUtils;
-import io.jojoaddison.web.rest.errors.BadRequestAlertException;
-import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.jojoaddison.web.rest.util.PaginationUtil;
+
 
 /**
  * REST controller for managing About.
