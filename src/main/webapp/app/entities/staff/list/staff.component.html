@@ -1,0 +1,269 @@
+<div>
+  <h2 id="page-heading" data-cy="StaffHeading">
+    <span jhiTranslate="jojoaddisonApp.staff.home.title">Staff</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jojoaddisonApp.staff.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-staff"
+        [routerLink]="['/staff/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jojoaddisonApp.staff.home.createLabel">Create a new Staff</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (staff?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="jojoaddisonApp.staff.home.notFound">No Staff found</span>
+    </div>
+  }
+
+  @if (staff && staff.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="firstName">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.firstName">First Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastName">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.lastName">Last Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="dateOfBirth">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.dateOfBirth">Date Of Birth</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="digitalAddress">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.digitalAddress">Digital Address</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="streetAddress">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.streetAddress">Street Address</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="postalAddress">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.postalAddress">Postal Address</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="town">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.town">Town</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="district">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.district">District</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="city">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.city">City</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="region">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.region">Region</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="country">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.country">Country</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="digitalProfile">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.digitalProfile">Digital Profile</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="accountNumber">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.accountNumber">Account Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="accountType">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.accountType">Account Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="documents">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.documents">Documents</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="modifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.modifiedDate">Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedBy">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.lastModifiedBy">Last Modified By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="documentType">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.documentType">Document Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="credential.login">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.staff.credential">Credential</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (staff of staff; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/staff', staff.id, 'view']">{{ staff.id }}</a>
+              </td>
+              <td>{{ staff.firstName }}</td>
+              <td>{{ staff.lastName }}</td>
+              <td>{{ staff.dateOfBirth | formatMediumDate }}</td>
+              <td>{{ staff.email }}</td>
+              <td>{{ staff.digitalAddress }}</td>
+              <td>{{ staff.streetAddress }}</td>
+              <td>{{ staff.postalAddress }}</td>
+              <td>{{ staff.town }}</td>
+              <td>{{ staff.district }}</td>
+              <td>{{ staff.city }}</td>
+              <td>{{ staff.region }}</td>
+              <td>{{ staff.country }}</td>
+              <td>
+                @if (staff.digitalProfile) {
+                  <a (click)="openFile(staff.digitalProfile, staff.digitalProfileContentType)">
+                    <img
+                      [src]="'data:' + staff.digitalProfileContentType + ';base64,' + staff.digitalProfile"
+                      style="max-height: 30px"
+                      alt="staff"
+                    />
+                  </a>
+                  <span>{{ staff.digitalProfileContentType }}, {{ byteSize(staff.digitalProfile) }}</span>
+                }
+              </td>
+              <td>{{ staff.accountNumber }}</td>
+              <td>{{ staff.accountType }}</td>
+              <td>
+                @if (staff.documents) {
+                  <a (click)="openFile(staff.documents, staff.documentsContentType)" jhiTranslate="entity.action.open">Open</a>
+                  <span>{{ staff.documentsContentType }}, {{ byteSize(staff.documents) }}</span>
+                }
+              </td>
+              <td>{{ staff.createdDate | formatMediumDatetime }}</td>
+              <td>{{ staff.modifiedDate | formatMediumDatetime }}</td>
+              <td>{{ staff.lastModifiedBy }}</td>
+              <td [jhiTranslate]="'jojoaddisonApp.DocumentType.' + (staff.documentType ?? 'null')">
+                {{
+                  { null: '', NATIONAL_ID: 'NATIONAL_ID', PASSPORT: 'PASSPORT', DRIVING_LICENSE: 'DRIVING_LICENSE', VOTER_ID: 'VOTER_ID' }[
+                    staff.documentType ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>
+                {{ staff.credential?.login }}
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/staff', staff.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/staff', staff.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(staff)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,4 @@
+
+> jojoaddison@3.0.0 webapp:build:dev
+> ng build --configuration development
+

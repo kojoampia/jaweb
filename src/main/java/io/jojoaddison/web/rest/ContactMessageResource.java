@@ -1,20 +1,5 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.domain.ContactMessage;
-import io.jojoaddison.repository.ContactMessageRepository;
-import io.jojoaddison.web.rest.errors.BadRequestAlertException;
-import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.jojoaddison.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
@@ -22,6 +7,28 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.jojoaddison.domain.ContactMessage;
+import io.jojoaddison.repository.ContactMessageRepository;
+import io.jojoaddison.web.rest.errors.BadRequestAlertException;
+import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.jojoaddison.web.rest.util.PaginationUtil;
+import jakarta.validation.Valid;
 
 /**
  * REST controller for managing ContactMessage.
@@ -115,7 +122,7 @@ public class ContactMessageResource {
     public ResponseEntity<ContactMessage> getContactMessage(@PathVariable String id) {
         log.debug("REST request to get ContactMessage : {}", id);
         Optional<ContactMessage> contactMessage = contactMessageRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(contactMessage);
+        return contactMessage.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**
@@ -135,7 +142,7 @@ public class ContactMessageResource {
             return message;
         });
 
-        return ResponseUtil.wrapOrNotFound(contactMessage);
+        return contactMessage.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

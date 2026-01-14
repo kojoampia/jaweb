@@ -1,10 +1,15 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.JojoaddisonApp;
-import io.jojoaddison.config.audit.AuditEventConverter;
-import io.jojoaddison.domain.PersistentAuditEvent;
-import io.jojoaddison.repository.PersistenceAuditEventRepository;
-import io.jojoaddison.service.AuditEventService;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +24,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.Instant;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.config.audit.AuditEventConverter;
+import io.jojoaddison.domain.PersistentAuditEvent;
+import io.jojoaddison.repository.PersistenceAuditEventRepository;
+import io.jojoaddison.service.AuditEventService;
 
 /**
  * Test class for the AuditResource REST controller.

@@ -1,0 +1,31 @@
+{
+  "jojoaddisonApp": {
+    "contactMessage": {
+      "home": {
+        "title": "Contact Messages",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Contact Message erstellen",
+        "createOrEditLabel": "Contact Message erstellen oder bearbeiten",
+        "search": "Suche nach Contact Message",
+        "notFound": "Keine Contact Messages gefunden"
+      },
+      "created": "Contact Message erstellt mit ID {{ param }}",
+      "updated": "Contact Message aktualisiert mit ID {{ param }}",
+      "deleted": "Contact Message gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Contact Message {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Contact Message"
+      },
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "title": "Title",
+      "message": "Message",
+      "createdDate": "Created Date",
+      "messages": "Messages",
+      "contact": "Contact"
+    }
+  }
+}

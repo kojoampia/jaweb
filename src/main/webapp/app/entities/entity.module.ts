@@ -14,94 +14,70 @@ import { JojoaddisonSharedCommonModule } from 'app/shared';
 import { ConsoleLoggerService } from 'app/console-logger.service';
 
 @NgModule({
-    imports: [
-        JojoaddisonSharedCommonModule,
-        RouterModule.forChild([
-            {
-                path: 'home',
-                loadChildren: './home/home.module#JojoaddisonHomeModule'
-            },
-            {
-                path: 'blog',
-                loadChildren: './blog/blog.module#JojoaddisonBlogModule'
-            },
-            {
-                path: 'information',
-                loadChildren: './information/information.module#JojoaddisonInformationModule'
-            },
-            {
-                path: 'slide',
-                loadChildren: './slide/slide.module#JojoaddisonSlideModule'
-            },
-            {
-                path: 'service',
-                loadChildren: './service/service.module#JojoaddisonServiceModule'
-            },
-            {
-                path: 'portfolio',
-                loadChildren: './portfolio/portfolio.module#JojoaddisonPortfolioModule'
-            },
-            {
-                path: 'career',
-                loadChildren: './career/career.module#JojoaddisonCareerModule'
-            },
-            {
-                path: 'partner',
-                loadChildren: './partner/partner.module#JojoaddisonPartnerModule'
-            },
-            {
-                path: 'about',
-                loadChildren: './about/about.module#JojoaddisonAboutModule'
-            },
-            {
-                path: 'contact',
-                loadChildren: './contact/contact.module#JojoaddisonContactModule'
-            },
-            {
-                path: 'imprint',
-                loadChildren: './imprint/imprint.module#JojoaddisonImprintModule'
-            },
-            {
-                path: 'career',
-                loadChildren: './career/career.module#JojoaddisonCareerModule'
-            },
-            {
-                path: 'staff',
-                loadChildren: './staff/staff.module#JojoaddisonStaffModule'
-            },
-            {
-                path: 'staff',
-                loadChildren: './staff/staff.module#JojoaddisonStaffModule'
-            },
-            {
-                path: 'staff',
-                loadChildren: './staff/staff.module#JojoaddisonStaffModule'
-            },
-            {
-                path: 'privilege',
-                loadChildren: './privilege/privilege.module#JojoaddisonPrivilegeModule'
-            },
-            {
-                path: 'authority',
-                loadChildren: './authority/authority.module#JojoaddisonAuthorityModule'
-            }
-            /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
-        ]),
-        JojoaddisonHomeModule,
-        JojoaddisonSlideModule,
-        JojoaddisonInformationModule,
-        JojoaddisonServiceModule,
-        JojoaddisonPartnerModule,
-        JojoaddisonPortfolioModule,
-        JojoaddisonImprintModule,
-        JojoaddisonContactModule,
-        JojoaddisonBlogModule,
-        JojoaddisonAboutModule
-    ],
-    declarations: [],
-    exports: [],
-    entryComponents: [],
-    providers: [ConsoleLoggerService],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [
+    JojoaddisonSharedCommonModule,
+    RouterModule.forChild([
+      {
+        path: 'home',
+        loadChildren: './home/home.module#JojoaddisonHomeModule',
+      },
+      {
+        path: 'blog',
+        loadChildren: './blog/blog.module#JojoaddisonBlogModule',
+      },
+      {
+        path: 'information',
+        loadChildren: './information/information.module#JojoaddisonInformationModule',
+      },
+      {
+        path: 'service',
+        loadChildren: './service/service.module#JojoaddisonServiceModule',
+      },
+      {
+        path: 'portfolio',
+        loadChildren: './portfolio/portfolio.module#JojoaddisonPortfolioModule',
+      },
+      {
+        path: 'career',
+        loadChildren: './career/career.module#JojoaddisonCareerModule',
+      },
+      {
+        path: 'partner',
+        loadChildren: './partner/partner.module#JojoaddisonPartnerModule',
+      },
+      {
+        path: 'about',
+        loadChildren: './about/about.module#JojoaddisonAboutModule',
+      },
+      {
+        path: 'contact',
+        loadChildren: './contact/contact.module#JojoaddisonContactModule',
+      },
+      {
+        path: 'imprint',
+        loadChildren: './imprint/imprint.module#JojoaddisonImprintModule',
+      },
+      {
+        path: 'staff',
+        loadChildren: './staff/staff.module#JojoaddisonStaffModule',
+      },
+      /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+    ]),
+    JojoaddisonHomeModule,
+    JojoaddisonSlideModule,
+    JojoaddisonInformationModule,
+    JojoaddisonServiceModule,
+    JojoaddisonPartnerModule,
+    JojoaddisonPortfolioModule,
+    JojoaddisonImprintModule,
+    JojoaddisonContactModule,
+    JojoaddisonBlogModule,
+    JojoaddisonAboutModule,
+  ],
+  declarations: [],
+  exports: [],
+  entryComponents: [],
+  providers: [ConsoleLoggerService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class JojoaddisonEntityModule {}

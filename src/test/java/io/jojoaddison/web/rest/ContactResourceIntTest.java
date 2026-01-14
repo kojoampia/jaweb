@@ -1,10 +1,23 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.JojoaddisonApp;
+import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
+import static io.jojoaddison.web.rest.TestUtil.sameInstant;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.jojoaddison.domain.Contact;
-import io.jojoaddison.repository.ContactRepository;
-import io.jojoaddison.web.rest.errors.ExceptionTranslator;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,22 +34,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
-import java.time.ZoneId;
-import java.util.Collections;
-import java.util.List;
-
-
-import static io.jojoaddison.web.rest.TestUtil.sameInstant;
-import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.domain.Contact;
+import io.jojoaddison.repository.ContactRepository;
+import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the ContactResource REST controller.

@@ -1,0 +1,26 @@
+@if (about) {
+  <form name="deleteForm" (ngSubmit)="confirmDelete(about.id!)">
+    <div class="modal-header">
+      <h4 class="modal-title" data-cy="aboutDeleteDialogHeading" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
+
+      <span class="btn btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()"></span>
+    </div>
+
+    <div class="modal-body">
+      <jhi-alert-error></jhi-alert-error>
+      <p id="jhi-delete-about-heading" jhiTranslate="jojoaddisonApp.about.delete.question" [translateValues]="{ id: about.id }">
+        Are you sure you want to delete About {{ about.id }}?
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+      </button>
+
+      <button id="jhi-confirm-delete-about" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+        <fa-icon icon="times"></fa-icon>&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
+      </button>
+    </div>
+  </form>
+}

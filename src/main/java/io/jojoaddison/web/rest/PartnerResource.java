@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Partner;
 import io.jojoaddison.repository.PartnerRepository;
 import io.jojoaddison.service.PhotoService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import jakarta.validation.Valid;
 
 /**
  * REST controller for managing Partner.
@@ -119,7 +117,7 @@ public class PartnerResource {
     public ResponseEntity<Partner> getPartner(@PathVariable String id) {
         log.debug("REST request to get Partner : {}", id);
         Optional<Partner> partner = partnerRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(partner);
+        return partner.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

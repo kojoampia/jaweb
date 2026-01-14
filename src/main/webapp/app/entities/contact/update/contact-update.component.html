@@ -1,0 +1,223 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-contact-heading" data-cy="ContactCreateUpdateHeading" jhiTranslate="jojoaddisonApp.contact.home.createOrEditLabel">
+        Create or edit a Contact
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="jojoaddisonApp.contact.id">ID</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_title" jhiTranslate="jojoaddisonApp.contact.title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_address" jhiTranslate="jojoaddisonApp.contact.address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_street" jhiTranslate="jojoaddisonApp.contact.street">Street</label>
+          <input type="text" class="form-control" name="street" id="field_street" data-cy="street" formControlName="street" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_code" jhiTranslate="jojoaddisonApp.contact.code">Code</label>
+          <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_city" jhiTranslate="jojoaddisonApp.contact.city">City</label>
+          <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_state" jhiTranslate="jojoaddisonApp.contact.state">State</label>
+          <input type="text" class="form-control" name="state" id="field_state" data-cy="state" formControlName="state" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_region" jhiTranslate="jojoaddisonApp.contact.region">Region</label>
+          <input type="text" class="form-control" name="region" id="field_region" data-cy="region" formControlName="region" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_country" jhiTranslate="jojoaddisonApp.contact.country">Country</label>
+          <input type="text" class="form-control" name="country" id="field_country" data-cy="country" formControlName="country" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_telephone" jhiTranslate="jojoaddisonApp.contact.telephone">Telephone</label>
+          <input type="text" class="form-control" name="telephone" id="field_telephone" data-cy="telephone" formControlName="telephone" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="jojoaddisonApp.contact.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)) {
+            <div>
+              @if (editForm.get('email')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('email')?.errors?.pattern) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Email' }"
+                  >This field should follow pattern for Email.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_whatsapp" jhiTranslate="jojoaddisonApp.contact.whatsapp">Whatsapp</label>
+          <input type="text" class="form-control" name="whatsapp" id="field_whatsapp" data-cy="whatsapp" formControlName="whatsapp" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_facebook" jhiTranslate="jojoaddisonApp.contact.facebook">Facebook</label>
+          <input type="text" class="form-control" name="facebook" id="field_facebook" data-cy="facebook" formControlName="facebook" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_twitter" jhiTranslate="jojoaddisonApp.contact.twitter">Twitter</label>
+          <input type="text" class="form-control" name="twitter" id="field_twitter" data-cy="twitter" formControlName="twitter" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_google" jhiTranslate="jojoaddisonApp.contact.google">Google</label>
+          <input type="text" class="form-control" name="google" id="field_google" data-cy="google" formControlName="google" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_youtube" jhiTranslate="jojoaddisonApp.contact.youtube">Youtube</label>
+          <input type="text" class="form-control" name="youtube" id="field_youtube" data-cy="youtube" formControlName="youtube" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lastModified" jhiTranslate="jojoaddisonApp.contact.lastModified">Last Modified</label>
+          <div class="d-flex">
+            <input
+              id="field_lastModified"
+              data-cy="lastModified"
+              type="datetime-local"
+              class="form-control"
+              name="lastModified"
+              formControlName="lastModified"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lastModifiedBy" jhiTranslate="jojoaddisonApp.contact.lastModifiedBy">Last Modified By</label>
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_language" jhiTranslate="jojoaddisonApp.contact.language">Language</label>
+          <input type="text" class="form-control" name="language" id="field_language" data-cy="language" formControlName="language" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_appointment" jhiTranslate="jojoaddisonApp.contact.appointment">Appointment</label>
+          <input
+            type="text"
+            class="form-control"
+            name="appointment"
+            id="field_appointment"
+            data-cy="appointment"
+            formControlName="appointment"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_latitude" jhiTranslate="jojoaddisonApp.contact.latitude">Latitude</label>
+          <input type="number" class="form-control" name="latitude" id="field_latitude" data-cy="latitude" formControlName="latitude" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_longitude" jhiTranslate="jojoaddisonApp.contact.longitude">Longitude</label>
+          <input type="number" class="form-control" name="longitude" id="field_longitude" data-cy="longitude" formControlName="longitude" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_image" jhiTranslate="jojoaddisonApp.contact.image">Image</label>
+          <div>
+            @if (editForm.get('image')!.value) {
+              <img
+                [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value"
+                style="max-height: 100px"
+                alt="contact"
+              />
+            }
+            @if (editForm.get('image')!.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value!) }}</span>
+                <button
+                  type="button"
+                  (click)="clearInputImage('image', 'imageContentType', 'file_image')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_image"
+              data-cy="image"
+              (change)="setFileData($event, 'image', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="image" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageContentType"
+            id="field_imageContentType"
+            formControlName="imageContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_url" jhiTranslate="jojoaddisonApp.contact.url">Url</label>
+          <input type="text" class="form-control" name="url" id="field_url" data-cy="url" formControlName="url" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -10,14 +10,14 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
     @Input() tmHeight = 250;
     @Input() name = 'content';
     @Input() theme = 'silver';
-    editor: any;
-    //   baseUrl = 'tinymce/';
     @Output() onDataChanged = new EventEmitter<any>();
     @Output() onDataBlur = new EventEmitter<any>();
     @Output() onKeyup = new EventEmitter<any>();
-    isLoading = false;
-    @Input() content: string;
+    @Input() content?: string;
     @Input() config: any;
+    isLoading = false;
+    editor: any;
+    //   baseUrl = 'tinymce/';
 
     constructor(private cd: ChangeDetectorRef) {
         console.log('constructing editor...');
@@ -115,7 +115,7 @@ export class TinyEditorComponent implements OnInit, OnDestroy {
         console.log(this.config);
     }
 
-    private fileUploadCallback(callback: (arg0: string | ArrayBuffer, arg1: { title: string }) => void, meta: { filetype: string }) {
+    private fileUploadCallback(callback: (arg0: string | ArrayBuffer | null, arg1: { title: string }) => void, meta: { filetype: string }) {
         if (meta.filetype === 'image') {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');

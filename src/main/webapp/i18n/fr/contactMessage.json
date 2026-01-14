@@ -1,0 +1,31 @@
+{
+  "jojoaddisonApp": {
+    "contactMessage": {
+      "home": {
+        "title": "ContactMessages",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Contact Message",
+        "createOrEditLabel": "Créer ou éditer un Contact Message",
+        "search": "Recherche pour Contact Message",
+        "notFound": "Aucun Contact Message trouvé"
+      },
+      "created": "Un nouveau Contact Message a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Contact Message avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Contact Message avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Contact Message {{ id }} ?"
+      },
+      "detail": {
+        "title": "Contact Message"
+      },
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "title": "Title",
+      "message": "Message",
+      "createdDate": "Created Date",
+      "messages": "Messages",
+      "contact": "Contact"
+    }
+  }
+}

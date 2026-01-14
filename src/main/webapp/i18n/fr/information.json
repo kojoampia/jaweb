@@ -1,0 +1,31 @@
+{
+  "jojoaddisonApp": {
+    "information": {
+      "home": {
+        "title": "Information",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Information",
+        "createOrEditLabel": "Créer ou éditer un Information",
+        "notFound": "Aucun Information trouvé"
+      },
+      "created": "Un nouveau Information a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Information avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Information avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Information {{ id }} ?"
+      },
+      "detail": {
+        "title": "Information"
+      },
+      "id": "ID",
+      "content": "Content",
+      "title": "Title",
+      "brief": "Brief",
+      "linkText": "Link Text",
+      "link": "Link",
+      "url": "Url",
+      "document": "Document",
+      "documentContentType": "Document Content Type"
+    }
+  }
+}

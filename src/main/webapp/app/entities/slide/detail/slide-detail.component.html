@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (slide()) {
+      <div>
+        <h2 data-cy="slideDetailsHeading"><span jhiTranslate="jojoaddisonApp.slide.detail.title">Slide</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ slide()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.title">Title</span></dt>
+          <dd>
+            <span>{{ slide()!.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.description">Description</span></dt>
+          <dd>
+            <span>{{ slide()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.url">Url</span></dt>
+          <dd>
+            <span>{{ slide()!.url }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.photo">Photo</span></dt>
+          <dd>
+            @if (slide()!.photo) {
+              <div>
+                <a (click)="openFile(slide()!.photo ?? '', slide()!.photoContentType)">
+                  <img [src]="'data:' + slide()!.photoContentType + ';base64,' + slide()!.photo" style="max-width: 100%" alt="slide" />
+                </a>
+                {{ slide()!.photoContentType }}, {{ byteSize(slide()!.photo ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ slide()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.modifiedDate">Modified Date</span></dt>
+          <dd>
+            <span>{{ slide()!.modifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ slide()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.modifiedBy">Modified By</span></dt>
+          <dd>
+            <span>{{ slide()!.modifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.about">About</span></dt>
+          <dd>
+            @if (slide()!.about) {
+              <div>
+                <a [routerLink]="['/about', slide()!.about?.id, 'view']">{{ slide()!.about?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.slide.blog">Blog</span></dt>
+          <dd>
+            @if (slide()!.blog) {
+              <div>
+                <a [routerLink]="['/blog', slide()!.blog?.id, 'view']">{{ slide()!.blog?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/slide', slide()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "jojoaddisonApp": {
+    "privilege": {
+      "home": {
+        "title": "Privileges",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Privilege",
+        "createOrEditLabel": "Créer ou éditer un Privilege",
+        "notFound": "Aucun Privilege trouvé"
+      },
+      "created": "Un nouveau Privilege a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Privilege avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Privilege avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Privilege {{ id }} ?"
+      },
+      "detail": {
+        "title": "Privilege"
+      },
+      "id": "ID",
+      "name": "Name",
+      "createdDate": "Created Date",
+      "createdBy": "Created By"
+    }
+  }
+}

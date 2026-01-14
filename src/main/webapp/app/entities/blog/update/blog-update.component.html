@@ -1,0 +1,148 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-blog-heading" data-cy="BlogCreateUpdateHeading" jhiTranslate="jojoaddisonApp.blog.home.createOrEditLabel">
+        Create or edit a Blog
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="jojoaddisonApp.blog.id">ID</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_title" jhiTranslate="jojoaddisonApp.blog.title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_content" jhiTranslate="jojoaddisonApp.blog.content">Content</label>
+          <input type="text" class="form-control" name="content" id="field_content" data-cy="content" formControlName="content" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdDate" jhiTranslate="jojoaddisonApp.blog.createdDate">Created Date</label>
+          <div class="d-flex">
+            <input
+              id="field_createdDate"
+              data-cy="createdDate"
+              type="datetime-local"
+              class="form-control"
+              name="createdDate"
+              formControlName="createdDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_modifiedDate" jhiTranslate="jojoaddisonApp.blog.modifiedDate">Modified Date</label>
+          <div class="d-flex">
+            <input
+              id="field_modifiedDate"
+              data-cy="modifiedDate"
+              type="datetime-local"
+              class="form-control"
+              name="modifiedDate"
+              formControlName="modifiedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lastModifiedBy" jhiTranslate="jojoaddisonApp.blog.lastModifiedBy">Last Modified By</label>
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_url" jhiTranslate="jojoaddisonApp.blog.url">Url</label>
+          <input type="text" class="form-control" name="url" id="field_url" data-cy="url" formControlName="url" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_document" jhiTranslate="jojoaddisonApp.blog.document">Document</label>
+          <div>
+            @if (editForm.get('document')!.value) {
+              <div class="form-text text-danger clearfix">
+                <a
+                  class="pull-start"
+                  (click)="openFile(editForm.get('document')!.value!, editForm.get('documentContentType')!.value!)"
+                  jhiTranslate="entity.action.open"
+                  >Open</a
+                ><br />
+                <span class="pull-start"
+                  >{{ editForm.get('documentContentType')!.value }}, {{ byteSize(editForm.get('document')!.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="editForm.patchValue({ document: undefined, documentContentType: undefined })"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_document"
+              data-cy="document"
+              (change)="setFileData($event, 'document', false)"
+              jhiTranslate="entity.action.addblob"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="document" id="field_document" data-cy="document" formControlName="document" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="documentContentType"
+            id="field_documentContentType"
+            formControlName="documentContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_documentContentType" jhiTranslate="jojoaddisonApp.blog.documentContentType"
+            >Document Content Type</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="documentContentType"
+            id="field_documentContentType"
+            data-cy="documentContentType"
+            formControlName="documentContentType"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 package io.jojoaddison.repository;
 
-import io.jojoaddison.domain.Authority;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import io.jojoaddison.domain.Authority;
 
 /**
  * Spring Data MongoDB repository for the Authority entity.

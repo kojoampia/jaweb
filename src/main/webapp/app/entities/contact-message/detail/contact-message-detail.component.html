@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (contactMessage()) {
+      <div>
+        <h2 data-cy="contactMessageDetailsHeading">
+          <span jhiTranslate="jojoaddisonApp.contactMessage.detail.title">Contact Message</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ contactMessage()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.contactMessage.name">Name</span></dt>
+          <dd>
+            <span>{{ contactMessage()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.contactMessage.email">Email</span></dt>
+          <dd>
+            <span>{{ contactMessage()!.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.contactMessage.title">Title</span></dt>
+          <dd>
+            <span>{{ contactMessage()!.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.contactMessage.message">Message</span></dt>
+          <dd>
+            <span>{{ contactMessage()!.message }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.contactMessage.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ contactMessage()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.contactMessage.contact">Contact</span></dt>
+          <dd>
+            @if (contactMessage()!.contact) {
+              <div>
+                <a [routerLink]="['/contact-message', contactMessage()!.contact?.id, 'view']">{{ contactMessage()!.contact?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/contact-message', contactMessage()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

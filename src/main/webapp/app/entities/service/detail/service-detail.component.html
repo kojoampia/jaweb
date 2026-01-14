@@ -1,0 +1,90 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (service()) {
+      <div>
+        <h2 data-cy="serviceDetailsHeading"><span jhiTranslate="jojoaddisonApp.service.detail.title">Service</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ service()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.name">Name</span></dt>
+          <dd>
+            <span>{{ service()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.description">Description</span></dt>
+          <dd>
+            <span>{{ service()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.photo">Photo</span></dt>
+          <dd>
+            @if (service()!.photo) {
+              <div>
+                <a (click)="openFile(service()!.photo ?? '', service()!.photoContentType)">
+                  <img
+                    [src]="'data:' + service()!.photoContentType + ';base64,' + service()!.photo"
+                    style="max-width: 100%"
+                    alt="service"
+                  />
+                </a>
+                {{ service()!.photoContentType }}, {{ byteSize(service()!.photo ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ service()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.modifiedDate">Modified Date</span></dt>
+          <dd>
+            <span>{{ service()!.modifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ service()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.modifiedBy">Modified By</span></dt>
+          <dd>
+            <span>{{ service()!.modifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.contact">Contact</span></dt>
+          <dd>
+            <span>{{ service()!.contact }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.url">Url</span></dt>
+          <dd>
+            <span>{{ service()!.url }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.document">Document</span></dt>
+          <dd>
+            @if (service()!.document) {
+              <div>
+                <a (click)="openFile(service()!.document ?? '', service()!.documentContentType)" jhiTranslate="entity.action.open">Open</a>
+                {{ service()!.documentContentType }}, {{ byteSize(service()!.document ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.service.documentContentType">Document Content Type</span></dt>
+          <dd>
+            <span>{{ service()!.documentContentType }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/service', service()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

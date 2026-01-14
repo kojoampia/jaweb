@@ -1,0 +1,33 @@
+{
+  "jojoaddisonApp": {
+    "slide": {
+      "home": {
+        "title": "Slides",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Slide erstellen",
+        "createOrEditLabel": "Slide erstellen oder bearbeiten",
+        "notFound": "Keine Slides gefunden"
+      },
+      "created": "Slide erstellt mit ID {{ param }}",
+      "updated": "Slide aktualisiert mit ID {{ param }}",
+      "deleted": "Slide gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Slide {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Slide"
+      },
+      "id": "ID",
+      "title": "Title",
+      "description": "Description",
+      "url": "Url",
+      "photo": "Photo",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "createdBy": "Created By",
+      "modifiedBy": "Modified By",
+      "about": "About",
+      "blog": "Blog"
+    }
+  }
+}

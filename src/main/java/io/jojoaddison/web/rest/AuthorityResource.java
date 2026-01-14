@@ -1,19 +1,25 @@
 package io.jojoaddison.web.rest;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.jojoaddison.domain.Authority;
 import io.jojoaddison.repository.AuthorityRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing Authority.
@@ -93,7 +99,7 @@ public class AuthorityResource {
     public ResponseEntity<Authority> getAuthority(@PathVariable String id) {
         log.debug("REST request to get Authority : {}", id);
         Optional<Authority> authority = authorityRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(authority);
+        return authority.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

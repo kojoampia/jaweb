@@ -1,0 +1,44 @@
+{
+  "jojoaddisonApp": {
+    "staff": {
+      "home": {
+        "title": "Staff",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Staff erstellen",
+        "createOrEditLabel": "Staff erstellen oder bearbeiten",
+        "notFound": "Keine Staff gefunden"
+      },
+      "created": "Staff erstellt mit ID {{ param }}",
+      "updated": "Staff aktualisiert mit ID {{ param }}",
+      "deleted": "Staff gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Staff {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Staff"
+      },
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "dateOfBirth": "Date Of Birth",
+      "email": "Email",
+      "digitalAddress": "Digital Address",
+      "streetAddress": "Street Address",
+      "postalAddress": "Postal Address",
+      "town": "Town",
+      "district": "District",
+      "city": "City",
+      "region": "Region",
+      "country": "Country",
+      "digitalProfile": "Digital Profile",
+      "accountNumber": "Account Number",
+      "accountType": "Account Type",
+      "documents": "Documents",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "lastModifiedBy": "Last Modified By",
+      "documentType": "Document Type",
+      "credential": "Credential"
+    }
+  }
+}

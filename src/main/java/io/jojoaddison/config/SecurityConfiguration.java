@@ -1,8 +1,5 @@
 package io.jojoaddison.config;
 
-import io.jojoaddison.security.*;
-import io.jojoaddison.security.jwt.*;
-
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +9,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,13 +21,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
-import javax.annotation.PostConstruct;
+import io.jojoaddison.security.AuthoritiesConstants;
+import io.jojoaddison.security.jwt.JWTConfigurer;
+import io.jojoaddison.security.jwt.TokenProvider;
+import jakarta.annotation.PostConstruct;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Import(SecurityProblemSupport.class)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -60,10 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
     }
 
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
 
     @Bean
@@ -71,64 +71,53 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-            .antMatchers(HttpMethod.OPTIONS, "/**")
-            .antMatchers("/app/**/*.{js,html}")
-            .antMatchers("/i18n/**")
-            .antMatchers("/content/**")
-            .antMatchers("/tinymce/**")
-            .antMatchers("/swagger-ui/index.html")
-            .antMatchers("/test/**");
-    }
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf()
-            .disable()
+            .csrf(AbstractHttpConfigurer::disable)
             .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling()
-            .authenticationEntryPoint(problemSupport)
-            .accessDeniedHandler(problemSupport)
-        .and()
-            .headers()
-            .frameOptions()
-            .disable()
-        .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-            .authorizeRequests()
-            .antMatchers("/api/register").permitAll()
-            .antMatchers("/api/activate").permitAll()
-            .antMatchers("/api/authenticate").permitAll()
-            .antMatchers("/api/account/reset-password/init").permitAll()
-            .antMatchers("/api/account/reset-password/finish").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/homes/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/blogs/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/abouts/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/contact-messages/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/imprints/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/slides/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/services/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/partners/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/portfolios/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/careers/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/staff/**").permitAll()
-            .antMatchers(HttpMethod.PUT, "/api/staff/**").hasAuthority(AuthoritiesConstants.STAFF)
-            .antMatchers("/api/**").authenticated()
-            .antMatchers("/websocket/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/websocket/info/**").permitAll()
-            .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers(HttpMethod.GET, "/management/info").permitAll()
-            .antMatchers("/management/health").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-        .and()
+            .exceptionHandling(exceptionHandling ->
+                exceptionHandling
+                    .authenticationEntryPoint(problemSupport)
+                    .accessDeniedHandler(problemSupport)
+            )
+            .headers(headers ->
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+            )
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authorizeHttpRequests(authz ->
+                authz
+                    .requestMatchers("/api/register").permitAll()
+                    .requestMatchers("/api/activate").permitAll()
+                    .requestMatchers("/api/authenticate").permitAll()
+                    .requestMatchers("/api/account/reset-password/init").permitAll()
+                    .requestMatchers("/api/account/reset-password/finish").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/homes/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/blogs/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/abouts/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/contact-messages/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/imprints/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/slides/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/services/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/partners/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/portfolios/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/careers/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/staff/**").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/api/staff/**").hasAuthority(AuthoritiesConstants.STAFF)
+                    .requestMatchers("/api/**").authenticated()
+                    .requestMatchers("/websocket/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/websocket/info/**").permitAll()
+                    .requestMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(HttpMethod.GET, "/management/info").permitAll()
+                    .requestMatchers("/management/health").hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            )
             .apply(securityConfigurerAdapter());
 
+        return http.build();
     }
 
     private JWTConfigurer securityConfigurerAdapter() {

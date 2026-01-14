@@ -1,11 +1,11 @@
 package io.jojoaddison.service;
 
-import io.jojoaddison.JojoaddisonApp;
-import io.jojoaddison.config.Constants;
-import io.jojoaddison.domain.User;
-import io.jojoaddison.repository.UserRepository;
-import io.jojoaddison.service.dto.UserDTO;
-import io.jojoaddison.service.util.RandomUtil;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -17,14 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.config.Constants;
+import io.jojoaddison.domain.User;
+import io.jojoaddison.repository.UserRepository;
+import io.jojoaddison.service.dto.UserDTO;
+import io.jojoaddison.service.util.RandomUtil;
 
 /**
  * Test class for the UserResource REST controller.

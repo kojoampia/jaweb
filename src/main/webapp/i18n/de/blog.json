@@ -1,0 +1,33 @@
+{
+  "jojoaddisonApp": {
+    "blog": {
+      "home": {
+        "title": "Blogs",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Blog erstellen",
+        "createOrEditLabel": "Blog erstellen oder bearbeiten",
+        "search": "Suche nach Blog",
+        "notFound": "Keine Blogs gefunden"
+      },
+      "created": "Blog erstellt mit ID {{ param }}",
+      "updated": "Blog aktualisiert mit ID {{ param }}",
+      "deleted": "Blog gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Blog {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Blog"
+      },
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "lastModifiedBy": "Last Modified By",
+      "url": "Url",
+      "document": "Document",
+      "documentContentType": "Document Content Type",
+      "slides": "Slides"
+    }
+  }
+}

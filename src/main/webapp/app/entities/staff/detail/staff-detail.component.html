@@ -1,0 +1,134 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (staff()) {
+      <div>
+        <h2 data-cy="staffDetailsHeading"><span jhiTranslate="jojoaddisonApp.staff.detail.title">Staff</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ staff()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.firstName">First Name</span></dt>
+          <dd>
+            <span>{{ staff()!.firstName }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.lastName">Last Name</span></dt>
+          <dd>
+            <span>{{ staff()!.lastName }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.dateOfBirth">Date Of Birth</span></dt>
+          <dd>
+            <span>{{ staff()!.dateOfBirth | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.email">Email</span></dt>
+          <dd>
+            <span>{{ staff()!.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.digitalAddress">Digital Address</span></dt>
+          <dd>
+            <span>{{ staff()!.digitalAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.streetAddress">Street Address</span></dt>
+          <dd>
+            <span>{{ staff()!.streetAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.postalAddress">Postal Address</span></dt>
+          <dd>
+            <span>{{ staff()!.postalAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.town">Town</span></dt>
+          <dd>
+            <span>{{ staff()!.town }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.district">District</span></dt>
+          <dd>
+            <span>{{ staff()!.district }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.city">City</span></dt>
+          <dd>
+            <span>{{ staff()!.city }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.region">Region</span></dt>
+          <dd>
+            <span>{{ staff()!.region }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.country">Country</span></dt>
+          <dd>
+            <span>{{ staff()!.country }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.digitalProfile">Digital Profile</span></dt>
+          <dd>
+            @if (staff()!.digitalProfile) {
+              <div>
+                <a (click)="openFile(staff()!.digitalProfile ?? '', staff()!.digitalProfileContentType)">
+                  <img
+                    [src]="'data:' + staff()!.digitalProfileContentType + ';base64,' + staff()!.digitalProfile"
+                    style="max-width: 100%"
+                    alt="staff"
+                  />
+                </a>
+                {{ staff()!.digitalProfileContentType }}, {{ byteSize(staff()!.digitalProfile ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.accountNumber">Account Number</span></dt>
+          <dd>
+            <span>{{ staff()!.accountNumber }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.accountType">Account Type</span></dt>
+          <dd>
+            <span>{{ staff()!.accountType }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.documents">Documents</span></dt>
+          <dd>
+            @if (staff()!.documents) {
+              <div>
+                <a (click)="openFile(staff()!.documents ?? '', staff()!.documentsContentType)" jhiTranslate="entity.action.open">Open</a>
+                {{ staff()!.documentsContentType }}, {{ byteSize(staff()!.documents ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ staff()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.modifiedDate">Modified Date</span></dt>
+          <dd>
+            <span>{{ staff()!.modifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ staff()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.documentType">Document Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'jojoaddisonApp.DocumentType.' + (staff()!.documentType ?? 'null')">{{
+              { null: '', NATIONAL_ID: 'NATIONAL_ID', PASSPORT: 'PASSPORT', DRIVING_LICENSE: 'DRIVING_LICENSE', VOTER_ID: 'VOTER_ID' }[
+                staff()!.documentType ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.staff.credential">Credential</span></dt>
+          <dd>
+            <span>{{ staff()!.credential?.login }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/staff', staff()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

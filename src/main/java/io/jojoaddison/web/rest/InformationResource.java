@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Information;
 import io.jojoaddison.repository.InformationRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
@@ -101,7 +100,7 @@ public class InformationResource {
     public ResponseEntity<Information> getInformation(@PathVariable String id) {
         log.debug("REST request to get Information : {}", id);
         Optional<Information> information = informationRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(information);
+        return information.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

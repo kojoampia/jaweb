@@ -1,0 +1,46 @@
+{
+  "jojoaddisonApp": {
+    "contact": {
+      "home": {
+        "title": "Contacts",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Contact erstellen",
+        "createOrEditLabel": "Contact erstellen oder bearbeiten",
+        "notFound": "Keine Contacts gefunden"
+      },
+      "created": "Contact erstellt mit ID {{ param }}",
+      "updated": "Contact aktualisiert mit ID {{ param }}",
+      "deleted": "Contact gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Contact {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Contact"
+      },
+      "id": "ID",
+      "title": "Title",
+      "address": "Address",
+      "street": "Street",
+      "code": "Code",
+      "city": "City",
+      "state": "State",
+      "region": "Region",
+      "country": "Country",
+      "telephone": "Telephone",
+      "email": "Email",
+      "whatsapp": "Whatsapp",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "google": "Google",
+      "youtube": "Youtube",
+      "lastModified": "Last Modified",
+      "lastModifiedBy": "Last Modified By",
+      "language": "Language",
+      "appointment": "Appointment",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "image": "Image",
+      "url": "Url"
+    }
+  }
+}

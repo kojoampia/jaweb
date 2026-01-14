@@ -1,0 +1,34 @@
+{
+  "jojoaddisonApp": {
+    "partner": {
+      "home": {
+        "title": "Partners",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Partner erstellen",
+        "createOrEditLabel": "Partner erstellen oder bearbeiten",
+        "notFound": "Keine Partners gefunden"
+      },
+      "created": "Partner erstellt mit ID {{ param }}",
+      "updated": "Partner aktualisiert mit ID {{ param }}",
+      "deleted": "Partner gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Partner {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Partner"
+      },
+      "id": "ID",
+      "name": "Name",
+      "link": "Link",
+      "logo": "Logo",
+      "country": "Country",
+      "location": "Location",
+      "postCode": "Post Code",
+      "streetAddress": "Street Address",
+      "email": "Email",
+      "contactPerson": "Contact Person",
+      "logoUrl": "Logo Url",
+      "createdDate": "Created Date"
+    }
+  }
+}

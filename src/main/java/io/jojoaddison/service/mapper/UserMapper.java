@@ -1,13 +1,16 @@
 package io.jojoaddison.service.mapper;
 
-import io.jojoaddison.domain.Authority;
-import io.jojoaddison.domain.User;
-import io.jojoaddison.service.dto.UserDTO;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import io.jojoaddison.domain.Authority;
+import io.jojoaddison.domain.User;
+import io.jojoaddison.service.dto.UserDTO;
 
 /**
  * Mapper for the entity User and its DTO called UserDTO.

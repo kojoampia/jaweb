@@ -1,0 +1,32 @@
+{
+  "jojoaddisonApp": {
+    "portfolio": {
+      "home": {
+        "title": "Portfolios",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Portfolio erstellen",
+        "createOrEditLabel": "Portfolio erstellen oder bearbeiten",
+        "notFound": "Keine Portfolios gefunden"
+      },
+      "created": "Portfolio erstellt mit ID {{ param }}",
+      "updated": "Portfolio aktualisiert mit ID {{ param }}",
+      "deleted": "Portfolio gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Portfolio {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Portfolio"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "url": "Url",
+      "photo": "Photo",
+      "status": "Status",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "createdBy": "Created By",
+      "modifiedBy": "Modified By"
+    }
+  }
+}

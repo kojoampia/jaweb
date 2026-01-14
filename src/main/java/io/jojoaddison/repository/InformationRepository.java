@@ -1,9 +1,9 @@
 package io.jojoaddison.repository;
 
-import io.jojoaddison.domain.Information;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+
+import io.jojoaddison.domain.Information;
 
 
 /**

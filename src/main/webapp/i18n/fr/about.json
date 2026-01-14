@@ -1,0 +1,30 @@
+{
+  "jojoaddisonApp": {
+    "about": {
+      "home": {
+        "title": "Abouts",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau About",
+        "createOrEditLabel": "Créer ou éditer un About",
+        "notFound": "Aucun About trouvé"
+      },
+      "created": "Un nouveau About a été créé avec l'identifiant {{ param }}",
+      "updated": "Le About avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le About avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le About {{ id }} ?"
+      },
+      "detail": {
+        "title": "About"
+      },
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "language": "Language",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "lastModifiedBy": "Last Modified By",
+      "slides": "Slides"
+    }
+  }
+}

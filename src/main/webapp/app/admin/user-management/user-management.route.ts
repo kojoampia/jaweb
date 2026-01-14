@@ -1,68 +1,50 @@
-import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
-import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, Routes, ResolveFn } from '@angular/router';
+import { of } from 'rxjs';
 
-import { AccountService, User, UserService } from 'app/core';
-import { UserMgmtComponent } from './user-management.component';
-import { UserMgmtDetailComponent } from './user-management-detail.component';
-import { UserMgmtUpdateComponent } from './user-management-update.component';
+import { IUser } from './user-management.model';
+import { UserManagementService } from './service/user-management.service';
+import UserManagementComponent from './list/user-management.component';
+import UserManagementDetailComponent from './detail/user-management-detail.component';
+import UserManagementUpdateComponent from './update/user-management-update.component';
 
-@Injectable({ providedIn: 'root' })
-export class UserResolve implements CanActivate {
-    constructor(private accountService: AccountService) {}
+export const UserManagementResolve: ResolveFn<IUser | null> = (route: ActivatedRouteSnapshot) => {
+  const login = route.paramMap.get('login');
+  if (login) {
+    return inject(UserManagementService).find(login);
+  }
+  return of(null);
+};
 
-    canActivate() {
-        return this.accountService.identity().then(account => this.accountService.hasAnyAuthority(['ROLE_ADMIN']));
-    }
-}
-
-@Injectable({ providedIn: 'root' })
-export class UserMgmtResolve implements Resolve<any> {
-    constructor(private service: UserService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const id = route.params['login'] ? route.params['login'] : null;
-        if (id) {
-            return this.service.find(id);
-        }
-        return new User();
-    }
-}
-
-export const userMgmtRoute: Routes = [
-    {
-        path: 'user-management',
-        component: UserMgmtComponent,
-        resolve: {
-            pagingParams: JhiResolvePagingParams
-        },
-        data: {
-            pageTitle: 'Users',
-            defaultSort: 'id,asc'
-        }
+const userManagementRoute: Routes = [
+  {
+    path: '',
+    component: UserManagementComponent,
+    data: {
+      defaultSort: 'id,asc',
     },
-    {
-        path: 'user-management/:login/view',
-        component: UserMgmtDetailComponent,
-        resolve: {
-            user: UserMgmtResolve
-        },
-        data: {
-            pageTitle: 'Users'
-        }
+  },
+  {
+    path: ':login/view',
+    component: UserManagementDetailComponent,
+    resolve: {
+      user: UserManagementResolve,
     },
-    {
-        path: 'user-management/new',
-        component: UserMgmtUpdateComponent,
-        resolve: {
-            user: UserMgmtResolve
-        }
+  },
+  {
+    path: 'new',
+    component: UserManagementUpdateComponent,
+    resolve: {
+      user: UserManagementResolve,
     },
-    {
-        path: 'user-management/:login/edit',
-        component: UserMgmtUpdateComponent,
-        resolve: {
-            user: UserMgmtResolve
-        }
-    }
+  },
+  {
+    path: ':login/edit',
+    component: UserManagementUpdateComponent,
+    resolve: {
+      user: UserManagementResolve,
+    },
+  },
 ];
+
+export default userManagementRoute;

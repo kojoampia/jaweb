@@ -1,11 +1,13 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.JojoaddisonApp;
-import io.jojoaddison.domain.User;
-import io.jojoaddison.repository.UserRepository;
-import io.jojoaddison.security.jwt.TokenProvider;
-import io.jojoaddison.web.rest.errors.ExceptionTranslator;
-import io.jojoaddison.web.rest.vm.LoginVM;
+import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,13 +19,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.isEmptyString;
-import static org.hamcrest.Matchers.not;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.domain.User;
+import io.jojoaddison.repository.UserRepository;
+import io.jojoaddison.security.jwt.TokenProvider;
+import io.jojoaddison.web.rest.errors.ExceptionTranslator;
+import io.jojoaddison.web.rest.vm.LoginVM;
 
 /**
  * Test class for the UserJWTController REST controller.

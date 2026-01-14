@@ -1,6 +1,20 @@
 package io.jojoaddison.web.rest;
 
 
+import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.jojoaddison.domain.User;
 import io.jojoaddison.repository.UserRepository;
 import io.jojoaddison.security.SecurityUtils;
@@ -8,19 +22,15 @@ import io.jojoaddison.service.MailService;
 import io.jojoaddison.service.UserService;
 import io.jojoaddison.service.dto.PasswordChangeDTO;
 import io.jojoaddison.service.dto.UserDTO;
-import io.jojoaddison.web.rest.errors.*;
+import io.jojoaddison.web.rest.errors.EmailAlreadyUsedException;
+import io.jojoaddison.web.rest.errors.EmailNotFoundException;
+import io.jojoaddison.web.rest.errors.InternalServerErrorException;
+import io.jojoaddison.web.rest.errors.InvalidPasswordException;
+import io.jojoaddison.web.rest.errors.LoginAlreadyUsedException;
 import io.jojoaddison.web.rest.vm.KeyAndPasswordVM;
 import io.jojoaddison.web.rest.vm.ManagedUserVM;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 /**
  * REST controller for managing the current user's account.

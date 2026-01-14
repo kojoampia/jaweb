@@ -17,11 +17,13 @@ echo "building..."
 echo "done."
 
 echo "tagging..."
-docker tag jaweb docker-registry.jojoaddison.net/jaweb:$version
+docker tag jaweb docker.jojoaddison.net/jaweb:latest
+docker tag jaweb docker.jojoaddison.net/jaweb:$version
 docker image ls | grep 'jaweb'
 echo "done."
 
 echo "pushing..."
-docker push docker-registry.jojoaddison.net/jaweb:$version
+docker push docker.jojoaddison.net/jaweb:latest
+docker push docker.jojoaddison.net/jaweb:$version
 echo "done."
 echo "build and deploy completed."

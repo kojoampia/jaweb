@@ -1,14 +1,16 @@
 package io.jojoaddison.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Map;
+import java.util.Objects;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator.

@@ -1,22 +1,28 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDateMomentAdapter } from './util/datepicker-adapter';
-import { JojoaddisonSharedLibsModule, JojoaddisonSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
-import { WidgetsModule } from 'app/widgets/widgets.module';
+import FindLanguageFromKeyPipe from './language/find-language-from-key.pipe';
+import TranslateDirective from './language/translate.directive';
+import { AlertComponent } from './alert/alert.component';
+import { AlertErrorComponent } from './alert/alert-error.component';
 
+/**
+ * Application wide Module
+ */
 @NgModule({
-    imports: [JojoaddisonSharedLibsModule, JojoaddisonSharedCommonModule, WidgetsModule],
-    declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
-    providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
-    entryComponents: [JhiLoginModalComponent],
-    exports: [JojoaddisonSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective, WidgetsModule],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [AlertComponent, AlertErrorComponent, FindLanguageFromKeyPipe, TranslateDirective],
+  exports: [
+    CommonModule,
+    NgbModule,
+    FontAwesomeModule,
+    AlertComponent,
+    AlertErrorComponent,
+    TranslateModule,
+    FindLanguageFromKeyPipe,
+    TranslateDirective,
+  ],
 })
-export class JojoaddisonSharedModule {
-    static forRoot() {
-        return {
-            ngModule: JojoaddisonSharedModule
-        };
-    }
-}
+export default class SharedModule {}

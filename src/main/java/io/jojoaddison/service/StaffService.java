@@ -1,16 +1,15 @@
 package io.jojoaddison.service;
 
-import io.jojoaddison.domain.Staff;
-import io.jojoaddison.repository.StaffRepository;
-import io.jojoaddison.service.dto.UserDTO;
+import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import io.jojoaddison.domain.Staff;
+import io.jojoaddison.repository.StaffRepository;
+import io.jojoaddison.service.dto.UserDTO;
 
 /**
  * Service Implementation for managing Staff.

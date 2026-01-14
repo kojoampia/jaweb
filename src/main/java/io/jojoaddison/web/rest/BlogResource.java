@@ -24,11 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Blog;
 import io.jojoaddison.repository.BlogRepository;
-import io.jojoaddison.repository.UserRepository;
-import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.service.UserService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
@@ -124,7 +121,7 @@ public class BlogResource {
     @GetMapping("/blogs/recent")
     public ResponseEntity<List<Blog>> getRecentBlogs(Pageable pageable) {
         log.debug("REST request to get a page of Blogs");
-        ZonedDateTime recent = ZonedDateTime.now().minusDays(7);
+        ZonedDateTime recent = ZonedDateTime.now().minusDays(365);
         Page<Blog> page = blogRepository.findByModifiedDateAfter(recent, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/blogs/recent");
         List<Blog> blogs = page.getContent().stream()
@@ -190,7 +187,7 @@ public class BlogResource {
     public ResponseEntity<Blog> getBlog(@PathVariable String id) {
         log.debug("REST request to get Blog : {}", id);
         Optional<Blog> blog = blogRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(blog);
+        return blog.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

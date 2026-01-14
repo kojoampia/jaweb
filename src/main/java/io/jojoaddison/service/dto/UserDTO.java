@@ -1,17 +1,16 @@
 package io.jojoaddison.service.dto;
 
-import io.jojoaddison.config.Constants;
-
-import io.jojoaddison.domain.Authority;
-import io.jojoaddison.domain.User;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
-import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import io.jojoaddison.config.Constants;
+import io.jojoaddison.domain.Authority;
+import io.jojoaddison.domain.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * A DTO representing a user, with his authorities.

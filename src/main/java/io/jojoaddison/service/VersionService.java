@@ -1,15 +1,15 @@
 package io.jojoaddison.service;
 
-import io.jojoaddison.domain.Version;
-import io.jojoaddison.repository.VersionRepository;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import io.jojoaddison.domain.Version;
+import io.jojoaddison.repository.VersionRepository;
 
 /**
  * Service Implementation for managing Version.

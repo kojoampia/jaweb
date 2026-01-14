@@ -5,8 +5,8 @@
             "relationshipName": "slides",
             "otherEntityName": "slide",
             "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "blog",
-            "otherEntityRelationshipNameUndefined": false
+            "otherEntityRelationshipName": false,
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [

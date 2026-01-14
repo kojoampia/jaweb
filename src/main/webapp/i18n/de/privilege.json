@@ -1,0 +1,26 @@
+{
+  "jojoaddisonApp": {
+    "privilege": {
+      "home": {
+        "title": "Privileges",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Privilege erstellen",
+        "createOrEditLabel": "Privilege erstellen oder bearbeiten",
+        "notFound": "Keine Privileges gefunden"
+      },
+      "created": "Privilege erstellt mit ID {{ param }}",
+      "updated": "Privilege aktualisiert mit ID {{ param }}",
+      "deleted": "Privilege gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Privilege {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Privilege"
+      },
+      "id": "ID",
+      "name": "Name",
+      "createdDate": "Created Date",
+      "createdBy": "Created By"
+    }
+  }
+}

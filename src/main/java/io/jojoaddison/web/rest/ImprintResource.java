@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Imprint;
 import io.jojoaddison.repository.ImprintRepository;
 import io.jojoaddison.security.SecurityUtils;
@@ -133,7 +132,7 @@ public class ImprintResource {
     public ResponseEntity<Imprint> getImprint(@PathVariable String id) {
         log.debug("REST request to get Imprint : {}", id);
         Optional<Imprint> imprint = imprintRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(imprint);
+        return imprint.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

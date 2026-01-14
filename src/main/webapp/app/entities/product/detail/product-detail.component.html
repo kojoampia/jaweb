@@ -1,0 +1,90 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (product()) {
+      <div>
+        <h2 data-cy="productDetailsHeading"><span jhiTranslate="jojoaddisonApp.product.detail.title">Product</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ product()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.name">Name</span></dt>
+          <dd>
+            <span>{{ product()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.description">Description</span></dt>
+          <dd>
+            <span>{{ product()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.price">Price</span></dt>
+          <dd>
+            <span>{{ product()!.price }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.photo">Photo</span></dt>
+          <dd>
+            @if (product()!.photo) {
+              <div>
+                <a (click)="openFile(product()!.photo ?? '', product()!.photoContentType)">
+                  <img
+                    [src]="'data:' + product()!.photoContentType + ';base64,' + product()!.photo"
+                    style="max-width: 100%"
+                    alt="product"
+                  />
+                </a>
+                {{ product()!.photoContentType }}, {{ byteSize(product()!.photo ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.category">Category</span></dt>
+          <dd>
+            <span>{{ product()!.category }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ product()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.modifiedDate">Modified Date</span></dt>
+          <dd>
+            <span>{{ product()!.modifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ product()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.url">Url</span></dt>
+          <dd>
+            <span>{{ product()!.url }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.document">Document</span></dt>
+          <dd>
+            @if (product()!.document) {
+              <div>
+                <a (click)="openFile(product()!.document ?? '', product()!.documentContentType)" jhiTranslate="entity.action.open">Open</a>
+                {{ product()!.documentContentType }}, {{ byteSize(product()!.document ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.product.documentContentType">Document Content Type</span></dt>
+          <dd>
+            <span>{{ product()!.documentContentType }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/product', product()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

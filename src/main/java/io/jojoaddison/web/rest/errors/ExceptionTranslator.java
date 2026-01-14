@@ -1,7 +1,13 @@
 package io.jojoaddison.web.rest.errors;
 
-import io.jojoaddison.web.rest.util.HeaderUtil;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.zalando.problem.Problem;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -10,18 +16,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.zalando.problem.DefaultProblem;
-import org.zalando.problem.Problem;
 import org.zalando.problem.ProblemBuilder;
 import org.zalando.problem.Status;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+import io.jojoaddison.web.rest.util.HeaderUtil;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
@@ -77,22 +78,22 @@ public class ExceptionTranslator implements ProblemHandling {
             .map(f -> new FieldErrorVM(f.getObjectName(), f.getField(), f.getCode()))
             .collect(Collectors.toList());
 
-        Problem problem = Problem.builder()
+        ProblemBuilder builder = Problem.builder()
             .withType(ErrorConstants.CONSTRAINT_VIOLATION_TYPE)
             .withTitle("Method argument not valid")
             .withStatus(defaultConstraintViolationStatus())
             .with(MESSAGE_KEY, ErrorConstants.ERR_VALIDATION)
-            .with(FIELD_ERRORS_KEY, fieldErrors)
-            .build();
+            .with(FIELD_ERRORS_KEY, fieldErrors);
+        Problem problem = builder.build();
         return create(ex, problem, request);
     }
 
     @ExceptionHandler
     public ResponseEntity<Problem> handleNoSuchElementException(NoSuchElementException ex, NativeWebRequest request) {
-        Problem problem = Problem.builder()
+        ProblemBuilder builder = Problem.builder()
             .withStatus(Status.NOT_FOUND)
-            .with(MESSAGE_KEY, ErrorConstants.ENTITY_NOT_FOUND_TYPE)
-            .build();
+            .with(MESSAGE_KEY, ErrorConstants.ENTITY_NOT_FOUND_TYPE);
+        Problem problem = builder.build();
         return create(ex, problem, request);
     }
 
@@ -103,10 +104,10 @@ public class ExceptionTranslator implements ProblemHandling {
 
     @ExceptionHandler
     public ResponseEntity<Problem> handleConcurrencyFailure(ConcurrencyFailureException ex, NativeWebRequest request) {
-        Problem problem = Problem.builder()
+        ProblemBuilder builder = Problem.builder()
             .withStatus(Status.CONFLICT)
-            .with(MESSAGE_KEY, ErrorConstants.ERR_CONCURRENCY_FAILURE)
-            .build();
+            .with(MESSAGE_KEY, ErrorConstants.ERR_CONCURRENCY_FAILURE);
+        Problem problem = builder.build();
         return create(ex, problem, request);
     }
 }

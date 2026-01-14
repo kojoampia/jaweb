@@ -1,0 +1,164 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-partner-heading" data-cy="PartnerCreateUpdateHeading" jhiTranslate="jojoaddisonApp.partner.home.createOrEditLabel">
+        Create or edit a Partner
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="jojoaddisonApp.partner.id">ID</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="jojoaddisonApp.partner.name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_link" jhiTranslate="jojoaddisonApp.partner.link">Link</label>
+          <input type="text" class="form-control" name="link" id="field_link" data-cy="link" formControlName="link" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_logo" jhiTranslate="jojoaddisonApp.partner.logo">Logo</label>
+          <div>
+            @if (editForm.get('logo')!.value) {
+              <img
+                [src]="'data:' + editForm.get('logoContentType')!.value + ';base64,' + editForm.get('logo')!.value"
+                style="max-height: 100px"
+                alt="partner"
+              />
+            }
+            @if (editForm.get('logo')!.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start">{{ editForm.get('logoContentType')!.value }}, {{ byteSize(editForm.get('logo')!.value!) }}</span>
+                <button
+                  type="button"
+                  (click)="clearInputImage('logo', 'logoContentType', 'file_logo')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_logo"
+              data-cy="logo"
+              (change)="setFileData($event, 'logo', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />
+          <input type="hidden" class="form-control" name="logoContentType" id="field_logoContentType" formControlName="logoContentType" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_country" jhiTranslate="jojoaddisonApp.partner.country">Country</label>
+          <input type="text" class="form-control" name="country" id="field_country" data-cy="country" formControlName="country" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_location" jhiTranslate="jojoaddisonApp.partner.location">Location</label>
+          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_postCode" jhiTranslate="jojoaddisonApp.partner.postCode">Post Code</label>
+          <input type="text" class="form-control" name="postCode" id="field_postCode" data-cy="postCode" formControlName="postCode" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_streetAddress" jhiTranslate="jojoaddisonApp.partner.streetAddress">Street Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="streetAddress"
+            id="field_streetAddress"
+            data-cy="streetAddress"
+            formControlName="streetAddress"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="jojoaddisonApp.partner.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)) {
+            <div>
+              @if (editForm.get('email')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('email')?.errors?.pattern) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Email' }"
+                  >This field should follow pattern for Email.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contactPerson" jhiTranslate="jojoaddisonApp.partner.contactPerson">Contact Person</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactPerson"
+            id="field_contactPerson"
+            data-cy="contactPerson"
+            formControlName="contactPerson"
+          />
+          @if (editForm.get('contactPerson')!.invalid && (editForm.get('contactPerson')!.dirty || editForm.get('contactPerson')!.touched)) {
+            <div>
+              @if (editForm.get('contactPerson')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_logoUrl" jhiTranslate="jojoaddisonApp.partner.logoUrl">Logo Url</label>
+          <input type="text" class="form-control" name="logoUrl" id="field_logoUrl" data-cy="logoUrl" formControlName="logoUrl" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdDate" jhiTranslate="jojoaddisonApp.partner.createdDate">Created Date</label>
+          <div class="d-flex">
+            <input
+              id="field_createdDate"
+              data-cy="createdDate"
+              type="datetime-local"
+              class="form-control"
+              name="createdDate"
+              formControlName="createdDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

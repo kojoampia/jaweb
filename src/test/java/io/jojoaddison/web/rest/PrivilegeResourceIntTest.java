@@ -1,10 +1,19 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.JojoaddisonApp;
+import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.jojoaddison.domain.Privilege;
-import io.jojoaddison.repository.PrivilegeRepository;
-import io.jojoaddison.web.rest.errors.ExceptionTranslator;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,16 +29,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
-
-import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.domain.Privilege;
+import io.jojoaddison.repository.PrivilegeRepository;
+import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the PrivilegeResource REST controller.

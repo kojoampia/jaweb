@@ -20,8 +20,7 @@ export class AboutUpdateComponent implements OnInit {
     modifiedDate = '';
 
     constructor(protected aboutService: AboutService, protected activatedRoute: ActivatedRoute) {
-        delete this.createdDate;
-        delete this.modifiedDate;
+       
     }
 
     ngOnInit() {

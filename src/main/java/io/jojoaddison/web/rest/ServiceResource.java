@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Service;
 import io.jojoaddison.repository.ServiceRepository;
 import io.jojoaddison.security.SecurityUtils;
@@ -117,7 +116,7 @@ public class ServiceResource {
     public ResponseEntity<Service> getService(@PathVariable String id) {
         log.debug("REST request to get Service : {}", id);
         Optional<Service> service = serviceRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(service);
+        return service.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

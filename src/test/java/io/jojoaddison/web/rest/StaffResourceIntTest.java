@@ -1,10 +1,21 @@
 package io.jojoaddison.web.rest;
 
-import io.jojoaddison.JojoaddisonApp;
+import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.jojoaddison.domain.Staff;
-import io.jojoaddison.service.StaffService;
-import io.jojoaddison.web.rest.errors.ExceptionTranslator;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,20 +32,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
-import java.time.LocalDate;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
-
-import static io.jojoaddison.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.domain.Staff;
 import io.jojoaddison.domain.enumeration.DocumentType;
+import io.jojoaddison.service.StaffService;
+import io.jojoaddison.web.rest.errors.ExceptionTranslator;
 /**
  * Test class for the StaffResource REST controller.
  *

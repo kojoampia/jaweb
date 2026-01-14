@@ -2,9 +2,10 @@ package io.jojoaddison.security.jwt;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +14,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import tech.jhipster.config.JHipsterProperties;
 
 @Component
 public class TokenProvider {
@@ -76,7 +79,7 @@ public class TokenProvider {
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
-            .signWith(key, SignatureAlgorithm.HS512)
+            .signWith(key)
             .setExpiration(validity)
             .compact();
     }
@@ -84,8 +87,9 @@ public class TokenProvider {
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(key)
-            .parseClaimsJws(token)
-            .getBody();
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
 
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
@@ -99,7 +103,7 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(key).build().parseSignedClaims(authToken);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT signature.");

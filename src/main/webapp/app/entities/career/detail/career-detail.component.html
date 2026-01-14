@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (career()) {
+      <div>
+        <h2 data-cy="careerDetailsHeading"><span jhiTranslate="jojoaddisonApp.career.detail.title">Career</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ career()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.name">Name</span></dt>
+          <dd>
+            <span>{{ career()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.description">Description</span></dt>
+          <dd>
+            <span>{{ career()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.department">Department</span></dt>
+          <dd>
+            <span>{{ career()!.department }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ career()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.modifiedDate">Modified Date</span></dt>
+          <dd>
+            <span>{{ career()!.modifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ career()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.url">Url</span></dt>
+          <dd>
+            <span>{{ career()!.url }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.document">Document</span></dt>
+          <dd>
+            @if (career()!.document) {
+              <div>
+                <a (click)="openFile(career()!.document ?? '', career()!.documentContentType)" jhiTranslate="entity.action.open">Open</a>
+                {{ career()!.documentContentType }}, {{ byteSize(career()!.document ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.career.documentContentType">Document Content Type</span></dt>
+          <dd>
+            <span>{{ career()!.documentContentType }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/career', career()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

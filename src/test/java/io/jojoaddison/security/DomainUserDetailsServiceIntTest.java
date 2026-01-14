@@ -1,8 +1,8 @@
 package io.jojoaddison.security;
 
-import io.jojoaddison.JojoaddisonApp;
-import io.jojoaddison.domain.User;
-import io.jojoaddison.repository.UserRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Locale;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Locale;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.domain.User;
+import io.jojoaddison.repository.UserRepository;
 
 /**
  * Test class for DomainUserDetailsService.

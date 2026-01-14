@@ -5,9 +5,9 @@ import { OnInit, Input, Component, EventEmitter, Output } from '@angular/core';
     styleUrls: ['./tilebox.component.scss']
 })
 export class TileboxComponent implements OnInit {
-    @Input() config: {};
-    @Input() title: string;
-    @Input() tiles: any[];
+    @Input() config?: {};
+    @Input() title?: string;
+    @Input() tiles?: any[];
     @Input() showSelected = true;
     @Output() tileSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -67,7 +67,7 @@ export class TileboxComponent implements OnInit {
 }
 
 export class Tile {
-    selected: boolean;
+    selected?: boolean | false = false;
     title: string;
     description: string;
     id: string;

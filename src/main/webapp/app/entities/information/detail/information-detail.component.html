@@ -1,0 +1,69 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (information()) {
+      <div>
+        <h2 data-cy="informationDetailsHeading"><span jhiTranslate="jojoaddisonApp.information.detail.title">Information</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ information()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.content">Content</span></dt>
+          <dd>
+            <span>{{ information()!.content }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.title">Title</span></dt>
+          <dd>
+            <span>{{ information()!.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.brief">Brief</span></dt>
+          <dd>
+            <span>{{ information()!.brief }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.linkText">Link Text</span></dt>
+          <dd>
+            <span>{{ information()!.linkText }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.link">Link</span></dt>
+          <dd>
+            <span>{{ information()!.link }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.url">Url</span></dt>
+          <dd>
+            <span>{{ information()!.url }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.document">Document</span></dt>
+          <dd>
+            @if (information()!.document) {
+              <div>
+                <a (click)="openFile(information()!.document ?? '', information()!.documentContentType)" jhiTranslate="entity.action.open"
+                  >Open</a
+                >
+                {{ information()!.documentContentType }}, {{ byteSize(information()!.document ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.information.documentContentType">Document Content Type</span></dt>
+          <dd>
+            <span>{{ information()!.documentContentType }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/information', information()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

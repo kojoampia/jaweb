@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Slide;
 import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.service.SlideService;
@@ -114,7 +113,7 @@ public class SlideResource {
     public ResponseEntity<Slide> getSlide(@PathVariable String id) {
         log.debug("REST request to get Slide : {}", id);
         Optional<Slide> slide = slideService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(slide);
+        return slide.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

@@ -1,9 +1,13 @@
 package io.jojoaddison.repository;
 
-import io.jojoaddison.JojoaddisonApp;
-import io.jojoaddison.config.Constants;
-import io.jojoaddison.config.audit.AuditEventConverter;
-import io.jojoaddison.domain.PersistentAuditEvent;
+import static io.jojoaddison.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +19,11 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.servlet.http.HttpSession;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static io.jojoaddison.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import io.jojoaddison.JojoaddisonApp;
+import io.jojoaddison.config.Constants;
+import io.jojoaddison.config.audit.AuditEventConverter;
+import io.jojoaddison.domain.PersistentAuditEvent;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Test class for the CustomAuditEventRepository class.

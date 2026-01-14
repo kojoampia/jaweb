@@ -1,23 +1,5 @@
 package io.jojoaddison.service;
 
-import io.jojoaddison.domain.Slide;
-import io.jojoaddison.repository.SlideRepository;
-import io.jojoaddison.service.util.Tools;
-
-import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFSDBFile;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.core.env.Environment;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsCriteria;
-import org.springframework.data.mongodb.gridfs.GridFsResource;
-import org.springframework.data.mongodb.gridfs.GridFsTemplate;
-import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,7 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsCriteria;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.stereotype.Service;
+
+import com.mongodb.client.gridfs.model.GridFSFile;
+
+import io.jojoaddison.domain.Slide;
+import io.jojoaddison.repository.SlideRepository;
 
 /**
  * Service Implementation for managing Slide.

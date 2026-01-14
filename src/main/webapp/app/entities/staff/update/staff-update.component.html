@@ -1,0 +1,334 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-staff-heading" data-cy="StaffCreateUpdateHeading" jhiTranslate="jojoaddisonApp.staff.home.createOrEditLabel">
+        Create or edit a Staff
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="jojoaddisonApp.staff.id">ID</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_firstName" jhiTranslate="jojoaddisonApp.staff.firstName">First Name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lastName" jhiTranslate="jojoaddisonApp.staff.lastName">Last Name</label>
+          <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dateOfBirth" jhiTranslate="jojoaddisonApp.staff.dateOfBirth">Date Of Birth</label>
+          <div class="input-group">
+            <input
+              id="field_dateOfBirth"
+              data-cy="dateOfBirth"
+              type="text"
+              class="form-control"
+              name="dateOfBirth"
+              ngbDatepicker
+              #dateOfBirthDp="ngbDatepicker"
+              formControlName="dateOfBirth"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="jojoaddisonApp.staff.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)) {
+            <div>
+              @if (editForm.get('email')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('email')?.errors?.pattern) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Email' }"
+                  >This field should follow pattern for Email.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_digitalAddress" jhiTranslate="jojoaddisonApp.staff.digitalAddress">Digital Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="digitalAddress"
+            id="field_digitalAddress"
+            data-cy="digitalAddress"
+            formControlName="digitalAddress"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_streetAddress" jhiTranslate="jojoaddisonApp.staff.streetAddress">Street Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="streetAddress"
+            id="field_streetAddress"
+            data-cy="streetAddress"
+            formControlName="streetAddress"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_postalAddress" jhiTranslate="jojoaddisonApp.staff.postalAddress">Postal Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="postalAddress"
+            id="field_postalAddress"
+            data-cy="postalAddress"
+            formControlName="postalAddress"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_town" jhiTranslate="jojoaddisonApp.staff.town">Town</label>
+          <input type="text" class="form-control" name="town" id="field_town" data-cy="town" formControlName="town" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_district" jhiTranslate="jojoaddisonApp.staff.district">District</label>
+          <input type="text" class="form-control" name="district" id="field_district" data-cy="district" formControlName="district" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_city" jhiTranslate="jojoaddisonApp.staff.city">City</label>
+          <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_region" jhiTranslate="jojoaddisonApp.staff.region">Region</label>
+          <input type="text" class="form-control" name="region" id="field_region" data-cy="region" formControlName="region" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_country" jhiTranslate="jojoaddisonApp.staff.country">Country</label>
+          <input type="text" class="form-control" name="country" id="field_country" data-cy="country" formControlName="country" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_digitalProfile" jhiTranslate="jojoaddisonApp.staff.digitalProfile">Digital Profile</label>
+          <div>
+            @if (editForm.get('digitalProfile')!.value) {
+              <img
+                [src]="'data:' + editForm.get('digitalProfileContentType')!.value + ';base64,' + editForm.get('digitalProfile')!.value"
+                style="max-height: 100px"
+                alt="staff"
+              />
+            }
+            @if (editForm.get('digitalProfile')!.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start"
+                  >{{ editForm.get('digitalProfileContentType')!.value }}, {{ byteSize(editForm.get('digitalProfile')!.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="clearInputImage('digitalProfile', 'digitalProfileContentType', 'file_digitalProfile')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_digitalProfile"
+              data-cy="digitalProfile"
+              (change)="setFileData($event, 'digitalProfile', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="digitalProfile"
+            id="field_digitalProfile"
+            data-cy="digitalProfile"
+            formControlName="digitalProfile"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="digitalProfileContentType"
+            id="field_digitalProfileContentType"
+            formControlName="digitalProfileContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_accountNumber" jhiTranslate="jojoaddisonApp.staff.accountNumber">Account Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="accountNumber"
+            id="field_accountNumber"
+            data-cy="accountNumber"
+            formControlName="accountNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_accountType" jhiTranslate="jojoaddisonApp.staff.accountType">Account Type</label>
+          <input
+            type="text"
+            class="form-control"
+            name="accountType"
+            id="field_accountType"
+            data-cy="accountType"
+            formControlName="accountType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_documents" jhiTranslate="jojoaddisonApp.staff.documents">Documents</label>
+          <div>
+            @if (editForm.get('documents')!.value) {
+              <div class="form-text text-danger clearfix">
+                <a
+                  class="pull-start"
+                  (click)="openFile(editForm.get('documents')!.value!, editForm.get('documentsContentType')!.value!)"
+                  jhiTranslate="entity.action.open"
+                  >Open</a
+                ><br />
+                <span class="pull-start"
+                  >{{ editForm.get('documentsContentType')!.value }}, {{ byteSize(editForm.get('documents')!.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="editForm.patchValue({ documents: undefined, documentsContentType: undefined })"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_documents"
+              data-cy="documents"
+              (change)="setFileData($event, 'documents', false)"
+              jhiTranslate="entity.action.addblob"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="documents" id="field_documents" data-cy="documents" formControlName="documents" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="documentsContentType"
+            id="field_documentsContentType"
+            formControlName="documentsContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdDate" jhiTranslate="jojoaddisonApp.staff.createdDate">Created Date</label>
+          <div class="d-flex">
+            <input
+              id="field_createdDate"
+              data-cy="createdDate"
+              type="datetime-local"
+              class="form-control"
+              name="createdDate"
+              formControlName="createdDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_modifiedDate" jhiTranslate="jojoaddisonApp.staff.modifiedDate">Modified Date</label>
+          <div class="d-flex">
+            <input
+              id="field_modifiedDate"
+              data-cy="modifiedDate"
+              type="datetime-local"
+              class="form-control"
+              name="modifiedDate"
+              formControlName="modifiedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lastModifiedBy" jhiTranslate="jojoaddisonApp.staff.lastModifiedBy">Last Modified By</label>
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_documentType" jhiTranslate="jojoaddisonApp.staff.documentType">Document Type</label>
+          <select class="form-control" name="documentType" formControlName="documentType" id="field_documentType" data-cy="documentType">
+            <option [ngValue]="null">{{ 'jojoaddisonApp.DocumentType.null' | translate }}</option>
+            @for (documentType of documentTypeValues; track $index) {
+              <option [value]="documentType">{{ 'jojoaddisonApp.DocumentType.' + documentType | translate }}</option>
+            }
+          </select>
+          @if (editForm.get('documentType')!.invalid && (editForm.get('documentType')!.dirty || editForm.get('documentType')!.touched)) {
+            <div>
+              @if (editForm.get('documentType')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_credential" jhiTranslate="jojoaddisonApp.staff.credential">Credential</label>
+          <select
+            class="form-control"
+            id="field_credential"
+            data-cy="credential"
+            name="credential"
+            formControlName="credential"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            @for (userOption of usersSharedCollection; track $index) {
+              <option [ngValue]="userOption">{{ userOption.login }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

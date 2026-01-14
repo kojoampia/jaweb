@@ -1,0 +1,77 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (portfolio()) {
+      <div>
+        <h2 data-cy="portfolioDetailsHeading"><span jhiTranslate="jojoaddisonApp.portfolio.detail.title">Portfolio</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ portfolio()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.name">Name</span></dt>
+          <dd>
+            <span>{{ portfolio()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.description">Description</span></dt>
+          <dd>
+            <span>{{ portfolio()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.url">Url</span></dt>
+          <dd>
+            <span>{{ portfolio()!.url }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.photo">Photo</span></dt>
+          <dd>
+            @if (portfolio()!.photo) {
+              <div>
+                <a (click)="openFile(portfolio()!.photo ?? '', portfolio()!.photoContentType)">
+                  <img
+                    [src]="'data:' + portfolio()!.photoContentType + ';base64,' + portfolio()!.photo"
+                    style="max-width: 100%"
+                    alt="portfolio"
+                  />
+                </a>
+                {{ portfolio()!.photoContentType }}, {{ byteSize(portfolio()!.photo ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.status">Status</span></dt>
+          <dd>
+            <span>{{ portfolio()!.status }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ portfolio()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.modifiedDate">Modified Date</span></dt>
+          <dd>
+            <span>{{ portfolio()!.modifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ portfolio()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="jojoaddisonApp.portfolio.modifiedBy">Modified By</span></dt>
+          <dd>
+            <span>{{ portfolio()!.modifiedBy }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/portfolio', portfolio()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -3,25 +3,26 @@
 #@Author: Kojo Ampia-Addison
 #@Email: kojo.ampia@jojoaddison.net
 #@Description: Bash Deployment Script
-
-WWW_TARGET="./target/www";
-GEND_TARGET="./target/jojoaddison.war";
-DIST_TARGET="./dist/jojoaddison.jar";
-WWW_DIST="./dist/www";
+JAHOME="$(pwd)";
+WWW_TARGET="$JAHOME/target/www";
+GEND_TARGET="$JAHOME/target/jojoaddison.war";
+DIST_TARGET="$JAHOME/dist/jojoaddison.jar";
+WWW_DIST="$JAHOME/dist/www";
 
 # Clean Build
 build(){
 mvn -Pprod clean package -DskipTests
-rm -f dist/*.jar
-cp target/*.war dist/web.jar
-rm -f dist/*.tar.gz
-cd target/www
-tar -czf ../../dist/web.tar.gz .
-cd ../../
+rm -f $JAHOME/dist/*.jar
+cp $JAHOME/target/*.war $JAHOME/dist/web.jar
+rm -f $JAHOME/dist/*.tar.gz
+cd $JAHOME/target/www
+tar -czf $JAHOME/dist/web.tar.gz .
+cd $JAHOME
 }
 
 # Deploy to test
 totest(){
+cd $JAHOME	
 echo "building package..."
 ./mvnw -Pdev clean verify package -DskipTests
 
@@ -46,20 +47,20 @@ fi
 
 echo "compressing... to $WWW_DIST"
 cd $WWW_DIST
-touch ../jojoaddison.tar.gz
-tar -czf ../jojoaddison.tar.gz .
+touch $JAHOME/jojoaddison.tar.gz
+tar -czf $JAHOME/jojoaddison.tar.gz .
 echo "finished."
-cd ../
+cd $JAHOME/
 
-echo "remote copying..."
-scp jojoaddison* root@ghost.gahano.at:/var/www/vhosts/jojoaddison.net/dev/.
+#echo "remote copying..."
+#scp jojoaddison* root@ghost.gahano.at:/var/www/vhosts/jojoaddison.net/dev/.
 echo "done."
 }
 
 # Deploy to prod
 
 toprod(){
-scp dist/web* root@ghost.gahano.at:/var/www/vhosts/jojoaddison.net/.
+#scp $JAHOME/dist/web* root@ghost.gahano.at:/var/www/vhosts/jojoaddison.net/.
 }
 
 

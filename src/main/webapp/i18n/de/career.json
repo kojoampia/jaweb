@@ -1,0 +1,32 @@
+{
+  "jojoaddisonApp": {
+    "career": {
+      "home": {
+        "title": "Careers",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Career erstellen",
+        "createOrEditLabel": "Career erstellen oder bearbeiten",
+        "notFound": "Keine Careers gefunden"
+      },
+      "created": "Career erstellt mit ID {{ param }}",
+      "updated": "Career aktualisiert mit ID {{ param }}",
+      "deleted": "Career gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Career {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Career"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "department": "Department",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "lastModifiedBy": "Last Modified By",
+      "url": "Url",
+      "document": "Document",
+      "documentContentType": "Document Content Type"
+    }
+  }
+}

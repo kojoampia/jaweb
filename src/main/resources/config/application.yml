@@ -132,3 +132,6 @@ jhipster:
 
 # application:
 content-directory: content
+
+mongock:
+    change-logs-scan-package: io.jojoaddison.config.dbmigrations

@@ -1,0 +1,155 @@
+<div>
+  <h2 id="page-heading" data-cy="CareerHeading">
+    <span jhiTranslate="jojoaddisonApp.career.home.title">Careers</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jojoaddisonApp.career.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-career"
+        [routerLink]="['/career/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jojoaddisonApp.career.home.createLabel">Create a new Career</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (careers?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="jojoaddisonApp.career.home.notFound">No Careers found</span>
+    </div>
+  }
+
+  @if (careers && careers.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.description">Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="department">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.department">Department</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="modifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.modifiedDate">Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedBy">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.lastModifiedBy">Last Modified By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="url">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.url">Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="document">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.document">Document</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="documentContentType">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.career.documentContentType">Document Content Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (career of careers; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/career', career.id, 'view']">{{ career.id }}</a>
+              </td>
+              <td>{{ career.name }}</td>
+              <td>{{ career.description }}</td>
+              <td>{{ career.department }}</td>
+              <td>{{ career.createdDate | formatMediumDatetime }}</td>
+              <td>{{ career.modifiedDate | formatMediumDatetime }}</td>
+              <td>{{ career.lastModifiedBy }}</td>
+              <td>{{ career.url }}</td>
+              <td>
+                @if (career.document) {
+                  <a (click)="openFile(career.document, career.documentContentType)" jhiTranslate="entity.action.open">Open</a>
+                  <span>{{ career.documentContentType }}, {{ byteSize(career.document) }}</span>
+                }
+              </td>
+              <td>{{ career.documentContentType }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/career', career.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/career', career.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(career)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

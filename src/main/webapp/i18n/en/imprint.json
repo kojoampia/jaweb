@@ -1,0 +1,29 @@
+{
+  "jojoaddisonApp": {
+    "imprint": {
+      "home": {
+        "title": "Imprints",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Imprint",
+        "createOrEditLabel": "Create or edit a Imprint",
+        "notFound": "No Imprints found"
+      },
+      "created": "A new Imprint is created with identifier {{ param }}",
+      "updated": "A Imprint is updated with identifier {{ param }}",
+      "deleted": "A Imprint is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Imprint {{ id }}?"
+      },
+      "detail": {
+        "title": "Imprint"
+      },
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "slides": "Slides",
+      "createdDate": "Created Date",
+      "modifiedDate": "Modified Date",
+      "lastModifiedBy": "Last Modified By"
+    }
+  }
+}

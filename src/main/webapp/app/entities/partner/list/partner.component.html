@@ -1,0 +1,173 @@
+<div>
+  <h2 id="page-heading" data-cy="PartnerHeading">
+    <span jhiTranslate="jojoaddisonApp.partner.home.title">Partners</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jojoaddisonApp.partner.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-partner"
+        [routerLink]="['/partner/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jojoaddisonApp.partner.home.createLabel">Create a new Partner</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (partners?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="jojoaddisonApp.partner.home.notFound">No Partners found</span>
+    </div>
+  }
+
+  @if (partners && partners.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="link">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.link">Link</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="logo">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.logo">Logo</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="country">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.country">Country</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="location">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.location">Location</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="postCode">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.postCode">Post Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="streetAddress">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.streetAddress">Street Address</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="contactPerson">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.contactPerson">Contact Person</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="logoUrl">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.logoUrl">Logo Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="jojoaddisonApp.partner.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (partner of partners; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/partner', partner.id, 'view']">{{ partner.id }}</a>
+              </td>
+              <td>{{ partner.name }}</td>
+              <td>{{ partner.link }}</td>
+              <td>
+                @if (partner.logo) {
+                  <a (click)="openFile(partner.logo, partner.logoContentType)">
+                    <img [src]="'data:' + partner.logoContentType + ';base64,' + partner.logo" style="max-height: 30px" alt="partner" />
+                  </a>
+                  <span>{{ partner.logoContentType }}, {{ byteSize(partner.logo) }}</span>
+                }
+              </td>
+              <td>{{ partner.country }}</td>
+              <td>{{ partner.location }}</td>
+              <td>{{ partner.postCode }}</td>
+              <td>{{ partner.streetAddress }}</td>
+              <td>{{ partner.email }}</td>
+              <td>{{ partner.contactPerson }}</td>
+              <td>{{ partner.logoUrl }}</td>
+              <td>{{ partner.createdDate | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/partner', partner.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/partner', partner.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(partner)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

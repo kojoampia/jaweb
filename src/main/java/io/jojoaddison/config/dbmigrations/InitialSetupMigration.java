@@ -1,14 +1,15 @@
 package io.jojoaddison.config.dbmigrations;
 
+import java.time.Instant;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+
+import com.github.cloudyrock.mongock.ChangeLog;
+import com.github.cloudyrock.mongock.ChangeSet;
+
 import io.jojoaddison.domain.Authority;
 import io.jojoaddison.domain.User;
 import io.jojoaddison.security.AuthoritiesConstants;
-
-import com.github.mongobee.changeset.ChangeLog;
-import com.github.mongobee.changeset.ChangeSet;
-import org.springframework.data.mongodb.core.MongoTemplate;
-
-import java.time.Instant;
 
 /**
  * Creates the initial database setup

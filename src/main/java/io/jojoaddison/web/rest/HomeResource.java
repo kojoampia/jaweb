@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Home;
 import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.service.HomeService;
@@ -109,7 +108,7 @@ public class HomeResource {
     public ResponseEntity<Home> getHome(@PathVariable String id) {
         log.debug("REST request to get Home : {}", id);
         Optional<Home> home = homeService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(home);
+        return home.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

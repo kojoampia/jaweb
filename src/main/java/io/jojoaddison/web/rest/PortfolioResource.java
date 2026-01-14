@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import io.jojoaddison.domain.Portfolio;
 import io.jojoaddison.repository.PortfolioRepository;
 import io.jojoaddison.security.SecurityUtils;
@@ -117,7 +116,7 @@ public class PortfolioResource {
     public ResponseEntity<Portfolio> getPortfolio(@PathVariable String id) {
         log.debug("REST request to get Portfolio : {}", id);
         Optional<Portfolio> portfolio = portfolioRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(portfolio);
+        return portfolio.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**
