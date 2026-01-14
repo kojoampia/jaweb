@@ -399,10 +399,10 @@ public class AccountResourceIntTest {
 
         Optional<User> testUser4 = userRepository.findOneByLogin("test-register-duplicate-email-3");
         assertThat(testUser4.isPresent()).isTrue();
-        assertThat(testUser4.get().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
+        assertThat(testUser4.orElseThrow().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
 
-        testUser4.get().setActivated(true);
-        userService.updateUser((new UserDTO(testUser4.get())));
+        testUser4.orElseThrow().setActivated(true);
+        userService.updateUser((new UserDTO(testUser4.orElseThrow())));
 
         // Register 4th (already activated) user
         restMvc.perform(

@@ -171,9 +171,9 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [yarn]: https://yarnpkg.org/
 [webpack]: https://webpack.github.io/
 [angular cli]: https://cli.angular.io/
-[browsersync]: http://www.browsersync.io/
+[browsersync]: https://www.browsersync.io/
 [jest]: https://facebook.github.io/jest/
-[jasmine]: http://jasmine.github.io/2.0/introduction.html
+[jasmine]: https://jasmine.github.io/2.0/introduction.html
 [protractor]: https://angular.github.io/protractor/
-[leaflet]: http://leafletjs.com/
-[definitelytyped]: http://definitelytyped.org/
+[leaflet]: https://leafletjs.com/
+[definitelytyped]: https://definitelytyped.org/

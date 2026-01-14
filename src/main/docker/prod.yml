@@ -1,7 +1,7 @@
 version: '2.2'
 services:
     jaweb:
-        image: docker-registry.jojoaddison.net/jaweb:$JAWEB_VERSION
+        image: docker.jojoaddison.net/jaweb:$JAWEB_VERSION
         container_name: www.jojoaddison.net
         hostname: www.jojoaddison.net
         restart: always
@@ -52,9 +52,9 @@ services:
         networks:
            - staponet
 networks:
-   staponet:
-      external:
-        name: staponet
+  staponet:
+    external: true
+    name: staponet
 
 
             
