@@ -169,7 +169,7 @@ public class AuthorityResourceIntTest {
         int databaseSizeBeforeUpdate = authorityRepository.findAll().size();
 
         // Update the authority
-        Authority updatedAuthority = authorityRepository.findById(authority.getId()).get();
+        Authority updatedAuthority = authorityRepository.findById(authority.getId()).orElseThrow();
         updatedAuthority
             .name(UPDATED_NAME);
 

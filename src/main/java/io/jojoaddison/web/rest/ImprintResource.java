@@ -62,7 +62,7 @@ public class ImprintResource {
         }
         imprint.setCreatedDate(ZonedDateTime.now());
         imprint.setModifiedDate(ZonedDateTime.now());
-        imprint.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        imprint.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Imprint result = imprintRepository.save(imprint);
         return ResponseEntity.created(new URI("/api/imprints/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -85,7 +85,7 @@ public class ImprintResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         imprint.setModifiedDate(ZonedDateTime.now());
-        imprint.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        imprint.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Imprint result = imprintRepository.save(imprint);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, imprint.getId().toString()))

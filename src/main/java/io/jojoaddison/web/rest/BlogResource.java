@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.jojoaddison.domain.Blog;
+import io.jojoaddison.domain.User;
 import io.jojoaddison.repository.BlogRepository;
 import io.jojoaddison.service.UserService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
@@ -64,7 +65,7 @@ public class BlogResource {
             throw new BadRequestAlertException("A new blog cannot already have an ID", ENTITY_NAME, "idexists");
         }
         blog.setCreatedDate(ZonedDateTime.now());
-        blog.setLastModifiedBy(userService.getUserWithAuthorities().get().getEmail());
+        blog.setLastModifiedBy(userService.getUserWithAuthorities().map(User::getEmail).orElseThrow());
         blog.setModifiedDate(ZonedDateTime.now());
         Blog result = blogRepository.save(blog);
         return ResponseEntity.created(new URI("/api/blogs/" + result.getId()))
@@ -87,7 +88,7 @@ public class BlogResource {
         if (blog.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        blog.setLastModifiedBy(userService.getUserWithAuthorities().get().getEmail());
+        blog.setLastModifiedBy(userService.getUserWithAuthorities().map(User::getEmail).orElseThrow());
         blog.setModifiedDate(ZonedDateTime.now());
         Blog result = blogRepository.save(blog);
         return ResponseEntity.ok()

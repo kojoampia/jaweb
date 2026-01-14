@@ -239,7 +239,7 @@ public class PortfolioResourceIntTest {
         int databaseSizeBeforeUpdate = portfolioRepository.findAll().size();
 
         // Update the portfolio
-        Portfolio updatedPortfolio = portfolioRepository.findById(portfolio.getId()).get();
+        Portfolio updatedPortfolio = portfolioRepository.findById(portfolio.getId()).orElseThrow();
         updatedPortfolio
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)

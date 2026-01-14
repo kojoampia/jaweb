@@ -57,9 +57,9 @@ public class SlideResource {
             throw new BadRequestAlertException("A new slide cannot already have an ID", ENTITY_NAME, "idexists");
         }
         slide.setCreatedDate(Instant.now());
-        slide.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        slide.setCreatedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         slide.setModifiedDate(Instant.now());
-        slide.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        slide.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Slide result = slideService.save(slide);
         return ResponseEntity.created(new URI("/api/slides/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -83,7 +83,7 @@ public class SlideResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         slide.setModifiedDate(Instant.now());
-        slide.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        slide.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Slide result = slideService.save(slide);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, slide.getId().toString()))

@@ -232,7 +232,7 @@ public class ServiceResourceIntTest {
         int databaseSizeBeforeUpdate = serviceRepository.findAll().size();
 
         // Update the service
-        Service updatedService = serviceRepository.findById(service.getId()).get();
+        Service updatedService = serviceRepository.findById(service.getId()).orElseThrow();
         updatedService
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)

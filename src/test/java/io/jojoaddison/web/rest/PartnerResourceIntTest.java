@@ -273,7 +273,7 @@ public class PartnerResourceIntTest {
         int databaseSizeBeforeUpdate = partnerRepository.findAll().size();
 
         // Update the partner
-        Partner updatedPartner = partnerRepository.findById(partner.getId()).get();
+        Partner updatedPartner = partnerRepository.findById(partner.getId()).orElseThrow();
         updatedPartner
             .name(UPDATED_NAME)
             .link(UPDATED_LINK)

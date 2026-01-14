@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import tech.jhipster.web.util.ResponseUtil;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +62,7 @@ public class AboutResource {
         }
         about.setCreatedDate(ZonedDateTime.now());
         about.setModifiedDate(ZonedDateTime.now());
-        about.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        about.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         About result = aboutRepository.save(about);
         return ResponseEntity.created(new URI("/api/abouts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -86,7 +85,7 @@ public class AboutResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         about.setModifiedDate(ZonedDateTime.now());
-        about.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        about.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         About result = aboutRepository.save(about);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, about.getId().toString()))
@@ -117,7 +116,7 @@ public class AboutResource {
     public ResponseEntity<About> getAbout(@PathVariable String id) {
         log.debug("REST request to get About : {}", id);
         Optional<About> about = aboutRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(about);
+        return about.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**

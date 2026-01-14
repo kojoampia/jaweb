@@ -54,9 +54,9 @@ public class HomeResource {
         if (home.getId() != null) {
             throw new BadRequestAlertException("A new home cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        home.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        home.setCreatedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         home.setCreatedDate(Instant.now());
-        home.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        home.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         home.setModifiedDate(Instant.now());
         Home result = homeService.save(home);
         return ResponseEntity.created(new URI("/api/homes/" + result.getId()))
@@ -79,7 +79,7 @@ public class HomeResource {
         if (home.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        home.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        home.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         home.setModifiedDate(Instant.now());
         Home result = homeService.save(home);
         return ResponseEntity.ok()

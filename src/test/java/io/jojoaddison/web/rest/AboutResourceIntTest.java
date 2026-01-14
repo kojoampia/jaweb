@@ -209,7 +209,7 @@ public class AboutResourceIntTest {
         int databaseSizeBeforeUpdate = aboutRepository.findAll().size();
 
         // Update the about
-        About updatedAbout = aboutRepository.findById(about.getId()).get();
+        About updatedAbout = aboutRepository.findById(about.getId()).orElseThrow();
         updatedAbout
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)

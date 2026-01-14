@@ -192,7 +192,7 @@ public class InformationResourceIntTest {
         int databaseSizeBeforeUpdate = informationRepository.findAll().size();
 
         // Update the information
-        Information updatedInformation = informationRepository.findById(information.getId()).get();
+        Information updatedInformation = informationRepository.findById(information.getId()).orElseThrow();
         updatedInformation
             .content(UPDATED_CONTENT)
             .title(UPDATED_TITLE)

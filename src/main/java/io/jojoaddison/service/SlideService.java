@@ -65,11 +65,10 @@ public class SlideService {
     public Optional<Slide> findOne(String id) {
         log.debug("Request to get Slide : {}", id);
         Optional<Slide> slide = slideRepository.findById(id);
-        if (slide.isPresent()) {
-            try {
-                Optional<GridFSFile> slideFile = findFileByMetadata("slideId", slide.get().getId());
-                if (slideFile.isPresent()) {
-                    GridFSFile fs = slideFile.get();
+        slide.ifPresent(s -> {
+            Optional<GridFSFile> slideFile = findFileByMetadata("slideId", s.getId());
+            slideFile.ifPresent(fs -> {
+                try {
                     GridFsResource resource = gridFsTemplate.getResource(fs.getFilename());
                     InputStream is = resource.getInputStream();
                     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -80,12 +79,12 @@ public class SlideService {
                     }
                     buffer.flush();
                     byte[] buff = buffer.toByteArray();
-                    slide.get().setPhoto(buff);
+                    s.setPhoto(buff);
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e.getCause());
                 }
-            } catch (IOException e) {
-                log.error(e.getMessage(), e.getCause());
-            }
-        }
+            });
+        });
         return slide;
     }
 

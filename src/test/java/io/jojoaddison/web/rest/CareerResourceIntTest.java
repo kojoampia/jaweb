@@ -209,7 +209,7 @@ public class CareerResourceIntTest {
         int databaseSizeBeforeUpdate = careerRepository.findAll().size();
 
         // Update the career
-        Career updatedCareer = careerRepository.findById(career.getId()).get();
+        Career updatedCareer = careerRepository.findById(career.getId()).orElseThrow();
         updatedCareer
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)

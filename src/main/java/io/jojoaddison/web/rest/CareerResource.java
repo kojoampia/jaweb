@@ -55,7 +55,7 @@ public class CareerResource {
         }
         career.setCreatedDate(ZonedDateTime.now());
         career.setModifiedDate(ZonedDateTime.now());
-        career.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        career.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Career result = careerRepository.save(career);
         return ResponseEntity.created(new URI("/api/careers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -78,7 +78,7 @@ public class CareerResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         career.setModifiedDate(ZonedDateTime.now());
-        career.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        career.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Career result = careerRepository.save(career);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, career.getId().toString()))

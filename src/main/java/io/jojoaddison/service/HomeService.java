@@ -44,12 +44,11 @@ public class HomeService {
     private Home saveVersion(Home home){
         Version version = null;
         Optional<Version> opVersion = Optional.ofNullable(this.versionService.findByType("Home"));
-        if(opVersion.isPresent()){
-            version = opVersion.get();
-        }else{
-            version = new Version();
-            version.setType("Home");
-        }
+        version = opVersion.orElseGet(() -> {
+            Version v = new Version();
+            v.setType("Home");
+            return v;
+        });
         int key = home.getVersion() + 1;
         home.setVersion(key);
         home.setCurrent(false);

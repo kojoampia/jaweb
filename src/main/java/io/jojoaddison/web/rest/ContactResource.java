@@ -57,7 +57,7 @@ public class ContactResource {
             throw new BadRequestAlertException("A new contact cannot already have an ID", ENTITY_NAME, "idexists");
         }
         contact.setLastModified(ZonedDateTime.now());
-        contact.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        contact.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Contact result = contactRepository.save(contact);
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -80,7 +80,7 @@ public class ContactResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         contact.setLastModified(ZonedDateTime.now());
-        contact.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        contact.setLastModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Contact result = contactRepository.save(contact);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contact.getId().toString()))

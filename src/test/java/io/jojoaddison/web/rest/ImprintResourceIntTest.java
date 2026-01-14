@@ -262,7 +262,7 @@ public class ImprintResourceIntTest {
         UPDATED_SLIDES.add(slide);
 
         // Update the imprint
-        Imprint updatedImprint = imprintRepository.findById(imprint.getId()).get();
+        Imprint updatedImprint = imprintRepository.findById(imprint.getId()).orElseThrow();
         updatedImprint
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)

@@ -185,7 +185,7 @@ public class PrivilegeResourceIntTest {
         int databaseSizeBeforeUpdate = privilegeRepository.findAll().size();
 
         // Update the privilege
-        Privilege updatedPrivilege = privilegeRepository.findById(privilege.getId()).get();
+        Privilege updatedPrivilege = privilegeRepository.findById(privilege.getId()).orElseThrow();
         updatedPrivilege
             .name(UPDATED_NAME)
             .createdDate(UPDATED_CREATED_DATE)

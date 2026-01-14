@@ -353,7 +353,7 @@ public class StaffResourceIntTest {
         int databaseSizeBeforeUpdate = staffService.findAll().size();
 
         // Update the staff
-        Staff updatedStaff = staffService.findOne(staff.getId()).get();
+        Staff updatedStaff = staffService.findOne(staff.getId()).orElseThrow();
         updatedStaff
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)

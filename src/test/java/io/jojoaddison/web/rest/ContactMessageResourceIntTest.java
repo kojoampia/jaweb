@@ -255,7 +255,7 @@ public class ContactMessageResourceIntTest {
         int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
 
         // Update the contactMessage
-        ContactMessage updatedContactMessage = contactMessageRepository.findById(contactMessage.getId()).get();
+        ContactMessage updatedContactMessage = contactMessageRepository.findById(contactMessage.getId()).orElseThrow();
         updatedContactMessage
             .name(UPDATED_NAME)
             .email(UPDATED_EMAIL)

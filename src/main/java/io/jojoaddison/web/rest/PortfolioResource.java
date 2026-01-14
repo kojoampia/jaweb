@@ -60,9 +60,9 @@ public class PortfolioResource {
             throw new BadRequestAlertException("A new portfolio cannot already have an ID", ENTITY_NAME, "idexists");
         }
         portfolio.setCreatedDate(ZonedDateTime.now());
-        portfolio.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        portfolio.setCreatedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         portfolio.setModifiedDate(ZonedDateTime.now());
-        portfolio.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        portfolio.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Portfolio result = portfolioRepository.save(portfolio);
         return ResponseEntity.created(new URI("/api/portfolios/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -85,7 +85,7 @@ public class PortfolioResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         portfolio.setModifiedDate(ZonedDateTime.now());
-        portfolio.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        portfolio.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         Portfolio result = portfolioRepository.save(portfolio);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, portfolio.getId().toString()))

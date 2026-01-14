@@ -208,7 +208,7 @@ public class BlogResourceIntTest {
         int databaseSizeBeforeUpdate = blogRepository.findAll().size();
 
         // Update the blog
-        Blog updatedBlog = blogRepository.findById(blog.getId()).get();
+        Blog updatedBlog = blogRepository.findById(blog.getId()).orElseThrow();
         updatedBlog
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)

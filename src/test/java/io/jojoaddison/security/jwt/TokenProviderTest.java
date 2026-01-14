@@ -18,6 +18,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import io.jojoaddison.security.AuthoritiesConstants;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import tech.jhipster.config.JHipsterProperties;

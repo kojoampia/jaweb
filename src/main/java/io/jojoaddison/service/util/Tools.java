@@ -710,8 +710,8 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 	}
 
 	public static void setReadPermissions(String dir) throws IOException, InterruptedException{
-    	String command = "chmod a+rx -R " + dir;
-    	logger.debug("Execute: {}", command);
+    	String[] command = {"chmod", "a+rx", "-R", dir};
+    	logger.debug("Execute: {}", String.join(" ", command));
     	Process permProcess = Runtime.getRuntime().exec(command);
     	if(permProcess.waitFor() == 0){
     		logger.debug("completed");

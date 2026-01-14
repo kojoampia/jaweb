@@ -59,9 +59,9 @@ public class ServiceResource {
         if (service.getId() != null) {
             throw new BadRequestAlertException("A new service cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        service.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        service.setCreatedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         service.setCreatedDate(ZonedDateTime.now());
-        service.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        service.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         service.setModifiedDate(ZonedDateTime.now());
         Service result = serviceRepository.save(service);
         return ResponseEntity.created(new URI("/api/services/" + result.getId()))
@@ -84,7 +84,7 @@ public class ServiceResource {
         if (service.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        service.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        service.setModifiedBy(SecurityUtils.getCurrentUserLogin().orElseThrow());
         service.setModifiedDate(ZonedDateTime.now());
         Service result = serviceRepository.save(service);
         return ResponseEntity.ok()

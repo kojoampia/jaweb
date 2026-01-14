@@ -219,7 +219,7 @@ public class HomeResourceIntTest {
         int databaseSizeBeforeUpdate = homeRepository.findAll().size();
 
         // Update the home
-        Home updatedHome = homeRepository.findById(home.getId()).get();
+        Home updatedHome = homeRepository.findById(home.getId()).orElseThrow();
         updatedHome
             .header(UPDATED_HEADER)
             .createdDate(UPDATED_CREATED_DATE)

@@ -355,7 +355,7 @@ public class ContactResourceIntTest {
         int databaseSizeBeforeUpdate = contactRepository.findAll().size();
 
         // Update the contact
-        Contact updatedContact = contactRepository.findById(contact.getId()).get();
+        Contact updatedContact = contactRepository.findById(contact.getId()).orElseThrow();
         updatedContact
             .title(UPDATED_TITLE)
             .address(UPDATED_ADDRESS)

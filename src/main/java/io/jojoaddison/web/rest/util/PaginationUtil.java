@@ -1,7 +1,7 @@
 package io.jojoaddison.web.rest.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -47,12 +47,7 @@ public final class PaginationUtil {
     }
 
     public static <T> HttpHeaders generateSearchPaginationHttpHeaders(String query, Page<T> page, String baseUrl) {
-        String escapedQuery;
-        try {
-            escapedQuery = URLEncoder.encode(query, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        String escapedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", Long.toString(page.getTotalElements()));
         String link = "";

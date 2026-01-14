@@ -229,7 +229,7 @@ public class SlideResourceIntTest {
         int databaseSizeBeforeUpdate = mockSlideService.findAll().size();
 
         // Update the slide
-        Slide updatedSlide = mockSlideService.findById(slide.getId()).get();
+        Slide updatedSlide = mockSlideService.findById(slide.getId()).orElseThrow();
         updatedSlide
             .title(UPDATED_TITLE)
             .description(UPDATED_DESCRIPTION)
