@@ -114,13 +114,10 @@ public class SecurityConfiguration {
                     .requestMatchers(HttpMethod.GET, "/management/info").permitAll()
                     .requestMatchers("/management/health").hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            )
-            .apply(securityConfigurerAdapter());
+            );
+
+        new JWTConfigurer(tokenProvider).configure(http);
 
         return http.build();
-    }
-
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
     }
 }
