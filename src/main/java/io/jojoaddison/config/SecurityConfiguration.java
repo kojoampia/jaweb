@@ -22,7 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 import io.jojoaddison.security.AuthoritiesConstants;
-import io.jojoaddison.security.jwt.JWTConfigurer;
+import io.jojoaddison.security.jwt.JWTFilter;
 import io.jojoaddison.security.jwt.TokenProvider;
 import jakarta.annotation.PostConstruct;
 
@@ -114,9 +114,8 @@ public class SecurityConfiguration {
                     .requestMatchers(HttpMethod.GET, "/management/info").permitAll()
                     .requestMatchers("/management/health").hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            );
-
-        new JWTConfigurer(tokenProvider).configure(http);
+            )
+            .addFilterBefore(new JWTFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
