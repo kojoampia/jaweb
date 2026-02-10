@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+
 
 import { IHome } from 'app/shared/model/home.model';
 import { HomeService } from './home.service';
@@ -13,8 +13,9 @@ import { HomeService } from './home.service';
 })
 export class HomeDeleteDialogComponent {
     home: IHome;
+    @Output() deletionComplete: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected homeService: HomeService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected homeService: HomeService, public activeModal: NgbActiveModal) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -22,10 +23,7 @@ export class HomeDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.homeService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'homeListModification',
-                content: 'Deleted an home'
-            });
+            this.deletionComplete.emit();
             this.activeModal.dismiss(true);
         });
     }
@@ -43,8 +41,12 @@ export class HomeDeletePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ home }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(HomeDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef = this.modalService.open(HomeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.home = home;
+                this.ngbModalRef.componentInstance.deletionComplete.subscribe(() => {
+                    this.router.navigate(['/home', { outlets: { popup: null } }]);
+                    this.ngbModalRef = null;
+                });
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/home', { outlets: { popup: null } }]);

@@ -1,24 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'jhi-owl-slider',
+    standalone: true,
+    imports: [CommonModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './slider.component.html',
     styleUrls: ['./slider.component.scss']
 })
 export class OwlSliderComponent implements OnInit {
-    @Input() slides: any[];
-    slideOptions = { items: 1, dots: true, nav: true };
-    carouselOptions = { items: 3, dots: true, nav: true };
-    images: any[];
+    @Input() slides: any[] = [];
+    slideOptions: any = { items: 1, dots: true, nav: true };
+    carouselOptions: any = { items: 3, dots: true, nav: true };
+    images: any[] = [];
 
     constructor() {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         console.log('inside owl slider');
         console.log(this.slides);
-        if (this.slides && this.slides.length) {
+        if (this.slides && this.slides.length > 0) {
             this.images = [];
-            this.slides.forEach(slide => {
+            this.slides.forEach((slide: any) => {
                 this.images.push(slide.url);
             });
         }

@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 import { ISlide } from './slide.model';
 
 export interface IImprint {
@@ -6,8 +6,8 @@ export interface IImprint {
     title?: string;
     content?: string;
     slides?: ISlide[];
-    createdDate?: Moment;
-    modifiedDate?: Moment;
+    createdDate?: dayjs.Dayjs;
+    modifiedDate?: dayjs.Dayjs;
     lastModifiedBy?: string;
 }
 
@@ -17,8 +17,8 @@ export class Imprint implements IImprint {
         public title?: string,
         public content?: string,
         public slides?: ISlide[],
-        public createdDate?: Moment,
-        public modifiedDate?: Moment,
+        public createdDate?: dayjs.Dayjs,
+        public modifiedDate?: dayjs.Dayjs,
         public lastModifiedBy?: string
     ) {}
 }

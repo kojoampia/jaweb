@@ -20,12 +20,6 @@ logging:
         io.jojoaddison: DEBUG
 
 spring:
-    profiles:
-        active: dev
-        include:
-            - swagger
-            # Uncomment to activate TLS for the dev profile
-            #- tls
     devtools:
         restart:
             enabled: true
@@ -60,8 +54,6 @@ server:
 # ===================================================================
 
 jhipster:
-    http:
-        version: V_1_1 # To use HTTP/2 you will need to activate TLS (see application-tls.yml)
     cache: # Cache configuration
         ehcache: # Ehcache configuration
             time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
@@ -85,16 +77,6 @@ jhipster:
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: jojoaddison@localhost
         base-url: http://127.0.0.1:8080
-    metrics:
-        logs: # Reports metrics in the logs
-            enabled: false
-            report-frequency: 60 # in seconds
-    logging:
-        logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
-            enabled: false
-            host: localhost
-            port: 5000
-            queue-size: 512
 
 # ===================================================================
 # Application specific properties

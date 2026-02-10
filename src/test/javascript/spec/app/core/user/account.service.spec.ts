@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { AccountService, JhiTrackerService } from 'app/core';
 import { JhiDateUtils } from 'ng-jhipster';
 import { SessionStorageService } from 'ngx-webstorage';

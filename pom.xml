@@ -23,7 +23,7 @@
             The spring-boot version should match the one managed by https://mvnrepository.com/artifact/tech.jhipster/jhipster-dependencies/${jhipster-dependencies.version}
         -->
         <maven.version>3.2.5</maven.version>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <node.version>v20.12.1</node.version>
         <npm.version>10.5.1</npm.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,7 +45,7 @@
         <jhipster-framework.version>8.7.0</jhipster-framework.version>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <jib-maven-plugin.image>eclipse-temurin:21-jre</jib-maven-plugin.image>
-        <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
@@ -72,10 +72,18 @@
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
         <springdoc-openapi-starter-webmvc-api.version>2.5.0</springdoc-openapi-starter-webmvc-api.version>
         <metrics-core.version>4.2.25</metrics-core.version>
+        <opentelemetry-javaagent.version>2.4.0</opentelemetry-javaagent.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>1.32.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>io.mongock</groupId>
                 <artifactId>mongock-bom</artifactId>
@@ -87,6 +95,12 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>io.opentelemetry.javaagent</groupId>
+            <artifactId>opentelemetry-javaagent</artifactId>
+            <version>${opentelemetry-javaagent.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
@@ -101,6 +115,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-loader-tools</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -310,7 +329,32 @@
 
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
+        <finalName>jaweb</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-opentelemetry-agent</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>io.opentelemetry.javaagent</groupId>
+                                    <artifactId>opentelemetry-javaagent</artifactId>
+                                    <version>${opentelemetry-javaagent.version}</version>
+                                    <destFileName>opentelemetry-javaagent.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.basedir}/src/main/jib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -432,7 +476,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>jojoaddison:latest</image>
+                            <image>${project.build.finalName}:${project.version}</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -446,12 +490,19 @@
                             <environment>
                                 <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
                                 <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>
+                                <OTEL_SERVICE_NAME>jojoaddison</OTEL_SERVICE_NAME>
+                                <OTEL_EXPORTER_OTLP_ENDPOINT>
+                                    https://otel-collector.jojoaddison:4317
+                                </OTEL_EXPORTER_OTLP_ENDPOINT>
+                                <OTEL_TRACES_EXPORTER>otlp</OTEL_TRACES_EXPORTER>
+                                <OTEL_METRICS_EXPORTER>otlp</OTEL_METRICS_EXPORTER>
+                                <OTEL_LOGS_EXPORTER>otlp</OTEL_LOGS_EXPORTER>
                             </environment>
                             <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
                             <user>1000</user>
                         </container>
                         <extraDirectories>
-                            <paths>src/main/docker/jib</paths>
+                            <paths>src/main/jib</paths>
                             <permissions>
                                 <permission>
                                     <file>/entrypoint.sh</file>

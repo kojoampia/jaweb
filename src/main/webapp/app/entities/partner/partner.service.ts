@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import * as moment from 'moment';
-import { SERVER_API_URL } from 'app/app.constants';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { IPartner } from 'app/shared/model/partner.model';
 import { map } from 'rxjs/operators';
@@ -56,7 +58,7 @@ export class PartnerService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : null;
         }
         return res;
     }
@@ -64,7 +66,7 @@ export class PartnerService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((partner: IPartner) => {
-                partner.createdDate = partner.createdDate != null ? moment(partner.createdDate) : null;
+                partner.createdDate = partner.createdDate != null ? dayjs(partner.createdDate) : null;
             });
         }
         return res;

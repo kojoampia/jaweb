@@ -3,7 +3,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { DataUtils } from 'app/core/util/data-util.service';
+import { DataUtils } from 'app/core/services/data-utils.service';
 
 import { ProductDetailComponent } from './product-detail.component';
 

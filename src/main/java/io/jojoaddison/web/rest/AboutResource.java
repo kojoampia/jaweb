@@ -27,6 +27,7 @@ import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
+import io.micrometer.core.annotation.Timed;
 
 
 
@@ -35,9 +36,11 @@ import io.jojoaddison.web.rest.util.PaginationUtil;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class AboutResource {
 
     private final Logger log = LoggerFactory.getLogger(AboutResource.class);
+
 
     private static final String ENTITY_NAME = "about";
 

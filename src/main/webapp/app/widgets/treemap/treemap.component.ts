@@ -1,17 +1,22 @@
 import { OnInit, OnChanges, Component, Input, EventEmitter, Output } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CommonModule } from '@angular/common';
+
 @Component({
     selector: 'jhi-treemap',
     templateUrl: './treemap.component.html',
-    styleUrls: ['./treemap.component.scss']
+    styleUrls: ['./treemap.component.scss'],
+    standalone: true,
+    imports: [NgxChartsModule, CommonModule]
 })
 export class TreeMapComponent implements OnInit {
     @Input() isFiltered = true;
-    @Input() data: TreeMap[];
+    @Input() data: TreeMap[] = [];
     @Output() dataSelected: EventEmitter<any> = new EventEmitter<any>();
-    @Input() colorScheme = {
+    @Input() colorScheme: any = {
         domain: ['white', 'yellow', 'orange', 'red']
     };
-    @Input() view: any[] = [420, 300];
+    @Input() view: [number, number] = [420, 300];
     @Input() customColors: any[] = [];
     ngOnInit() {}
     onSelect(event: any) {

@@ -1,9 +1,11 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ElementRef, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiDataUtils } from 'ng-jhipster';
+import { DataUtils } from 'app/core/services/data-utils.service';
 import { IPartner } from 'app/shared/model/partner.model';
 import { PartnerService } from './partner.service';
 
@@ -12,11 +14,11 @@ import { PartnerService } from './partner.service';
     templateUrl: './partner-update.component.html'
 })
 export class PartnerUpdateComponent implements OnInit {
-    partner: IPartner;
-    isSaving: boolean;
+    partner?: IPartner;
+    isSaving?: boolean;
 
     constructor(
-        protected dataUtils: JhiDataUtils,
+        protected dataUtils: DataUtils,
         protected partnerService: PartnerService,
         protected elementRef: ElementRef,
         protected activatedRoute: ActivatedRoute

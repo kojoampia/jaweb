@@ -19,7 +19,7 @@ export class FloatboxComponent implements OnInit {
     template: ''
 })
 export class FloatboxPopupComponent implements OnInit, OnDestroy {
-    protected ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef | null = null;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
@@ -30,17 +30,19 @@ export class FloatboxPopupComponent implements OnInit, OnDestroy {
                     size: 'lg',
                     backdrop: 'static'
                 });
-                this.ngbModalRef.componentInstance.contactMessage = contactMessage;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/contact/messages', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/contact/messages', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
+                if (this.ngbModalRef) {
+                    this.ngbModalRef.componentInstance.contactMessage = contactMessage;
+                    this.ngbModalRef.result.then(
+                        result => {
+                            this.router.navigate(['/contact/messages', { outlets: { popup: null } }]);
+                            this.ngbModalRef = null;
+                        },
+                        reason => {
+                            this.router.navigate(['/contact/messages', { outlets: { popup: null } }]);
+                            this.ngbModalRef = null;
+                        }
+                    );
+                }
             }, 0);
         });
     }

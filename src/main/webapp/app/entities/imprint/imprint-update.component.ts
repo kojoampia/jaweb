@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IImprint } from 'app/shared/model/imprint.model';
 import { ImprintService } from './imprint.service';
@@ -95,8 +95,8 @@ export class ImprintUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.imprint.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
-        this.imprint.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : null;
+        this.imprint.createdDate = this.createdDate != null ? dayjs(this.createdDate, DATE_TIME_FORMAT) : null;
+        this.imprint.modifiedDate = this.modifiedDate != null ? dayjs(this.modifiedDate, DATE_TIME_FORMAT) : null;
         if (this.imprint.id !== undefined) {
             this.subscribeToSaveResponse(this.imprintService.update(this.imprint));
         } else {

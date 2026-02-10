@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 import { ISlide } from 'app/shared/model/slide.model';
 
 export interface IContact {
@@ -18,7 +18,7 @@ export interface IContact {
     twitter?: string;
     google?: string;
     youtube?: string;
-    lastModified?: Moment;
+    lastModified?: dayjs.Dayjs;
     lastModifiedBy?: string;
     language?: string;
     appointment?: string;
@@ -48,7 +48,7 @@ export class Contact implements IContact {
         public twitter?: string,
         public google?: string,
         public youtube?: string,
-        public lastModified?: Moment,
+        public lastModified?: dayjs.Dayjs,
         public lastModifiedBy?: string,
         public language?: string,
         public appointment?: string,

@@ -1,20 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { EventManagerService } from 'app/core/services';
 
 import { IAbout } from 'app/shared/model/about.model';
 import { AboutService } from './about.service';
 
 @Component({
     selector: 'jhi-about-delete-dialog',
-    templateUrl: './about-delete-dialog.component.html'
+    templateUrl: './about-delete-dialog.component.html',
+    standalone: true,
+    imports: [CommonModule, RouterModule]
 })
 export class AboutDeleteDialogComponent {
     about: IAbout;
-
-    constructor(protected aboutService: AboutService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    
+    private aboutService = inject(AboutService);
+    public activeModal = inject(NgbActiveModal);
+    private eventManager = inject(EventManagerService);
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -33,15 +38,16 @@ export class AboutDeleteDialogComponent {
 
 @Component({
     selector: 'jhi-about-delete-popup',
-    template: ''
+    template: '',
+    standalone: true,
+    imports: [RouterModule]
 })
 export class AboutDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
-
-    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
-        this.ngbModalRef = modalService.open(null);
-        delete this.ngbModalRef;
-    }
+    
+    private activatedRoute = inject(ActivatedRoute);
+    private router = inject(Router);
+    private modalService = inject(NgbModal);
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ about }) => {
@@ -65,4 +71,3 @@ export class AboutDeletePopupComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         delete this.ngbModalRef;
     }
-}

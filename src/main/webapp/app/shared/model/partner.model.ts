@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 
 export interface IPartner {
     id?: string;
@@ -13,7 +13,7 @@ export interface IPartner {
     email?: string;
     contactPerson?: string;
     logoUrl?: string;
-    createdDate?: Moment;
+    createdDate?: dayjs.Dayjs;
 }
 
 export class Partner implements IPartner {
@@ -30,6 +30,6 @@ export class Partner implements IPartner {
         public email?: string,
         public contactPerson?: string,
         public logoUrl?: string,
-        public createdDate?: Moment
+        public createdDate?: dayjs.Dayjs
     ) {}
 }

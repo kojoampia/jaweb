@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { JhiConfigurationService } from 'app/admin/configuration/configuration.service';
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpResponse } from '@angular/common/http';
 

@@ -3,11 +3,13 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+
 
 import { IContact } from 'app/shared/model/contact.model';
-import { AccountService } from 'app/core';
+import { AccountService } from 'app/core/auth/account.service';
 import { ContactService } from './contact.service';
+import { AlertService } from 'app/core/services/alert.service';
+import { DataUtils } from 'app/shared/data-util.service';
 
 @Component({
     selector: 'jhi-contact',
@@ -17,16 +19,14 @@ import { ContactService } from './contact.service';
 export class ContactComponent implements OnInit, OnDestroy {
     contacts: IContact[] = [];
     currentAccount: any;
-    eventSubscriber: Subscription = new Subscription();
     currentSearch: string;
 
     constructor(
         protected contactService: ContactService,
-        protected jhiAlertService: JhiAlertService,
-        protected dataUtils: JhiDataUtils,
-        protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected alertService: AlertService,
+        protected dataUtils: DataUtils
     ) {
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
@@ -77,14 +77,9 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then((account: any) => {
+        this.accountService.identity().subscribe(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInContacts();
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: IContact) {
@@ -99,11 +94,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         return this.dataUtils.openFile(contentType, field);
     }
 
-    registerChangeInContacts() {
-        this.eventSubscriber = this.eventManager.subscribe('contactListModification', (response: any) => this.loadAll());
-    }
-
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, undefined);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 }

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
 import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
-import { DataUtils } from 'app/core/util/data-util.service';
+import { DataUtils } from 'app/core/services/data-utils.service';
 import { IProduct } from '../product.model';
 
 @Component({

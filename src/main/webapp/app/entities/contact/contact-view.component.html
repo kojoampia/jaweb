@@ -70,7 +70,7 @@
                         <img [src]="'data:' + contact.imageContentType + ';base64,' + contact.image"
                                 style="max-width: 100%;" alt="contact image" />
                     </div>
-                    <jhi-map [longitude]="contact.longitude" [latitude]="contact.latitude"></jhi-map>
+                    <jhi-map [longitude]="contact.longitude ?? 0" [latitude]="contact.latitude ?? 0"></jhi-map>
                 </div>
             </div>
         </div>

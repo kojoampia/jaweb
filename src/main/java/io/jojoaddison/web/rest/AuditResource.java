@@ -18,15 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.jojoaddison.service.AuditEventService;
 import io.jojoaddison.web.rest.util.PaginationUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for getting the audit events.
  */
 @RestController
 @RequestMapping("/management/audits")
+@Timed
 public class AuditResource {
 
     private final AuditEventService auditEventService;
+
 
     public AuditResource(AuditEventService auditEventService) {
         this.auditEventService = auditEventService;

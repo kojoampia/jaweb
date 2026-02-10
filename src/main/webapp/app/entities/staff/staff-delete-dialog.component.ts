@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { EventManager, EventWithContent } from 'app/core/services/event-manager.service';
 
 import { IStaff } from 'app/shared/model/staff.model';
 import { StaffService } from './staff.service';
@@ -14,7 +14,7 @@ import { StaffService } from './staff.service';
 export class StaffDeleteDialogComponent {
     staff: IStaff;
 
-    constructor(protected staffService: StaffService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected staffService: StaffService, public activeModal: NgbActiveModal, protected eventManager: EventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -22,10 +22,7 @@ export class StaffDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.staffService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'staffListModification',
-                content: 'Deleted an staff'
-            });
+            this.eventManager.broadcast(new EventWithContent('staffListModification', 'Deleted an staff'));
             this.activeModal.dismiss(true);
         });
     }
@@ -36,7 +33,7 @@ export class StaffDeleteDialogComponent {
     template: ''
 })
 export class StaffDeletePopupComponent implements OnInit, OnDestroy {
-    protected ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef | null = null;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
@@ -60,6 +57,8 @@ export class StaffDeletePopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.ngbModalRef = null;
+        if (this.ngbModalRef) {
+            this.ngbModalRef.close();
+        }
     }
 }

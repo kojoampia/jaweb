@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+
 
 import { IContact, Contact } from 'app/shared/model/contact.model';
 import { ContactService } from './contact.service';
@@ -14,8 +14,9 @@ import { ContactService } from './contact.service';
 })
 export class ContactDeleteDialogComponent {
     contact: IContact = new Contact();
+    @Output() deletionComplete: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected contactService: ContactService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected contactService: ContactService, public activeModal: NgbActiveModal) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -23,10 +24,7 @@ export class ContactDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.contactService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'contactListModification',
-                content: 'Deleted an contact'
-            });
+            this.deletionComplete.emit();
             this.activeModal.dismiss(true);
         });
     }
@@ -37,11 +35,9 @@ export class ContactDeleteDialogComponent {
     template: ''
 })
 export class ContactDeletePopupComponent implements OnInit, OnDestroy {
-    protected ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef | null;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
-        this.ngbModalRef = modalService.open(null);
-        delete this.ngbModalRef;
     }
 
     ngOnInit() {
@@ -51,22 +47,26 @@ export class ContactDeletePopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        delete this.ngbModalRef;
+        this.ngbModalRef = null;
     }
 
     protected init() {
         this.activatedRoute.data.subscribe(({ contact }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(ContactDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef = this.modalService.open(ContactDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.contact = contact;
+                this.ngbModalRef.componentInstance.deletionComplete.subscribe(() => {
+                    this.router.navigate(['/contact', { outlets: { popup: null } }]);
+                    this.ngbModalRef = null;
+                });
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/contact', { outlets: { popup: null } }]);
-                        delete this.ngbModalRef;
+                        this.ngbModalRef = null;
                     },
                     reason => {
                         this.router.navigate(['/contact', { outlets: { popup: null } }]);
-                        delete this.ngbModalRef;
+                        this.ngbModalRef = null;
                     }
                 );
             }, 0);

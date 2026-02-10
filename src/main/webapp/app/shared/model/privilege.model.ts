@@ -1,12 +1,12 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 
 export interface IPrivilege {
     id?: string;
     name?: string;
-    createdDate?: Moment;
+    createdDate?: dayjs.Dayjs;
     createdBy?: string;
 }
 
 export class Privilege implements IPrivilege {
-    constructor(public id?: string, public name?: string, public createdDate?: Moment, public createdBy?: string) {}
+    constructor(public id?: string, public name?: string, public createdDate?: dayjs.Dayjs, public createdBy?: string) {}
 }

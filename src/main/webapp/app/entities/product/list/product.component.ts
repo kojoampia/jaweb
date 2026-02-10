@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { DataUtils } from 'app/core/util/data-util.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
+import { DataUtils } from 'app/core/services/data-utils.service';
+import { ParseLinks } from 'app/core/services/parse-links.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProductDeleteDialogComponent } from '../delete/product-delete-dialog.component';
 import { EntityArrayResponseType, ProductService } from '../service/product.service';

@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Alert, AlertService } from 'app/core/util/alert.service';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { Alert, AlertService } from 'app/core/services/alert.service';
+import { EventManagerService as EventManager } from 'app/core/services/event-manager.service';
 import { AlertError } from './alert-error.model';
 
 @Component({
@@ -26,13 +26,12 @@ export class AlertErrorComponent implements OnDestroy {
   private translateService = inject(TranslateService);
 
   constructor() {
-    this.errorListener = this.eventManager.subscribe('jojoaddisonApp.error', (response: EventWithContent<unknown> | string) => {
-      const errorResponse = (response as EventWithContent<AlertError>).content;
+    this.errorListener = this.eventManager.subscribe('jojoaddisonApp.error', (errorResponse: AlertError) => {
       this.addErrorAlert(errorResponse.message, errorResponse.key, errorResponse.params);
     });
 
-    this.httpErrorListener = this.eventManager.subscribe('jojoaddisonApp.httpError', (response: EventWithContent<unknown> | string) => {
-      this.handleHttpError(response);
+    this.httpErrorListener = this.eventManager.subscribe('jojoaddisonApp.httpError', (httpErrorResponse: HttpErrorResponse) => {
+      this.handleHttpError(httpErrorResponse);
     });
   }
 
@@ -45,8 +44,12 @@ export class AlertErrorComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.eventManager.destroy(this.errorListener);
-    this.eventManager.destroy(this.httpErrorListener);
+    if (this.errorListener) {
+        this.errorListener.unsubscribe();
+    }
+    if (this.httpErrorListener) {
+        this.httpErrorListener.unsubscribe();
+    }
   }
 
   close(alert: Alert): void {
@@ -57,8 +60,7 @@ export class AlertErrorComponent implements OnDestroy {
     this.alertService.addAlert({ type: 'danger', message, translationKey, translationParams }, this.alerts());
   }
 
-  private handleHttpError(response: EventWithContent<unknown> | string): void {
-    const httpErrorResponse = (response as EventWithContent<HttpErrorResponse>).content;
+  private handleHttpError(httpErrorResponse: HttpErrorResponse): void {
     switch (httpErrorResponse.status) {
       // connection refused, server not reachable
       case 0:

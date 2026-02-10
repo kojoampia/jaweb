@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+
 
 import { IPartner } from 'app/shared/model/partner.model';
 import { PartnerService } from './partner.service';
@@ -13,8 +13,9 @@ import { PartnerService } from './partner.service';
 })
 export class PartnerDeleteDialogComponent {
     partner: IPartner;
+    @Output() deletionComplete: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected partnerService: PartnerService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected partnerService: PartnerService, public activeModal: NgbActiveModal) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -22,10 +23,7 @@ export class PartnerDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.partnerService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'partnerListModification',
-                content: 'Deleted an partner'
-            });
+            this.deletionComplete.emit();
             this.activeModal.dismiss(true);
         });
     }
@@ -43,8 +41,12 @@ export class PartnerDeletePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ partner }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(PartnerDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef = this.modalService.open(PartnerDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.partner = partner;
+                this.ngbModalRef.componentInstance.deletionComplete.subscribe(() => {
+                    this.router.navigate(['/partner', { outlets: { popup: null } }]);
+                    this.ngbModalRef = null;
+                });
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/partner', { outlets: { popup: null } }]);

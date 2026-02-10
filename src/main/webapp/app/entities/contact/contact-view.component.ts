@@ -1,19 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { IContact } from 'app/shared/model/contact.model';
 import { ContactService } from './contact.service';
-import { DatePipe } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ContactMessage, IContactMessage } from 'app/shared/model/contact-message.model';
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MessengerComponent } from 'app/widgets/messenger/messenger.component';
+import { MapComponent } from 'app/widgets/map/map.component';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
+    standalone: true,
     selector: 'jhi-contact-view',
     templateUrl: './contact-view.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    imports: [CommonModule, FormsModule, FontAwesomeModule, MessengerComponent, MapComponent, RouterModule]
 })
 export class ContactViewComponent implements OnInit {
-    contact: IContact;
+    contact: IContact | null = null;
     message: any;
     isSending = false;
     isVisible = false;
@@ -41,7 +48,7 @@ export class ContactViewComponent implements OnInit {
         this.subscribeToSaveResponse(this.contactService.postMessage(contactMessage));
     }
 
-    sanitzer(data: string): SafeHtml {
+    sanitizer(data: string): SafeHtml {
         return this.domSanitizer.bypassSecurityTrustHtml(data);
     }
 

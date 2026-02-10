@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 import { ISlide } from 'app/shared/model/slide.model';
 
 export interface IAbout {
@@ -6,8 +6,8 @@ export interface IAbout {
     title?: string;
     content?: string;
     language?: string;
-    createdDate?: Moment;
-    modifiedDate?: Moment;
+    createdDate?: dayjs.Dayjs;
+    modifiedDate?: dayjs.Dayjs;
     lastModifiedBy?: string;
     slides?: ISlide[];
 }
@@ -18,8 +18,8 @@ export class About implements IAbout {
         public title?: string,
         public content?: string,
         public language?: string,
-        public createdDate?: Moment,
-        public modifiedDate?: Moment,
+        public createdDate?: dayjs.Dayjs,
+        public modifiedDate?: dayjs.Dayjs,
         public lastModifiedBy?: string,
         public slides?: ISlide[]
     ) {}

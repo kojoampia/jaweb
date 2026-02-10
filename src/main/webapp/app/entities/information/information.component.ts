@@ -3,11 +3,12 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+
 
 import { IInformation, Information } from 'app/shared/model/information.model';
 import { AccountService } from 'app/core';
 import { InformationService } from './information.service';
+import { AlertService } from 'app/core/services/alert.service';
 
 @Component({
     selector: 'jhi-information',
@@ -17,16 +18,14 @@ import { InformationService } from './information.service';
 export class InformationComponent implements OnInit, OnDestroy {
     information: IInformation[];
     currentAccount: any;
-    eventSubscriber: Subscription;
     currentSearch: string;
     info: Information;
 
     constructor(
         protected informationService: InformationService,
-        protected jhiAlertService: JhiAlertService,
-        protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected alertService: AlertService
     ) {
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
@@ -78,25 +77,16 @@ export class InformationComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then(account => {
+        this.accountService.identity().subscribe(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInInformation();
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: IInformation) {
         return item.id;
     }
 
-    registerChangeInInformation() {
-        this.eventSubscriber = this.eventManager.subscribe('informationListModification', response => this.loadAll());
-    }
-
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 }

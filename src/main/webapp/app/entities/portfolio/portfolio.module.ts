@@ -9,8 +9,7 @@ import {
     PortfolioDeletePopupComponent,
     PortfolioDeleteDialogComponent,
     portfolioRoute,
-    portfolioPopupRoute,
-    PortfolioViewComponent
+    portfolioPopupRoute
 } from './';
 import { ConsoleLoggerService } from 'app/console-logger.service';
 
@@ -19,16 +18,13 @@ const ENTITY_STATES = [...portfolioRoute, ...portfolioPopupRoute];
 @NgModule({
     imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        PortfolioComponent,
         PortfolioDetailComponent,
         PortfolioUpdateComponent,
         PortfolioDeleteDialogComponent,
-        PortfolioDeletePopupComponent,
-        PortfolioViewComponent
+        PortfolioDeletePopupComponent
     ],
-    entryComponents: [PortfolioComponent, PortfolioUpdateComponent, PortfolioDeleteDialogComponent, PortfolioDeletePopupComponent],
+    entryComponents: [PortfolioUpdateComponent, PortfolioDeleteDialogComponent, PortfolioDeletePopupComponent],
     providers: [ConsoleLoggerService],
-    exports: [PortfolioViewComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonPortfolioModule {}

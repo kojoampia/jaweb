@@ -4,40 +4,24 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Ng2Webstorage } from 'ngx-webstorage';
-import { NgJhipsterModule } from 'ng-jhipster';
-import { ScrollSpyModule } from 'ngx-scrollspy';
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
-import { JojoaddisonSharedModule } from 'app/shared';
 import { JojoaddisonCoreModule } from 'app/core';
 import { JojoaddisonAppRoutingModule } from './app-routing.module';
 import { JojoaddisonHomeModule } from './home/home.module';
 import { JojoaddisonAccountModule } from './account/account.module';
 import { JojoaddisonEntityModule } from './entities/entity.module';
-import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
-import { JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent } from './layouts';
+import { MainComponent, NavbarComponent } from './layouts';
 import { FooterModule } from './layouts/footer/footer.module';
 import { ConsoleLoggerService } from './console-logger.service';
-import { NgxScrollTopModule } from 'ngx-scrolltop';
-import { StickyNavModule } from 'ng2-sticky-nav';
+import dayjs from 'dayjs';
 
 @NgModule({
     imports: [
         BrowserModule,
-        Ng2Webstorage.forRoot({ prefix: 'bed', separator: '-' }),
-        NgJhipsterModule.forRoot({
-            // set below to true to make alerts look like toast
-            alertAsToast: false,
-            alertTimeout: 5000
-        }),
-        ScrollSpyModule.forRoot(),
-        StickyNavModule,
-        NgxScrollTopModule,
-        JojoaddisonSharedModule.forRoot(),
         JojoaddisonCoreModule,
         JojoaddisonHomeModule,
         JojoaddisonAccountModule,
@@ -46,7 +30,7 @@ import { StickyNavModule } from 'ng2-sticky-nav';
         JojoaddisonAppRoutingModule,
         FooterModule
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent],
+    declarations: [MainComponent, NavbarComponent],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
@@ -70,10 +54,10 @@ import { StickyNavModule } from 'ng2-sticky-nav';
         },
         ConsoleLoggerService
     ],
-    bootstrap: [JhiMainComponent]
+    bootstrap: [MainComponent]
 })
 export class JojoaddisonAppModule {
     constructor(private dpConfig: NgbDatepickerConfig) {
-        this.dpConfig.minDate = { year: moment().year() - 100, month: 1, day: 1 };
+        this.dpConfig.minDate = { year: dayjs().year() - 100, month: 1, day: 1 };
     }
 }

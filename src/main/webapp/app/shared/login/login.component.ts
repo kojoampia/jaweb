@@ -1,28 +1,29 @@
-import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginService } from 'app/core/login/login.service';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { EventManagerService } from 'app/core/services';
 
 @Component({
     selector: 'jhi-login-modal',
     templateUrl: './login.component.html'
 })
 export class JhiLoginModalComponent implements AfterViewInit {
-    authenticationError: boolean;
-    password: string;
-    rememberMe: boolean;
-    username: string;
-    credentials: any;
+    @ViewChild('username') usernameField?: ElementRef;
+    
+    authenticationError = false;
+    password = '';
+    rememberMe = false;
+    username = '';
+    credentials: any = {};
 
     constructor(
-        private eventManager: JhiEventManager,
+        private eventManager: EventManagerService,
         private loginService: LoginService,
         private stateStorageService: StateStorageService,
         private elementRef: ElementRef,
-        private renderer: Renderer,
         private router: Router,
         public activeModal: NgbActiveModal
     ) {
@@ -30,7 +31,9 @@ export class JhiLoginModalComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
+        if (this.usernameField) {
+            this.usernameField.nativeElement.focus();
+        }
     }
 
     cancel() {
@@ -50,28 +53,30 @@ export class JhiLoginModalComponent implements AfterViewInit {
                 password: this.password,
                 rememberMe: this.rememberMe
             })
-            .then(() => {
-                this.authenticationError = false;
-                this.activeModal.dismiss('login success');
-                if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
-                    this.router.navigate(['']);
-                }
+            .subscribe({
+                next: () => {
+                    this.authenticationError = false;
+                    this.activeModal.dismiss('login success');
+                    if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
+                        this.router.navigate(['']);
+                    }
 
-                this.eventManager.broadcast({
-                    name: 'authenticationSuccess',
-                    content: 'Sending Authentication Success'
-                });
+                    this.eventManager.broadcast({
+                        name: 'authenticationSuccess',
+                        content: 'Sending Authentication Success'
+                    });
 
-                // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-                // since login is successful, go to stored previousState and clear previousState
-                const redirect = this.stateStorageService.getUrl();
-                if (redirect) {
-                    this.stateStorageService.storeUrl(null);
-                    this.router.navigate([redirect]);
+                    // previousState was set in the authExpiredInterceptor before being redirected to login modal.
+                    // since login is successful, go to stored previousState and clear previousState
+                    const redirect = this.stateStorageService.getUrl();
+                    if (redirect) {
+                        this.stateStorageService.storeUrl('');
+                        this.router.navigate([redirect]);
+                    }
+                },
+                error: () => {
+                    this.authenticationError = true;
                 }
-            })
-            .catch(() => {
-                this.authenticationError = true;
             });
     }
 

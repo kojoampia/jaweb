@@ -12,7 +12,7 @@ import {
     blogPopupRoute
 } from './';
 import { BlogViewComponent } from './blog-view.component';
-import { ScrollSpyModule } from 'ngx-scrollspy';
+import { ScrollSpyModule } from '@uniprank/ngx-scrollspy';
 import { ConsoleLoggerService } from 'app/console-logger.service';
 
 const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];

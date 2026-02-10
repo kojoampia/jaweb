@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+
 
 import { IContactMessage } from 'app/shared/model/contact-message.model';
 import { ContactService } from '../contact.service';
@@ -13,11 +13,11 @@ import { ContactService } from '../contact.service';
 })
 export class ContactMessageDeleteDialogComponent {
     contactMessage: IContactMessage;
+    @Output() deletionComplete: EventEmitter<any> = new EventEmitter();
 
     constructor(
         protected contactMessageService: ContactService,
-        public activeModal: NgbActiveModal,
-        protected eventManager: JhiEventManager
+        public activeModal: NgbActiveModal
     ) {}
 
     clear() {
@@ -26,10 +26,7 @@ export class ContactMessageDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.contactMessageService.deleteMessage(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'contactMessageListModification',
-                content: 'Deleted an contactMessage'
-            });
+            this.deletionComplete.emit();
             this.activeModal.dismiss(true);
         });
     }
@@ -47,11 +44,15 @@ export class ContactMessageDeletePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ contactMessage }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(ContactMessageDeleteDialogComponent as Component, {
+                this.ngbModalRef = this.modalService.open(ContactMessageDeleteDialogComponent, {
                     size: 'lg',
                     backdrop: 'static'
                 });
                 this.ngbModalRef.componentInstance.contactMessage = contactMessage;
+                this.ngbModalRef.componentInstance.deletionComplete.subscribe(() => {
+                    this.router.navigate(['/contact-message', { outlets: { popup: null } }]);
+                    this.ngbModalRef = null;
+                });
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/contact-message', { outlets: { popup: null } }]);

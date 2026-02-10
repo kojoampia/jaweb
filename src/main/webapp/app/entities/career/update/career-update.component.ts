@@ -8,8 +8,8 @@ import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { EventManager, EventWithContent } from 'app/core/services/event-manager.service';
+import { DataUtils, FileLoadError } from 'app/shared/data-util.service';
 import { CareerService } from '../service/career.service';
 import { ICareer } from '../career.model';
 import { CareerFormService, CareerFormGroup } from './career-form.service';
@@ -52,8 +52,8 @@ export class CareerUpdateComponent implements OnInit {
 
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('jojoaddisonApp.error', { ...err, key: 'error.file.' + err.key })),
+      error: (err: Error) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('jojoaddisonApp.error', { message: err.message })),
     });
   }
 

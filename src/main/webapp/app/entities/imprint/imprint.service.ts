@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { IImprint } from 'app/shared/model/imprint.model';
 
@@ -65,16 +65,16 @@ export class ImprintService {
 
     protected convertDateFromClient(imprint: IImprint): IImprint {
         const copy: IImprint = Object.assign({}, imprint, {
-            createdDate: imprint.createdDate != null && imprint.createdDate.isValid() ? imprint.createdDate.toJSON() : null,
-            modifiedDate: imprint.modifiedDate != null && imprint.modifiedDate.isValid() ? imprint.modifiedDate.toJSON() : null
+            createdDate: dayjs.isDayjs(imprint.createdDate) && imprint.createdDate.isValid() ? imprint.createdDate.toJSON() : null,
+            modifiedDate: dayjs.isDayjs(imprint.modifiedDate) && imprint.modifiedDate.isValid() ? imprint.modifiedDate.toJSON() : null
         });
         return copy;
     }
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
-            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : null;
+            res.body.modifiedDate = res.body.modifiedDate != null ? dayjs(res.body.modifiedDate) : null;
         }
         return res;
     }
@@ -82,8 +82,8 @@ export class ImprintService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((imprint: IImprint) => {
-                imprint.createdDate = imprint.createdDate != null ? moment(imprint.createdDate) : null;
-                imprint.modifiedDate = imprint.modifiedDate != null ? moment(imprint.modifiedDate) : null;
+                imprint.createdDate = imprint.createdDate != null ? dayjs(imprint.createdDate) : null;
+                imprint.modifiedDate = imprint.modifiedDate != null ? dayjs(imprint.modifiedDate) : null;
             });
         }
         return res;

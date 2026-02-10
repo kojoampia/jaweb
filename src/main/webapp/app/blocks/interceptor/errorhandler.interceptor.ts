@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { JhiEventManager } from 'ng-jhipster';
+import { EventManager } from 'app/core/services/event-manager.service';
 import { HttpInterceptor, HttpRequest, HttpErrorResponse, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
-    constructor(private eventManager: JhiEventManager) {}
+    constructor(private eventManager: EventManager) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(

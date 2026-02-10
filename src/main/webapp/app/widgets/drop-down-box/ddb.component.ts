@@ -1,21 +1,22 @@
 import { EventEmitter, Input, Output, OnInit, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'jhi-drop-down-box',
     templateUrl: './ddb.component.html',
-    styleUrls: ['./ddb.component.scss']
+    styleUrls: ['./ddb.component.scss'],
+    standalone: true,
+    imports: [CommonModule, FormsModule]
 })
 export class DropDownBoxComponent implements OnInit {
-    @Input() translateLabel: string;
-    @Input() items: any[];
+    @Input() translateLabel = 'global.field.drop-down-box';
+    @Input() items: any[] = [];
     @Output() itemSelected = new EventEmitter();
-    @Input() listItems: any[];
+    @Input() listItems: any[] = [];
     @Input() selectedItem: any;
 
-    constructor() {
-        this.listItems = [];
-        this.translateLabel = 'global.field.drop-down-box';
-    }
+    constructor() {}
 
     ngOnInit() {
         this.selectedItem = 'sector';
@@ -37,7 +38,7 @@ export class DropDownBoxComponent implements OnInit {
         }
     }
 
-    public setItemSelected(item) {
+    public setItemSelected(item: any) {
         console.log('broadcast: item-selected');
         console.log(item);
         this.itemSelected.emit(item);

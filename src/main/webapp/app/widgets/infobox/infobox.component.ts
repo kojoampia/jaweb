@@ -1,31 +1,32 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
     selector: 'jhi-infobox',
+    standalone: true,
+    imports: [CommonModule, FontAwesomeModule],
     templateUrl: './infobox.component.html',
     styleUrls: ['./infobox.component.scss']
 })
 export class InfoboxComponent implements OnInit {
-    @Input() info: Infobox;
+    @Input() info: Infobox = new Infobox('0', 'Nothing', 1, 'No content provided.');
     @Output() infoBoxSelected: EventEmitter<Infobox> = new EventEmitter();
-    link: string;
+    link: string = '';
     showMore = false;
 
     constructor() {
-        if (!this.info) {
-            this.info = new Infobox('0', 'Nothing', 1, 'No content provided.');
-        }
         this.link = this.info.link ? '/#/' + this.info.link : '';
         console.log('link: ' + this.link);
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         console.log(this.info);
     }
-    onInfoboxSelected(infobox: Infobox) {
+    onInfoboxSelected(infobox: Infobox): void {
         this.infoBoxSelected.emit(infobox);
     }
-    toggleShowMore() {
+    toggleShowMore(): void {
         this.showMore = !this.showMore;
     }
 }
@@ -33,18 +34,18 @@ export class InfoboxComponent implements OnInit {
 export class Infobox {
     id: string;
     title: string;
-    type: number;
-    brief: string;
+    type: number = 0;
+    brief: string = '';
     content: any;
-    link: string;
-    linkText: string;
+    link: string = '';
+    linkText: string = '';
     constructor(id: string, title: string, type?: number, content?: any, brief?: string, link?: string, linkText?: string) {
         this.id = id;
         this.title = title;
-        this.type = type;
+        this.type = type || 0;
         this.content = content;
-        this.brief = brief;
-        this.link = link;
-        this.linkText = linkText;
+        this.brief = brief || '';
+        this.link = link || '';
+        this.linkText = linkText || '';
     }
 }

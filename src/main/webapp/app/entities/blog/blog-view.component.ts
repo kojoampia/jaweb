@@ -1,40 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { BlogService } from './blog.service';
 import { IBlog } from 'app/shared/model/blog.model';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ScrollSpyService } from 'ngx-scrollspy';
-import { SessionStorage } from 'ngx-webstorage';
-import { JhiEventManager } from 'ng-jhipster';
-import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeHtml, CommonModule } from '@angular/platform-browser';
+import { ScrollSpyService } from '@uniprank/ngx-scrollspy';
+import { StorageService } from 'app/core/services';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { RouterModule } from '@angular/router';
+import { EventManagerService } from 'app/core/services';
+import type { Subscription } from 'rxjs';
 
 @Component({
   selector: 'jhi-blog-view',
   templateUrl: './blog-view.component.html',
   styleUrls: ['../entities.components.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
-export class BlogViewComponent implements OnInit {
-  blogs: IBlog[];
-  page = 0;
-  @SessionStorage() blog: IBlog;
+export class BlogViewComponent implements OnInit, OnDestroy {
+  private blogService = inject(BlogService);
+  private domSanitizer = inject(DomSanitizer);
+  private eventManager = inject(EventManagerService);
+  private scrollSpyService = inject(ScrollSpyService);
+  private storageService = inject(StorageService);
+  private destroy$ = new Subject<void>();
+  
+  blogs = signal<IBlog[]>([]);
+  page = signal(0);
+  blog = this.storageService.createLocalStorageSignal<IBlog>('blog', null);
   eventSubscriber: Subscription;
-  recentBlogs: any[] = [];
-  archivedBlogs: any[] = [];
-  archiveYears: any[];
-  ready = false;
-  archiveList: BlogArchive[] = [];
-
-  constructor(
-    protected blogService: BlogService,
-    protected domSanitizer: DomSanitizer,
-    protected eventManager: JhiEventManager,
-    protected scrollSpyService: ScrollSpyService,
-  ) {}
+  recentBlogs = signal<any[]>([]);
+  archivedBlogs = signal<any[]>([]);
+  archiveYears = signal<any[]>([]);
+  ready = signal(false);
+  archiveList = signal<BlogArchive[]>([]);
 
   ngOnInit() {
     this.registerChangeInBlogs();
-    if (!this.blogs || this.blogs.length === 0) {
-      this.blogService.query().subscribe((response: any) => {
-        this.blogs = response.body;
+    if (!this.blogs() || this.blogs().length === 0) {
+      this.blogService.query().pipe(takeUntil(this.destroy$)).subscribe((response: any) => {
+        this.blogs.set(response.body);
         this.loadFirstPage();
       });
     } else {
@@ -45,63 +50,78 @@ export class BlogViewComponent implements OnInit {
     }, 100);
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
+  }
+
   loadArchives() {
-    this.blogService.getArchives().subscribe(res => {
+    this.blogService.getArchives().pipe(takeUntil(this.destroy$)).subscribe(res => {
       const blogsMap = res.body;
       console.log(blogsMap);
       if (blogsMap) {
-        this.archivedBlogs = [];
-        this.archiveYears = [];
+        this.archivedBlogs.set([]);
+        this.archiveYears.set([]);
         const keys = Object.getOwnPropertyNames(blogsMap);
         const values = Object.keys(blogsMap).map(item => {
           return blogsMap[item];
         });
         console.log(keys);
         console.log(values);
-        this.archivedBlogs = values[0];
+        this.archivedBlogs.set(values[0]);
         const year = Number.parseInt(keys[0], 0);
-        for (let i = 0; i < this.archivedBlogs.length; i++) {
-          this.archivedBlogs[i].year = year;
+        const archived = this.archivedBlogs();
+        for (let i = 0; i < archived.length; i++) {
+          archived[i].year = year;
         }
-        console.log(this.archivedBlogs);
+        this.archivedBlogs.set(archived);
+        console.log(this.archivedBlogs());
       }
     });
   }
 
   loadArchiveByYear(year: number) {
-    const yearArchives = this.archivedBlogs.filter(item => item.id === year);
+    const yearArchives = this.archivedBlogs().filter(item => item.id === year);
     console.log('loading for ' + year);
     console.log(yearArchives);
     return yearArchives;
   }
 
   loadFirstPage() {
-    if (this.blogs && this.blogs.length) {
-      this.blog = this.blogs[this.page];
-      this.recentBlogs = [];
-      this.blogs.forEach(blog => {
-        this.recentBlogs.push({ key: blog.id, value: blog.title });
+    const blogsValue = this.blogs();
+    if (blogsValue && blogsValue.length) {
+      this.blog.set(blogsValue[this.page()]);
+      const recentBlogsValue: any[] = [];
+      blogsValue.forEach(blog => {
+        recentBlogsValue.push({ key: blog.id, value: blog.title });
       });
+      this.recentBlogs.set(recentBlogsValue);
     }
   }
 
   nextPage() {
     setTimeout(() => {
-      this.page = this.page + 1;
-      if (this.page === this.blogs.length) {
-        this.page = this.blogs.length - 1;
+      let newPage = this.page() + 1;
+      const blogsLength = this.blogs().length;
+      if (newPage === blogsLength) {
+        newPage = blogsLength - 1;
       }
-      this.blog = this.blogs[this.page];
+      this.page.set(newPage);
+      this.blog.set(this.blogs()[newPage]);
     }, 5);
   }
 
   previousPage() {
     setTimeout(() => {
-      this.page = this.page - 1;
-      if (this.page < 0) {
-        this.page = 0;
+      let newPage = this.page() - 1;
+      if (newPage < 0) {
+        newPage = 0;
       }
-      this.blog = this.blogs[this.page];
+      this.page.set(newPage);
+      this.blog.set(this.blogs()[newPage]);
     }, 5);
   }
 
@@ -119,16 +139,17 @@ export class BlogViewComponent implements OnInit {
 
   resetBlogs(item: any) {
     console.log('Resetting blogs' + item);
-    this.blog = null;
-    this.blogs = [];
+    this.blog.set(null);
+    this.blogs.set([]);
   }
 
   onSidebarItemSelected(item: any) {
     console.log('sidebar-item-selected');
     console.log(item);
-    this.blog = this.blogs.find(blog => blog.id === item.key);
+    const foundBlog = this.blogs().find(blog => blog.id === item.key);
+    this.blog.set(foundBlog);
     console.log('Blog-found');
-    console.log(this.blog);
+    console.log(this.blog());
   }
 }
 

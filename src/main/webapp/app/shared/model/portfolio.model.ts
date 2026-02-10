@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 
 export interface IPortfolio {
     id?: string;
@@ -8,8 +8,8 @@ export interface IPortfolio {
     photoContentType?: string;
     photo?: any;
     status?: boolean;
-    createdDate?: Moment;
-    modifiedDate?: Moment;
+    createdDate?: dayjs.Dayjs;
+    modifiedDate?: dayjs.Dayjs;
     createdBy?: string;
     modifiedBy?: string;
 }
@@ -23,8 +23,8 @@ export class Portfolio implements IPortfolio {
         public photoContentType?: string,
         public photo?: any,
         public status?: boolean,
-        public createdDate?: Moment,
-        public modifiedDate?: Moment,
+        public createdDate?: dayjs.Dayjs,
+        public modifiedDate?: dayjs.Dayjs,
         public createdBy?: string,
         public modifiedBy?: string
     ) {

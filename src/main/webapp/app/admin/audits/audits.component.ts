@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { DatePipe, CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ParseLinksService, AlertService } from 'app/core/services';
+import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { Audit } from './audit.model';
@@ -10,46 +12,47 @@ import { AuditsService } from './audits.service';
 
 @Component({
     selector: 'jhi-audit',
-    templateUrl: './audits.component.html'
+    templateUrl: './audits.component.html',
+    standalone: true,
+    imports: [CommonModule, RouterModule],
+    providers: [DatePipe]
 })
 export class AuditsComponent implements OnInit, OnDestroy {
-    audits: Audit[];
-    fromDate: string;
-    itemsPerPage: any;
-    links: any;
-    page: number;
-    routeData: any;
-    predicate: any;
-    previousPage: any;
-    reverse: boolean;
-    toDate: string;
-    totalItems: number;
+    private auditsService = inject(AuditsService);
+    private alertService = inject(AlertService);
+    private parseLinks = inject(ParseLinksService);
+    private activatedRoute = inject(ActivatedRoute);
+    private datePipe = inject(DatePipe);
+    private router = inject(Router);
 
-    constructor(
-        private auditsService: AuditsService,
-        private alertService: JhiAlertService,
-        private parseLinks: JhiParseLinks,
-        private activatedRoute: ActivatedRoute,
-        private datePipe: DatePipe,
-        private router: Router
-    ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data['pagingParams'].page;
-            this.previousPage = data['pagingParams'].page;
-            this.reverse = data['pagingParams'].ascending;
-            this.predicate = data['pagingParams'].predicate;
-        });
-    }
+    audits = signal<Audit[]>([]);
+    fromDate = signal<string>('');
+    itemsPerPage = ITEMS_PER_PAGE;
+    links = signal<any>({});
+    page = signal(1);
+    routeData: any;
+    predicate = signal<string>('id');
+    previousPage = signal<number>(1);
+    reverse = signal(false);
+    toDate = signal<string>('');
+    totalItems = signal(0);
 
     ngOnInit() {
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page.set(data['pagingParams'].page);
+            this.previousPage.set(data['pagingParams'].page);
+            this.reverse.set(data['pagingParams'].ascending);
+            this.predicate.set(data['pagingParams'].predicate);
+        });
         this.today();
         this.previousMonth();
         this.loadAll();
     }
 
     ngOnDestroy() {
-        this.routeData.unsubscribe();
+        if (this.routeData) {
+            this.routeData.unsubscribe();
+        }
     }
 
     previousMonth() {
@@ -62,7 +65,7 @@ export class AuditsComponent implements OnInit, OnDestroy {
             fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate());
         }
 
-        this.fromDate = this.datePipe.transform(fromDate, dateFormat);
+        this.fromDate.set(this.datePipe.transform(fromDate, dateFormat) || '');
     }
 
     today() {
@@ -71,35 +74,35 @@ export class AuditsComponent implements OnInit, OnDestroy {
         const today: Date = new Date();
         today.setDate(today.getDate() + 1);
         const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.toDate = this.datePipe.transform(date, dateFormat);
+        this.toDate.set(this.datePipe.transform(date, dateFormat) || '');
     }
 
     loadAll() {
         this.auditsService
             .query({
-                page: this.page - 1,
+                page: this.page() - 1,
                 size: this.itemsPerPage,
                 sort: this.sort(),
-                fromDate: this.fromDate,
-                toDate: this.toDate
+                fromDate: this.fromDate(),
+                toDate: this.toDate()
             })
-            .subscribe(
-                (res: HttpResponse<Audit[]>) => this.onSuccess(res.body, res.headers),
-                (res: HttpResponse<any>) => this.onError(res.body)
-            );
+            .subscribe({
+                next: (res: HttpResponse<Audit[]>) => this.onSuccess(res.body, res.headers),
+                error: (res: HttpResponse<any>) => this.onError(res.body)
+            });
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
+        const result = [this.predicate() + ',' + (this.reverse() ? 'asc' : 'desc')];
+        if (this.predicate() !== 'id') {
             result.push('id');
         }
         return result;
     }
 
     loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
+        if (page !== this.previousPage()) {
+            this.previousPage.set(page);
             this.transition();
         }
     }
@@ -107,20 +110,20 @@ export class AuditsComponent implements OnInit, OnDestroy {
     transition() {
         this.router.navigate(['/admin/audits'], {
             queryParams: {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                page: this.page(),
+                sort: this.predicate() + ',' + (this.reverse() ? 'asc' : 'desc')
             }
         });
         this.loadAll();
     }
 
-    private onSuccess(data, headers) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
-        this.audits = data;
+    private onSuccess(data: Audit[] | null, headers: any) {
+        this.links.set(this.parseLinks.parseLinks(headers.get('link')));
+        this.totalItems.set(parseInt(headers.get('X-Total-Count'), 10));
+        this.audits.set(data || []);
     }
 
-    private onError(error) {
-        this.alertService.error(error.error, error.message, null);
+    private onError(error: any) {
+        this.alertService.error(error?.error || 'Error', error?.message || 'An error occurred');
     }
 }

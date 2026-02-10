@@ -1,10 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AlertErrorComponent } from '../../shared/alert/alert-error.component';
 
 @Component({
     selector: 'jhi-messenger',
     templateUrl: './messenger.component.html',
-    styleUrls: ['./messenger.component.scss']
+    styleUrls: ['./messenger.component.scss'],
+    standalone: true,
+    imports: [CommonModule, FormsModule, FontAwesomeModule, AlertErrorComponent]
 })
 export class MessengerComponent implements OnInit {
     @Input() message: Messenger = new Messenger();
@@ -41,10 +46,10 @@ export class MessengerComponent implements OnInit {
 }
 
 export class Messenger {
-    public id: string;
-    public senderName: string;
-    public senderEmail: string;
-    public title: string;
-    public content: string;
+    public id: string = '';
+    public senderName: string = '';
+    public senderEmail: string = '';
+    public title: string = '';
+    public content: string = '';
     constructor() {}
 }

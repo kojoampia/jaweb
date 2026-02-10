@@ -1,0 +1,508 @@
+{
+  "summary": {
+    "total_components": 24,
+    "components_needing_fixes": 19,
+    "analysis_date": "2026-01-15"
+  },
+  "component_fixes": [
+    {
+      "component_file": "src/main/webapp/app/widgets/piechart/piechart.component.ts",
+      "selector": "jhi-piechart",
+      "class_name": "PiechartComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing NgxChartsModule import",
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() pieData property"
+      ],
+      "required_imports": ["NgxChartsModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [NgxChartsModule, CommonModule]",
+        "Change @Input() pieData: Piechart[] to @Input() pieData: Piechart[] = []",
+        "Remove BrowserModule, BrowserAnimationsModule imports (not needed in standalone)"
+      ],
+      "html_uses": ["ngx-charts-pie-chart"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/heatmap/heatmap.component.ts",
+      "selector": "jhi-heatmap",
+      "class_name": "HeatmapComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing NgxChartsModule import",
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() heatmapData property"
+      ],
+      "required_imports": ["NgxChartsModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [NgxChartsModule, CommonModule]",
+        "Change @Input() heatmapData: HeatmapData[] to @Input() heatmapData: HeatmapData[] = []",
+        "Remove BrowserModule, BrowserAnimationsModule imports (not needed in standalone)"
+      ],
+      "html_uses": ["ngx-charts-heat-map"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/numcard/numcard.component.ts",
+      "selector": "jhi-numcard",
+      "class_name": "NumCardComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing NgxChartsModule import",
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() cardData property"
+      ],
+      "required_imports": ["NgxChartsModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [NgxChartsModule, CommonModule]",
+        "Change @Input() cardData: CardData[] to @Input() cardData: CardData[] = []",
+        "Add import statement: import { NgxChartsModule } from '@swimlane/ngx-charts'"
+      ],
+      "html_uses": ["ngx-charts-number-card"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/treemap/treemap.component.ts",
+      "selector": "jhi-treemap",
+      "class_name": "TreeMapComponent",
+      "current_status": "already_standalone",
+      "issues": [],
+      "required_imports": ["NgxChartsModule"],
+      "actions": [
+        "Already standalone with NgxChartsModule - NO CHANGES NEEDED"
+      ],
+      "html_uses": ["ngx-charts-tree-map"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/histogram/histogram.component.ts",
+      "selector": "jhi-histogram",
+      "class_name": "HistogramComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing NgxChartsModule import",
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() histogramData property",
+        "Uninitialized @Input() legendTitle: string",
+        "Uninitialized @Input() xAxisLabel: string",
+        "Uninitialized @Input() yAxisLabel: string",
+        "Uninitialized @Input() xAxisTickFormating: any",
+        "Uninitialized @Input() yAxisTickFormating: any",
+        "Uninitialized @Input() xAxisTicks: any[]",
+        "Uninitialized @Input() yAxisTicks: any[]",
+        "Uninitialized @Input() showDataLabel: boolean",
+        "Uninitialized @Input() activeEntries: object[]",
+        "Uninitialized @Input() tooltipDisabled: boolean",
+        "Uninitialized @Input() tooltipTemplate: TemplateRef<any>",
+        "Uninitialized @Input() yScaleMax: number",
+        "Uninitialized @Input() yScaleMin: number",
+        "Uninitialized @Input() yScale: number",
+        "Uninitialized @Input() roundEdges: boolean"
+      ],
+      "required_imports": ["NgxChartsModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [NgxChartsModule, CommonModule]",
+        "Change @Input() histogramData: HistogramData[] to @Input() histogramData: HistogramData[] = []",
+        "Add default values: legendTitle = '', xAxisLabel = '', yAxisLabel = ''",
+        "Add optional initialization: xAxisTickFormating?: any, yAxisTickFormating?: any, etc.",
+        "Or use non-null assertion operator (!) for inputs that are provided by parent",
+        "Remove BrowserModule, BrowserAnimationsModule imports (not needed in standalone)"
+      ],
+      "html_uses": ["ngx-charts-bar-vertical"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/tilebox/tilebox.component.ts",
+      "selector": "jhi-tilebox",
+      "class_name": "TileboxComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import (for [ngClass])",
+        "Missing NgxCarouselModule or equivalent",
+        "Not standalone component",
+        "Uninitialized @Input() config property",
+        "Uninitialized @Input() title property",
+        "Uninitialized @Input() tiles property"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]",
+        "Change @Input() config?: {} to @Input() config: any = {}",
+        "Change @Input() title?: string to @Input() title: string = ''",
+        "Change @Input() tiles?: any[] to @Input() tiles: any[] = []"
+      ],
+      "html_uses": ["ngx-carousel", "ngx-tile", "[ngClass]"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/infobox/infobox.component.ts",
+      "selector": "jhi-infobox",
+      "class_name": "InfoboxComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing FontAwesomeModule import (for fa-icon)",
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() info property (can be null)"
+      ],
+      "required_imports": ["FontAwesomeModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [FontAwesomeModule, CommonModule]",
+        "Change @Input() info: Infobox to @Input() info: Infobox = new Infobox('0', 'Nothing', 1, 'No content provided.')",
+        "Add import: import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'"
+      ],
+      "html_uses": ["fa-icon"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/editor/editor.component.ts",
+      "selector": "jhi-editor",
+      "class_name": "TinyEditorComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing FormsModule import (for [(ngModel)])",
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uses TinyMCE directive which may need module"
+      ],
+      "required_imports": ["FormsModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [FormsModule, CommonModule]",
+        "Add import for TinyMCE module if available",
+        "Change @Input() content?: string to @Input() content: string = ''"
+      ],
+      "html_uses": ["tinymce", "[(ngModel)]"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/map/map.component.ts",
+      "selector": "jhi-map",
+      "class_name": "MapComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Not standalone component"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/gmap/gmap.component.ts",
+      "selector": "jhi-gmap",
+      "class_name": "GMapComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Not standalone component"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/loading/loader.component.ts",
+      "selector": "jhi-loader",
+      "class_name": "LoaderComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Not standalone component"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/printviewer/printviewer.component.ts",
+      "selector": "jhi-printviewer",
+      "class_name": "PrintViewerComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() document property"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]",
+        "Change @Input() document: PrintDocument to @Input() document: PrintDocument = new PrintDocument(null)"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/page-viewer/page-viewer.component.ts",
+      "selector": "jhi-page-viewer",
+      "class_name": "PageViewerComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Not standalone component",
+        "Empty component - minimal changes needed"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/infoview/info-view.component.ts",
+      "selector": "jhi-info-view",
+      "class_name": "InfoViewComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Not standalone component",
+        "Empty component - minimal changes needed"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/messenger/messenger.component.ts",
+      "selector": "jhi-messenger",
+      "class_name": "MessengerComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing FormsModule import (for [(ngModel)])",
+        "Missing CommonModule import (for [ngClass])",
+        "Not standalone component",
+        "Wrong import: 'Message' from '@angular/compiler/src/i18n/i18n_ast' (internal API)"
+      ],
+      "required_imports": ["FormsModule", "CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [FormsModule, CommonModule]",
+        "Remove incorrect import: import { Message } from '@angular/compiler/src/i18n/i18n_ast'",
+        "Remove or replace Message type usage"
+      ],
+      "html_uses": ["[(ngModel)]", "[ngClass]"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/page-editor/page-editor.component.ts",
+      "selector": "jhi-page-editor",
+      "class_name": "PageEditorComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Not standalone component",
+        "Empty component - minimal changes needed"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/owlslider/slider.component.ts",
+      "selector": "jhi-owl-slider",
+      "class_name": "OwlSliderComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() slides property"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]",
+        "Change @Input() slides: any[] to @Input() slides: any[] = []"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/docviewer/docviewer.component.ts",
+      "selector": "jhi-docviewer",
+      "class_name": "DocviewerComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() document property"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]",
+        "Change @Input() document: ViewerDocument to @Input() document: ViewerDocument = new ViewerDocument('')"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/floatbox/floatbox.component.ts",
+      "selector": "jhi-floatbox",
+      "class_name": "FloatboxComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component"
+      ],
+      "required_imports": ["CommonModule", "NgbModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator on FloatboxComponent",
+        "Add imports array: [CommonModule]",
+        "Add 'standalone: true' to decorator on FloatboxPopupComponent",
+        "Add imports array to FloatboxPopupComponent: [NgbModule, CommonModule, RouterModule]"
+      ],
+      "html_uses": ["NgbModal"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/sidebar/sidebar.component.ts",
+      "selector": "jhi-sidebar",
+      "class_name": "SidebarComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import (for *ngIf)",
+        "Not standalone component",
+        "Uses ngx-webstorage @LocalStorage() decorator",
+        "Uninitialized @Input() items property"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule, NgxWebstorageModule]",
+        "Change @Input() items: any[] to @Input() items: any[] = []",
+        "Initialize sidebarItems: SidebarItem[] = []"
+      ],
+      "html_uses": ["*ngIf", "*ngFor"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/drop-down-box/ddb.component.ts",
+      "selector": "jhi-drop-down-box",
+      "class_name": "DropDownBoxComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() items property"
+      ],
+      "required_imports": ["CommonModule", "FormsModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule, FormsModule]",
+        "Change @Input() items: any[] to @Input() items: any[] = []"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/slides/slides.component.ts",
+      "selector": "jhi-slider",
+      "class_name": "SlidesComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": ["*ngIf", "*ngFor"]
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/slides/slide-selector.component.ts",
+      "selector": "jhi-slide-selector",
+      "class_name": "SlideSelectorComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]"
+      ],
+      "html_uses": []
+    },
+    {
+      "component_file": "src/main/webapp/app/widgets/bubble/bubble-map.component.ts",
+      "selector": "jhi-bubble-map",
+      "class_name": "BubbleMapComponent",
+      "current_status": "not_standalone",
+      "issues": [
+        "Missing CommonModule import",
+        "Not standalone component",
+        "Uninitialized @Input() properties with complex types"
+      ],
+      "required_imports": ["CommonModule"],
+      "actions": [
+        "Add 'standalone: true' to decorator",
+        "Add imports array: [CommonModule]",
+        "Initialize @Input() properties with defaults in ngOnInit as done currently"
+      ],
+      "html_uses": []
+    }
+  ],
+  "summary_by_import": {
+    "NgxChartsModule": [
+      "piechart",
+      "heatmap",
+      "numcard",
+      "histogram"
+    ],
+    "CommonModule": [
+      "piechart",
+      "heatmap",
+      "numcard",
+      "tilebox",
+      "infobox",
+      "editor",
+      "map",
+      "gmap",
+      "loader",
+      "printviewer",
+      "page-viewer",
+      "infoview",
+      "messenger",
+      "page-editor",
+      "owlslider",
+      "docviewer",
+      "floatbox",
+      "sidebar",
+      "drop-down-box",
+      "slides",
+      "slide-selector",
+      "bubble"
+    ],
+    "FormsModule": [
+      "editor",
+      "messenger",
+      "drop-down-box"
+    ],
+    "FontAwesomeModule": [
+      "infobox"
+    ],
+    "NgbModule": [
+      "floatbox"
+    ],
+    "NgxWebstorageModule": [
+      "sidebar"
+    ]
+  },
+  "migration_steps": [
+    "Step 1: Fix chart components (piechart, heatmap, numcard, histogram)",
+    "Step 2: Fix form-related components (editor, messenger, drop-down-box)",
+    "Step 3: Fix icon component (infobox with FontAwesome)",
+    "Step 4: Fix common components (tilebox, printviewer, docviewer, etc.)",
+    "Step 5: Test all components with Angular 19 compilation"
+  ]
+}

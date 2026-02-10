@@ -1,58 +1,59 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { filter, map, tap } from 'rxjs/operators';
+import { EventManager } from 'app/core/services/event-manager.service';
+import { AlertService } from 'app/core/services/alert.service'; // Assuming this is the replacement for JhiAlertService
 
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { PortfolioService } from './portfolio.service';
+import { CommonModule, DatePipe } from '@angular/common'; // For *ngIf, *ngFor, DatePipe
+import { SortDirective, SortByDirective } from 'app/shared/sort';
+import ItemCountComponent from 'app/shared/pagination/item-count.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; // For fa-icon
+// import { JhiItemCountComponent } from 'app/shared/pagination'; // Assuming this is the component
+
+import { AlertComponent } from 'app/shared/alert/alert.component'; // Assuming this is the JhiAlert replacement
 
 @Component({
     selector: 'jhi-portfolio',
     templateUrl: './portfolio.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    standalone: true,
+    imports: [CommonModule, FontAwesomeModule, RouterModule, AlertComponent, DatePipe, SortDirective, SortByDirective, ItemCountComponent] // Added CommonModule, FontAwesomeModule, RouterModule, AlertComponent
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
-    currentAccount: any;
-    portfolios: IPortfolio[];
+    currentAccount: any = null;
+    portfolios: IPortfolio[] = [];
     error: any;
     success: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription | null = null;
     currentSearch: string;
-    routeData: any;
+    routeData: Subscription | null = null; // Changed to Subscription
     links: any;
-    totalItems: any;
-    itemsPerPage: any;
-    page: any;
-    predicate: any;
-    previousPage: any;
-    reverse: any;
+    totalItems: number = 0; // Initialized to 0
+    itemsPerPage: number = ITEMS_PER_PAGE;
+    page: number = 0; // Initialized to 0
+    predicate: string = 'id'; // Initialized to 'id'
+    previousPage: number = 0; // Initialized to 0
+    reverse: boolean = true; // Initialized to true
 
     constructor(
         protected portfolioService: PortfolioService,
-        protected parseLinks: JhiParseLinks,
-        protected jhiAlertService: JhiAlertService,
+        // protected parseLinks: JhiParseLinks, // Deprecated
+        protected alertService: AlertService, // Changed from JhiAlertService
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
-        protected dataUtils: JhiDataUtils,
+        // protected dataUtils: JhiDataUtils, // Deprecated
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: EventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams.page;
-            this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
-        });
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
+        this.currentSearch = '';
     }
 
     loadAll() {
@@ -64,8 +65,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
+                .pipe(
+                    filter((res: HttpResponse<IPortfolio[]>) => res.ok),
+                    map((res: HttpResponse<IPortfolio[]>) => res.body)
+                )
                 .subscribe(
-                    (res: HttpResponse<IPortfolio[]>) => this.paginatePortfolios(res.body, res.headers),
+                    (res: IPortfolio[] | null) => this.paginatePortfolios(res || [], new HttpHeaders()), // Pass an empty array if null
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
@@ -76,8 +81,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
+            .pipe(
+                filter((res: HttpResponse<IPortfolio[]>) => res.ok),
+                map((res: HttpResponse<IPortfolio[]>) => res.body)
+            )
             .subscribe(
-                (res: HttpResponse<IPortfolio[]>) => this.paginatePortfolios(res.body, res.headers),
+                (res: IPortfolio[] | null) => this.paginatePortfolios(res || [], new HttpHeaders()), // Pass an empty array if null
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -114,7 +123,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
+    search(query: string) {
         if (!query) {
             return this.clear();
         }
@@ -132,34 +141,51 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
+        this.activatedRoute.queryParamMap.subscribe(params => {
+            this.page = parseInt(params.get('page') || '1', 10);
+            this.previousPage = this.page;
+            this.itemsPerPage = parseInt(params.get('size') || ITEMS_PER_PAGE.toString(), 10);
+            this.currentSearch = params.get('search') || '';
+            const sort = (params.get('sort') || this.predicate + ',' + (this.reverse ? 'asc' : 'desc')).split(',');
+            this.predicate = sort[0];
+            this.reverse = sort[1] === 'asc';
+            this.loadAll();
         });
+        this.accountService.identity().pipe(
+            tap(account => {
+                this.currentAccount = account;
+            })
+        ).subscribe();
         this.registerChangeInPortfolios();
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+        if (this.eventSubscriber) {
+            this.eventSubscriber.unsubscribe();
+            this.eventSubscriber = null; // Set to null after unsubscribing
+        }
+        // routeData is no longer a Subscription, so no need to unsubscribe
     }
 
-    trackId(index: number, item: IPortfolio) {
+    trackId(index: number, item: IPortfolio): string | number | undefined {
         return item.id;
     }
 
-    byteSize(field) {
-        return this.dataUtils.byteSize(field);
+    byteSize(field: any): any {
+        // return this.dataUtils.byteSize(field);
+        return field;
     }
 
-    openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
+    openFile(contentType: any, field: any): any {
+        // return this.dataUtils.openFile(contentType, field);
+        return field;
     }
 
     registerChangeInPortfolios() {
-        this.eventSubscriber = this.eventManager.subscribe('portfolioListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('portfolioListModification', (response: any) => this.loadAll());
     }
 
-    sort() {
+    sort(): string[] {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
         if (this.predicate !== 'id') {
             result.push('id');
@@ -168,12 +194,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     }
 
     protected paginatePortfolios(data: IPortfolio[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        // this.links = this.parseLinks.parse(headers.get('link')); // parseLinks is deprecated
+        this.totalItems = parseInt(headers.get('X-Total-Count') || '0', 10); // Safely parse and provide default
         this.portfolios = data;
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 }

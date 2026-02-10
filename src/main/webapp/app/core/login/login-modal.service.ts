@@ -8,7 +8,7 @@ export class LoginModalService {
     private isOpen = false;
     constructor(private modalService: NgbModal) {}
 
-    open(): NgbModalRef {
+    open(): NgbModalRef | undefined {
         if (this.isOpen) {
             return;
         }

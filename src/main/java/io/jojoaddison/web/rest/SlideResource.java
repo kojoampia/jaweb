@@ -30,6 +30,7 @@ import io.micrometer.core.annotation.Timed;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class SlideResource {
 
     private final Logger log = LoggerFactory.getLogger(SlideResource.class);
@@ -50,7 +51,6 @@ public class SlideResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/slides")
-    @Timed
     public ResponseEntity<Slide> createSlide(@RequestBody Slide slide) throws URISyntaxException {
         log.debug("REST request to save Slide : {}", slide);
         if (slide.getId() != null) {
@@ -76,7 +76,6 @@ public class SlideResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/slides")
-    @Timed
     public ResponseEntity<Slide> updateSlide(@RequestBody Slide slide) throws URISyntaxException {
         log.debug("REST request to update Slide : {}", slide);
         if (slide.getId() == null) {
@@ -96,7 +95,6 @@ public class SlideResource {
      * @return the ResponseEntity with status 200 (OK) and the list of slides in body
      */
     @GetMapping("/slides")
-    @Timed
     public List<Slide> getAllSlides() {
         log.debug("REST request to get all Slides");
         return slideService.findAll();
@@ -109,7 +107,6 @@ public class SlideResource {
      * @return the ResponseEntity with status 200 (OK) and with body the slide, or with status 404 (Not Found)
      */
     @GetMapping("/slides/{id}")
-    @Timed
     public ResponseEntity<Slide> getSlide(@PathVariable String id) {
         log.debug("REST request to get Slide : {}", id);
         Optional<Slide> slide = slideService.findOne(id);
@@ -123,7 +120,6 @@ public class SlideResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/slides/{id}")
-    @Timed
     public ResponseEntity<Void> deleteSlide(@PathVariable String id) {
         log.debug("REST request to delete Slide : {}", id);
         slideService.delete(id);

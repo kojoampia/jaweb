@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { EventManager } from 'app/core/services/event-manager.service';
 
 import { IImprint } from 'app/shared/model/imprint.model';
 import { AccountService } from 'app/core';
@@ -34,12 +34,12 @@ export class ImprintComponent implements OnInit, OnDestroy {
 
     constructor(
         protected imprintService: ImprintService,
-        protected parseLinks: JhiParseLinks,
-        protected jhiAlertService: JhiAlertService,
+        // protected parseLinks: JhiParseLinks,
+        // protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: EventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -139,7 +139,10 @@ export class ImprintComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+        if (this.eventSubscriber) {
+            this.eventSubscriber.unsubscribe();
+        }
+        this.routeData.unsubscribe();
     }
 
     trackId(index: number, item: IImprint) {
@@ -159,12 +162,12 @@ export class ImprintComponent implements OnInit, OnDestroy {
     }
 
     protected paginateImprints(data: IImprint[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
+        // this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.imprints = data;
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        // this.jhiAlertService.error(errorMessage, null, null);
     }
 }

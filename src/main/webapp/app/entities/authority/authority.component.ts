@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil, filter, map } from 'rxjs/operators';
+import { EventManagerService, AlertService } from 'app/core/services';
 
 import { IAuthority } from 'app/shared/model/authority.model';
 import { AccountService } from 'app/core';

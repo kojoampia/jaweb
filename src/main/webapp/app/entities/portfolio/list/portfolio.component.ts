@@ -11,7 +11,7 @@ import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
 import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { DataUtils } from 'app/core/util/data-util.service';
+import { DataUtils } from 'app/core/services/data-utils.service';
 import { IPortfolio } from '../portfolio.model';
 
 import { EntityArrayResponseType, PortfolioService } from '../service/portfolio.service';

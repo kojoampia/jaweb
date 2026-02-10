@@ -1,30 +1,34 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ElementRef, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiDataUtils } from 'ng-jhipster';
+import { DataUtils } from 'app/core/services/data-utils.service';
 import { IContact, Contact } from 'app/shared/model/contact.model';
 import { ContactService } from './contact.service';
 
 @Component({
     selector: 'jhi-contact-update',
     templateUrl: './contact-update.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    standalone: true,
+    imports: [CommonModule, FormsModule, RouterModule]
 })
 export class ContactUpdateComponent implements OnInit {
     contact: IContact = new Contact();
     isSaving = false;
     lastModified = '';
 
-    constructor(
-        protected dataUtils: JhiDataUtils,
-        protected contactService: ContactService,
-        protected elementRef: ElementRef,
-        protected activatedRoute: ActivatedRoute
-    ) {}
+    private dataUtils = inject(DataUtils);
+    private contactService = inject(ContactService);
+    private elementRef = inject(ElementRef);
+    private activatedRoute = inject(ActivatedRoute);
 
     ngOnInit() {
         this.isSaving = false;
@@ -56,7 +60,7 @@ export class ContactUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.contact.lastModified = this.lastModified != null ? moment(this.lastModified, DATE_TIME_FORMAT) : undefined;
+        this.contact.lastModified = this.lastModified != null ? dayjs(this.lastModified, DATE_TIME_FORMAT) : undefined;
         if (this.contact.id !== undefined) {
             this.subscribeToSaveResponse(this.contactService.update(this.contact));
         } else {

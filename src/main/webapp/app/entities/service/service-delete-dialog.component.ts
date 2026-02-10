@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+
 
 import { IService } from 'app/shared/model/service.model';
 import { ServiceService } from './service.service';
@@ -13,8 +13,9 @@ import { ServiceService } from './service.service';
 })
 export class ServiceDeleteDialogComponent {
     service: IService;
+    @Output() deletionComplete: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected serviceService: ServiceService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected serviceService: ServiceService, public activeModal: NgbActiveModal) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -22,10 +23,7 @@ export class ServiceDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.serviceService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'serviceListModification',
-                content: 'Deleted an service'
-            });
+            this.deletionComplete.emit();
             this.activeModal.dismiss(true);
         });
     }
@@ -43,8 +41,12 @@ export class ServiceDeletePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ service }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(ServiceDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef = this.modalService.open(ServiceDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.service = service;
+                this.ngbModalRef.componentInstance.deletionComplete.subscribe(() => {
+                    this.router.navigate(['/service', { outlets: { popup: null } }]);
+                    this.ngbModalRef = null;
+                });
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/service', { outlets: { popup: null } }]);

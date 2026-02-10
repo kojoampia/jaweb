@@ -21,15 +21,18 @@ import io.jojoaddison.domain.Information;
 import io.jojoaddison.repository.InformationRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for managing Information.
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class InformationResource {
 
     private final Logger log = LoggerFactory.getLogger(InformationResource.class);
+
 
     private static final String ENTITY_NAME = "information";
 

@@ -1,34 +1,34 @@
 export interface IUser {
     id?: any;
-    login?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
+    login?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
     activated?: boolean;
-    langKey?: string;
-    authorities?: any[];
-    createdBy?: string;
-    createdDate?: Date;
-    lastModifiedBy?: string;
-    lastModifiedDate?: Date;
-    password?: string;
+    langKey?: string | null;
+    authorities?: any[] | null;
+    createdBy?: string | null;
+    createdDate?: Date | null;
+    lastModifiedBy?: string | null;
+    lastModifiedDate?: Date | null;
+    password?: string | null;
 }
 
 export class User implements IUser {
     constructor(
         public id?: any,
-        public login?: string,
-        public firstName?: string,
-        public lastName?: string,
-        public email?: string,
+        public login?: string | null,
+        public firstName?: string | null,
+        public lastName?: string | null,
+        public email?: string | null,
         public activated?: boolean,
-        public langKey?: string,
-        public authorities?: any[],
-        public createdBy?: string,
-        public createdDate?: Date,
-        public lastModifiedBy?: string,
-        public lastModifiedDate?: Date,
-        public password?: string
+        public langKey?: string | null,
+        public authorities?: any[] | null,
+        public createdBy?: string | null,
+        public createdDate?: Date | null,
+        public lastModifiedBy?: string | null,
+        public lastModifiedDate?: Date | null,
+        public password?: string | null
     ) {
         this.id = id ? id : null;
         this.login = login ? login : null;

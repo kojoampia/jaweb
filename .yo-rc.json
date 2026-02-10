@@ -32,7 +32,7 @@
       "Product"
     ],
     "feignClient": null,
-    "jhipsterVersion": "8.3.0",
+    "jhipsterVersion": "8.7.0",
     "jwtSecretKey": "ZGJmM2E4MmMwNDQyMjhlYTY1NmUyZDkxZWVmY2RiOTJhYmUyOTYwZTE1YTc4NWMwOWJhOGZjZTYxMjEzNWU4Y2I0NTdiZmQ5M2YyNjg0YmJjMDgxMzcxYTBjODg1NTUzYzYyNTBjZmVhOTg2NWUwZTNjNGFjNDYyYjQwNDBiZDQ=",
     "languages": ["en", "fr", "de"],
     "lastLiquibaseTimestamp": 1712769195000,
@@ -45,11 +45,11 @@
     "reactive": false,
     "searchEngine": false,
     "serverPort": null,
-    "serverSideOptions": ["websocket:spring-websocket"],
+    "serverSideOptions": [],
     "serviceDiscoveryType": false,
     "syncUserWithIdp": null,
     "testFrameworks": [],
-    "websocket": "spring-websocket",
+    "websocket": false,
     "withAdminUi": false
   }
 }

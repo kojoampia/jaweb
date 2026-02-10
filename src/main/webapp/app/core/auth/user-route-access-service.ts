@@ -1,5 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 import { AccountService } from '../';
 import { LoginModalService } from '../login/login-modal.service';
@@ -23,30 +24,32 @@ export class UserRouteAccessService implements CanActivate {
     }
 
     checkLogin(authorities: string[], url: string): Promise<boolean> {
-        return this.accountService.identity().then(account => {
-            if (!authorities || authorities.length === 0) {
-                return true;
-            }
-
-            if (account) {
-                const hasAnyAuthority = this.accountService.hasAnyAuthority(authorities);
-                if (hasAnyAuthority) {
+        return this.accountService.identity().pipe(
+            map((account: any) => {
+                if (!authorities || authorities.length === 0) {
                     return true;
                 }
-                if (isDevMode()) {
-                    console.error('User has not any of required authorities: ', authorities);
-                }
-                return false;
-            }
 
-            this.stateStorageService.storeUrl(url);
-            this.router.navigate(['accessdenied']).then(() => {
-                // only show the login dialog, if the user hasn't logged in yet
-                if (!account) {
-                    this.loginModalService.open();
+                if (account) {
+                    const hasAnyAuthority = this.accountService.hasAnyAuthority(authorities);
+                    if (hasAnyAuthority) {
+                        return true;
+                    }
+                    if (isDevMode()) {
+                        console.error('User has not any of required authorities: ', authorities);
+                    }
+                    return false;
                 }
-            });
-            return false;
-        });
+
+                this.stateStorageService.storeUrl(url);
+                this.router.navigate(['accessdenied']).then(() => {
+                    // only show the login dialog, if the user hasn't logged in yet
+                    if (!account) {
+                        this.loginModalService.open();
+                    }
+                });
+                return false;
+            })
+        ).toPromise() as Promise<boolean>;
     }
 }

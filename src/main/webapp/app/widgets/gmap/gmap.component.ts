@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'jhi-gmap',
+    standalone: true,
+    imports: [CommonModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './gmap.component.html',
     styleUrls: ['./gmap.component.scss']
 })

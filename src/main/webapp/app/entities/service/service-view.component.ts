@@ -3,14 +3,19 @@ import { IService } from 'app/shared/model/service.model';
 import { ServiceService } from './service.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpResponse } from '@angular/common/http';
-import { LocalStorage } from 'ngx-webstorage';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FooterComponent } from 'app/layouts/footer/footer.component';
+
 @Component({
     selector: 'jhi-service-view',
     templateUrl: './service-view.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    standalone: true,
+    imports: [CommonModule, RouterModule, FooterComponent]
 })
 export class ServiceViewComponent implements OnInit {
-    services: IService[];
+    services: IService[] = [];
 
     constructor(protected restService: ServiceService, protected domSanitizer: DomSanitizer) {}
 

@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 import { IUser } from 'app/core/user/user.model';
 
 export const enum DocumentType {
@@ -12,7 +12,7 @@ export interface IStaff {
     id?: string;
     firstName?: string;
     lastName?: string;
-    dateOfBirth?: Moment;
+    dateOfBirth?: dayjs.Dayjs;
     email?: string;
     digitalAddress?: string;
     streetAddress?: string;
@@ -28,8 +28,8 @@ export interface IStaff {
     accountType?: string;
     documentsContentType?: string;
     documents?: any;
-    createdDate?: Moment;
-    modifiedDate?: Moment;
+    createdDate?: dayjs.Dayjs;
+    modifiedDate?: dayjs.Dayjs;
     lastModifiedBy?: string;
     documentType?: DocumentType;
     credential?: IUser;
@@ -40,7 +40,7 @@ export class Staff implements IStaff {
         public id?: string,
         public firstName?: string,
         public lastName?: string,
-        public dateOfBirth?: Moment,
+        public dateOfBirth?: dayjs.Dayjs,
         public email?: string,
         public digitalAddress?: string,
         public streetAddress?: string,
@@ -56,8 +56,8 @@ export class Staff implements IStaff {
         public accountType?: string,
         public documentsContentType?: string,
         public documents?: any,
-        public createdDate?: Moment,
-        public modifiedDate?: Moment,
+        public createdDate?: dayjs.Dayjs,
+        public modifiedDate?: dayjs.Dayjs,
         public lastModifiedBy?: string,
         public documentType?: DocumentType,
         public credential?: IUser

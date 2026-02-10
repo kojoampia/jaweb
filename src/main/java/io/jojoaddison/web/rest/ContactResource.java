@@ -23,6 +23,7 @@ import io.jojoaddison.repository.ContactRepository;
 import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 
 
@@ -31,9 +32,11 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class ContactResource {
 
     private final Logger log = LoggerFactory.getLogger(ContactResource.class);
+
 
     private static final String ENTITY_NAME = "contact";
 

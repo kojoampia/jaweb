@@ -17,8 +17,8 @@ const ENTITY_STATES = [...homeRoute, ...homePopupRoute];
 
 @NgModule({
     imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [HomeComponent, HomeDetailComponent, HomeUpdateComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
-    entryComponents: [HomeComponent, HomeUpdateComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
+    declarations: [HomeComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
+    entryComponents: [HomeComponent, HomeDeleteDialogComponent, HomeDeletePopupComponent],
     providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

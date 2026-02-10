@@ -20,15 +20,18 @@ import io.jojoaddison.domain.Authority;
 import io.jojoaddison.repository.AuthorityRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for managing Authority.
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class AuthorityResource {
 
     private final Logger log = LoggerFactory.getLogger(AuthorityResource.class);
+
 
     private static final String ENTITY_NAME = "authority";
 

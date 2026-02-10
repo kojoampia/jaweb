@@ -27,7 +27,7 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://masterjoda:Ma$terJ0da!@localhost:27017
+            uri: mongodb://localhost:27017
             database: jacprod
         jest:
             uri: http://localhost:9200
@@ -73,7 +73,6 @@ server:
 
 jhipster:
     http:
-        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
     cache: # Cache configuration
@@ -95,16 +94,6 @@ jhipster:
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: jojoaddison@localhost
         base-url: http://my-server-url-to-change # Modify according to your server's URL
-    metrics:
-        logs: # Reports metrics in the logs
-            enabled: false
-            report-frequency: 60 # in seconds
-    logging:
-        logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
-            enabled: false
-            host: localhost
-            port: 5000
-            queue-size: 512
 
 # ===================================================================
 # Application specific properties

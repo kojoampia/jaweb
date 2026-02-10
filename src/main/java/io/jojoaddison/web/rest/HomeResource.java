@@ -23,15 +23,18 @@ import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.service.HomeService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for managing Home.
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class HomeResource {
 
     private final Logger log = LoggerFactory.getLogger(HomeResource.class);
+
 
     private static final String ENTITY_NAME = "home";
 

@@ -2,15 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { PortfolioService } from './portfolio.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { LocalStorage } from 'ngx-webstorage';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FooterComponent } from 'app/layouts/footer/footer.component';
 
 @Component({
     selector: 'jhi-portfolio-view',
     templateUrl: './portfolio-view.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    standalone: true,
+    imports: [CommonModule, RouterModule, FooterComponent]
 })
 export class PortfolioViewComponent implements OnInit {
-    portfolios: IPortfolio[];
+    portfolios: IPortfolio[] = [];
     constructor(private portfolioService: PortfolioService, protected domSanitizer: DomSanitizer) {}
 
     ngOnInit() {

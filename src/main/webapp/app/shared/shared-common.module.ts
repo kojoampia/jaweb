@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { JojoaddisonSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent } from './';
+import { JojoaddisonSharedLibsModule, AlertComponent, AlertErrorComponent } from './';
 
 @NgModule({
     imports: [JojoaddisonSharedLibsModule],
-    declarations: [JhiAlertComponent, JhiAlertErrorComponent],
-    exports: [JojoaddisonSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent]
+    declarations: [AlertComponent, AlertErrorComponent],
+    exports: [JojoaddisonSharedLibsModule, AlertComponent, AlertErrorComponent]
 })
 export class JojoaddisonSharedCommonModule {}

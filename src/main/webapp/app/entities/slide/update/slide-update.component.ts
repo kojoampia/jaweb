@@ -8,8 +8,8 @@ import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { EventManagerService as EventManager, EventWithContent } from 'app/core/services/event-manager.service';
+import { DataUtilsService as DataUtils, FileLoadError } from 'app/shared/data-util.service';
 import { IAbout } from 'app/entities/about/about.model';
 import { AboutService } from 'app/entities/about/service/about.service';
 import { IBlog } from 'app/entities/blog/blog.model';
@@ -63,13 +63,15 @@ export class SlideUpdateComponent implements OnInit {
   }
 
   openFile(base64String: string, contentType: string | null | undefined): void {
-    this.dataUtils.openFile(base64String, contentType);
+    if (base64String && contentType) {
+      this.dataUtils.openFile(base64String, contentType);
+    }
   }
 
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('jojoaddisonApp.error', { ...err, key: 'error.file.' + err.key })),
+      error: (err: Error) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('jojoaddisonApp.error', { message: err.message })),
     });
   }
 

@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { IPrivilege } from 'app/shared/model/privilege.model';
 

@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+
 
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { PortfolioService } from './portfolio.service';
@@ -14,11 +14,11 @@ import { PortfolioService } from './portfolio.service';
 })
 export class PortfolioDeleteDialogComponent {
     portfolio: IPortfolio;
+    @Output() deletionComplete: EventEmitter<any> = new EventEmitter();
 
     constructor(
         protected portfolioService: PortfolioService,
-        public activeModal: NgbActiveModal,
-        protected eventManager: JhiEventManager
+        public activeModal: NgbActiveModal
     ) {}
 
     clear() {
@@ -27,10 +27,7 @@ export class PortfolioDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.portfolioService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'portfolioListModification',
-                content: 'Deleted an portfolio'
-            });
+            this.deletionComplete.emit();
             this.activeModal.dismiss(true);
         });
     }
@@ -48,8 +45,12 @@ export class PortfolioDeletePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ portfolio }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(PortfolioDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef = this.modalService.open(PortfolioDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
                 this.ngbModalRef.componentInstance.portfolio = portfolio;
+                this.ngbModalRef.componentInstance.deletionComplete.subscribe(() => {
+                    this.router.navigate(['/portfolio', { outlets: { popup: null } }]);
+                    this.ngbModalRef = null;
+                });
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/portfolio', { outlets: { popup: null } }]);

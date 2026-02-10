@@ -13,7 +13,16 @@ import { AlertErrorComponent } from './alert/alert-error.component';
  * Application wide Module
  */
 @NgModule({
-  imports: [AlertComponent, AlertErrorComponent, FindLanguageFromKeyPipe, TranslateDirective],
+  imports: [
+    CommonModule,
+    NgbModule,
+    FontAwesomeModule,
+    TranslateModule,
+    AlertComponent,
+    AlertErrorComponent,
+    FindLanguageFromKeyPipe,
+    TranslateDirective,
+  ],
   exports: [
     CommonModule,
     NgbModule,

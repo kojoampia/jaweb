@@ -19,7 +19,7 @@ management:
         web:
             base-path: /management
             exposure:
-                include: ["configprops", "env", "health", "info", "threaddump", "logfile", "jhi-metrics", "prometheus" ]
+                include: ["configprops", "env", "health", "info", "threaddump", "logfile", "jhi-metrics", "prometheus", "httpexchanges" ]
     endpoint:
         health:
             show-details: when-authorized
@@ -58,6 +58,9 @@ management:
         web:
             server:
                 auto-time-requests: true
+    tracing:
+        sampling:
+            probability: 1.0
 
 spring:
     autoconfigure:
@@ -99,27 +102,8 @@ jhipster:
         core-pool-size: 2
         max-pool-size: 50
         queue-capacity: 10000
-    # By default CORS is disabled. Uncomment to enable.
-    #cors:
-        #allowed-origins: "*"
-        #allowed-methods: "*"
-        #allowed-headers: "*"
-        #exposed-headers: "Authorization,Link,X-Total-Count"
-        #allow-credentials: true
-        #max-age: 1800
     mail:
         from: jojoaddison@localhost
-    swagger:
-        default-include-pattern: /api/.*
-        title: jojoaddison API
-        description: jojoaddison API documentation
-        version: 0.0.1
-        terms-of-service-url:
-        contact-name:
-        contact-url:
-        contact-email:
-        license:
-        license-url:
 
 # ===================================================================
 # Application specific properties
@@ -135,3 +119,17 @@ content-directory: content
 
 mongock:
     change-logs-scan-package: io.jojoaddison.config.dbmigrations
+
+otel:
+  exporter:
+    otlp:
+      endpoint: http://localhost:4317
+  resource:
+    attributes:
+      service.name: jojoaddison
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp

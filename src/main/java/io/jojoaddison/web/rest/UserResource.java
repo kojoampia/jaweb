@@ -34,6 +34,7 @@ import io.jojoaddison.web.rest.errors.EmailAlreadyUsedException;
 import io.jojoaddison.web.rest.errors.LoginAlreadyUsedException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 
 /**
@@ -62,9 +63,11 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
+
 
     private final UserService userService;
 

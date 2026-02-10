@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { EventManager, EventWithContent } from 'app/core/services/event-manager.service';
 
 import { IImprint } from 'app/shared/model/imprint.model';
 import { ImprintService } from './imprint.service';
@@ -14,7 +14,7 @@ import { ImprintService } from './imprint.service';
 export class ImprintDeleteDialogComponent {
     imprint: IImprint;
 
-    constructor(protected imprintService: ImprintService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+    constructor(protected imprintService: ImprintService, public activeModal: NgbActiveModal, protected eventManager: EventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -22,10 +22,7 @@ export class ImprintDeleteDialogComponent {
 
     confirmDelete(id: string) {
         this.imprintService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'imprintListModification',
-                content: 'Deleted an imprint'
-            });
+            this.eventManager.broadcast(new EventWithContent('imprintListModification', 'Deleted an imprint'));
             this.activeModal.dismiss(true);
         });
     }
@@ -36,7 +33,7 @@ export class ImprintDeleteDialogComponent {
     template: ''
 })
 export class ImprintDeletePopupComponent implements OnInit, OnDestroy {
-    protected ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef | null = null;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 

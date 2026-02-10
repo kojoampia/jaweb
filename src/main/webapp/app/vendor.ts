@@ -177,4 +177,10 @@ library.add(faFistRaised);
 library.add(faRetweet);
 library.add(faUserFriends);
 library.add(faUsers);
+
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+dayjs.extend(utc.default);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

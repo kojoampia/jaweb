@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuditsService } from 'app/admin/audits/audits.service';
 import { Audit } from 'app/admin/audits/audit.model';
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('Service Tests', () => {

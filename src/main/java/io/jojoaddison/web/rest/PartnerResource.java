@@ -25,6 +25,7 @@ import io.jojoaddison.repository.PartnerRepository;
 import io.jojoaddison.service.PhotoService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 
 /**
@@ -32,9 +33,11 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class PartnerResource {
 
     private final Logger log = LoggerFactory.getLogger(PartnerResource.class);
+
 
     private static final String ENTITY_NAME = "partner";
 

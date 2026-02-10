@@ -1,4 +1,4 @@
-import { Component, computed, NgZone, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, computed, NgZone, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
 import { combineLatest, filter, Observable, Subscription, tap } from 'rxjs';
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { ParseLinks } from 'app/core/util/parse-links.service';
+import { ParseLinks } from 'app/core/services/parse-links.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EntityArrayResponseType, ContactMessageService } from '../service/contact-message.service';
 import { ContactMessageDeleteDialogComponent } from '../delete/contact-message-delete-dialog.component';
@@ -21,6 +21,7 @@ import { IContactMessage } from '../contact-message.model';
   standalone: true,
   selector: 'jhi-contact-message',
   templateUrl: './contact-message.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     RouterModule,
     FormsModule,
@@ -149,7 +150,7 @@ export class ContactMessageComponent implements OnInit {
   protected fillComponentAttributesFromResponseHeader(headers: HttpHeaders): void {
     const linkHeader = headers.get('link');
     if (linkHeader) {
-      this.links.set(this.parseLinks.parseAll(linkHeader));
+      this.links.set(this.parseLinks.parseLinks(linkHeader));
     } else {
       this.links.set({});
     }

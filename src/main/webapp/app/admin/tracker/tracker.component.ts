@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { TrackerService } from 'app/core/tracker/tracker.service';
+// import { TrackerService } from 'app/core/tracker/tracker.service';
 import { TrackerActivity } from 'app/core/tracker/tracker-activity.model';
 import SharedModule from 'app/shared/shared.module';
 
@@ -15,7 +15,7 @@ export default class TrackerComponent implements OnInit, OnDestroy {
   activities: TrackerActivity[] = [];
   subscription?: Subscription;
 
-  private trackerService = inject(TrackerService);
+  // private trackerService = inject(TrackerService);
 
   showActivity(activity: TrackerActivity): void {
     let existingActivity = false;
@@ -37,12 +37,12 @@ export default class TrackerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.trackerService.subscribe({
-      next: (activity: TrackerActivity) => {
-        this.showActivity(activity);
-      },
-    });
-    this.trackerService.sendActivity();
+    // this.subscription = this.trackerService.subscribe({
+    //   next: (activity: TrackerActivity) => {
+    //     this.showActivity(activity);
+    //   },
+    // });
+    // this.trackerService.sendActivity();
   }
 
   ngOnDestroy(): void {

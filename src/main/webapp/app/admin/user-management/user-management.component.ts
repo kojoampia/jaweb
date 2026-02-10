@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { EventManager } from 'app/core/services/event-manager.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { AccountService, UserService, User } from 'app/core';
@@ -27,15 +27,16 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    eventSubscriber: Subscription;
 
     constructor(
         private userService: UserService,
-        private alertService: JhiAlertService,
+        // private alertService: JhiAlertService,
         private accountService: AccountService,
-        private parseLinks: JhiParseLinks,
+        // private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager,
+        private eventManager: EventManager,
         private modalService: NgbModal
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -57,10 +58,13 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.routeData.unsubscribe();
+        if (this.eventSubscriber) {
+            this.eventSubscriber.unsubscribe();
+        }
     }
 
     registerChangeInUsers() {
-        this.eventManager.subscribe('userListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('userListModification', response => this.loadAll());
     }
 
     setActive(user: User, isActivated: boolean) {
@@ -134,12 +138,12 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
-        this.links = this.parseLinks.parse(headers.get('link'));
+        // this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.users = data;
     }
 
     private onError(error) {
-        this.alertService.error(error.error, error.message, null);
+        // this.alertService.error(error.error, error.message, null);
     }
 }

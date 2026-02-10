@@ -1,19 +1,24 @@
-import { OnInit, Input, Component, EventEmitter, Output } from '@angular/core';
+import { OnInit, Input, Component, EventEmitter, Output, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 @Component({
     selector: 'jhi-tilebox',
+    standalone: true,
+    imports: [CommonModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './tilebox.component.html',
     styleUrls: ['./tilebox.component.scss']
 })
 export class TileboxComponent implements OnInit {
-    @Input() config?: {};
-    @Input() title?: string;
-    @Input() tiles?: any[];
+    @Input() config: any = {};
+    @Input() title: string = '';
+    @Input() tiles: any[] = [];
     @Input() showSelected = true;
     @Output() tileSelected: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         console.log('init-tilebox');
         if (!this.config || typeof this.config === 'undefined') {
             this.config = {

@@ -3,7 +3,9 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { EventManager } from 'app/core/services/event-manager.service';
+import { ParseLinks } from 'app/core/services/parse-links.service';
+import { AlertService } from 'app/core/services/alert.service';
 
 import { IAbout } from 'app/shared/model/about.model';
 import { AccountService } from 'app/core';
@@ -34,12 +36,12 @@ export class AboutComponent implements OnInit, OnDestroy {
 
     constructor(
         protected aboutService: AboutService,
-        protected parseLinks: JhiParseLinks,
-        protected jhiAlertService: JhiAlertService,
+        protected parseLinks: ParseLinks,
+        protected alertService: AlertService,
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: EventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -139,7 +141,10 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+        if (this.eventSubscriber) {
+            this.eventSubscriber.unsubscribe();
+        }
+        this.routeData.unsubscribe();
     }
 
     trackId(index: number, item: IAbout) {
@@ -165,6 +170,6 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, undefined);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 }

@@ -1,4 +1,4 @@
-<div class="home ml-auto mr-auto mb-5 w-100" *ngIf="loaded">
+<div class="home ml-auto mr-auto mb-5 w-100" *ngIf="loaded()">
     <!--Information Box -->
     <div class="container-fluid bg-transparent pt-3 pb-3">
         <div class="container bg-white mr-auto ml-auto">
@@ -7,12 +7,12 @@
     </div>
     <!-- Sliderbox -->
     <div class="container ml-auto mr-auto">
-        <jhi-slider [slides]="slides"></jhi-slider>
+        <jhi-owl-slider [slides]="slides()"></jhi-owl-slider>
     </div>
     <!-- Services -->
     <div class="container-fluid bg-success mt-3 pt-5 pb-5">
         <div class="card-group">
-            <div *ngFor="let service of services" class="col-md-4 mt-1 mb-1">
+            <div *ngFor="let service of services()" class="col-md-4 mt-1 mb-1">
                 <div class="card widgetbox">
                     <div class="card-header text-center">
                         <h4 class="display-6">
@@ -22,7 +22,7 @@
                         </h4>
                     </div>
                     <div class="card-body text-left databox">
-                        <div [innerHTML]="safeContent(service.description)"></div>
+                        <div [innerHTML]="safeContent(service.description!)"></div>
                     </div>
                     <img [src]="'data:' + service.photoContentType + ';base64,' + service.photo"
                         style="max-width: 100%;" alt="service image" class="card-bottom-img img-fluid" />
@@ -31,15 +31,15 @@
         </div>
     </div>
     <!-- Partners -->
-    <div class="container-fluid bg-transparent mt-2 mb-2 p-3" *ngIf="partnerTiles && partnerTiles.length > 0">
-        <jhi-tilebox [tiles]="partnerTiles" [showSelected]="false"
+    <div class="container-fluid bg-transparent mt-2 mb-2 p-3" *ngIf="partnerTiles() && partnerTiles().length > 0">
+        <jhi-tilebox [tiles]="partnerTiles()" [showSelected]="false"
                                     (tileSelected)="onPartnerSelected($event)"></jhi-tilebox>
     </div>
     <!-- Portfolio -->
     <div style="opacity: 0.9;" class="container-fluid bg-warning ml-auto mr-auto pt-5 pb-5">
         <div class="container ml-auto mr-auto bg-transparent">
             <div class="card-group border-0 bg-transparent mt-5 mb-5">
-                <div *ngFor="let portfolio of portfolios" class="col-md-6">
+                <div *ngFor="let portfolio of portfolios()" class="col-md-6">
                     <div class="card widgetbox">
                         <div class="card-header text-center">
                             <a [routerLink]="['/portfolio', 'view' , portfolio.id]">
@@ -47,7 +47,7 @@
                             </a>
                         </div>
                         <div class="card-body databox">
-                            <div [innerHTML]="safeContent(portfolio.description)"></div>
+                            <div [innerHTML]="safeContent(portfolio.description!)"></div>
                         </div>
                         <img [src]="'data:' + portfolio.photoContentType + ';base64,' + portfolio.photo"
                             style="max-width: 100%;" alt="portfolio image" class="card-bottom-img img-fluid" />
@@ -57,6 +57,6 @@
         </div>
     </div>
     <!-- Partner -->
-    <jhi-partner-view [partners]="partners">
+    <jhi-partner-view [partners]="partners()">
     </jhi-partner-view>
 </div>

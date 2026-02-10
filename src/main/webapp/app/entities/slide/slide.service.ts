@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { ISlide } from 'app/shared/model/slide.model';
 
@@ -67,8 +69,8 @@ export class SlideService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
-            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : null;
+            res.body.modifiedDate = res.body.modifiedDate != null ? dayjs(res.body.modifiedDate) : null;
         }
         return res;
     }
@@ -76,8 +78,8 @@ export class SlideService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((slide: ISlide) => {
-                slide.createdDate = slide.createdDate != null ? moment(slide.createdDate) : null;
-                slide.modifiedDate = slide.modifiedDate != null ? moment(slide.modifiedDate) : null;
+                slide.createdDate = slide.createdDate != null ? dayjs(slide.createdDate) : null;
+                slide.modifiedDate = slide.modifiedDate != null ? dayjs(slide.modifiedDate) : null;
             });
         }
         return res;

@@ -29,6 +29,7 @@ import io.jojoaddison.web.rest.errors.InvalidPasswordException;
 import io.jojoaddison.web.rest.errors.LoginAlreadyUsedException;
 import io.jojoaddison.web.rest.vm.KeyAndPasswordVM;
 import io.jojoaddison.web.rest.vm.ManagedUserVM;
+import io.micrometer.core.annotation.Timed;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -37,9 +38,11 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
+
 
     private final UserRepository userRepository;
 

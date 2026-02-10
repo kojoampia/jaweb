@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IContactMessage } from 'app/shared/model/contact-message.model';
 import { ContactService } from '../contact.service';
@@ -38,7 +40,7 @@ export class ContactMessageUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.contactMessage.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
+        this.contactMessage.createdDate = this.createdDate != null ? dayjs(this.createdDate, DATE_TIME_FORMAT) : null;
         if (this.contactMessage.id !== undefined) {
             this.subscribeToSaveResponse(this.contactMessageService.updateMessage(this.contactMessage));
         } else {

@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 
 import { JojoaddisonSharedModule } from 'app/shared';
 import {
-    SlideViewComponent,
     SlideComponent,
     SlideDetailComponent,
     SlideUpdateComponent,
@@ -20,14 +19,13 @@ const SLIDE_STATES = [...slideRoute, ...slidePopupRoute];
     imports: [JojoaddisonSharedModule, RouterModule.forChild(SLIDE_STATES)],
     declarations: [
         SlideComponent,
-        SlideViewComponent,
         SlideDetailComponent,
         SlideUpdateComponent,
         SlideDeleteDialogComponent,
         SlideDeletePopupComponent
     ],
-    entryComponents: [SlideComponent, SlideViewComponent, SlideUpdateComponent, SlideDeleteDialogComponent, SlideDeletePopupComponent],
-    exports: [SlideViewComponent],
+    entryComponents: [SlideComponent, SlideUpdateComponent, SlideDeleteDialogComponent, SlideDeletePopupComponent],
+    providers: [ConsoleLoggerService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JojoaddisonSlideModule {}

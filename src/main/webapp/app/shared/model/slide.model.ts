@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 
 export interface ISlide {
     id?: string;
@@ -7,8 +7,8 @@ export interface ISlide {
     url?: string;
     photoContentType?: string;
     photo?: any;
-    createdDate?: Moment;
-    modifiedDate?: Moment;
+    createdDate?: dayjs.Dayjs;
+    modifiedDate?: dayjs.Dayjs;
     createdBy?: string;
     modifiedBy?: string;
 }
@@ -21,8 +21,8 @@ export class Slide implements ISlide {
         public url?: string,
         public photoContentType?: string,
         public photo?: any,
-        public createdDate?: Moment,
-        public modifiedDate?: Moment,
+        public createdDate?: dayjs.Dayjs,
+        public modifiedDate?: dayjs.Dayjs,
         public createdBy?: string,
         public modifiedBy?: string
     ) {}

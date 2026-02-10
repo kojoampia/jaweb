@@ -28,6 +28,7 @@ import io.jojoaddison.repository.ContactMessageRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 
 /**
@@ -35,9 +36,11 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class ContactMessageResource {
 
     private final Logger log = LoggerFactory.getLogger(ContactMessageResource.class);
+
 
     private static final String ENTITY_NAME = "contactMessage";
 

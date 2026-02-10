@@ -7,8 +7,9 @@ import SharedModule from 'app/shared/shared.module';
 import { sortStateSignal, SortDirective, SortByDirective, type SortState, SortService } from 'app/shared/sort';
 import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { DataUtils } from 'app/core/util/data-util.service';
+import { DataUtilsService as DataUtils } from 'app/core/services/data-utils.service';
 import { IStaff } from '../staff.model';
 import { EntityArrayResponseType, StaffService } from '../service/staff.service';
 import { StaffDeleteDialogComponent } from '../delete/staff-delete-dialog.component';
@@ -21,6 +22,7 @@ import { StaffDeleteDialogComponent } from '../delete/staff-delete-dialog.compon
     RouterModule,
     FormsModule,
     SharedModule,
+    FontAwesomeModule,
     SortDirective,
     SortByDirective,
     DurationPipe,

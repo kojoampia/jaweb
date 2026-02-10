@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { EventManager } from 'app/core/services/event-manager.service';
 
 import { IStaff } from 'app/shared/model/staff.model';
 import { AccountService } from 'app/core';
@@ -19,9 +19,9 @@ export class StaffComponent implements OnInit, OnDestroy {
 
     constructor(
         protected staffService: StaffService,
-        protected jhiAlertService: JhiAlertService,
-        protected dataUtils: JhiDataUtils,
-        protected eventManager: JhiEventManager,
+        // protected jhiAlertService: JhiAlertService,
+        // protected dataUtils: JhiDataUtils,
+        protected eventManager: EventManager,
         protected accountService: AccountService
     ) {}
 
@@ -49,7 +49,9 @@ export class StaffComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+        if (this.eventSubscriber) {
+            this.eventSubscriber.unsubscribe();
+        }
     }
 
     trackId(index: number, item: IStaff) {
@@ -57,11 +59,11 @@ export class StaffComponent implements OnInit, OnDestroy {
     }
 
     byteSize(field) {
-        return this.dataUtils.byteSize(field);
+        // return this.dataUtils.byteSize(field);
     }
 
     openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
+        // return this.dataUtils.openFile(contentType, field);
     }
 
     registerChangeInStaff() {
@@ -69,6 +71,6 @@ export class StaffComponent implements OnInit, OnDestroy {
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        // this.jhiAlertService.error(errorMessage, null, null);
     }
 }

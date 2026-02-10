@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { JhiDataUtils } from 'ng-jhipster';
+import { Component, OnInit, Input, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { DataUtils } from 'app/core/services/data-utils.service';
 
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';

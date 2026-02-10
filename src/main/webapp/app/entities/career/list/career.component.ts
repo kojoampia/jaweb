@@ -1,4 +1,4 @@
-import { Component, NgZone, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, NgZone, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
 import { combineLatest, filter, Observable, Subscription, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ import { sortStateSignal, SortDirective, SortByDirective, type SortState, SortSe
 import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { FormsModule } from '@angular/forms';
 import { SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { DataUtils } from 'app/core/util/data-util.service';
+import { DataUtils } from 'app/core/services/data-utils.service';
 import { ICareer } from '../career.model';
 import { EntityArrayResponseType, CareerService } from '../service/career.service';
 import { CareerDeleteDialogComponent } from '../delete/career-delete-dialog.component';
@@ -17,6 +17,7 @@ import { CareerDeleteDialogComponent } from '../delete/career-delete-dialog.comp
   standalone: true,
   selector: 'jhi-career',
   templateUrl: './career.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     RouterModule,
     FormsModule,

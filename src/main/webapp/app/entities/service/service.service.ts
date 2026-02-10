@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { IService } from 'app/shared/model/service.model';
 
@@ -67,8 +69,8 @@ export class ServiceService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
-            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : null;
+            res.body.modifiedDate = res.body.modifiedDate != null ? dayjs(res.body.modifiedDate) : null;
         }
         return res;
     }
@@ -76,8 +78,8 @@ export class ServiceService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((service: IService) => {
-                service.createdDate = service.createdDate != null ? moment(service.createdDate) : null;
-                service.modifiedDate = service.modifiedDate != null ? moment(service.modifiedDate) : null;
+                service.createdDate = service.createdDate != null ? dayjs(service.createdDate) : null;
+                service.modifiedDate = service.modifiedDate != null ? dayjs(service.modifiedDate) : null;
             });
         }
         return res;

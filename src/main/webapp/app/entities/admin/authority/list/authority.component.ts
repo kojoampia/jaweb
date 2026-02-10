@@ -1,4 +1,4 @@
-import { Component, NgZone, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, NgZone, inject, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
 import { combineLatest, filter, Observable, Subscription, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ import { AuthorityDeleteDialogComponent } from '../delete/authority-delete-dialo
   standalone: true,
   selector: 'jhi-authority',
   templateUrl: './authority.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     RouterModule,
     FormsModule,

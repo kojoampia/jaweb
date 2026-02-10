@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router'; // Add RouterModule
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
+import { AlertService } from 'app/core/services/alert.service'; // Added
+import { AlertErrorComponent } from 'app/shared/alert/alert-error.component'; // New import
 import { IHome } from 'app/shared/model/home.model';
 import { HomeService } from './home.service';
 import { IInformation } from 'app/shared/model/information.model';
 import { InformationService } from 'app/entities/information';
+import { Infobox } from 'app/widgets/infobox/infobox.component'; // New import
 import { ISlide } from 'app/shared/model/slide.model';
 import { SlideService } from '../slide';
 import { IPortfolio, Portfolio } from 'app/shared/model/portfolio.model';
@@ -18,12 +22,40 @@ import { IPartner, Partner } from 'app/shared/model/partner.model';
 import { PortfolioService } from '../portfolio';
 import { PartnerService } from '../partner';
 import { ServiceService } from '../service';
-import { isArray, isNumber } from 'util';
+// import { isArray, isNumber } from 'util'; // Removed
+
+import { CommonModule } from '@angular/common'; // New import
+import { FormsModule } from '@angular/forms'; // New import
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; // New import
+import { AlertComponent } from 'app/shared/alert/alert.component'; // This was mistakenly removed, re-adding.
+
+
+
+
+import { InfoboxComponent } from 'app/widgets/infobox/infobox.component'; // New import
+import { SlideSelectorComponent } from 'app/widgets/slides/slide-selector.component'; // New import
+import { TileboxComponent } from 'app/widgets/tilebox/tilebox.component'; // New import
+import { OwlSliderComponent } from 'app/widgets/owlslider/slider.component'; // New import
+
 
 @Component({
     selector: 'jhi-home-update',
     templateUrl: './home-update.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+        FontAwesomeModule,
+        AlertComponent, // Re-added
+        AlertErrorComponent, // Added
+        RouterModule,
+
+        InfoboxComponent,
+        SlideSelectorComponent,
+        TileboxComponent,
+        OwlSliderComponent,
+    ]
 })
 export class HomeUpdateComponent implements OnInit {
     home: IHome;
@@ -32,6 +64,8 @@ export class HomeUpdateComponent implements OnInit {
     information: any[];
     createdDate: string;
     modifiedDate: string;
+
+    infoboxData: Infobox | null = null;
 
     slides: ISlide[] = [];
     portfolios: IPortfolio[] = [];
@@ -51,7 +85,8 @@ export class HomeUpdateComponent implements OnInit {
         protected portfolioService: PortfolioService,
         protected partnerService: PartnerService,
         protected restService: ServiceService,
-        protected jhiAlertService: JhiAlertService,
+        // protected jhiAlertService: JhiAlertService, // Removed
+        protected alertService: AlertService,
         protected homeService: HomeService,
         protected informationService: InformationService,
         protected activatedRoute: ActivatedRoute
@@ -63,6 +98,18 @@ export class HomeUpdateComponent implements OnInit {
             this.home = home;
             this.createdDate = this.home.createdDate != null ? this.home.createdDate.format(DATE_TIME_FORMAT) : null;
             this.modifiedDate = this.home.modifiedDate != null ? this.home.modifiedDate.format(DATE_TIME_FORMAT) : null;
+
+            if (this.home.information) {
+                this.infoboxData = new Infobox(
+                    this.home.information.id!,
+                    this.home.information.title || 'No Title',
+                    0, // Default type
+                    this.home.information.content,
+                    this.home.information.brief,
+                    this.home.information.link,
+                    this.home.information.linkText
+                );
+            }
         });
         this.loadInformation();
         this.loadSlides();
@@ -129,8 +176,8 @@ export class HomeUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.home.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
-        this.home.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : null;
+        this.home.createdDate = this.createdDate != null ? dayjs(this.createdDate, DATE_TIME_FORMAT) : null;
+        this.home.modifiedDate = this.modifiedDate != null ? dayjs(this.modifiedDate, DATE_TIME_FORMAT) : null;
         if (this.home.id !== undefined) {
             this.subscribeToSaveResponse(this.homeService.update(this.home));
         } else {
@@ -152,7 +199,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 
     trackInformationById(index: number, item: IInformation) {
@@ -190,7 +237,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     selectPortfolio(portfolio: Portfolio) {
-        if (!this.home.portfolios || !isArray(this.home.portfolios)) {
+        if (!this.home.portfolios || !Array.isArray(this.home.portfolios)) {
             this.home.portfolios = [];
         }
         const itemIndex = this.home.portfolios.findIndex(item => item.id === portfolio.id);
@@ -203,7 +250,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     isSelectedPortfolio(portfolio: any): boolean {
-        if (!this.home.portfolios || !isArray(this.home.portfolios)) {
+        if (!this.home.portfolios || !Array.isArray(this.home.portfolios)) {
             return false;
         }
         const itemIndex = this.home.portfolios.findIndex(item => item.id === portfolio.id);
@@ -211,7 +258,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     selectService(service: Service) {
-        if (!this.home.services || !isArray(this.home.services)) {
+        if (!this.home.services || !Array.isArray(this.home.services)) {
             this.home.services = [];
         }
 
@@ -225,7 +272,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     isSelectedService(service: any): boolean {
-        if (!this.home.services || !isArray(this.home.services)) {
+        if (!this.home.services || !Array.isArray(this.home.services)) {
             return false;
         }
         const itemIndex = this.home.services.findIndex(item => item.id === service.id);
@@ -233,7 +280,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     selectPartner(partner: Partner) {
-        if (!this.home.partners || !isArray(this.home.partners)) {
+        if (!this.home.partners || !Array.isArray(this.home.partners)) {
             this.home.partners = [];
         }
 
@@ -247,7 +294,7 @@ export class HomeUpdateComponent implements OnInit {
     }
 
     isSelectedPartner(partner: any): boolean {
-        if (!this.home.partners || !isArray(this.home.partners)) {
+        if (!this.home.partners || !Array.isArray(this.home.partners)) {
             return false;
         }
         const itemIndex = this.home.partners.findIndex(item => item.id === partner.id);

@@ -1,15 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'jhi-docviewer',
     templateUrl: './docviewer.component.html',
-    styleUrls: ['./docviewer.component.scss']
+    styleUrls: ['./docviewer.component.scss'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class DocviewerComponent {
-    @Input() document: ViewerDocument;
-    documentSource: any;
+    @Input() document: ViewerDocument | null = null;
+    documentSource: SafeResourceUrl | null = null;
     constructor(private activeModal: NgbActiveModal, private sanitizer: DomSanitizer) {}
 
     close() {
@@ -24,10 +27,10 @@ export class DocviewerComponent {
 
 export class ViewerDocument {
     source: string;
-    title: string;
-    created: string;
-    modified: string;
-    modifiedBy: string;
+    title?: string;
+    created?: string;
+    modified?: string;
+    modifiedBy?: string;
     constructor(source: string, title?: string, created?: string, modified?: string, modifiedBy?: string) {
         this.source = source;
         this.title = title;

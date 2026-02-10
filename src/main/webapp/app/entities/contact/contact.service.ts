@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { IContact } from 'app/shared/model/contact.model';
 import { IContactMessage } from 'app/shared/model/contact-message.model';
@@ -107,7 +109,7 @@ export class ContactService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.lastModified = res.body.lastModified != null ? moment(res.body.lastModified) : null;
+            res.body.lastModified = res.body.lastModified != null ? dayjs(res.body.lastModified) : null;
         }
         return res;
     }
@@ -115,7 +117,7 @@ export class ContactService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((contact: IContact) => {
-                contact.lastModified = contact.lastModified != null ? moment(contact.lastModified) : null;
+                contact.lastModified = contact.lastModified != null ? dayjs(contact.lastModified) : null;
             });
         }
         return res;

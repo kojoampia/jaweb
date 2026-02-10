@@ -3,13 +3,15 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+
 
 import { IContactMessage } from 'app/shared/model/contact-message.model';
 import { AccountService } from 'app/core';
+import { AlertService } from 'app/core/services/alert.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ContactService } from '../contact.service';
+import { ParseLinks } from 'app/shared/parse-links.service';
 
 @Component({
     selector: 'jhi-contact-message',
@@ -19,7 +21,6 @@ import { ContactService } from '../contact.service';
 export class ContactMessageComponent implements OnInit, OnDestroy {
     contactMessages: IContactMessage[];
     currentAccount: any;
-    eventSubscriber: Subscription;
     itemsPerPage: number;
     links: any;
     page: any;
@@ -34,11 +35,10 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
 
     constructor(
         protected contactMessageService: ContactService,
-        protected jhiAlertService: JhiAlertService,
-        protected eventManager: JhiEventManager,
-        protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected alertService: AlertService,
+        protected parseLinks: ParseLinks
     ) {
         this.contactMessages = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -124,19 +124,10 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInContactMessages();
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: IContactMessage) {
         return item.id;
-    }
-
-    registerChangeInContactMessages() {
-        this.eventSubscriber = this.eventManager.subscribe('contactMessageListModification', response => this.reset());
     }
 
     sort() {
@@ -148,8 +139,8 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
     }
 
     protected paginateContactMessages(data: IContactMessage[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.links = this.parseLinks.parse(headers.get('link') ?? '');
+        this.totalItems = parseInt(headers.get('X-Total-Count') ?? '0', 10);
         this.contactMessages = [];
         setTimeout(() => {
             for (let i = 0; i < data.length; i++) {
@@ -159,7 +150,7 @@ export class ContactMessageComponent implements OnInit, OnDestroy {
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 
     setApproved(message: IContactMessage, isApproved: boolean) {

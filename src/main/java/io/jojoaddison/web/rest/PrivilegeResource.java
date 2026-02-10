@@ -20,15 +20,18 @@ import io.jojoaddison.domain.Privilege;
 import io.jojoaddison.repository.PrivilegeRepository;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for managing Privilege.
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class PrivilegeResource {
 
     private final Logger log = LoggerFactory.getLogger(PrivilegeResource.class);
+
 
     private static final String ENTITY_NAME = "privilege";
 

@@ -4,10 +4,10 @@
     <router-outlet></router-outlet>
     <router-outlet name="popup"></router-outlet>
 </div>
-<ngx-scrolltop></ngx-scrolltop>
+
 <!-- Footer -->
 <div class="fixed-bottom bg-transparent">
-    <div class="row justify-content-center bg-primary p-3" *ngIf="cookieAccepted === false">
+    <div class="row justify-content-center bg-primary p-3" *ngIf="cookieAccepted() === false">
         <div class="col text-center text-white">
             <h5 class="display-5">
                 <span>We use cookies to help tailor serve you better. &nbsp;</span>

@@ -31,15 +31,18 @@ import io.jojoaddison.service.UserService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
 import io.jojoaddison.web.rest.util.PaginationUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for managing Blog.
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class BlogResource {
 
     private final Logger log = LoggerFactory.getLogger(BlogResource.class);
+
 
     private static final String ENTITY_NAME = "blog";
 

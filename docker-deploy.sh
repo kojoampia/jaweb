@@ -1,43 +1,15 @@
 #!/bin/bash
 
-args=$#
 
-if [ $args -le 0 ];then
-    echo "version number required eg. 0.0.5"
-    exit 1
-fi
+# Get project version from pom.xml
+JAWEB=$(./mvnw help:evaluate -Dexpression=project.build.finalName -q -DforceStdout)
+VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-commitMessage="version: $1 - deploy"
 
-if [ $args -gt 1 ];then
-    commitMessage="version: $1 - $2"
-    echo "working on $commitMessage..."    
-fi
-
-#echo "Synchronising with master on bitbucket"
-#git commit -am "$commitMessage"
-#git pull -r
-#git push
-
-# Set the version for the build and deploy
-export version=$1
-
-#git tag "v$version"
-
-echo "Building and Deploying to JojoAddison Web version $version"
-
-name=jaweb
-folder=`pwd`
-
-if [[ "$folder" != *"$name"* ]]; then
-  folder=$folder/$name
-fi
-
-echo "$folder"
-cd $folder
+echo "Building and Deploying to JojoAddison Web Image $JAWEB:$VERSION"
 
 echo "building..."
-./mvnw -Pprod clean verify jib:dockerBuild -DskipTests > build.log 
+./mvnw -Pprod clean verify jib:dockerBuild -Dimage=$JAWEB:$VERSION -DskipTests > build.log 
 echo "Checking for errors..."
 error=$(cat build.log | grep 'ERROR')
 if [ ! -n "$error" ]; then
@@ -53,13 +25,13 @@ fi
 echo "done."
 
 echo "tagging..."
-docker tag jaweb docker.jojoaddison.net/jaweb:$version
-docker tag jaweb docker.jojoaddison.net/jaweb
-docker image ls | grep 'jaweb'
+docker tag $JAWEB:$VERSION docker.jojoaddison.net/$JAWEB:$VERSION
+docker tag $JAWEB:$VERSION docker.jojoaddison.net/$JAWEB:latest
+docker image ls | grep $JAWEB
 echo "done."
 
 echo "pushing..."
-docker push docker.jojoaddison.net/jaweb:latest
-docker push docker.jojoaddison.net/jaweb:$version
+docker push docker.jojoaddison.net/$JAWEB:latest
+docker push docker.jojoaddison.net/$JAWEB:$VERSION
 echo "done."
 echo "build and deploy completed."

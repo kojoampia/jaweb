@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import io.jojoaddison.web.rest.vm.LoggerVM;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * Controller for view and managing Log Level at runtime.
  */
 @RestController
 @RequestMapping("/management")
+@Timed
 public class LogsResource {
 
     @GetMapping("/logs")
@@ -31,6 +33,7 @@ public class LogsResource {
             .map(LoggerVM::new)
             .collect(Collectors.toList());
     }
+
 
     @PutMapping("/logs")
     @ResponseStatus(HttpStatus.NO_CONTENT)

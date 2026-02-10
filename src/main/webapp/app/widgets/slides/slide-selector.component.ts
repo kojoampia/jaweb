@@ -1,19 +1,18 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Slide } from 'app/shared/model/slide.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'jhi-slide-selector',
     templateUrl: './slide-selector.component.html',
-    styleUrls: ['./slides.component.scss']
+    styleUrls: ['./slides.component.scss'],
+    standalone: true,
+    imports: [CommonModule]
 })
-export class SlideSelectorComponent implements OnDestroy {
+export class SlideSelectorComponent {
     @Input() slides: any[] = [];
     @Output() slideSelected = new EventEmitter<any>();
     constructor() {}
-
-    ngOnDestroy() {
-        this.slideSelected = Object.assign({});
-    }
 
     onClick(item: any) {
         console.log('slide-selected');

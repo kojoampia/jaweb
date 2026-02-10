@@ -1,44 +1,28 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { AuthServerProvider } from 'app/core/auth/auth-jwt.service';
-import { JhiTrackerService } from 'app/core/tracker/tracker.service';
+import { Login } from 'app/login/login.model';
+import { Account } from 'app/core/auth/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-    constructor(
-        private accountService: AccountService,
-        private trackerService: JhiTrackerService,
-        private authServerProvider: AuthServerProvider
-    ) {}
+  constructor(
+    private accountService: AccountService,
+    private authServerProvider: AuthServerProvider
+  ) {}
 
-    login(credentials, callback?) {
-        const cb = callback || function() {};
+  login(credentials: Login): Observable<void> {
+    return this.authServerProvider.login(credentials).pipe(
+      tap(() => {
+        this.accountService.identity(true);
+      })
+    );
+  }
 
-        return new Promise((resolve, reject) => {
-            this.authServerProvider.login(credentials).subscribe(
-                data => {
-                    this.accountService.identity(true).then(account => {
-                        this.trackerService.sendActivity();
-                        resolve(data);
-                    });
-                    return cb();
-                },
-                err => {
-                    this.logout();
-                    reject(err);
-                    return cb(err);
-                }
-            );
-        });
-    }
-
-    loginWithToken(jwt, rememberMe) {
-        return this.authServerProvider.loginWithToken(jwt, rememberMe);
-    }
-
-    logout() {
-        this.authServerProvider.logout().subscribe();
-        this.accountService.authenticate(null);
-    }
+  logout(): void {
+    this.authServerProvider.logout().subscribe({ complete: () => this.accountService.authenticate(null) });
+  }
 }

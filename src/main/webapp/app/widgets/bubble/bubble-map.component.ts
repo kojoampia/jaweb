@@ -11,10 +11,10 @@ export class BubbleMapComponent implements OnDestroy, OnInit {
     min = Infinity;
 
     @Input() latlong: any = {};
-    @Input() mapData: any[];
+    @Input() mapData: any[] = [];
     @Input() chartOptions: any;
     @Input() bubbleTheme: any;
-    @Input() geoColors: any[];
+    @Input() geoColors: any[] = [];
 
     constructor() {
         this.setDefaultLatLong();
@@ -331,7 +331,7 @@ export class BubbleMapComponent implements OnDestroy, OnInit {
             },
             tooltip: {
                 trigger: 'item',
-                formatter: params => {
+                formatter: (params: any) => {
                     return `${params.name}: ${params.value[2]}`;
                 }
             },

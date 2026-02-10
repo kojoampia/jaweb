@@ -19,7 +19,6 @@ const ENTITY_STATES = [...informationRoute, ...informationPopupRoute];
     imports: [JojoaddisonSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         InformationComponent,
-        InformationDetailComponent,
         InformationUpdateComponent,
         InformationDeleteDialogComponent,
         InformationDeletePopupComponent,

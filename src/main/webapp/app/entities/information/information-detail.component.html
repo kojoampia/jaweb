@@ -4,22 +4,23 @@
             <div class="card border-0">
                 <div class="card-header bg-primary">
                     <h2 id="page-heading">
-                        <span>Information</span>
+                        <span>Information</span> {{info?.id}}
                     </h2>
                 </div>
                 <div class="card-body">
                     <div class="container-fluid mt-1 mb-1 head-info bg-transparent">
                         <div class="container">
-                            <jhi-infobox [info]="info"></jhi-infobox>
+                            <jhi-infobox *ngIf="infoboxData" [info]="infoboxData"></jhi-infobox>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-9">
-
+                           <div [innerHTML]="info?.content"></div>
                         </div>
                         <div class="col-3 text-right">
+                           <div [innerHTML]="info?.brief"></div>
                             <div class="btn-group flex-btn-group-container">
                                 <button type="submit" (click)="previousState()" class="btn btn-info">
                                     <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>

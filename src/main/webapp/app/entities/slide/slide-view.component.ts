@@ -1,11 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ISlide, Slide } from 'app/shared/model/slide.model';
-import { Tile } from 'app/widgets';
+import { Tile, TileboxComponent } from 'app/widgets/tilebox/tilebox.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'jhi-slide-view',
     templateUrl: './slide-view.component.html',
-    styleUrls: ['../entities.components.scss']
+    styleUrls: ['../entities.components.scss'],
+    standalone: true,
+    imports: [CommonModule, TileboxComponent]
 })
 export class SlideViewComponent implements OnInit {
     @Input() slides: ISlide[] = [];

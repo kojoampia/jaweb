@@ -3,13 +3,14 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+
 
 import { IHome } from 'app/shared/model/home.model';
 import { AccountService } from 'app/core';
 import { HomeService } from './home.service';
 import { IInformation } from 'app/shared/model/information.model';
 import { InformationService } from '../information';
+import { AlertService } from 'app/core/services/alert.service';
 
 @Component({
     selector: 'jhi-home',
@@ -19,17 +20,15 @@ import { InformationService } from '../information';
 export class HomeComponent implements OnInit, OnDestroy {
     homes: IHome[];
     currentAccount: any;
-    eventSubscriber: Subscription;
     currentSearch: string;
     info: IInformation;
 
     constructor(
         protected homeService: HomeService,
         protected informationService: InformationService,
-        protected jhiAlertService: JhiAlertService,
-        protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected alertService: AlertService
     ) {
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
@@ -91,25 +90,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then(account => {
+        this.accountService.identity().subscribe(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInHomes();
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: IHome) {
         return item.id;
     }
 
-    registerChangeInHomes() {
-        this.eventSubscriber = this.eventManager.subscribe('homeListModification', response => this.loadAll());
-    }
-
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.addAlert({ type: 'danger', message: errorMessage });
     }
 }

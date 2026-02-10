@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+declare const SERVER_API_URL: string;
 import { createRequestOption } from 'app/shared';
 import { IPortfolio } from 'app/shared/model/portfolio.model';
 
@@ -67,8 +69,8 @@ export class PortfolioService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
-            res.body.modifiedDate = res.body.modifiedDate != null ? moment(res.body.modifiedDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : null;
+            res.body.modifiedDate = res.body.modifiedDate != null ? dayjs(res.body.modifiedDate) : null;
         }
         return res;
     }
@@ -76,8 +78,8 @@ export class PortfolioService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((portfolio: IPortfolio) => {
-                portfolio.createdDate = portfolio.createdDate != null ? moment(portfolio.createdDate) : null;
-                portfolio.modifiedDate = portfolio.modifiedDate != null ? moment(portfolio.modifiedDate) : null;
+                portfolio.createdDate = portfolio.createdDate != null ? dayjs(portfolio.createdDate) : null;
+                portfolio.modifiedDate = portfolio.modifiedDate != null ? dayjs(portfolio.modifiedDate) : null;
             });
         }
         return res;

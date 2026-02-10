@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IBlog, Blog } from 'app/shared/model/blog.model';
 import { BlogService } from './blog.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { JhiEventManager } from 'ng-jhipster';
-import { SessionStorage } from 'ngx-webstorage';
+import { EventManagerService } from 'app/core/services';
 
 @Component({
     selector: 'jhi-blog-update',

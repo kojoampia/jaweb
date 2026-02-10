@@ -3,9 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IStaff } from 'app/shared/model/staff.model';
 import { StaffService } from './staff.service';
 import { IUser, UserService } from 'app/core';
@@ -24,8 +23,8 @@ export class StaffUpdateComponent implements OnInit {
     modifiedDate: string;
 
     constructor(
-        protected dataUtils: JhiDataUtils,
-        protected jhiAlertService: JhiAlertService,
+        // protected dataUtils: JhiDataUtils,
+        // protected jhiAlertService: JhiAlertService,
         protected staffService: StaffService,
         protected userService: UserService,
         protected elementRef: ElementRef,
@@ -49,19 +48,19 @@ export class StaffUpdateComponent implements OnInit {
     }
 
     byteSize(field) {
-        return this.dataUtils.byteSize(field);
+        // return this.dataUtils.byteSize(field);
     }
 
     openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
+        // return this.dataUtils.openFile(contentType, field);
     }
 
     setFileData(event, entity, field, isImage) {
-        this.dataUtils.setFileData(event, entity, field, isImage);
+        // this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     clearInputImage(field: string, fieldContentType: string, idInput: string) {
-        this.dataUtils.clearInputImage(this.staff, this.elementRef, field, fieldContentType, idInput);
+        // this.dataUtils.clearInputImage(this.staff, this.elementRef, field, fieldContentType, idInput);
     }
 
     previousState() {
@@ -70,8 +69,8 @@ export class StaffUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.staff.createdDate = this.createdDate != null ? moment(this.createdDate, DATE_TIME_FORMAT) : null;
-        this.staff.modifiedDate = this.modifiedDate != null ? moment(this.modifiedDate, DATE_TIME_FORMAT) : null;
+        this.staff.createdDate = this.createdDate != null ? dayjs(this.createdDate, DATE_TIME_FORMAT) : null;
+        this.staff.modifiedDate = this.modifiedDate != null ? dayjs(this.modifiedDate, DATE_TIME_FORMAT) : null;
         if (this.staff.id !== undefined) {
             this.subscribeToSaveResponse(this.staffService.update(this.staff));
         } else {
@@ -93,7 +92,7 @@ export class StaffUpdateComponent implements OnInit {
     }
 
     protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        // this.jhiAlertService.error(errorMessage, null, null);
     }
 
     trackUserById(index: number, item: IUser) {

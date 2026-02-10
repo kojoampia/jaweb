@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import * as dayjs from 'dayjs';
 
 export interface IService {
     id?: string;
@@ -6,8 +6,8 @@ export interface IService {
     description?: string;
     photoContentType?: string;
     photo?: any;
-    createdDate?: Moment;
-    modifiedDate?: Moment;
+    createdDate?: dayjs.Dayjs;
+    modifiedDate?: dayjs.Dayjs;
     createdBy?: string;
     modifiedBy?: string;
     contact?: string;
@@ -20,8 +20,8 @@ export class Service implements IService {
         public description?: string,
         public photoContentType?: string,
         public photo?: any,
-        public createdDate?: Moment,
-        public modifiedDate?: Moment,
+        public createdDate?: dayjs.Dayjs,
+        public modifiedDate?: dayjs.Dayjs,
         public createdBy?: string,
         public modifiedBy?: string,
         public contact?: string

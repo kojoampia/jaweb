@@ -1,23 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
-
+import { Component, OnInit, signal, WritableSignal, inject } from '@angular/core';
+import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { LocalStorage } from 'ngx-webstorage';
+import { StorageService } from 'app/core/services/storage.service';
+import { FooterComponent } from 'app/layouts/footer/footer.component';
+import PageRibbonComponent from 'app/layouts/profiles/page-ribbon.component';
 
 @Component({
     selector: 'jhi-main',
+    standalone: true,
+    imports: [CommonModule, RouterModule, FooterComponent, PageRibbonComponent],
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
-export class JhiMainComponent implements OnInit {
-    @LocalStorage() cookieAccepted: boolean;
-    constructor(private titleService: Title, private router: Router) {
-        if (this.cookieAccepted === null) {
-            this.cookieAccepted = false;
+export class MainComponent implements OnInit {
+    private titleService = inject(Title);
+    private router = inject(Router);
+    private storageService = inject(StorageService);
+
+    cookieAccepted: WritableSignal<boolean> = signal(false);
+
+    constructor() {
+        // Load cookie acceptance from storage
+        const stored = this.storageService.getItem<boolean>('cookieAccepted', false);
+        if (stored) {
+            this.cookieAccepted.set(stored);
         }
     }
 
-    private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
+    private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
         let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'jojoaddisonApp';
         if (routeSnapshot.firstChild) {
             title = this.getPageTitle(routeSnapshot.firstChild) || title;
@@ -25,7 +36,7 @@ export class JhiMainComponent implements OnInit {
         return title;
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.titleService.setTitle(this.getPageTitle(this.router.routerState.snapshot.root));
@@ -36,7 +47,8 @@ export class JhiMainComponent implements OnInit {
         });
     }
 
-    acceptCookies() {
-        this.cookieAccepted = true;
+    acceptCookies(): void {
+        this.cookieAccepted.set(true);
+        this.storageService.setItem('cookieAccepted', true);
     }
 }

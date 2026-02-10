@@ -5,8 +5,8 @@
             <jhi-alert-error></jhi-alert-error>
         </div>
         <div class="card-body">
-                <jhi-infobox [info]="home.information"></jhi-infobox>
-                <jhi-slider [slides]="home.slides"></jhi-slider>
+                <jhi-infobox *ngIf="infoboxInfo" [info]="infoboxInfo"></jhi-infobox>
+                <jhi-slider *ngIf="slidesData" [slides]="slidesData"></jhi-slider>
             <div class="row mt-3">
                 <div class="col">
                     <dl class="jh-entity-details text-white">
@@ -24,11 +24,11 @@
                     <dl class="jh-entity-details text-white">
                         <dt><span>Created Date</span></dt>
                         <dd>
-                            <span>{{home.createdDate | date: 'medium'}}</span>
+                            <span>{{home.createdDate?.toISOString() | date: 'medium'}}</span>
                         </dd>
                         <dt><span>Modified Date</span></dt>
                         <dd>
-                            <span>{{home.modifiedDate | date: 'medium'}}</span>
+                            <span>{{home.modifiedDate?.toISOString() | date: 'medium'}}</span>
                         </dd>
                     </dl>
                 </div>

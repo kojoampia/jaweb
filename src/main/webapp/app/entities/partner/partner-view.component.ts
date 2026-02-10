@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IPartner } from 'app/shared/model/partner.model';
 import { PartnerService } from './partner.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'jhi-partner-view',
-    templateUrl: './partner-view.component.html',
-    styles: []
+  standalone: true,
+  selector: 'jhi-partner-view',
+  templateUrl: './partner-view.component.html',
+  imports: [CommonModule, RouterModule],
+  styles: [],
 })
 export class PartnerViewComponent implements OnInit {
-    partners: IPartner[] = [];
-    constructor(private partnerService: PartnerService, private domSanitizer: DomSanitizer) {}
+  @Input() partners: IPartner[] = [];
 
-    ngOnInit() {
-        this.partnerService.query({}).subscribe((res: any) => {
-            this.partners = res.body;
-        });
-    }
+  constructor(private partnerService: PartnerService, private domSanitizer: DomSanitizer) {}
 
-    sanitize(data: string): SafeHtml {
-        return this.domSanitizer.bypassSecurityTrustHtml(data);
+  ngOnInit() {
+    if (!this.partners || this.partners.length === 0) {
+      this.partnerService.query({}).subscribe((res: any) => {
+        this.partners = res.body;
+      });
     }
+  }
+
+  sanitize(data: string): SafeHtml {
+    return this.domSanitizer.bypassSecurityTrustHtml(data);
+  }
 }

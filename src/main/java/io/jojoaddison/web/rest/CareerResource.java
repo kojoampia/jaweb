@@ -22,15 +22,18 @@ import io.jojoaddison.repository.CareerRepository;
 import io.jojoaddison.security.SecurityUtils;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * REST controller for managing Career.
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class CareerResource {
 
     private final Logger log = LoggerFactory.getLogger(CareerResource.class);
+
 
     private static final String ENTITY_NAME = "career";
 

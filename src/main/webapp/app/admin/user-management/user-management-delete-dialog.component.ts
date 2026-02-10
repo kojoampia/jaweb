@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { EventManager, EventWithContent } from 'app/core/services/event-manager.service';
 
 import { User, UserService } from 'app/core';
 
@@ -9,20 +9,17 @@ import { User, UserService } from 'app/core';
     templateUrl: './user-management-delete-dialog.component.html'
 })
 export class UserMgmtDeleteDialogComponent {
-    user: User;
+    user: User | undefined;
 
-    constructor(private userService: UserService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(private userService: UserService, public activeModal: NgbActiveModal, private eventManager: EventManager) {}
 
-    clear() {
+    clear(): void {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete(login) {
+    confirmDelete(login: string): void {
         this.userService.delete(login).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'userListModification',
-                content: 'Deleted a user'
-            });
+            this.eventManager.broadcast(new EventWithContent('userListModification', 'Deleted a user'));
             this.activeModal.dismiss(true);
         });
     }

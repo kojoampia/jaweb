@@ -29,8 +29,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
+
+import java.util.Base64;
 
 import io.jojoaddison.JojoaddisonApp;
 import io.jojoaddison.domain.Staff;
@@ -293,11 +294,11 @@ public class StaffResourceIntTest {
             .andExpect(jsonPath("$.[*].region").value(hasItem(DEFAULT_REGION.toString())))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
             .andExpect(jsonPath("$.[*].digitalProfileContentType").value(hasItem(DEFAULT_DIGITAL_PROFILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].digitalProfile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DIGITAL_PROFILE))))
+            .andExpect(jsonPath("$.[*].digitalProfile").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_DIGITAL_PROFILE))))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].accountType").value(hasItem(DEFAULT_ACCOUNT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].documentsContentType").value(hasItem(DEFAULT_DOCUMENTS_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].documents").value(hasItem(Base64Utils.encodeToString(DEFAULT_DOCUMENTS))))
+            .andExpect(jsonPath("$.[*].documents").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_DOCUMENTS))))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
@@ -327,11 +328,11 @@ public class StaffResourceIntTest {
             .andExpect(jsonPath("$.region").value(DEFAULT_REGION.toString()))
             .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()))
             .andExpect(jsonPath("$.digitalProfileContentType").value(DEFAULT_DIGITAL_PROFILE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.digitalProfile").value(Base64Utils.encodeToString(DEFAULT_DIGITAL_PROFILE)))
+            .andExpect(jsonPath("$.digitalProfile").value(Base64.getEncoder().encodeToString(DEFAULT_DIGITAL_PROFILE)))
             .andExpect(jsonPath("$.accountNumber").value(DEFAULT_ACCOUNT_NUMBER.toString()))
             .andExpect(jsonPath("$.accountType").value(DEFAULT_ACCOUNT_TYPE.toString()))
             .andExpect(jsonPath("$.documentsContentType").value(DEFAULT_DOCUMENTS_CONTENT_TYPE))
-            .andExpect(jsonPath("$.documents").value(Base64Utils.encodeToString(DEFAULT_DOCUMENTS)))
+            .andExpect(jsonPath("$.documents").value(Base64.getEncoder().encodeToString(DEFAULT_DOCUMENTS)))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY.toString()))

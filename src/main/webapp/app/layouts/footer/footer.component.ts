@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
-import { DATE_FORMAT } from 'app/shared';
-import { SessionStorage } from 'ngx-webstorage';
+import * as dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import { CommonModule } from '@angular/common';
+
+dayjs.extend(utc);
 
 @Component({
     selector: 'jhi-footer',
     templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss']
+    styleUrls: ['./footer.component.scss'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class FooterComponent {
-    footerDate = moment(new Date(), DATE_FORMAT).utc(true);
+    footerDate = dayjs.utc();
     constructor() {
-        console.log(this.footerDate);
+        // console.log(this.footerDate);
     }
 }

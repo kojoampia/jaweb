@@ -21,6 +21,7 @@ import io.jojoaddison.domain.Staff;
 import io.jojoaddison.service.StaffService;
 import io.jojoaddison.web.rest.errors.BadRequestAlertException;
 import io.jojoaddison.web.rest.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 
 /**
@@ -28,9 +29,11 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api")
+@Timed
 public class StaffResource {
 
     private final Logger log = LoggerFactory.getLogger(StaffResource.class);
+
 
     private static final String ENTITY_NAME = "staff";
 

@@ -28,9 +28,7 @@ const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
         ContactUpdateComponent,
         ContactDeleteDialogComponent,
         ContactDeletePopupComponent,
-        ContactViewComponent,
         ContactMessageComponent,
-        ContactMessageDetailComponent,
         ContactMessageUpdateComponent,
         ContactMessageDeleteDialogComponent,
         ContactMessageDeletePopupComponent
@@ -41,7 +39,6 @@ const ENTITY_STATES = [...contactRoute, ...contactPopupRoute];
         ContactDeleteDialogComponent,
         ContactDeletePopupComponent,
         ContactMessageComponent,
-        ContactMessageDetailComponent,
         ContactMessageUpdateComponent,
         ContactMessageDeleteDialogComponent,
         ContactMessageDeletePopupComponent
