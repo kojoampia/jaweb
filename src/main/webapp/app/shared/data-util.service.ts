@@ -17,14 +17,14 @@ export class DataUtils {
     return this.formatAsBytes(field.length);
   }
 
-  openFile(contentType: string, data: string): void {
+  openFile(data: string, contentType: string | null | undefined): void {
     const byteCharacters = atob(data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
     const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: contentType });
+    const blob = new Blob([byteArray], { type: contentType ?? '' });
     const fileURL = URL.createObjectURL(blob);
     window.open(fileURL);
   }

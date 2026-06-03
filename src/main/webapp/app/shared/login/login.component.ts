@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
@@ -8,7 +10,9 @@ import { EventManagerService } from 'app/core/services';
 
 @Component({
     selector: 'jhi-login-modal',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    standalone: true,
+    imports: [CommonModule, FormsModule]
 })
 export class JhiLoginModalComponent implements AfterViewInit {
     @ViewChild('username') usernameField?: ElementRef;

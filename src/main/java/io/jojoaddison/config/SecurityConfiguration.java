@@ -8,9 +8,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -85,6 +85,13 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authz ->
                 authz
+                    .requestMatchers("/", "/index.html").permitAll()
+                    .requestMatchers("/*.js", "/*.css", "/*.map", "/*.json", "/*.txt").permitAll()
+                    .requestMatchers("/*.ico", "/*.png", "/*.svg", "/*.webapp").permitAll()
+                    .requestMatchers("/app/**").permitAll()
+                    .requestMatchers("/i18n/**").permitAll()
+                    .requestMatchers("/content/**").permitAll()
+                    .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/api/register").permitAll()
                     .requestMatchers("/api/activate").permitAll()
                     .requestMatchers("/api/authenticate").permitAll()
@@ -110,14 +117,11 @@ public class SecurityConfiguration {
                     .requestMatchers(HttpMethod.GET, "/management/info").permitAll()
                     .requestMatchers("/management/health").hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                    .anyRequest().permitAll()
             )
-            .with(securityConfigurerAdapter(), configurer -> {});
+            .addFilterBefore(new JWTFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
     }
 
 }

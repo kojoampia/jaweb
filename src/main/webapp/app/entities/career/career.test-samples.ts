@@ -24,7 +24,6 @@ export const sampleWithFullData: ICareer = {
   lastModifiedBy: 'athwart drat soar',
   url: 'https://active-marten.org',
   document: '../fake-data/blob/hipster.png',
-  documentContentType: 'unknown',
   documentContentType: 'lest or',
 };
 

@@ -178,8 +178,8 @@ library.add(faRetweet);
 library.add(faUserFriends);
 library.add(faUsers);
 
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 dayjs.extend(utc.default);

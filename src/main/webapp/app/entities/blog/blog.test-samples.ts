@@ -24,7 +24,6 @@ export const sampleWithFullData: IBlog = {
   lastModifiedBy: 'uh-huh exactly however',
   url: 'https://fair-fat.net/',
   document: '../fake-data/blob/hipster.png',
-  documentContentType: 'unknown',
   documentContentType: 'ideal zowie',
 };
 

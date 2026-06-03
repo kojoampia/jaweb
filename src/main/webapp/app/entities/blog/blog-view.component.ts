@@ -72,7 +72,7 @@ export class BlogViewComponent implements OnInit, OnDestroy {
         console.log(keys);
         console.log(values);
         this.archivedBlogs.set(values[0]);
-        const year = Number.parseInt(keys[0], 0);
+        const year = Number.parseInt(keys[0], 10);
         const archived = this.archivedBlogs();
         for (let i = 0; i < archived.length; i++) {
           archived[i].year = year;

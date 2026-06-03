@@ -5,6 +5,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import TranslateDirective from './translate.directive';
 
 @Component({
+  standalone: true,
+  imports: [TranslateDirective],
   template: ` <div jhiTranslate="test"></div> `,
 })
 class TestTranslateDirectiveComponent {}
@@ -15,8 +17,7 @@ describe('TranslateDirective Tests', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), TranslateDirective],
-      declarations: [TestTranslateDirectiveComponent],
+      imports: [TranslateModule.forRoot(), TestTranslateDirectiveComponent],
     });
   }));
 

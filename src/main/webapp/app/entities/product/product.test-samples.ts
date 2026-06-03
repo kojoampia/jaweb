@@ -12,7 +12,6 @@ export const sampleWithPartialData: IProduct = {
   category: 'unkempt',
   modifiedDate: dayjs('2024-04-10T12:17'),
   document: '../fake-data/blob/hipster.png',
-  documentContentType: 'unknown',
   documentContentType: 'undulate doze polarize',
 };
 
@@ -29,7 +28,6 @@ export const sampleWithFullData: IProduct = {
   lastModifiedBy: 'splendid',
   url: 'https://bite-sized-filly.com',
   document: '../fake-data/blob/hipster.png',
-  documentContentType: 'unknown',
   documentContentType: 'adduce as',
 };
 

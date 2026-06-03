@@ -15,9 +15,9 @@ export class DataUtilsService {
   /**
    * Open file as binary
    */
-  openFile(data: string, contentType: string | undefined): void {
+  openFile(data: string, contentType: string | null | undefined): void {
     const blob = this.byteString64ToBlob(data, contentType);
-    this.downloadFile(blob, contentType);
+    this.downloadFile(blob, undefined, contentType);
   }
 
   /**
@@ -87,3 +87,6 @@ export class DataUtilsService {
     return base64String.length * 0.75;
   }
 }
+
+/** @deprecated Use DataUtilsService instead */
+export { DataUtilsService as DataUtils };

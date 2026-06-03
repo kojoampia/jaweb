@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
+import com.fasterxml.jackson.module.blackbird.BlackbirdModule;
 
 @Configuration
 public class JacksonConfiguration {
@@ -26,11 +26,12 @@ public class JacksonConfiguration {
 
 
     /*
-     * Jackson Afterburner module to speed up serialization/deserialization.
+     * Jackson Blackbird module to speed up serialization/deserialization.
+     * Replaces Afterburner which is incompatible with Java 17+ module system.
      */
     @Bean
-    public AfterburnerModule afterburnerModule() {
-        return new AfterburnerModule();
+    public BlackbirdModule blackbirdModule() {
+        return new BlackbirdModule();
     }
 
 

@@ -46,3 +46,6 @@ export class ParseLinksService {
     return this.parseLinks(header);
   }
 }
+
+/** @deprecated Use ParseLinksService instead */
+export { ParseLinksService as ParseLinks };

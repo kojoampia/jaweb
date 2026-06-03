@@ -67,6 +67,10 @@ spring:
         exclude: org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
     application:
         name: jojoaddison
+    web:
+        resources:
+            add-mappings: true
+            throw-exception-if-resource-not-found: false
     profiles:
         # The commented value for `active` can be replaced with valid Spring profiles to load.
         # Otherwise, it will be filled in by maven when building the WAR file

@@ -6,7 +6,9 @@ This application was generated using JHipster 5.8.1, you can find documentation 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1.  [Node.js][]: We use Node to run a development web server and build the project.
+1.  [Java 25][]: The backend now targets Java 25 for local development, builds, and packaging.
+
+2.  [Node.js][]: We use Node to run a development web server and build the project.
     Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
 After installing Node, you should be able to run the following command to install development tools.
@@ -167,6 +169,7 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [running tests page]: https://www.jhipster.tech/documentation-archive/v5.8.1/running-tests/
 [code quality page]: https://www.jhipster.tech/documentation-archive/v5.8.1/code-quality/
 [setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v5.8.1/setting-up-ci/
+[java 25]: https://www.oracle.com/java/technologies/downloads/
 [node.js]: https://nodejs.org/
 [yarn]: https://yarnpkg.org/
 [webpack]: https://webpack.github.io/

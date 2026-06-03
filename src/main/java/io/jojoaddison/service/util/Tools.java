@@ -2,11 +2,10 @@ package io.jojoaddison.service.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -136,14 +135,14 @@ public final class Tools {
 			return directoryNameList;
 		}
 
-		File directory = new File(path);
-		if(directory.exists()){
-			if(directory.isDirectory()){
-				File [] fileList = directory.listFiles();
+		Path directory = Path.of(path);
+		if(Files.exists(directory)){
+			if(Files.isDirectory(directory)){
+				File [] fileList = directory.toFile().listFiles();
 				for(File f: fileList){
 					if(f.isDirectory() && f.getName().trim().length() > 0){
-						File filterFile = new File(f.getPath() + filter);
-						if(filterFile.exists()){
+						Path filterFile = Path.of(f.getPath() + filter);
+						if(Files.exists(filterFile)){
 							directoryNameList.add("\""+f.getName()+"\"");
 						}
 					}
@@ -231,12 +230,12 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 	domFactory.setNamespaceAware(true);
 	DocumentBuilder builder = domFactory.newDocumentBuilder();
 
-	File basePath = new File(xmlFilePath);
+	Path basePath = Path.of(xmlFilePath);
 
 	logger.info("basePath: " + basePath);
 	logger.info("xmlFilePath: " + xmlFilePath);
 
-	Document doc = builder.parse(basePath);
+	Document doc = builder.parse(basePath.toFile());
 
 		XPath xPath = XPathFactory.newInstance().newXPath();
 		XPathExpression file 	= xPath.compile(filter);
@@ -260,14 +259,14 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 			return folderList;
 		}
 
-		File backupDirectory = new File(rootPath);
+		Path backupDirectory = Path.of(rootPath);
 
-		if(!backupDirectory.exists()){
+		if(!Files.exists(backupDirectory)){
 			return folderList;
 		}
 
 
-		for(File t: backupDirectory.listFiles()){
+		for(File t: backupDirectory.toFile().listFiles()){
 
 			String path =  "{" + jsonTag("timestamp", t.getName());
 
@@ -336,14 +335,14 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 			return folderList;
 		}
 
-		File backupDirectory = new File(rootPath);
+		Path backupDirectory = Path.of(rootPath);
 
-		if(!backupDirectory.exists()){
+		if(!Files.exists(backupDirectory)){
 			return folderList;
 		}
 
 
-		for(File t: backupDirectory.listFiles()){
+		for(File t: backupDirectory.toFile().listFiles()){
 
 			if(t.getName().equals(timestamp)){ // Filter timestamp
 
@@ -393,13 +392,13 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 			return false;
 		}
 
-		File backupDirectory = new File(rootPath);
+		Path backupDirectory = Path.of(rootPath);
 
-		if(backupDirectory == null || !backupDirectory.exists()){
+		if(!Files.exists(backupDirectory)){
 			return false;
 		}
 
-		for(File t: backupDirectory.listFiles()){
+		for(File t: backupDirectory.toFile().listFiles()){
 
 			if(t.getName().equals(modelName)){
 				return true;
@@ -434,14 +433,14 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 			return folderList;
 		}
 
-		File backupDirectory = new File(rootPath);
+		Path backupDirectory = Path.of(rootPath);
 
-		if(!backupDirectory.exists()){
+		if(!Files.exists(backupDirectory)){
 			return folderList;
 		}
 
 
-		for(File t: backupDirectory.listFiles()){
+		for(File t: backupDirectory.toFile().listFiles()){
 
 			if(t.getName().equals(timestamp)){ // Filter timestamp
 
@@ -589,18 +588,19 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 	}
 
 	public static String createDirectory(String fullPath) throws IOException {
-		File path = new File(fullPath);
+		Path path = Path.of(fullPath);
 
-		if(path.exists() && path.isDirectory()){
-			return path.getAbsolutePath();
+		if(Files.exists(path) && Files.isDirectory(path)){
+			return path.toAbsolutePath().toString();
 		}
 
-		if(!path.exists() && path.mkdirs()){
-			if(path.exists() && path.isDirectory()){
+		if(!Files.exists(path)){
+			Files.createDirectories(path);
+			if(Files.exists(path) && Files.isDirectory(path)){
 				if(Tools.isLinux()) {
-					Tools.setPermission(path.getAbsolutePath(), Tools.getPermissions775());
+					Tools.setPermission(path.toAbsolutePath().toString(), Tools.getPermissions775());
 				}
-				return path.getAbsolutePath();
+				return path.toAbsolutePath().toString();
 			}
 		}
 
@@ -609,18 +609,21 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 	}
 
 	public static boolean removeFile(String filePath) {
-		File file = new File(filePath);
-		if(file.exists() && file.isFile()){
-			return file.delete();
+		Path file = Path.of(filePath);
+		if(Files.exists(file) && Files.isRegularFile(file)){
+			try {
+				return Files.deleteIfExists(file);
+			} catch (IOException e) {
+				logger.error("Failed to remove file {}", filePath, e);
+			}
 		}
 		return false;
 	}
 
 	public static void createFile(String fileName, byte[] fileContent) throws IOException {
-		BufferedOutputStream stream =
-		          new BufferedOutputStream(new FileOutputStream(new File(fileName)));
-		        stream.write(fileContent);
-		        stream.close();
+		try (BufferedOutputStream stream = new BufferedOutputStream(Files.newOutputStream(Path.of(fileName)))) {
+			stream.write(fileContent);
+		}
 	}
 
 
@@ -671,9 +674,9 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 
 	public static void setPermissions(String dir, Set<PosixFilePermission> perms) throws IOException {
 		// Set permissions recursively
-		File path = new File(dir);
-		if(path.isDirectory()){
-			Tools.setPermissions(path, perms);
+		Path path = Path.of(dir);
+		if(Files.isDirectory(path)){
+			Tools.setPermissions(path.toFile(), perms);
 		}
 
 	}
@@ -695,7 +698,7 @@ public static ArrayList<String> parseFilePaths(String xmlFilePath, String filter
 		for(PosixFilePermission p: perms){
 			logger.info("permission {}", p);
 		}
-		Files.setPosixFilePermissions(Paths.get(fileName), perms);
+		Files.setPosixFilePermissions(Path.of(fileName), perms);
 		/**
 		Map<String, Object> owner = Files.readAttributes(Paths.get(fileName), "posix:owner", LinkOption.NOFOLLOW_LINKS);
 		for(String key: owner.keySet()){

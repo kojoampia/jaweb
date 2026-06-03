@@ -22,7 +22,6 @@ export const sampleWithFullData: IInformation = {
   link: 'because refrain despite',
   url: 'https://aromatic-weird.net',
   document: '../fake-data/blob/hipster.png',
-  documentContentType: 'unknown',
   documentContentType: 'clef hmph bandage',
 };
 

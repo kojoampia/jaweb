@@ -45,7 +45,7 @@ export class ContactMessageComponent implements OnInit {
   currentSearch = '';
 
   itemsPerPage = ITEMS_PER_PAGE;
-  links: WritableSignal<{ [key: string]: undefined | { [key: string]: string | undefined } }> = signal({});
+  links: WritableSignal<{ [key: string]: number | undefined }> = signal({});
   hasMorePage = computed(() => !!this.links().next);
   isFirstFetch = computed(() => Object.keys(this.links()).length === 0);
 
@@ -165,7 +165,7 @@ export class ContactMessageComponent implements OnInit {
       query: currentSearch,
     };
     if (this.hasMorePage()) {
-      Object.assign(queryObject, this.links().next);
+      Object.assign(queryObject, { page: this.links().next });
     } else if (this.isFirstFetch()) {
       Object.assign(queryObject, { sort: this.sortService.buildSortParam(this.sortState()) });
     }

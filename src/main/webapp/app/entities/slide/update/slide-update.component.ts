@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManagerService as EventManager, EventWithContent } from 'app/core/services/event-manager.service';
-import { DataUtilsService as DataUtils, FileLoadError } from 'app/shared/data-util.service';
+import { DataUtils, FileLoadError } from 'app/shared/data-util.service';
 import { IAbout } from 'app/entities/about/about.model';
 import { AboutService } from 'app/entities/about/service/about.service';
 import { IBlog } from 'app/entities/blog/blog.model';

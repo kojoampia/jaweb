@@ -18,12 +18,17 @@ export interface Alert {
 export class AlertService {
   private alerts: Alert[] = [];
 
-  addAlert(alert: Alert): void {
-    this.alerts.push(alert);
+  addAlert(alert: Alert, extAlerts?: Alert[]): void {
+    const targetArray = extAlerts ?? this.alerts;
+    targetArray.push(alert);
   }
 
   closeAlert(index: number): void {
     this.alerts.splice(index, 1);
+  }
+
+  get(): Alert[] {
+    return this.alerts;
   }
 
   getAlerts(): Alert[] {

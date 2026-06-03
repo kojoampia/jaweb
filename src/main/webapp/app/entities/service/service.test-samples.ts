@@ -27,7 +27,6 @@ export const sampleWithFullData: IService = {
   contact: 'round drat',
   url: 'https://wicked-inevitable.org',
   document: '../fake-data/blob/hipster.png',
-  documentContentType: 'unknown',
   documentContentType: 'energetically',
 };
 

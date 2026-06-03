@@ -4,7 +4,7 @@ import { IPartner, NewPartner } from './partner.model';
 
 export const sampleWithRequiredData: IPartner = {
   id: '689c6da9-8a35-447d-bbb4-e097f2b91f8d',
-  email: undefined,
+  email: null,
   contactPerson: 'once amidst',
 };
 
@@ -13,7 +13,7 @@ export const sampleWithPartialData: IPartner = {
   link: 'bouncy technique now',
   country: 'Sweden',
   postCode: '15741-2815',
-  email: undefined,
+  email: null,
   contactPerson: 'cool speedily lick',
   logoUrl: 'earnings gerrymander',
   createdDate: dayjs('2024-04-09T21:36'),
@@ -29,14 +29,14 @@ export const sampleWithFullData: IPartner = {
   location: 'veal definitive',
   postCode: '77504-0116',
   streetAddress: 'worth',
-  email: undefined,
+  email: null,
   contactPerson: 'blind inside',
   logoUrl: 'phony variable accidentally',
   createdDate: dayjs('2024-04-10T11:19'),
 };
 
 export const sampleWithNewData: NewPartner = {
-  email: undefined,
+  email: null,
   contactPerson: 'mysterious',
   id: null,
 };

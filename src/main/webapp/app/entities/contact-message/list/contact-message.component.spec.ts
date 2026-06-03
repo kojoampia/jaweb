@@ -128,8 +128,8 @@ describe('ContactMessage Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalledTimes(3);
-    expect(service.query).toHaveBeenNthCalledWith(2, expect.objectContaining({ page: '1' }));
-    expect(service.query).toHaveBeenLastCalledWith(expect.objectContaining({ page: '2' }));
+    expect(service.query).toHaveBeenNthCalledWith(2, expect.objectContaining({ page: 1 }));
+    expect(service.query).toHaveBeenLastCalledWith(expect.objectContaining({ page: 2 }));
   });
 
   describe('delete', () => {

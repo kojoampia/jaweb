@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { ISlide } from 'app/shared/model/slide.model';
 
 export interface IContact {

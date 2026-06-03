@@ -1,8 +1,8 @@
 package io.jojoaddison.config;
 
-import java.io.File;
 import java.net.URLDecoder;
-import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 import jakarta.servlet.DispatcherType;
@@ -101,11 +101,10 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     private void setLocationForStaticAssets(WebServerFactory server) {
         if (server instanceof ConfigurableServletWebServerFactory) {
             ConfigurableServletWebServerFactory servletWebServer = (ConfigurableServletWebServerFactory) server;
-            File root;
             String prefixPath = resolvePathPrefix();
-            root = new File(prefixPath + "target/www/");
-            if (root.exists() && root.isDirectory()) {
-                servletWebServer.setDocumentRoot(root);
+            Path root = Path.of(prefixPath, "target", "www");
+            if (Files.isDirectory(root)) {
+                servletWebServer.setDocumentRoot(root.toFile());
             }
         }
     }
@@ -116,7 +115,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     private String resolvePathPrefix() {
         String fullExecutablePath;
         fullExecutablePath = URLDecoder.decode(this.getClass().getResource("").getPath(), StandardCharsets.UTF_8);
-        String rootPath = Paths.get(".").toUri().normalize().getPath();
+        String rootPath = Path.of(".").toUri().normalize().getPath();
         String extractedPath = fullExecutablePath.replace(rootPath, "");
         int extractionEndIndex = extractedPath.indexOf("target/");
         if (extractionEndIndex <= 0) {

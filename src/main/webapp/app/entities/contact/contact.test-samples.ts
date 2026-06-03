@@ -4,7 +4,7 @@ import { IContact, NewContact } from './contact.model';
 
 export const sampleWithRequiredData: IContact = {
   id: '467f4abe-870c-481e-bfd4-9e474ff7cc96',
-  email: undefined,
+  email: null,
 };
 
 export const sampleWithPartialData: IContact = {
@@ -17,7 +17,7 @@ export const sampleWithPartialData: IContact = {
   region: 'about happily',
   country: 'Curacao',
   telephone: '560-770-2748 x394',
-  email: undefined,
+  email: null,
   facebook: 'wherever',
   twitter: 'answer shine',
   google: 'glaze',
@@ -42,7 +42,7 @@ export const sampleWithFullData: IContact = {
   region: 'vice sympathy boohoo',
   country: 'Portugal',
   telephone: '669-334-3622 x651',
-  email: undefined,
+  email: null,
   whatsapp: 'unpick mysteriously',
   facebook: 'ew phooey afore',
   twitter: 'diligently when',
@@ -60,7 +60,7 @@ export const sampleWithFullData: IContact = {
 };
 
 export const sampleWithNewData: NewContact = {
-  email: undefined,
+  email: null,
   id: null,
 };
 

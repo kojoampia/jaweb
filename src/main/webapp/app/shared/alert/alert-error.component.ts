@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Alert, AlertService } from 'app/core/services/alert.service';
-import { EventManagerService as EventManager } from 'app/core/services/event-manager.service';
+import { EventManagerService as EventManager, EventWithContent } from 'app/core/services/event-manager.service';
 import { AlertError } from './alert-error.model';
 
 @Component({
@@ -26,11 +26,13 @@ export class AlertErrorComponent implements OnDestroy {
   private translateService = inject(TranslateService);
 
   constructor() {
-    this.errorListener = this.eventManager.subscribe('jojoaddisonApp.error', (errorResponse: AlertError) => {
+    this.errorListener = this.eventManager.subscribe('jojoaddisonApp.error', (event: EventWithContent<AlertError>) => {
+      const errorResponse = event.content;
       this.addErrorAlert(errorResponse.message, errorResponse.key, errorResponse.params);
     });
 
-    this.httpErrorListener = this.eventManager.subscribe('jojoaddisonApp.httpError', (httpErrorResponse: HttpErrorResponse) => {
+    this.httpErrorListener = this.eventManager.subscribe('jojoaddisonApp.httpError', (event: EventWithContent<HttpErrorResponse>) => {
+      const httpErrorResponse = event.content;
       this.handleHttpError(httpErrorResponse);
     });
   }

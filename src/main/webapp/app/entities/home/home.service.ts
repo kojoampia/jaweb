@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
@@ -75,8 +75,8 @@ export class HomeService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : null;
-            res.body.modifiedDate = res.body.modifiedDate != null ? dayjs(res.body.modifiedDate) : null;
+            res.body.createdDate = res.body.createdDate != null ? dayjs(res.body.createdDate) : undefined;
+            res.body.modifiedDate = res.body.modifiedDate != null ? dayjs(res.body.modifiedDate) : undefined;
         }
         return res;
     }
@@ -84,8 +84,8 @@ export class HomeService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((home: IHome) => {
-                home.createdDate = home.createdDate != null ? dayjs(home.createdDate) : null;
-                home.modifiedDate = home.modifiedDate != null ? dayjs(home.modifiedDate) : null;
+                home.createdDate = home.createdDate != null ? dayjs(home.createdDate) : undefined;
+                home.modifiedDate = home.modifiedDate != null ? dayjs(home.modifiedDate) : undefined;
             });
         }
         return res;

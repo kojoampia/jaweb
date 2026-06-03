@@ -61,25 +61,25 @@ describe('Service Form Service', () => {
       it('should return NewService for default Service initial value', () => {
         const formGroup = service.createServiceFormGroup(sampleWithNewData);
 
-        const service = service.getService(formGroup) as any;
+        const serviceValue = service.getService(formGroup) as any;
 
-        expect(service).toMatchObject(sampleWithNewData);
+        expect(serviceValue).toMatchObject(sampleWithNewData);
       });
 
       it('should return NewService for empty Service initial value', () => {
         const formGroup = service.createServiceFormGroup();
 
-        const service = service.getService(formGroup) as any;
+        const serviceValue = service.getService(formGroup) as any;
 
-        expect(service).toMatchObject({});
+        expect(serviceValue).toMatchObject({});
       });
 
       it('should return IService', () => {
         const formGroup = service.createServiceFormGroup(sampleWithRequiredData);
 
-        const service = service.getService(formGroup) as any;
+        const serviceValue = service.getService(formGroup) as any;
 
-        expect(service).toMatchObject(sampleWithRequiredData);
+        expect(serviceValue).toMatchObject(sampleWithRequiredData);
       });
     });
 
