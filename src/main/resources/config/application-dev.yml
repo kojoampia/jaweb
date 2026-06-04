@@ -30,8 +30,7 @@ spring:
             indent-output: true
     data:
         mongodb:
-            uri: mongodb://localhost:27017
-            database: jojoaddison
+            uri: ${MONGODB_URI:${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/jojoaddison?waitQueueMultiple=1000}}
         jest:
             uri: http://localhost:9200
     mail:

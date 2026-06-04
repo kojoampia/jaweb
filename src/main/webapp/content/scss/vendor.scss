@@ -1,11 +1,29 @@
 /* after changing this file run 'npm run webpack:build' */
 
+@use 'bootstrap-variables' as bootstrapVariables;
+
 /***************************
 put Sass variables here:
 eg $input-color: red;
 ****************************/
-// Override Boostrap variables
-@import 'bootstrap-variables';
-// Import Bootstrap source files from node_modules
-@import 'bootstrap/scss/bootstrap';
+// Override Bootstrap variables
+@use 'bootstrap/scss/bootstrap' with (
+    $primary: bootstrapVariables.$primary,
+    $success: bootstrapVariables.$success,
+    $info: bootstrapVariables.$info,
+    $warning: bootstrapVariables.$warning,
+    $danger: bootstrapVariables.$danger,
+    $enable-rounded: bootstrapVariables.$enable-rounded,
+    $enable-shadows: bootstrapVariables.$enable-shadows,
+    $enable-gradients: bootstrapVariables.$enable-gradients,
+    $enable-transitions: bootstrapVariables.$enable-transitions,
+    $enable-grid-classes: bootstrapVariables.$enable-grid-classes,
+    $border-radius: bootstrapVariables.$border-radius,
+    $border-radius-lg: bootstrapVariables.$border-radius-lg,
+    $border-radius-sm: bootstrapVariables.$border-radius-sm,
+    $body-bg: bootstrapVariables.$body-bg,
+    $font-size-base: bootstrapVariables.$font-size-base,
+    $dark: bootstrapVariables.$dark,
+    $navbar-dark-hover-color: bootstrapVariables.$navbar-dark-hover-color
+);
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */

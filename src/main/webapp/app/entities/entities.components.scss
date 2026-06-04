@@ -1,4 +1,4 @@
-@import '../../content/scss/bootstrap-variables';
+@use '../../content/scss/bootstrap-variables' as *;
 
 .dashboard {
     padding: 50px;
