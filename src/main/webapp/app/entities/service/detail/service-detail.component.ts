@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/services/data-utils.service';
 import { IService } from '../service.model';
 
@@ -10,7 +10,7 @@ import { IService } from '../service.model';
   standalone: true,
   selector: 'jhi-service-detail',
   templateUrl: './service-detail.component.html',
-  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
 export class ServiceDetailComponent {
   service = input<IService | null>(null);

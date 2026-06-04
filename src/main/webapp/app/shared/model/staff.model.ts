@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IUser } from 'app/core/user/user.model';
 
 export const enum DocumentType {

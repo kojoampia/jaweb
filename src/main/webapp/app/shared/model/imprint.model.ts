@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { ISlide } from './slide.model';
 
 export interface IImprint {

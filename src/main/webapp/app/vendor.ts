@@ -178,9 +178,9 @@ library.add(faRetweet);
 library.add(faUserFriends);
 library.add(faUsers);
 
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs/esm';
+import utc from 'dayjs/esm/plugin/utc';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-dayjs.extend(utc.default);
+dayjs.extend(utc);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

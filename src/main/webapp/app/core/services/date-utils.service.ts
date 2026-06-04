@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import dayjs from 'dayjs';
-import { Duration } from 'dayjs/esm/plugin/duration';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { DurationUnitType } from 'dayjs/plugin/duration';
+import dayjs from 'dayjs/esm';
+import type { Duration, DurationUnitType } from 'dayjs/esm/plugin/duration';
+import customParseFormat from 'dayjs/esm/plugin/customParseFormat';
 
 dayjs.extend(customParseFormat);
 
@@ -63,7 +62,7 @@ export class DateUtilsService {
   /**
    * Compare two dates
    */
-  isBefore(date1: string | Date | dayjs.Dayjs | null | undefined, 
+  isBefore(date1: string | Date | dayjs.Dayjs | null | undefined,
     date2: string | Date | dayjs.Dayjs | null | undefined): boolean {
     if (!date1 || !date2) {return false;}
     return dayjs(date1).isBefore(dayjs(date2));
@@ -72,7 +71,7 @@ export class DateUtilsService {
   /**
    * Check if dates are equal
    */
-  isSame(date1: string | Date | dayjs.Dayjs | null | undefined, 
+  isSame(date1: string | Date | dayjs.Dayjs | null | undefined,
     date2: string | Date | dayjs.Dayjs | null | undefined, unit: dayjs.OpUnitType = 'day'): boolean {
     if (!date1 || !date2) {return false;}
     return dayjs(date1).isSame(dayjs(date2), unit);

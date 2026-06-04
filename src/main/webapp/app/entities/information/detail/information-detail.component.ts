@@ -2,7 +2,6 @@ import { Component, inject, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/services/data-utils.service';
 import { IInformation } from '../information.model';
 
@@ -10,7 +9,7 @@ import { IInformation } from '../information.model';
   standalone: true,
   selector: 'jhi-information-detail',
   templateUrl: './information-detail.component.html',
-  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule],
 })
 export class InformationDetailComponent {
   information = input<IInformation | null>(null);

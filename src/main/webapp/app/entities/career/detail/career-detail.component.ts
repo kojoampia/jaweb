@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/services/data-utils.service';
 import { ICareer } from '../career.model';
 
@@ -10,7 +10,7 @@ import { ICareer } from '../career.model';
   standalone: true,
   selector: 'jhi-career-detail',
   templateUrl: './career-detail.component.html',
-  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
 export class CareerDetailComponent {
   career = input<ICareer | null>(null);

@@ -18,7 +18,7 @@ import UserManagementDeleteDialogComponent from '../delete/user-management-delet
   standalone: true,
   selector: 'jhi-user-mgmt',
   templateUrl: './user-management.component.html',
-  imports: [RouterModule, SharedModule, UserManagementDeleteDialogComponent, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [RouterModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export default class UserManagementComponent implements OnInit {

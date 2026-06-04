@@ -2,14 +2,14 @@ import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { IAbout } from '../about.model';
 
 @Component({
   standalone: true,
   selector: 'jhi-about-detail',
   templateUrl: './about-detail.component.html',
-  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
 export class AboutDetailComponent {
   about = input<IAbout | null>(null);

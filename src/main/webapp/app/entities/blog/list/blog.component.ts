@@ -6,7 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
 import { sortStateSignal, SortDirective, SortByDirective, type SortState, SortService } from 'app/shared/sort';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
@@ -27,9 +27,7 @@ import { BlogDeleteDialogComponent } from '../delete/blog-delete-dialog.componen
     SharedModule,
     SortDirective,
     SortByDirective,
-    DurationPipe,
     FormatMediumDatetimePipe,
-    FormatMediumDatePipe,
     ItemCountComponent,
   ],
 })

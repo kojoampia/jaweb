@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 export interface IContactMessage {
     id?: string;
     name?: string;
