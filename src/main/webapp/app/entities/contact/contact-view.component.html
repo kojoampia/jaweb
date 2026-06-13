@@ -24,18 +24,18 @@
                         </li>
                         <li class="list-group-item" *ngIf="contact.telephone">
                             <button class="btn btn-round btn-info btn-sm">
-                                <fa-icon [icon]="'phone'"></fa-icon>
+                                <jhi-icon [icon]="'phone'"></jhi-icon>
                             </button> {{contact.telephone}}
                         </li>
                         <li class="list-group-item" *ngIf="contact.email">
                             <a [href]="'mailto:' + contact.email" class="btn btn-dark btn-sm">
-                                <fa-icon [icon]="'at'"></fa-icon>
+                                <jhi-icon [icon]="'at'"></jhi-icon>
                             </a>
                             {{contact.email}}
                         </li>
                         <li class="list-group-item" *ngIf="contact.whatsapp">
                             <button class="btn btn-round btn-success btn-sm">
-                                <fa-icon [icon]="'user-friends'"></fa-icon>
+                                <jhi-icon [icon]="'user-friends'"></jhi-icon>
                             </button>
                             <a [href]="'/#/social/' + contact.whatsapp">{{contact.whatsapp}}</a>
                         </li>
@@ -43,15 +43,15 @@
                             <div class="btn-group flex-btn-group-container">
                                 <a [href]="'/#/social/' + contact.facebook" class="btn btn-round btn-info btn-sm" target="_blank"
                                     *ngIf="contact.facebook">
-                                    <fa-icon [icon]="'thumbs-up'"></fa-icon>
+                                    <jhi-icon [icon]="'thumbs-up'"></jhi-icon>
                                 </a>
                                 <a [href]="'/#/social/' + contact.google" class="btn btn-round btn-info btn-sm" target="_blank"
                                     *ngIf="contact.google">
-                                    <fa-icon [icon]="'users'"></fa-icon>
+                                    <jhi-icon [icon]="'users'"></jhi-icon>
                                 </a>
                                 <a [href]="'/#/social/' + contact.twitter" class="btn btn-round btn-info btn-sm" target="_blank"
                                     *ngIf="contact.twitter">
-                                    <fa-icon [icon]="'retweet'"></fa-icon>
+                                    <jhi-icon [icon]="'retweet'"></jhi-icon>
                                 </a>
                             </div>
                         </li>

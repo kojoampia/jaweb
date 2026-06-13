@@ -1,6 +1,5 @@
 import { AfterContentInit, ContentChild, Directive, Host, HostListener, Input, effect } from '@angular/core';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faSort, faSortDown, faSortUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { JhiIconComponent } from '../icon/icon.component';
 
 import { SortDirective } from './sort.directive';
 
@@ -11,12 +10,12 @@ import { SortDirective } from './sort.directive';
 export class SortByDirective implements AfterContentInit {
   @Input() jhiSortBy!: string;
 
-  @ContentChild(FaIconComponent, { static: false })
-  iconComponent?: FaIconComponent;
+  @ContentChild(JhiIconComponent, { static: false })
+  iconComponent?: JhiIconComponent;
 
-  protected sortIcon = faSort;
-  protected sortAscIcon = faSortUp;
-  protected sortDescIcon = faSortDown;
+  protected sortIcon = 'swap_vert';
+  protected sortAscIcon = 'arrow_upward';
+  protected sortDescIcon = 'arrow_downward';
 
   constructor(@Host() private sort: SortDirective) {
     effect(() => {
@@ -41,12 +40,11 @@ export class SortByDirective implements AfterContentInit {
       return;
     }
 
-    let icon: IconDefinition = this.sortIcon;
+    let icon = this.sortIcon;
     if (predicate === this.jhiSortBy && order !== undefined) {
       icon = order === 'asc' ? this.sortAscIcon : this.sortDescIcon;
     }
 
-    this.iconComponent.icon = icon.iconName;
-    this.iconComponent.render();
+    this.iconComponent.icon = icon;
   }
 }

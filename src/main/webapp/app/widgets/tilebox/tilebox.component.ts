@@ -1,10 +1,11 @@
 import { OnInit, Input, Component, EventEmitter, Output, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { JhiIconComponent } from 'app/shared/icon/icon.component';
 
 @Component({
     selector: 'jhi-tilebox',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, JhiIconComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './tilebox.component.html',
     styleUrls: ['./tilebox.component.scss']

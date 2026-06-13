@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.blog.home.refreshListLabel">Refresh list</span>
       </button>
 
@@ -14,7 +14,7 @@
         class="btn btn-primary jh-create-entity create-blog"
         [routerLink]="['/blog/new']"
       >
-        <fa-icon icon="plus"></fa-icon>
+        <jhi-icon icon="plus"></jhi-icon>
         <span class="hidden-sm-down" jhiTranslate="jojoaddisonApp.blog.home.createLabel">Create a new Blog</span>
       </button>
     </div>
@@ -38,12 +38,12 @@
         />
 
         <button class="btn btn-info" (click)="search(currentSearch)">
-          <fa-icon icon="search"></fa-icon>
+          <jhi-icon icon="search"></jhi-icon>
         </button>
 
         @if (currentSearch) {
           <button class="btn btn-danger" (click)="search('')">
-            <fa-icon icon="trash-alt"></fa-icon>
+            <jhi-icon icon="trash-alt"></jhi-icon>
           </button>
         }
       </div>
@@ -65,7 +65,7 @@
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -73,7 +73,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.title">Title</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -81,7 +81,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.content">Content</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -89,21 +89,21 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.createdDate">Created Date</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="modifiedDate">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.modifiedDate">Modified Date</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="lastModifiedBy">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.lastModifiedBy">Last Modified By</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -111,7 +111,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.url">Url</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -119,7 +119,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.document">Document</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -127,7 +127,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.blog.documentContentType">Document Content Type</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -156,17 +156,17 @@
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/blog', blog.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                    <fa-icon icon="eye"></fa-icon>
+                    <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/blog', blog.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
                   <button type="submit" (click)="delete(blog)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                    <fa-icon icon="times"></fa-icon>
+                    <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>

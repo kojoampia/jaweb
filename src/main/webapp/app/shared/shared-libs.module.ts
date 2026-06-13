@@ -5,11 +5,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { JhiIconComponent } from './icon/icon.component';
 
 @NgModule({
-    imports: [NgbModule, InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule],
-    exports: [FormsModule, CommonModule, NgbModule, InfiniteScrollModule, FontAwesomeModule]
+    imports: [NgbModule, InfiniteScrollModule, CookieModule.forRoot(), JhiIconComponent],
+    exports: [FormsModule, CommonModule, NgbModule, InfiniteScrollModule, JhiIconComponent]
 })
 export class JojoaddisonSharedLibsModule {
     static forRoot() {

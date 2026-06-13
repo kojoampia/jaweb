@@ -20,9 +20,15 @@ export class ApplicationConfigService {
   }
 
   getEndpointFor(api: string, microservice?: string): string {
-    if (microservice) {
-      return `${this.endpointPrefix}services/${microservice}/${api}`;
+    const path = microservice ? `services/${microservice}/${api}` : api;
+    const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+
+    if (!this.endpointPrefix) {
+      return `/${normalizedPath}`;
     }
-    return `${this.endpointPrefix}${api}`;
+
+    const normalizedPrefix = this.endpointPrefix.endsWith('/') ? this.endpointPrefix.slice(0, -1) : this.endpointPrefix;
+
+    return `${normalizedPrefix}/${normalizedPath}`;
   }
 }

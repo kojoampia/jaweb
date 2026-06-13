@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.partner.home.refreshListLabel">Refresh list</span>
       </button>
 
@@ -14,7 +14,7 @@
         class="btn btn-primary jh-create-entity create-partner"
         [routerLink]="['/partner/new']"
       >
-        <fa-icon icon="plus"></fa-icon>
+        <jhi-icon icon="plus"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.partner.home.createLabel">Create a new Partner</span>
       </button>
     </div>
@@ -39,84 +39,84 @@
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="name">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.name">Name</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="link">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.link">Link</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="logo">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.logo">Logo</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="country">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.country">Country</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="location">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.location">Location</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="postCode">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.postCode">Post Code</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="streetAddress">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.streetAddress">Street Address</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="email">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.email">Email</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="contactPerson">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.contactPerson">Contact Person</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="logoUrl">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.logoUrl">Logo Url</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="createdDate">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.partner.createdDate">Created Date</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col"></th>
@@ -149,17 +149,17 @@
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/partner', partner.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                    <fa-icon icon="eye"></fa-icon>
+                    <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/partner', partner.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
                   <button type="submit" (click)="delete(partner)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                    <fa-icon icon="times"></fa-icon>
+                    <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>

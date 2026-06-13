@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.contactMessage.home.refreshListLabel">Refresh list</span>
       </button>
 
@@ -14,7 +14,7 @@
         class="btn btn-primary jh-create-entity create-contact-message"
         [routerLink]="['/contact-message/new']"
       >
-        <fa-icon icon="plus"></fa-icon>
+        <jhi-icon icon="plus"></jhi-icon>
         <span class="hidden-sm-down" jhiTranslate="jojoaddisonApp.contactMessage.home.createLabel">Create a new Contact Message</span>
       </button>
     </div>
@@ -40,12 +40,12 @@
         />
 
         <button class="btn btn-info" (click)="search(currentSearch)">
-          <fa-icon icon="search"></fa-icon>
+          <jhi-icon icon="search"></jhi-icon>
         </button>
 
         @if (currentSearch) {
           <button class="btn btn-danger" (click)="search('')">
-            <fa-icon icon="trash-alt"></fa-icon>
+            <jhi-icon icon="trash-alt"></jhi-icon>
           </button>
         }
       </div>
@@ -67,7 +67,7 @@
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -75,7 +75,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.contactMessage.name">Name</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -83,7 +83,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.contactMessage.email">Email</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -91,7 +91,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.contactMessage.title">Title</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -99,7 +99,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.contactMessage.message">Message</span>
                 @if (!currentSearch) {
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                  <jhi-icon class="p-1" icon="sort"></jhi-icon>
                 }
               </div>
             </th>
@@ -107,13 +107,13 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.contactMessage.createdDate">Created Date</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="contact.id">
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.contactMessage.contact">Contact</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col"></th>
@@ -144,7 +144,7 @@
                     class="btn btn-info btn-sm"
                     data-cy="entityDetailsButton"
                   >
-                    <fa-icon icon="eye"></fa-icon>
+                    <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
@@ -153,12 +153,12 @@
                     class="btn btn-primary btn-sm"
                     data-cy="entityEditButton"
                   >
-                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
                   <button type="submit" (click)="delete(contactMessage)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                    <fa-icon icon="times"></fa-icon>
+                    <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>

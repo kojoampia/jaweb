@@ -121,11 +121,11 @@
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+          <jhi-icon icon="arrow-left"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
 
         <button type="button" [routerLink]="['/contact', contact()!.id, 'edit']" class="btn btn-primary">
-          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+          <jhi-icon icon="pencil-alt"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
         </button>
       </div>
     }

@@ -128,11 +128,11 @@
         </select>
       </div>
       <button type="button" class="btn btn-secondary" (click)="previousState()">
-        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        <jhi-icon icon="ban"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
       </button>
 
       <button type="submit" [disabled]="editForm.invalid || isSaving()" class="btn btn-primary">
-        <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        <jhi-icon icon="save"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
       </button>
     </form>
   </div>

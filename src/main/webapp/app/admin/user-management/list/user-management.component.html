@@ -4,11 +4,11 @@
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading()">
-        <fa-icon icon="sync" [animation]="isLoading() ? 'spin' : undefined"></fa-icon>
+        <jhi-icon icon="sync" [animation]="isLoading() ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="userManagement.home.refreshListLabel">Refresh list</span>
       </button>
       <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
-        <fa-icon icon="plus"></fa-icon> <span jhiTranslate="userManagement.home.createLabel">Create a new user</span>
+        <jhi-icon icon="plus"></jhi-icon> <span jhiTranslate="userManagement.home.createLabel">Create a new user</span>
       </button>
     </div>
   </h2>
@@ -22,22 +22,22 @@
       <table class="table table-striped" aria-describedby="user-management-page-heading">
         <thead>
           <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
-            <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-            <th scope="col" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <fa-icon icon="sort"></fa-icon></th>
-            <th scope="col" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <jhi-icon icon="sort"></jhi-icon></th>
+            <th scope="col" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <jhi-icon icon="sort"></jhi-icon></th>
+            <th scope="col" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <jhi-icon icon="sort"></jhi-icon></th>
             <th scope="col"></th>
             <th scope="col" jhiSortBy="langKey">
-              <span jhiTranslate="userManagement.langKey">Language</span> <fa-icon icon="sort"></fa-icon>
+              <span jhiTranslate="userManagement.langKey">Language</span> <jhi-icon icon="sort"></jhi-icon>
             </th>
             <th scope="col"><span jhiTranslate="userManagement.profiles">Profiles</span></th>
             <th scope="col" jhiSortBy="createdDate">
-              <span jhiTranslate="userManagement.createdDate">Created date</span> <fa-icon icon="sort"></fa-icon>
+              <span jhiTranslate="userManagement.createdDate">Created date</span> <jhi-icon icon="sort"></jhi-icon>
             </th>
             <th scope="col" jhiSortBy="lastModifiedBy">
-              <span jhiTranslate="userManagement.lastModifiedBy">Modified by</span> <fa-icon icon="sort"></fa-icon>
+              <span jhiTranslate="userManagement.lastModifiedBy">Modified by</span> <jhi-icon icon="sort"></jhi-icon>
             </th>
             <th scope="col" jhiSortBy="lastModifiedDate">
-              <span jhiTranslate="userManagement.lastModifiedDate">Modified date</span> <fa-icon icon="sort"></fa-icon>
+              <span jhiTranslate="userManagement.lastModifiedDate">Modified date</span> <jhi-icon icon="sort"></jhi-icon>
             </th>
             <th scope="col"></th>
           </tr>
@@ -80,7 +80,7 @@
               <td class="text-end">
                 <div class="btn-group">
                   <button type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">
-                    <fa-icon icon="eye"></fa-icon>
+                    <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </button>
 
@@ -90,7 +90,7 @@
                     queryParamsHandling="merge"
                     class="btn btn-primary btn-sm"
                   >
-                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </button>
 
@@ -100,7 +100,7 @@
                     class="btn btn-danger btn-sm"
                     [disabled]="!currentAccount() || currentAccount()?.login === user.login"
                   >
-                    <fa-icon icon="times"></fa-icon>
+                    <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>

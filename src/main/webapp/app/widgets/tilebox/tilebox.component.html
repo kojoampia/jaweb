@@ -3,7 +3,7 @@
     <ngx-tile NgxCarouselItem *ngFor="let tile of tiles; let i = index;">
         <div class="wBg" [ngClass]="{'selected': tile.selected && showSelected}" (click)="toggleSelected(tile)">
             <span id="i" *ngIf="tile.selected == true && showSelected == true">
-                    <i class="fa fa-check-circle" aria-hidden="false"></i>
+                    <jhi-icon icon="check-circle"></jhi-icon>
                 </span>
             <h4 *ngIf="tile.title">{{ tile.title }}</h4>
             <div class="tile" [style.background-image]="'url(' + tile.url + ')'">

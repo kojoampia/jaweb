@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { JhiIconComponent } from 'app/shared/icon/icon.component';
 
 @Component({
     selector: 'jhi-infobox',
     standalone: true,
-    imports: [CommonModule, FontAwesomeModule],
+    imports: [CommonModule, JhiIconComponent],
     templateUrl: './infobox.component.html',
     styleUrls: ['./infobox.component.scss']
 })

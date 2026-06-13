@@ -2,17 +2,18 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { VERSION } from 'app/app.constants';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
+import HasAnyAuthorityDirective from 'app/shared/auth/has-any-authority.directive';
+import { JhiIconComponent } from 'app/shared/icon/icon.component';
 
 @Component({
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['navbar.scss'],
     standalone: true,
-    imports: [CommonModule, RouterModule, NgbModule, FontAwesomeModule]
+    imports: [CommonModule, RouterModule, NgbModule, HasAnyAuthorityDirective, JhiIconComponent]
 })
 export class NavbarComponent implements OnInit {
     // Dependencies

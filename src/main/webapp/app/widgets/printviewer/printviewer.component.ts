@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiIconComponent } from 'app/shared/icon/icon.component';
 
 @Component({
     selector: 'jhi-printviewer',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, JhiIconComponent],
     templateUrl: './printviewer.component.html',
     styleUrls: ['./printviewer.component.scss']
 })

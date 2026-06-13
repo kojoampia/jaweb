@@ -2,7 +2,7 @@
     <h2>
         <span id="health-page-heading">Health Checks</span>
         <button class="btn btn-primary float-right" (click)="refresh()">
-            <fa-icon [icon]="'sync'"></fa-icon> <span>Refresh</span>
+            <jhi-icon [icon]="'sync'"></jhi-icon> <span>Refresh</span>
         </button>
     </h2>
     <div class="table-responsive">
@@ -24,7 +24,7 @@
                     </td>
                     <td class="text-center">
                         <a class="hand" (click)="showHealth(health)" *ngIf="health.details || health.error">
-                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <jhi-icon [icon]="'eye'"></jhi-icon>
                         </a>
                     </td>
                 </tr>

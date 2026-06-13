@@ -2,13 +2,14 @@ import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import { JhiIconComponent } from 'app/shared/icon/icon.component';
 
 @Component({
     selector: 'jhi-docviewer',
     templateUrl: './docviewer.component.html',
     styleUrls: ['./docviewer.component.scss'],
     standalone: true,
-    imports: [CommonModule]
+    imports: [CommonModule, JhiIconComponent]
 })
 export class DocviewerComponent {
     @Input() document: ViewerDocument | null = null;

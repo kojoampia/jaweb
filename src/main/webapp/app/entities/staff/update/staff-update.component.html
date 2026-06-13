@@ -39,7 +39,7 @@
               formControlName="dateOfBirth"
             />
             <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()">
-              <fa-icon icon="calendar-alt"></fa-icon>
+              <jhi-icon icon="calendar-alt"></jhi-icon>
             </button>
           </div>
         </div>
@@ -142,7 +142,7 @@
                   (click)="clearInputImage('digitalProfile', 'digitalProfileContentType', 'file_digitalProfile')"
                   class="btn btn-secondary btn-xs pull-end"
                 >
-                  <fa-icon icon="times"></fa-icon>
+                  <jhi-icon icon="times"></jhi-icon>
                 </button>
               </div>
             }
@@ -215,7 +215,7 @@
                   (click)="editForm.patchValue({ documents: undefined, documentsContentType: undefined })"
                   class="btn btn-secondary btn-xs pull-end"
                 >
-                  <fa-icon icon="times"></fa-icon>
+                  <jhi-icon icon="times"></jhi-icon>
                 </button>
               </div>
             }
@@ -316,7 +316,7 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+          <jhi-icon icon="ban"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
 
         <button
@@ -326,7 +326,7 @@
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary"
         >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+          <jhi-icon icon="save"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
       </div>
     </form>

@@ -4,7 +4,7 @@
         <h2>
             <span id="user-management-page-heading">Users</span>
             <button class="btn btn-primary float-right jh-create-entity" [routerLink]="['./new']">
-                <fa-icon [icon]="'plus'"></fa-icon> <span>Create a new User</span>
+                <jhi-icon [icon]="'plus'"></jhi-icon> <span>Create a new User</span>
             </button>
         </h2>
         <jhi-alert></jhi-alert>
@@ -14,13 +14,13 @@
             <table class="table table-striped">
                 <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)" class="text-white">
-                    <th jhiSortBy="login"><span>Login</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="login"><span>Login</span> <jhi-icon [icon]="'sort'"></jhi-icon></th>
+                    <th jhiSortBy="email"><span>Email</span> <jhi-icon [icon]="'sort'"></jhi-icon></th>
                     <th></th>
                     <th><span>Profiles</span></th>
-                    <th jhiSortBy="createdDate"><span>Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="lastModifiedBy"><span>Last Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="lastModifiedDate"><span>Last Modified Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="createdDate"><span>Created Date</span> <jhi-icon [icon]="'sort'"></jhi-icon></th>
+                    <th jhiSortBy="lastModifiedBy"><span>Last Modified By</span> <jhi-icon [icon]="'sort'"></jhi-icon></th>
+                    <th jhiSortBy="lastModifiedDate"><span>Last Modified Date</span> <jhi-icon [icon]="'sort'"></jhi-icon></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -48,19 +48,19 @@
                             <button type="submit"
                                     [routerLink]="['./', user.login, 'view']"
                                     class="btn btn-info btn-sm">
-                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <jhi-icon [icon]="'eye'"></jhi-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
                             <button type="submit"
                                     [routerLink]="['./', user.login, 'edit']"
                                     queryParamsHandling="merge"
                                     class="btn btn-primary btn-sm">
-                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <jhi-icon [icon]="'pencil-alt'"></jhi-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
                             <button type="button" (click)="deleteUser(user)"
                                     class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
-                                <fa-icon [icon]="'times'"></fa-icon>
+                                <jhi-icon [icon]="'times'"></jhi-icon>
                                 <span class="d-none d-md-inline">Delete</span>
                             </button>
                         </div>

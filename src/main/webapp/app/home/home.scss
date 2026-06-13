@@ -1,7 +1,7 @@
 /* ==========================================================================
 Main page styles
 ========================================================================== */
-@use '../../content/scss/bootstrap-variables' as *;
+@use '../../content/scss/theme-tokens' as *;
 .home {
     position: relative;
     top: 0;

@@ -6,18 +6,18 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ContactMessage, IContactMessage } from 'app/shared/model/contact-message.model';
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MessengerComponent } from 'app/widgets/messenger/messenger.component';
 import { MapComponent } from 'app/widgets/map/map.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { JhiIconComponent } from 'app/shared/icon/icon.component';
 
 @Component({
     standalone: true,
     selector: 'jhi-contact-view',
     templateUrl: './contact-view.component.html',
     styleUrls: ['../entities.components.scss'],
-    imports: [CommonModule, FormsModule, FontAwesomeModule, MessengerComponent, MapComponent, RouterModule]
+    imports: [CommonModule, FormsModule, JhiIconComponent, MessengerComponent, MapComponent, RouterModule]
 })
 export class ContactViewComponent implements OnInit {
     contact: IContact | null = null;

@@ -22,9 +22,9 @@
         <table class="table table-sm table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                <th jhiSortBy="auditEventDate"><span>Date</span><fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="principal"><span>User</span><fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="auditEventType"><span>State</span><fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="auditEventDate"><span>Date</span><jhi-icon [icon]="'sort'"></jhi-icon></th>
+                <th jhiSortBy="principal"><span>User</span><jhi-icon [icon]="'sort'"></jhi-icon></th>
+                <th jhiSortBy="auditEventType"><span>State</span><jhi-icon [icon]="'sort'"></jhi-icon></th>
                 <th><span>Extra data</span></th>
             </tr>
             </thead>

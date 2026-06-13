@@ -1,29 +1,442 @@
 /* after changing this file run 'npm run webpack:build' */
 
-@use 'bootstrap-variables' as bootstrapVariables;
+@use 'theme-tokens' as theme;
 
-/***************************
-put Sass variables here:
-eg $input-color: red;
-****************************/
-// Override Bootstrap variables
-@use 'bootstrap/scss/bootstrap' with (
-    $primary: bootstrapVariables.$primary,
-    $success: bootstrapVariables.$success,
-    $info: bootstrapVariables.$info,
-    $warning: bootstrapVariables.$warning,
-    $danger: bootstrapVariables.$danger,
-    $enable-rounded: bootstrapVariables.$enable-rounded,
-    $enable-shadows: bootstrapVariables.$enable-shadows,
-    $enable-gradients: bootstrapVariables.$enable-gradients,
-    $enable-transitions: bootstrapVariables.$enable-transitions,
-    $enable-grid-classes: bootstrapVariables.$enable-grid-classes,
-    $border-radius: bootstrapVariables.$border-radius,
-    $border-radius-lg: bootstrapVariables.$border-radius-lg,
-    $border-radius-sm: bootstrapVariables.$border-radius-sm,
-    $body-bg: bootstrapVariables.$body-bg,
-    $font-size-base: bootstrapVariables.$font-size-base,
-    $dark: bootstrapVariables.$dark,
-    $navbar-dark-hover-color: bootstrapVariables.$navbar-dark-hover-color
-);
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@layer base {
+    html,
+    body {
+        min-height: 100%;
+        background-color: theme.$body-bg;
+        color: theme.$dark;
+        font-size: theme.$font-size-base;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-medium transition-colors duration-150;
+    }
+
+    .btn:disabled {
+        @apply cursor-not-allowed opacity-60;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    .btn-md,
+    .btn-md-primary {
+        @apply px-4 py-2 text-sm;
+    }
+
+    .btn-xs {
+        @apply px-2 py-1 text-xs;
+    }
+
+    .btn-round {
+        @apply rounded-full;
+    }
+
+    .btn-primary {
+        background-color: theme.$primary;
+        color: white;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: #00431b;
+        color: white;
+    }
+
+    .btn-secondary {
+        @apply bg-slate-600 text-white;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+        @apply bg-slate-700 text-white;
+    }
+
+    .btn-info {
+        background-color: theme.$info;
+        color: theme.$primary;
+    }
+
+    .btn-info:hover,
+    .btn-info:focus {
+        background-color: #95e7b8;
+        color: theme.$primary;
+    }
+
+    .btn-success {
+        background-color: theme.$success;
+        color: white;
+    }
+
+    .btn-success:hover,
+    .btn-success:focus {
+        background-color: #1f7f39;
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: theme.$danger;
+        color: white;
+    }
+
+    .btn-danger:hover,
+    .btn-danger:focus {
+        background-color: #b91c1c;
+        color: white;
+    }
+
+    .btn-dark {
+        @apply bg-slate-900 text-white;
+    }
+
+    .btn-dark:hover,
+    .btn-dark:focus {
+        @apply bg-black text-white;
+    }
+
+    .btn-outline-light {
+        @apply border border-white bg-transparent text-white;
+    }
+
+    .btn-outline-light:hover,
+    .btn-outline-light:focus {
+        @apply bg-white text-slate-900;
+    }
+
+    .btn-close {
+        @apply inline-flex h-8 w-8 items-center justify-center rounded-full border border-transparent bg-transparent text-slate-500;
+    }
+
+    .btn-close:hover,
+    .btn-close:focus {
+        @apply bg-slate-100 text-slate-700;
+    }
+
+    .alert {
+        @apply rounded-lg border px-4 py-3;
+    }
+
+    .alert-warning {
+        @apply border-amber-300 bg-amber-50 text-amber-900;
+    }
+
+    .alert-danger {
+        @apply border-red-300 bg-red-50 text-red-900;
+    }
+
+    .alert-success {
+        @apply border-emerald-300 bg-emerald-50 text-emerald-900;
+    }
+
+    .alert-link {
+        @apply font-semibold underline;
+    }
+
+    .badge {
+        @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold;
+    }
+
+    .badge-secondary {
+        @apply bg-slate-200 text-slate-800;
+    }
+
+    .badge-info {
+        background-color: theme.$info;
+        color: theme.$primary;
+    }
+
+    .card {
+        @apply overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm;
+    }
+
+    .card-header,
+    .modal-header {
+        @apply border-b border-slate-200 px-4 py-3;
+    }
+
+    .card-body,
+    .modal-body {
+        @apply px-4 py-4;
+    }
+
+    .card-footer,
+    .modal-footer {
+        @apply border-t border-slate-200 px-4 py-3;
+    }
+
+    .card-title,
+    .modal-title {
+        @apply mb-0 font-semibold;
+    }
+
+    .card-group,
+    .card-deck {
+        @apply grid gap-4 md:grid-cols-2;
+    }
+
+    .card-img,
+    .card-bottom-img {
+        @apply h-auto max-w-full;
+    }
+
+    .dropdown-menu {
+        @apply mt-2 min-w-56 rounded-xl border border-slate-200 bg-white p-2 shadow-lg;
+    }
+
+    .dropdown-item {
+        @apply flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-800 transition-colors duration-150;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus,
+    .dropdown-item.active {
+        background-color: theme.$primary;
+        color: white;
+    }
+
+    .form-group {
+        @apply mb-4;
+    }
+
+    .form-label,
+    .form-control-label {
+        @apply mb-2 inline-block font-medium;
+    }
+
+    .form-control,
+    select.form-control,
+    textarea.form-control {
+        @apply block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-200;
+    }
+
+    .input-group {
+        @apply flex w-full items-stretch;
+    }
+
+    .input-group-text,
+    .input-group-prepend,
+    .input-group-append {
+        @apply inline-flex items-center border border-slate-300 bg-slate-100 px-3 py-2 text-slate-700;
+    }
+
+    .jumbotron {
+        @apply rounded-2xl px-6 py-6;
+    }
+
+    .list-group {
+        @apply flex flex-col rounded-xl border border-slate-200;
+    }
+
+    .list-group-flush {
+        @apply rounded-none border-0;
+    }
+
+    .list-group-item {
+        @apply border-b border-slate-200 bg-white px-4 py-3 last:border-b-0;
+    }
+
+    .navbar {
+        @apply flex flex-wrap items-center justify-between gap-4;
+    }
+
+    .navbar-brand {
+        @apply inline-flex items-center;
+    }
+
+    .navbar-toggler {
+        @apply inline-flex items-center justify-center rounded-md border border-transparent p-2;
+    }
+
+    .navbar-collapse {
+        @apply w-full md:flex md:w-auto md:items-center;
+    }
+
+    .navbar-nav {
+        @apply flex list-none flex-col gap-2 md:flex-row md:items-center;
+    }
+
+    .nav-link {
+        @apply inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150;
+    }
+
+    .btn-group {
+        @apply inline-flex items-center;
+    }
+
+    .table-responsive {
+        @apply w-full overflow-x-auto;
+    }
+
+    .table {
+        @apply w-full border-collapse text-left;
+    }
+
+    .table th,
+    .table td {
+        @apply border-b border-slate-200 px-4 py-3 align-top;
+    }
+
+    .table-sm th,
+    .table-sm td {
+        @apply px-3 py-2;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        @apply border border-slate-200;
+    }
+
+    .table-striped tbody tr:nth-child(odd) {
+        @apply bg-slate-50;
+    }
+}
+
+@layer utilities {
+    .row,
+    .row-fluid,
+    .row-md {
+        @apply -mx-2 flex flex-wrap;
+    }
+
+    .col,
+    .col-2,
+    .col-8,
+    .col-sm-10,
+    .col-sm-12,
+    .col-md-1,
+    .col-md-2,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-8,
+    .col-md-11,
+    .col-lg-6 {
+        @apply w-full px-2;
+    }
+
+    .container,
+    .container-fluid {
+        @apply mx-auto w-full px-4;
+    }
+
+    .collapse:not(.show) {
+        display: none;
+    }
+
+    .fixed-bottom {
+        @apply fixed bottom-0 left-0 right-0;
+    }
+
+    .rounded-circle {
+        @apply rounded-full;
+    }
+
+    .w-100 {
+        @apply w-full;
+    }
+
+    .img-fluid {
+        @apply h-auto max-w-full;
+    }
+
+    .bg-primary {
+        background-color: theme.$primary;
+    }
+
+    .text-primary {
+        color: theme.$primary;
+    }
+
+    .bg-info {
+        background-color: theme.$info;
+    }
+
+    .text-info {
+        color: theme.$info;
+    }
+
+    .text-right,
+    .text-end {
+        @apply text-right;
+    }
+
+    .text-left {
+        @apply text-left;
+    }
+
+    @media (min-width: 640px) {
+        .row-cols-sm-auto > * {
+            width: auto;
+        }
+
+        .col-sm-10 {
+            width: 83.333333%;
+        }
+
+        .col-sm-12 {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .d-md-inline {
+            display: inline;
+        }
+
+        .d-md-block {
+            display: block;
+        }
+
+        .col-md-1 {
+            width: 8.333333%;
+        }
+
+        .col-md-2 {
+            width: 16.666667%;
+        }
+
+        .col-md-4 {
+            width: 33.333333%;
+        }
+
+        .col-md-5 {
+            width: 41.666667%;
+        }
+
+        .col-md-6 {
+            width: 50%;
+        }
+
+        .col-md-8 {
+            width: 66.666667%;
+        }
+
+        .col-md-11 {
+            width: 91.666667%;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .d-lg-none {
+            display: none;
+        }
+
+        .d-lg-block {
+            display: block;
+        }
+
+        .col-lg-6 {
+            width: 50%;
+        }
+    }
+}
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */

@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.adminAuthority.home.refreshListLabel">Refresh list</span>
       </button>
 
@@ -14,7 +14,7 @@
         class="btn btn-primary jh-create-entity create-authority"
         [routerLink]="['/authority/new']"
       >
-        <fa-icon icon="plus"></fa-icon>
+        <jhi-icon icon="plus"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.adminAuthority.home.createLabel">Create a new Authority</span>
       </button>
     </div>
@@ -39,7 +39,7 @@
               <div class="d-flex">
                 <span jhiTranslate="jojoaddisonApp.adminAuthority.name">Name</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col"></th>
@@ -54,12 +54,12 @@
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/authority', authority.name, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                    <fa-icon icon="eye"></fa-icon>
+                    <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <button type="submit" (click)="delete(authority)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                    <fa-icon icon="times"></fa-icon>
+                    <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
