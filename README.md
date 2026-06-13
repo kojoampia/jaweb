@@ -1,182 +1,142 @@
 # jojoaddison
 
-This application was generated using JHipster 5.8.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.1](https://www.jhipster.tech/documentation-archive/v5.8.1).
+Jojo Addison is a full-stack monolith for the public website and admin CMS.
 
-## Development
+This codebase was originally generated with JHipster 5, but it is actively modernized and now runs on current Spring Boot and Angular versions.
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+## Current Stack
 
-1.  [Java 25][]: The backend now targets Java 25 for local development, builds, and packaging.
+- Backend: Spring Boot 3.3, Java 21, Maven Wrapper
+- Frontend: Angular 19, TypeScript 5.5, custom webpack integration
+- Database: MongoDB
+- Security: Spring Security + JWT resource-server style authentication
+- Supporting infrastructure: WebSocket/STOMP, Spring Actuator, Mongock, OpenTelemetry
 
-2.  [Node.js][]: We use Node to run a development web server and build the project.
-    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+## Prerequisites
 
-After installing Node, you should be able to run the following command to install development tools.
-You will only need to run this command when dependencies change in [package.json](package.json).
+- Java 21 (the backend build uses `java.version=21` from [pom.xml](pom.xml))
+- Node.js 20.12.1 or newer (see `engines.node` in [package.json](package.json))
+- npm (project uses npm scripts)
+- Docker (optional, for local infrastructure and containerized workflows)
 
-    npm install
+Install frontend dependencies:
 
-We use npm scripts and [Webpack][] as our build system.
-
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
-
-    ./mvnw
-    npm start
-
-Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
-Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
-
-The `npm run` command will list all of the scripts available to run for this project.
-
-### Service workers
-
-Service workers are commented by default, to enable them please uncomment the following code.
-
--   The service worker registering script in index.html
-
-```html
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js').then(function() {
-            console.log('Service Worker Registered');
-        });
-    }
-</script>
+```bash
+npm install
 ```
 
-Note: workbox creates the respective service worker and dynamically generate the `service-worker.js`
+## Local Development
 
-### Managing dependencies
+Run backend and frontend in separate terminals:
 
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
-
-    npm install --save --save-exact leaflet
-
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
-
-    npm install --save-dev --save-exact @types/leaflet
-
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
-Edit [src/main/webapp/app/vendor.ts](src/main/webapp/app/vendor.ts) file:
-
-```
-import 'leaflet/dist/leaflet.js';
+```bash
+./mvnw
 ```
 
-Edit [src/main/webapp/content/css/vendor.css](src/main/webapp/content/css/vendor.css) file:
-
-```
-@import '~leaflet/dist/leaflet.css';
+```bash
+npm start
 ```
 
-Note: there are still few other things remaining to do for Leaflet that we won't detail here.
+Default local ports:
 
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
+- Angular dev server: http://localhost:4200
+- Spring Boot (`dev` profile): http://localhost:1980
 
-### Using angular-cli
+The Angular dev server proxies API traffic using [webpack/proxy.conf.js](webpack/proxy.conf.js) to the backend on port 1980.
 
-You can also use [Angular CLI][] to generate some custom client code.
+## Useful npm Scripts
 
-For example, the following command:
+- `npm start`: Start Angular dev server with HMR
+- `npm run backend:start`: Start backend via Maven (skips npm install during backend boot)
+- `npm run watch`: Start frontend and backend together
+- `npm run lint`: Run ESLint on frontend TypeScript
+- `npm test`: Run Angular/Jest tests
+- `npm run webapp:build:prod`: Build production frontend assets
+- `npm run java:jar:prod`: Build production JAR
+- `npm run java:docker:prod`: Build production Docker image with Jib
 
-    ng generate component my-component
+List all scripts:
 
-will generate few files:
-
-    create src/main/webapp/app/my-component/my-component.component.html
-    create src/main/webapp/app/my-component/my-component.component.ts
-    update src/main/webapp/app/app.module.ts
-
-## Building for production
-
-To optimize the jojoaddison application for production, run:
-
-    ./mvnw -Pprod clean package
-
-This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
-To ensure everything worked, run:
-
-    java -jar target/*.war
-
-Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
-
-Refer to [Using JHipster in production][] for more details.
-
-## Testing
-
-To launch your application's tests, run:
-
-    ./mvnw clean test
-
-### Client tests
-
-Unit tests are run by [Jest][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
-    npm test
-
-For more information, refer to the [Running tests page][].
-
-### Code quality
-
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
-
-```
-docker-compose -f src/main/docker/sonar.yml up -d
+```bash
+npm run
 ```
 
-Then, run a Sonar analysis:
+## Validation and Testing
 
+Use the narrowest validation that matches your change.
+
+Backend-focused validation:
+
+```bash
+./mvnw -Pdev clean verify --no-transfer-progress
 ```
-./mvnw -Pprod clean test sonar:sonar
+
+Frontend-focused validation:
+
+```bash
+npm run lint
+npm test
+npm run webapp:build:prod
 ```
 
-For more information, refer to the [Code quality page][].
+## Production Build
 
-## Using Docker to simplify development (optional)
+Build a production package:
 
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+```bash
+./mvnw -Pprod clean package
+```
 
-For example, to start a mongodb database in a docker container, run:
+Or use npm wrappers:
 
-    docker-compose -f src/main/docker/mongodb.yml up -d
+```bash
+npm run java:jar:prod
+```
 
-To stop it and remove the container, run:
+Run the packaged application:
 
-    docker-compose -f src/main/docker/mongodb.yml down
+```bash
+java -jar target/*.jar --spring.profiles.active=prod
+```
 
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
+## Docker
 
-    ./mvnw clean package -Pprod verify jib:dockerBuild -DskipTests
+Start MongoDB for local development:
 
-Then run:
+```bash
+docker compose -f src/main/docker/mongodb.yml up --wait
+```
 
-    docker-compose -f src/main/docker/app.yml up -d
+Stop MongoDB:
 
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+```bash
+docker compose -f src/main/docker/mongodb.yml down -v
+```
 
-## Continuous Integration (optional)
+Build a container image for the app:
 
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+```bash
+npm run java:docker:prod
+```
 
-[jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 5.8.1 archive]: https://www.jhipster.tech/documentation-archive/v5.8.1
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v5.8.1/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v5.8.1/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v5.8.1/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v5.8.1/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v5.8.1/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v5.8.1/setting-up-ci/
-[java 25]: https://www.oracle.com/java/technologies/downloads/
-[node.js]: https://nodejs.org/
-[yarn]: https://yarnpkg.org/
-[webpack]: https://webpack.github.io/
-[angular cli]: https://cli.angular.io/
-[browsersync]: https://www.browsersync.io/
-[jest]: https://facebook.github.io/jest/
-[jasmine]: https://jasmine.github.io/2.0/introduction.html
-[protractor]: https://angular.github.io/protractor/
-[leaflet]: https://leafletjs.com/
-[definitelytyped]: https://definitelytyped.org/
+Bring up app-related services:
+
+```bash
+docker compose -f src/main/docker/app.yml up -d
+```
+
+## Key Project Paths
+
+- Backend entry point: [src/main/java/io/jojoaddison/JojoaddisonApp.java](src/main/java/io/jojoaddison/JojoaddisonApp.java)
+- Backend REST APIs: [src/main/java/io/jojoaddison/web/rest](src/main/java/io/jojoaddison/web/rest)
+- Security configuration: [src/main/java/io/jojoaddison/security](src/main/java/io/jojoaddison/security)
+- Frontend app: [src/main/webapp/app](src/main/webapp/app)
+- Frontend routing: [src/main/webapp/app/app.routes.ts](src/main/webapp/app/app.routes.ts)
+- Entity routing: [src/main/webapp/app/entities/entity.routes.ts](src/main/webapp/app/entities/entity.routes.ts)
+- Environment config: [src/main/resources/config](src/main/resources/config)
+- Docker configs: [src/main/docker](src/main/docker)
+
+## Notes
+
+- Service worker support is enabled in production Angular builds (`ngsw-config.json` and production build configuration in [angular.json](angular.json)).
+- For API/management requests in local development, use Angular on port 4200 and let proxy forwarding handle backend routing.
