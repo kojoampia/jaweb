@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { StorageService } from 'app/core/services/storage.service';
 import { FooterComponent } from 'app/layouts/footer/footer.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 import PageRibbonComponent from 'app/layouts/profiles/page-ribbon.component';
 
 @Component({
     selector: 'jhi-main',
     standalone: true,
-    imports: [CommonModule, RouterModule, FooterComponent, PageRibbonComponent],
+    imports: [CommonModule, RouterModule, FooterComponent, NavbarComponent, PageRibbonComponent],
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })

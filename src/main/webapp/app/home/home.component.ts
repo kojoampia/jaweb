@@ -83,47 +83,50 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loaded.set(false);
         this.homeService.getCurrent()
             .pipe(takeUntil(this.destroy$))
-            .subscribe(res => {
-                this.currentHome.set(null);
-                this.slides.set([]);
-                this.services.set([]);
-                this.portfolios.set([]);
-                this.partners.set([]);
-                this.partnerTiles.set([]);
+            .subscribe({
+                next: res => {
+                    this.currentHome.set(null);
+                    this.slides.set([]);
+                    this.services.set([]);
+                    this.portfolios.set([]);
+                    this.partners.set([]);
+                    this.partnerTiles.set([]);
 
-                setTimeout(() => {
                     this.currentHome.set(res.body);
-                if (this.currentHome()) {
-                    const information = this.currentHome()!.information;
-                    if (information) {
-                        this.info = new Infobox(
-                            information.id || 'home-info',
-                            information.title || '',
-                            0,
-                            information.content || '',
-                            information.brief || '',
-                            information.link || '',
-                            information.linkText || ''
-                        );
-                    }
-                    this.slides.set(this.currentHome()!.slides || []);
-                    this.portfolios.set(this.currentHome()!.portfolios || []);
-                    this.services.set(this.currentHome()!.services || []);
-                    this.partners.set(this.currentHome()!.partners || []);
-                    this.partnerTiles.update(tiles => {
-                        this.partners().forEach((item: Partner) => {
-                            tiles.push({
-                                id: item.id,
-                                title: item.name,
-                                url: item.logoUrl
+                    if (this.currentHome()) {
+                        const information = this.currentHome()!.information;
+                        if (information) {
+                            this.info = new Infobox(
+                                information.id || 'home-info',
+                                information.title || '',
+                                0,
+                                information.content || '',
+                                information.brief || '',
+                                information.link || '',
+                                information.linkText || ''
+                            );
+                        }
+                        this.slides.set(this.currentHome()!.slides || []);
+                        this.portfolios.set(this.currentHome()!.portfolios || []);
+                        this.services.set(this.currentHome()!.services || []);
+                        this.partners.set(this.currentHome()!.partners || []);
+                        this.partnerTiles.update(tiles => {
+                            this.partners().forEach((item: Partner) => {
+                                tiles.push({
+                                    id: item.id,
+                                    title: item.name,
+                                    url: item.logoUrl
+                                });
                             });
+                            return tiles;
                         });
-                        return tiles;
-                    });
+                    }
+                    this.loaded.set(true);
+                },
+                error: () => {
+                    this.loaded.set(true);
                 }
-                this.loaded.set(true);
-            }, 20);
-        });
+            });
     }
 
     login() {

@@ -1,26 +1,26 @@
-<jhi-page-ribbon></jhi-page-ribbon>
-<div class="main mb-3">
-    <router-outlet name="navbar"></router-outlet>
-    <router-outlet></router-outlet>
-    <router-outlet name="popup"></router-outlet>
-</div>
+<div class="flex min-h-screen flex-col">
+    <jhi-page-ribbon></jhi-page-ribbon>
+    
+    <!-- Explicitly including the navbar component instead of relying on named router-outlet -->
+    <jhi-navbar></jhi-navbar>
+    
+    <main class="flex-grow">
+        <router-outlet></router-outlet>
+        <router-outlet name="popup"></router-outlet>
+    </main>
 
-<!-- Footer -->
-<div class="fixed-bottom bg-transparent">
-    <div class="row justify-content-center bg-primary p-3" *ngIf="cookieAccepted() === false">
-        <div class="col text-center text-white">
-            <h5 class="display-5">
-                <span>We use cookies to help tailor serve you better. &nbsp;</span>
-                <button class="btn btn-md btn-md-primary btn-outline-light" (click)="acceptCookies()">OK</button>
-            </h5>
+    <!-- Footer -->
+    <footer class="bg-transparent mt-auto text-center">
+        <div class="row justify-content-center bg-primary p-3" *ngIf="cookieAccepted() === false">
+            <div class="col text-center text-white">
+                <h5 class="display-5">
+                    <span>We use cookies to help tailor serve you better. &nbsp;</span>
+                    <button class="btn btn-md btn-md-primary btn-outline-light" (click)="acceptCookies()">OK</button>
+                </h5>
+            </div>
         </div>
-    </div>
-    <jhi-footer></jhi-footer>
+        <jhi-footer></jhi-footer>
+    </footer>
 </div>
-<!--
-<share-buttons [theme]="'modern-dark'"
-    [include]="['facebook','twitter','linkedin','whatsapp','sms','email','print','copy']" [show]="3"
-    [showText]="true" [showCount]="true" [url]="'https://www.jojoaddison.net/'" [autoSetMeta]="false"></share-buttons>
--->
 
 
