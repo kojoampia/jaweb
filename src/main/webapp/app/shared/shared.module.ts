@@ -8,6 +8,7 @@ import TranslateDirective from './language/translate.directive';
 import { AlertComponent } from './alert/alert.component';
 import { AlertErrorComponent } from './alert/alert-error.component';
 import { JhiIconComponent } from './icon/icon.component';
+import { MaterialModule } from './material/material.module';
 
 /**
  * Application wide Module
@@ -22,6 +23,7 @@ import { JhiIconComponent } from './icon/icon.component';
     FindLanguageFromKeyPipe,
     TranslateDirective,
     JhiIconComponent,
+    MaterialModule,
   ],
   exports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { JhiIconComponent } from './icon/icon.component';
     FindLanguageFromKeyPipe,
     TranslateDirective,
     JhiIconComponent,
+    MaterialModule,
   ],
 })
 export default class SharedModule {}

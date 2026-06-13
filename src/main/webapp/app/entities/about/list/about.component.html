@@ -2,8 +2,8 @@
   <h2 id="page-heading" data-cy="AboutHeading">
     <span jhiTranslate="jojoaddisonApp.about.home.title">Abouts</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+    <div class="flex justify-end gap-2">
+      <button mat-flat-button color="accent" (click)="load()" [disabled]="isLoading">
         <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.about.home.refreshListLabel">Refresh list</span>
       </button>
@@ -11,7 +11,8 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-about"
+        mat-flat-button color="primary"
+        class="create-about"
         [routerLink]="['/about/new']"
       >
         <jhi-icon icon="plus"></jhi-icon>
@@ -25,60 +26,60 @@
   <jhi-alert></jhi-alert>
 
   @if (abouts?.length === 0) {
-    <div class="alert alert-warning" id="no-result">
+    <div class="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-amber-900" id="no-result">
       <span jhiTranslate="jojoaddisonApp.about.home.notFound">No Abouts found</span>
     </div>
   }
 
   @if (abouts && abouts.length > 0) {
-    <div class="table-responsive table-entities" id="entities">
-      <table class="table table-striped" aria-describedby="page-heading">
+    <div class="w-full overflow-x-auto" id="entities">
+      <table class="w-full border-collapse text-left" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="global.field.id">ID</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="title">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="jojoaddisonApp.about.title">Title</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="content">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="jojoaddisonApp.about.content">Content</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="language">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="jojoaddisonApp.about.language">Language</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="createdDate">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="jojoaddisonApp.about.createdDate">Created Date</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="modifiedDate">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="jojoaddisonApp.about.modifiedDate">Modified Date</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="lastModifiedBy">
-              <div class="d-flex">
+              <div class="flex items-center">
                 <span jhiTranslate="jojoaddisonApp.about.lastModifiedBy">Last Modified By</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -89,9 +90,9 @@
         </thead>
         <tbody>
           @for (about of abouts; track trackId) {
-            <tr data-cy="entityTable">
+            <tr data-cy="entityTable" class="border-b border-slate-200">
               <td>
-                <a [routerLink]="['/about', about.id, 'view']">{{ about.id }}</a>
+                <a [routerLink]="['/about', about.id, 'view']" class="text-emerald-700 hover:underline">{{ about.id }}</a>
               </td>
               <td>{{ about.title }}</td>
               <td>{{ about.content }}</td>
@@ -99,21 +100,21 @@
               <td>{{ about.createdDate | formatMediumDatetime }}</td>
               <td>{{ about.modifiedDate | formatMediumDatetime }}</td>
               <td>{{ about.lastModifiedBy }}</td>
-              <td class="text-end">
-                <div class="btn-group">
-                  <a [routerLink]="['/about', about.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <td class="text-right">
+                <div class="inline-flex items-center gap-1">
+                  <a [routerLink]="['/about', about.id, 'view']" mat-flat-button color="accent" data-cy="entityDetailsButton">
                     <jhi-icon icon="eye"></jhi-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                    <span class="hidden md:inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
-                  <a [routerLink]="['/about', about.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                  <a [routerLink]="['/about', about.id, 'edit']" mat-flat-button color="primary" data-cy="entityEditButton">
                     <jhi-icon icon="pencil-alt"></jhi-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span class="hidden md:inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(about)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(about)" mat-flat-button color="warn" data-cy="entityDeleteButton">
                     <jhi-icon icon="times"></jhi-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    <span class="hidden md:inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>
@@ -125,11 +126,11 @@
   }
   @if (abouts && abouts.length > 0) {
     <div>
-      <div class="d-flex justify-content-center">
+      <div class="flex justify-center">
         <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
       </div>
 
-      <div class="d-flex justify-content-center">
+      <div class="flex justify-center">
         <ngb-pagination
           [collectionSize]="totalItems"
           [page]="page"

@@ -2,8 +2,8 @@
   <h2 id="page-heading" data-cy="PrivilegeHeading">
     <span jhiTranslate="jojoaddisonApp.privilege.home.title">Privileges</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+    <div class="flex justify-end">
+      <button mat-flat-button color="accent" class=" me-2" (click)="load()" [disabled]="isLoading">
         <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.privilege.home.refreshListLabel">Refresh list</span>
       </button>
@@ -11,7 +11,7 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-privilege"
+        mat-flat-button color="primary" class=" jh-create-entity create-privilege"
         [routerLink]="['/privilege/new']"
       >
         <jhi-icon icon="plus"></jhi-icon>
@@ -32,32 +32,32 @@
 
   @if (privileges && privileges.length > 0) {
     <div class="table-responsive table-entities" id="entities">
-      <table class="table table-striped" aria-describedby="page-heading">
+      <table class="w-full border-collapse" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="global.field.id">ID</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="name">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.privilege.name">Name</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="createdDate">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.privilege.createdDate">Created Date</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="createdBy">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.privilege.createdBy">Created By</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -77,17 +77,17 @@
               <td>{{ privilege.createdBy }}</td>
               <td class="text-end">
                 <div class="btn-group">
-                  <a [routerLink]="['/privilege', privilege.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a [routerLink]="['/privilege', privilege.id, 'view']" mat-flat-button color="accent" class=" btn-sm" data-cy="entityDetailsButton">
                     <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
-                  <a [routerLink]="['/privilege', privilege.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                  <a [routerLink]="['/privilege', privilege.id, 'edit']" mat-flat-button color="primary" class=" btn-sm" data-cy="entityEditButton">
                     <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(privilege)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(privilege)" mat-flat-button color="warn" class=" btn-sm" data-cy="entityDeleteButton">
                     <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>

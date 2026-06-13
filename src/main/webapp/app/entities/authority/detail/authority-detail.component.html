@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div class="flex justify-center">
   <div class="col-8">
     @if (authority()) {
       <div>
@@ -17,7 +17,7 @@
           </dd>
         </dl>
 
-        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <button type="submit" (click)="previousState()" mat-flat-button color="accent" class="" data-cy="entityDetailsBackButton">
           <jhi-icon icon="arrow-left"></jhi-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
       </div>

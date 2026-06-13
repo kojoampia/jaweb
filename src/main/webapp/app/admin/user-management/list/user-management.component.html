@@ -2,12 +2,12 @@
   <h2>
     <span id="user-management-page-heading" data-cy="userManagementPageHeading" jhiTranslate="userManagement.home.title">Users</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading()">
+    <div class="flex justify-end">
+      <button mat-flat-button color="accent" (click)="loadAll()" [disabled]="isLoading()">
         <jhi-icon icon="sync" [animation]="isLoading() ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="userManagement.home.refreshListLabel">Refresh list</span>
       </button>
-      <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
+      <button mat-flat-button color="primary" [routerLink]="['./new']">
         <jhi-icon icon="plus"></jhi-icon> <span jhiTranslate="userManagement.home.createLabel">Create a new user</span>
       </button>
     </div>
@@ -112,11 +112,11 @@
     </div>
 
     <div>
-      <div class="d-flex justify-content-center">
+      <div class="flex justify-center">
         <jhi-item-count [params]="{ page: page, totalItems: totalItems(), itemsPerPage: itemsPerPage }"></jhi-item-count>
       </div>
 
-      <div class="d-flex justify-content-center">
+      <div class="flex justify-center">
         <ngb-pagination
           [collectionSize]="totalItems()"
           [(page)]="page"

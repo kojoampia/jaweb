@@ -2,8 +2,8 @@
   <h2 id="page-heading" data-cy="BlogHeading">
     <span jhiTranslate="jojoaddisonApp.blog.home.title">Blogs</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+    <div class="flex justify-end">
+      <button mat-flat-button color="accent" class="me-2" (click)="load()" [disabled]="isLoading">
         <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.blog.home.refreshListLabel">Refresh list</span>
       </button>
@@ -11,7 +11,7 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-blog"
+        mat-flat-button color="primary" class=" jh-create-entity create-blog"
         [routerLink]="['/blog/new']"
       >
         <jhi-icon icon="plus"></jhi-icon>
@@ -37,12 +37,12 @@
           placeholder="{{ 'jojoaddisonApp.blog.home.search' | translate }}"
         />
 
-        <button class="btn btn-info" (click)="search(currentSearch)">
+        <button mat-flat-button color="accent" class="" (click)="search(currentSearch)">
           <jhi-icon icon="search"></jhi-icon>
         </button>
 
         @if (currentSearch) {
-          <button class="btn btn-danger" (click)="search('')">
+          <button mat-flat-button color="warn" class="" (click)="search('')">
             <jhi-icon icon="trash-alt"></jhi-icon>
           </button>
         }
@@ -58,11 +58,11 @@
 
   @if (blogs && blogs.length > 0) {
     <div class="table-responsive table-entities" id="entities">
-      <table class="table table-striped" aria-describedby="page-heading">
+      <table class="w-full border-collapse" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="global.field.id">ID</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -70,7 +70,7 @@
               </div>
             </th>
             <th scope="col" jhiSortBy="title">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.title">Title</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -78,7 +78,7 @@
               </div>
             </th>
             <th scope="col" jhiSortBy="content">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.content">Content</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -86,21 +86,21 @@
               </div>
             </th>
             <th scope="col" jhiSortBy="createdDate">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.createdDate">Created Date</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="modifiedDate">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.modifiedDate">Modified Date</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="lastModifiedBy">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.lastModifiedBy">Last Modified By</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -108,7 +108,7 @@
               </div>
             </th>
             <th scope="col" jhiSortBy="url">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.url">Url</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -116,7 +116,7 @@
               </div>
             </th>
             <th scope="col" jhiSortBy="document">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.document">Document</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -124,7 +124,7 @@
               </div>
             </th>
             <th scope="col" jhiSortBy="documentContentType">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.blog.documentContentType">Document Content Type</span>
                 @if (!currentSearch) {
                   <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -155,17 +155,17 @@
               <td>{{ blog.documentContentType }}</td>
               <td class="text-end">
                 <div class="btn-group">
-                  <a [routerLink]="['/blog', blog.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a [routerLink]="['/blog', blog.id, 'view']" mat-flat-button color="accent" class=" btn-sm" data-cy="entityDetailsButton">
                     <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
-                  <a [routerLink]="['/blog', blog.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                  <a [routerLink]="['/blog', blog.id, 'edit']" mat-flat-button color="primary" class=" btn-sm" data-cy="entityEditButton">
                     <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(blog)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(blog)" mat-flat-button color="warn" class=" btn-sm" data-cy="entityDeleteButton">
                     <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
@@ -179,11 +179,11 @@
   }
   @if (blogs && blogs.length > 0) {
     <div>
-      <div class="d-flex justify-content-center">
+      <div class="flex justify-center">
         <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
       </div>
 
-      <div class="d-flex justify-content-center">
+      <div class="flex justify-center">
         <ngb-pagination
           [collectionSize]="totalItems"
           [page]="page"

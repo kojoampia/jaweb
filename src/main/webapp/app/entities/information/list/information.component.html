@@ -2,8 +2,8 @@
   <h2 id="page-heading" data-cy="InformationHeading">
     <span jhiTranslate="jojoaddisonApp.information.home.title">Information</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+    <div class="flex justify-end">
+      <button mat-flat-button color="accent" class=" me-2" (click)="load()" [disabled]="isLoading">
         <jhi-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></jhi-icon>
         <span jhiTranslate="jojoaddisonApp.information.home.refreshListLabel">Refresh list</span>
       </button>
@@ -11,7 +11,7 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-information"
+        mat-flat-button color="primary" class=" jh-create-entity create-information"
         [routerLink]="['/information/new']"
       >
         <jhi-icon icon="plus"></jhi-icon>
@@ -32,67 +32,67 @@
 
   @if (information && information.length > 0) {
     <div class="table-responsive table-entities" id="entities">
-      <table class="table table-striped" aria-describedby="page-heading">
+      <table class="w-full border-collapse" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
             <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="global.field.id">ID</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="content">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.content">Content</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="title">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.title">Title</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="brief">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.brief">Brief</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="linkText">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.linkText">Link Text</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="link">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.link">Link</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="url">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.url">Url</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="document">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.document">Document</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="documentContentType">
-              <div class="d-flex">
+              <div class="flex">
                 <span jhiTranslate="jojoaddisonApp.information.documentContentType">Document Content Type</span>
 
                 <jhi-icon class="p-1" icon="sort"></jhi-icon>
@@ -122,17 +122,17 @@
               <td>{{ information.documentContentType }}</td>
               <td class="text-end">
                 <div class="btn-group">
-                  <a [routerLink]="['/information', information.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a [routerLink]="['/information', information.id, 'view']" mat-flat-button color="accent" class=" btn-sm" data-cy="entityDetailsButton">
                     <jhi-icon icon="eye"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
-                  <a [routerLink]="['/information', information.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                  <a [routerLink]="['/information', information.id, 'edit']" mat-flat-button color="primary" class=" btn-sm" data-cy="entityEditButton">
                     <jhi-icon icon="pencil-alt"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(information)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(information)" mat-flat-button color="warn" class=" btn-sm" data-cy="entityDeleteButton">
                     <jhi-icon icon="times"></jhi-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
