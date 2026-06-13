@@ -11,11 +11,11 @@
 
     <!-- Footer -->
     <footer class="bg-transparent mt-auto text-center">
-        <div class="row justify-content-center bg-primary p-3" *ngIf="cookieAccepted() === false">
-            <div class="col text-center text-white">
-                <h5 class="display-5">
+        <div class="flex flex-wrap justify-center bg-emerald-700 p-3" *ngIf="cookieAccepted() === false">
+            <div class="flex-1 text-center text-white">
+                <h5 class="text-4xl font-light">
                     <span>We use cookies to help tailor serve you better. &nbsp;</span>
-                    <button class="btn btn-md btn-md-primary btn-outline-light" (click)="acceptCookies()">OK</button>
+                    <button mat-stroked-button color="primary" (click)="acceptCookies()">OK</button>
                 </h5>
             </div>
         </div>

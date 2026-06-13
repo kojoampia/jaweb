@@ -29,10 +29,10 @@ spring:
         serialization:
             indent-output: true
     data:
-        mongodb:
-            uri: ${MONGODB_URI:${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/jojoaddison?waitQueueMultiple=1000}}
         jest:
             uri: http://localhost:9200
+        mongodb:
+            uri: ${SPRING_MONGODB_URI:${MONGODB_URI:${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/jawebService?waitQueueMultiple=1000}}}
     mail:
         host: localhost
         port: 25
